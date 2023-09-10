@@ -7,6 +7,8 @@ import { business } from "./models/business";
 import DarkMode from "./components/dark-mode-toggle";
 import { auth } from "./models/auth";
 
+
+
 const app = new Elysia()
   .use(html())
   .use(staticPlugin())
@@ -15,6 +17,10 @@ const app = new Elysia()
     <BaseHtml>
       <DarkMode />
       <div hx-get="/business" hx-trigger="load" hx-swap="innerHTML"></div>
+
+      <button hx-get="/dialog">dialog xd</button>
+
+
     </BaseHtml>
   ))
   .use(business)
