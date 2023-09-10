@@ -3,15 +3,21 @@
   "version": "1.0.50",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.tsx"
+    "generate": "drizzle-kit generate:sqlite",
+    "dev": "concurrently \"bun run --hot --watch src/index.tsx\" \"bun run tw:dev\"",
+    "tw": "bun tailwindcss -i ./src/input.css -o ./src/output.css --minify",
+    "tw:dev": "bun tailwindcss -i ./src/input.css -o ./src/output.css --watch"
   },
   "dependencies": {
-    "@elysiajs/html": "^0.6.0",
+    "@elysiajs/html": "^0.6.1",
+    "drizzle-orm": "^0.28.6",
     "elysia": "latest"
   },
   "devDependencies": {
     "bun-types": "latest",
-    "typed-html": "^3.0.1"
+    "tailwindcss": "^3.3.3",
+    "concurrently": "^8.2.0",
+    "drizzle-kit": "^0.19.13"
   },
-  "module": "src/index.js"
+  "module": "src/index.tsx"
 }
