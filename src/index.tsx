@@ -1,51 +1,27 @@
 import { Elysia } from "elysia";
 import { html } from "@elysiajs/html";
-import { cookie } from "@elysiajs/cookie";
-import { jwt } from "@elysiajs/jwt";
 import { staticPlugin } from "@elysiajs/static";
-
+import { swagger } from "@elysiajs/swagger";
 import { BaseHtml } from "./components/base-html";
-import business from "./models/business";
+import { business } from "./models/business";
+import DarkMode from "./components/dark-mode-toggle";
+import { auth } from "./models/auth";
 
 const app = new Elysia()
   .use(html())
   .use(staticPlugin())
+  .use(swagger())
   .get("/", () => (
     <BaseHtml>
+      <DarkMode />
       <div hx-get="/business" hx-trigger="load" hx-swap="innerHTML"></div>
+      <button hx-get="/dialog">dialog xd</button>
     </BaseHtml>
   ))
   .use(business)
-  .use(
-    jwt({
-      name: "jwt",
-      secret: "Fischl von Luftschloss Narfidort",
-    })
-  )
-  .use(cookie())
-  .get("/sign/:name", async ({ jwt, cookie, setCookie, params }) => {
-    setCookie(
-      "auth",
-      await jwt.sign({ name: "matue", password: "bojkomatias" }),
-      {
-        httpOnly: true,
-        maxAge: 7 * 86400,
-      }
-    );
-
-    return `Sign in as ${cookie.auth}`;
-  })
-  .get("/profile", async ({ jwt, set, cookie: { auth } }) => {
-    const profile = await jwt.verify(auth);
-
-    if (!profile) {
-      set.status = 401;
-      return "Unauthorized";
-    }
-    return `Hello ${JSON.stringify(profile)}`;
-  })
+  .use(auth)
   .listen(3000);
 
 console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
+  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,
 );

@@ -3,7 +3,7 @@ import { Business, businesses } from "../db/schema/business";
 import { db } from "../db";
 import { eq } from "drizzle-orm";
 
-const business = new Elysia({ prefix: "/business" })
+export const business = new Elysia({ prefix: "/business" })
   .model({
     body: t.Object({
       name: t.String(),
@@ -60,10 +60,8 @@ const business = new Elysia({ prefix: "/business" })
           await db.insert(businesses).values(body);
           // Lo ideal seria devolver 1 solo e insertarlo, pero hasta que no arreglen .returning() no pasa naranja
           set.redirect = "/business";
-        })
+        }),
   );
-
-export default business;
 
 ////
 // JSX Components + htmx tags
@@ -74,7 +72,7 @@ const BusinessList = ({ businesses }: { businesses: Business[] }) => (
     <p class="text-lg">Crea un nuevo local</p>
     <BusinessCreate />
     <p class="text-xl"> Lista de locales</p>
-    <ul role="list" class="divide-y divide-gray-100 max-w-6xl mx-auto">
+    <ul role="list" class="mx-auto max-w-6xl divide-y divide-gray-100">
       {businesses.map((business) => (
         <BusinessItem business={business} />
       ))}
@@ -94,7 +92,7 @@ const BusinessItem = ({ business }: { business: Business }) => (
           {business.name}
         </a>
       </p>
-      <p class="text-sm text-gray-600 font-light">{business.description}</p>
+      <p class="text-sm font-light text-gray-600">{business.description}</p>
       <p class="mt-1 flex text-xs leading-5 text-gray-600">
         Teléfono:
         <a href={`tel:${business.phone}`} class="truncate hover:underline">
@@ -110,6 +108,7 @@ const BusinessItem = ({ business }: { business: Business }) => (
           Last seen <time datetime="2023-01-23T13:23Z">3h ago</time>
         </p>
       </div>
+
       <button hx-get={`/business/${business.id}/edit`}> Edit! </button>
       {/* <div class="relative flex-none">
           <button
@@ -170,7 +169,7 @@ const BusinessEdit = ({ business }: { business: Business }) => (
   >
     <div class="min-w-0 flex-auto">
       <input type="text" name="name" value={business.name ?? ""} />
-      <p class="text-sm text-gray-600 font-light">
+      <p class="text-sm font-light text-gray-600">
         <input
           type="text"
           name="description"
