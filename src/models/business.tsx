@@ -4,6 +4,13 @@ import { db } from "../db";
 import { eq } from "drizzle-orm";
 
 const business = new Elysia({ prefix: "/business" })
+  .model({
+    body: t.Object({
+      name: t.String(),
+      description: t.String(),
+      phone: t.String(),
+    }),
+  })
   .get("/", async () => {
     const r = await db.select().from(businesses);
 
@@ -29,11 +36,7 @@ const business = new Elysia({ prefix: "/business" })
   })
   .guard(
     {
-      body: t.Object({
-        name: t.String(),
-        description: t.String(),
-        phone: t.String(),
-      }),
+      body: "body",
     },
     (app) =>
       app

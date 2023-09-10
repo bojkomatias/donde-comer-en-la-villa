@@ -5,11 +5,14 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "generate": "drizzle-kit generate:sqlite",
     "dev": "concurrently \"bun run --hot --watch src/index.tsx\" \"bun run tw:dev\"",
-    "tw": "bun tailwindcss -i ./src/input.css -o ./src/output.css --minify",
-    "tw:dev": "bun tailwindcss -i ./src/input.css -o ./src/output.css --watch"
+    "tw": "bun tailwindcss -i ./src/input.css -o ./public/output.css --minify",
+    "tw:dev": "bun tailwindcss -i ./src/input.css -o ./public/output.css --watch"
   },
   "dependencies": {
+    "@elysiajs/cookie": "^0.6.1",
     "@elysiajs/html": "^0.6.1",
+    "@elysiajs/jwt": "^0.6.3",
+    "@elysiajs/static": "^0.6.0",
     "drizzle-orm": "^0.28.6",
     "elysia": "latest"
   },

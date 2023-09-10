@@ -1,5 +1,3 @@
-import Elysia from "elysia";
-
 export function BaseHtml({ children }: any) {
   return (
     <html lang="en">
@@ -13,9 +11,11 @@ export function BaseHtml({ children }: any) {
           crossorigin="anonymous"
         />
         {/* TailwindCSS */}
-        <link href="/output.css" rel="stylesheet" />
+        <link href="/public/output.css" rel="preload stylesheet" />
+        <link rel="icon" href="/public/elysia.png" />
+        <title>Bun + Elysia + HTMX</title>
       </head>
-      <body class="p-12">{children}</body>
+      <body>{children}</body>
     </html>
   );
 }
