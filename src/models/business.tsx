@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 
 export const business = new Elysia({ prefix: "/business" })
   .model({
-    body: t.Object({
+    business: t.Object({
       name: t.String(),
       description: t.String(),
       phone: t.String(),
@@ -36,7 +36,7 @@ export const business = new Elysia({ prefix: "/business" })
   })
   .guard(
     {
-      body: "body",
+      body: "business",
     },
     (app) =>
       app

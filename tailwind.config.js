@@ -7,5 +7,7 @@ export default {
       fontFamily: { sans: ['Josefin Sans', 'sans'] }
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
 };
