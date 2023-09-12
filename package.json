@@ -6,7 +6,8 @@
     "generate": "drizzle-kit generate:sqlite",
     "dev": "concurrently \"bun run --hot --watch src/index.tsx\" \"bun run tw:dev\"",
     "tw": "bun tailwindcss -i ./src/input.css -o ./public/output.css --minify",
-    "tw:dev": "bun tailwindcss -i ./src/input.css -o ./public/output.css --watch"
+    "tw:dev": "bun tailwindcss -i ./src/input.css -o ./public/output.css --watch",
+    "db": "bun run ./src/db/create-db.ts"
   },
   "dependencies": {
     "@elysiajs/bearer": "^0.6.0",

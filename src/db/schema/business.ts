@@ -1,19 +1,24 @@
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
-import { sqlite } from "..";
+import { user } from "./user";
+import { sql } from "drizzle-orm";
 
-export const businesses = sqliteTable("businesses", {
+export const business = sqliteTable("business", {
   id: integer("id").primaryKey(),
-  name: text("name"),
+  name: text("name").notNull(),
   description: text("description"),
   phone: text("phone"),
-  instagram: text("instagram"),
+  location: text("location"),
+  socials: text("socials", { mode: "json" }).$type<string[]>(),
+  webpage: text("webpage"),
+  image: text("image"),
+  tagToBusiness: text("tags", { mode: "json" }).$type<string[]>(),
+  featured: integer("featured", { mode: "boolean" }).default(false),
+  owner: integer("user_id").references(() => user.id),
+
+  createdAt: integer("created_at", { mode: "timestamp_ms" }).default(
+    sql`CURRENT_TIMESTAMP`,
+  ),
 });
 
-sqlite
-  .query(
-    "CREATE TABLE IF NOT EXISTS businesses (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, description TEXT, phone TEXT, instagram TEXT)"
-  )
-  .run();
-
-export type Business = typeof businesses.$inferSelect; // return type when queried
-export type InsertBusiness = typeof businesses.$inferInsert; // insert type
+export type Business = typeof business.$inferSelect; // return type when queried
+export type InsertBusiness = typeof business.$inferInsert; // insert type
