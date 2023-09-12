@@ -7,15 +7,13 @@ export const user = sqliteTable("user", {
   email: text("email").notNull(),
   password: text("password"),
   image: text("image"),
-  role: text("role")
-    .$type<"admin" | "owner" | "customer">()
-    .notNull()
-    .default("customer"),
+  role: text("role").$type<Role>().notNull().default("customer"),
 
   createdAt: integer("created_at", { mode: "timestamp_ms" }).default(
     sql`CURRENT_TIMESTAMP`,
   ),
 });
 
+export type Role = "admin" | "owner" | "customer";
 export type User = typeof user.$inferSelect; // return type when queried
 export type InsertUser = typeof user.$inferInsert; // insert type

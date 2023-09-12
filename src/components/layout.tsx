@@ -1,4 +1,15 @@
-export function BaseHtml({ title, children }: any) {
+import { LoginButton, NavMenu } from "../plugins/auth";
+import DarkMode from "./ui/dark-mode-toggle";
+
+export function Layout({
+  title,
+  isAuth,
+  children,
+}: {
+  title: string;
+  isAuth: boolean;
+  children?: any;
+}) {
   return (
     <html lang="en">
       <head>
@@ -25,7 +36,7 @@ export function BaseHtml({ title, children }: any) {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
         <link
-          href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,300;0,400;0,600;0,700;1,100;1,300;1,400;1,500;1,700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;800&display=swap"
           rel="stylesheet"
         />
 
@@ -33,13 +44,24 @@ export function BaseHtml({ title, children }: any) {
         <link rel="icon" href="/public/elysia.png" />
         <title>{title}</title>
       </head>
-
       <body
-        class="mx-auto max-w-7xl bg-white p-4 subpixel-antialiased dark:bg-gray-800"
+        class="bg-white text-gray-800 subpixel-antialiased dark:bg-gray-900 dark:text-white/90"
         hx-boost="true"
         hx-ext="response-targets, preload"
+        _="on every htmx:beforeSend in <button /> 
+         tell it 
+             toggle [disabled='true'] until htmx:afterOnLoad end"
       >
-        {children}
+        <header class="mx-auto flex max-w-7xl items-center justify-end gap-6 py-6">
+          {isAuth ? <NavMenu /> : <LoginButton />}
+          <DarkMode />
+        </header>
+        <main
+          class="mx-auto min-h-screen max-w-7xl py-8"
+          _="on click add .hidden to #dropdown"
+        >
+          {children}
+        </main>
       </body>
     </html>
   );

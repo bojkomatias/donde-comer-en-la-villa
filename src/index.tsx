@@ -1,24 +1,23 @@
 import { Elysia } from "elysia";
+import staticPlugin from "@elysiajs/static";
 
-import { html } from "@elysiajs/html";
-import { staticPlugin } from "@elysiajs/static";
-import { swagger } from "@elysiajs/swagger";
-
-import { authHandler } from "./models/auth";
-import { LandingPage } from "./components/landing-page";
-import { profileHandler } from "./models/profile";
-import cookie from "@elysiajs/cookie";
+import { setup } from "./plugins/setup";
+import { authHandler } from "./plugins/auth";
+import { dashboardHandler } from "./plugins/dashboard";
+import { mainPlugin } from "./plugins/main";
 
 const app = new Elysia()
-  .decorate("s", () => console.log("pussy"))
-  .use(html())
   .use(staticPlugin())
-  .use(swagger())
-  .get("/", () => <LandingPage />)
+  // type Setup passed to the rest of modules for inference
+  .use(setup)
+  // Handler modules
+  .use(mainPlugin)
   .use(authHandler)
-  .use(profileHandler)
-  .get('/x',({jwt})=>'s')
+  .use(dashboardHandler)
+
   .listen(3000);
+
+export type App = typeof app;
 
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,

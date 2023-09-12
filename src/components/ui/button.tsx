@@ -16,21 +16,11 @@ export const buttonStyles = (props: {
   intent?: "primary" | "secondary" | "outline" | "destructive";
   class?: string;
 }) => {
-  const base =
-    "text-sm px-4 py-2 rounded active:brightness-105 focus-visible:outline-offset-2";
-  switch (props.intent) {
-    case "primary":
-      return cx(
-        base,
-        "font-bold bg-gray-900 hover:bg-gray-800 text-white",
-        props.class,
-      );
-
-    default:
-      return cx(
-        base,
-        "bg-gray-200 font-semibold text-gray-700 hover:bg-gray-300 hover:text-gray-700",
-        props.class,
-      );
-  }
+  return cx(
+    "group flex items-center gap-1 rounded px-3.5 py-1.5 text-sm font-medium hover:bg-gray-100 focus-visible:outline-offset-2 active:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 disabled:saturate-50 dark:hover:bg-gray-800",
+    props.intent === "primary" &&
+      "bg-gray-800 font-semibold text-white hover:bg-gray-700 dark:bg-gray-300 dark:text-black dark:hover:bg-gray-200",
+    props.intent === "secondary" && "bg-gray-100 dark:bg-gray-800",
+    props.intent === "destructive" && "bg-red-600 text-white",
+  );
 };

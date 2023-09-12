@@ -10,20 +10,22 @@
     "db": "bun run ./src/db/create-db.ts"
   },
   "dependencies": {
+    "@egoist/tailwindcss-icons": "^1.1.0",
     "@elysiajs/bearer": "^0.6.0",
     "@elysiajs/cookie": "^0.6.1",
-    "@elysiajs/html": "^0.6.1",
-    "@elysiajs/jwt": "^0.6.3",
+    "@elysiajs/html": "^0.6.5",
+    "@elysiajs/jwt": "^0.6.4",
     "@elysiajs/static": "^0.6.0",
-    "@elysiajs/swagger": "^0.6.1",
+    "@elysiajs/swagger": "^0.6.2",
+    "@iconify-json/lucide": "^1.1.126",
     "@tailwindcss/forms": "^0.5.6",
     "clsx": "^2.0.0",
     "drizzle-orm": "^0.28.6",
-    "elysia": "latest",
+    "elysia": "^0.6.22",
     "tailwind-merge": "^1.14.0"
   },
   "devDependencies": {
-    "bun-types": "latest",
+    "bun-types": "canary",
     "concurrently": "^8.2.0",
     "drizzle-kit": "^0.19.13",
     "install": "^0.13.0",
