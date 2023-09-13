@@ -1,31 +1,23 @@
 import { Elysia } from "elysia";
-import { html } from "@elysiajs/html";
-import { staticPlugin } from "@elysiajs/static";
-import { swagger } from "@elysiajs/swagger";
-import { BaseHtml } from "./components/base-html";
-import { business } from "./models/business";
-import DarkMode from "./components/dark-mode-toggle";
-import { auth } from "./models/auth";
+import staticPlugin from "@elysiajs/static";
 
-
+import main from "./handlers/main";
+import setup from "./handlers/setup";
+import auth from "./handlers/auth";
+import dashboard from "./handlers/dashboard";
 
 const app = new Elysia()
-  .use(html())
   .use(staticPlugin())
-  .use(swagger())
-  .get("/", () => (
-    <BaseHtml>
-      <DarkMode />
-      <div hx-get="/business" hx-trigger="load" hx-swap="innerHTML"></div>
-
-      <button hx-get="/dialog">dialog xd</button>
-
-
-    </BaseHtml>
-  ))
-  .use(business)
+  // type Setup passed to the rest of modules for inference
+  .use(setup)
+  // Handler modules
+  .use(main)
   .use(auth)
+  .use(dashboard)
+
   .listen(3000);
+
+export type App = typeof app;
 
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,

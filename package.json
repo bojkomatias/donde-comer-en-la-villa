@@ -6,25 +6,30 @@
     "generate": "drizzle-kit generate:sqlite",
     "dev": "concurrently \"bun run --hot --watch src/index.tsx\" \"bun run tw:dev\"",
     "tw": "bun tailwindcss -i ./src/input.css -o ./public/output.css --minify",
-    "tw:dev": "bun tailwindcss -i ./src/input.css -o ./public/output.css --watch"
+    "tw:dev": "bun tailwindcss -i ./src/input.css -o ./public/output.css --watch",
+    "db": "bun run ./src/db/create-db.ts"
   },
   "dependencies": {
+    "@elysiajs/bearer": "^0.6.0",
     "@elysiajs/cookie": "^0.6.1",
-    "@elysiajs/html": "^0.6.1",
-    "@elysiajs/jwt": "^0.6.3",
+    "@elysiajs/html": "^0.6.5",
+    "@elysiajs/jwt": "^0.6.4",
     "@elysiajs/static": "^0.6.0",
-    "@elysiajs/swagger": "^0.6.1",
+    "@elysiajs/swagger": "^0.6.2",
     "drizzle-orm": "^0.28.6",
-    "elysia": "latest"
+    "elysia": "^0.6.22"
   },
   "devDependencies": {
-    "bun-types": "latest",
+    "@egoist/tailwindcss-icons": "^1.1.0",
+    "bun-types": "canary",
     "concurrently": "^8.2.0",
     "drizzle-kit": "^0.19.13",
-    "install": "^0.13.0",
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.4",
-    "tailwindcss": "^3.3.3"
+    "tailwindcss": "^3.3.3",
+    "tailwind-merge": "^1.14.0",
+    "@tailwindcss/forms": "^0.5.6",
+    "clsx": "^2.0.0"
   },
   "module": "src/index.tsx"
 }
