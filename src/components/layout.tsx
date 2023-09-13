@@ -48,9 +48,7 @@ export function Layout({
         class="bg-white text-gray-800 subpixel-antialiased dark:bg-gray-900 dark:text-white/90"
         hx-boost="true"
         hx-ext="response-targets, preload"
-        _="on every htmx:beforeSend in <button /> 
-         tell it 
-             toggle [disabled='true'] until htmx:afterOnLoad end"
+        _="on every htmx:beforeSend in <button /> tell it toggle @disabled until htmx:afterOnLoad"
       >
         <header class="mx-auto flex max-w-7xl items-center justify-end gap-6 py-6">
           {isAuth ? <NavMenu /> : <LoginButton />}
@@ -58,7 +56,7 @@ export function Layout({
         </header>
         <main
           class="mx-auto min-h-screen max-w-7xl py-8"
-          _="on click add .hidden to #dropdown"
+          _="on click add .hidden to #dropdown end"
         >
           {children}
         </main>

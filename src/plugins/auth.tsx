@@ -141,50 +141,49 @@ export const NavMenu = () => (
     hx-target="body"
     hx-swap="innerHTML"
   >
-    <div>
-      <Button
-        _="on click toggle .hidden on #dropdown end
+    <Button
+      _="on click toggle .hidden on #dropdown end
         on keyup
          if the event's key is 'Escape'
            add .hidden to #dropdown
            trigger keyup
         end"
-        intent="primary"
-      >
-        Menu
-        <i class="i-lucide-chevron-down" />
-      </Button>
-    </div>
+      intent="primary"
+    >
+      Menu
+      <i class="i-lucide-chevron-down" />
+    </Button>
 
     <div
       id="dropdown"
       role="menu"
-      class="absolute right-0 z-10 mt-2 hidden w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-      aria-orientation="vertical"
-      aria-labelledby="menu-button"
+      class="absolute right-0 z-10 mt-1 hidden w-56 origin-top-right rounded-md bg-gray-100 dark:bg-gray-800 shadow-lg ring-1 ring-gray-400/20 focus:outline-none"
     >
-      <div class="py-1" role="none">
+      <div class="py-1">
         <a
           href="/"
           hx-push-url="true"
-          class="block px-4 py-2 text-sm hover:bg-black/5"
-        >
+          class="flex gap-3 items-center px-4 py-3 text-sm hover:bg-gray-400/10 opacity-80 hover:opacity-100"
+          >
+            <i class="i-lucide-home"/>
           Home
         </a>
 
         <a
           href="/dashboard"
           hx-push-url="true"
-          class="block px-4 py-2 text-sm hover:bg-black/5"
+          class="flex gap-3 items-center px-4 py-3 text-sm hover:bg-gray-400/10 opacity-80 hover:opacity-100"
         >
+          <i class="i-lucide-file-box"/>
           Dashboard
         </a>
 
         <button
           hx-post="/auth/logout"
           hx-push-url="true"
-          class="block w-full px-4 py-2 text-left text-sm hover:bg-black/5"
+          class="w-full font-semibold flex gap-3 items-center px-4 py-3 text-sm hover:bg-gray-400/10 opacity-80 hover:opacity-100"
         >
+          <i class="i-lucide-log-out"/>
           Logout
         </button>
       </div>
