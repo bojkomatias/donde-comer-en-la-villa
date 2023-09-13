@@ -1,7 +1,7 @@
 import { Layout } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { tag } from "@/db/schema/tags";
-import { Setup } from "@/setup";
+import { Setup } from "../setup";
 import { LandingPage } from "./page";
 
 const main = (app: Setup) =>

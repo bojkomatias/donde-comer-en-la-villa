@@ -1,7 +1,7 @@
 import { randomBytes } from "crypto";
 import { user } from "@/db/schema/user";
 import { and, eq } from "drizzle-orm";
-import { Setup } from "@/setup";
+import { Setup } from "../setup";
 import { SignInForm } from "./components/form";
 
 const hasher = new Bun.CryptoHasher("sha256");

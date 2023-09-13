@@ -5,8 +5,8 @@ import html from "@elysiajs/html";
 import bearer from "@elysiajs/bearer";
 import { db } from "@/db";
 
-if (Bun.env.SECRET === undefined)
-  throw "Missing secret add SECRET to .env file";
+if (Bun.env.JWT_SECRET === undefined)
+  throw "Missing secret add JWT_SECRET to .env file";
 
 /**
  * Can re-use the setup plugin, even if duplicated (used only for typing)
@@ -20,7 +20,7 @@ const setup = new Elysia({ name: "setup" })
   .use(
     jwt({
       name: "jwt",
-      secret: Bun.env.SECRET,
+      secret: Bun.env.JWT_SECRET,
       schema: t.Object({
         id: t.String(),
         email: t.String(),
