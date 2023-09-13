@@ -1,9 +1,10 @@
-import { Layout } from "../components/layout";
-import { Button } from "../components/ui/button";
-import { tag } from "../db/schema/tags";
-import { Setup } from "./setup";
+import { Layout } from "../../components/layout";
+import { Button } from "../../components/ui/button";
+import { tag } from "../../db/schema/tags";
+import { Setup } from "../setup";
+import { LandingPage } from "./page";
 
-export const mainPlugin = (app: Setup) =>
+const main = (app: Setup) =>
   app
     .get("/", ({ user }) => (
       <Layout title="Donde comer?" isAuth={!!user}>
@@ -17,7 +18,7 @@ export const mainPlugin = (app: Setup) =>
           {tags.map((t) => (
             <li>
               <Button
-                intent="outline"
+                intent="secondary"
                 hx-get={`/business?tag=${t.id}`}
                 hx-target="#businesses"
                 hx-swap="innerHTML"
@@ -33,16 +34,4 @@ export const mainPlugin = (app: Setup) =>
       return <div>Businesses with tag: {tag}</div>;
     });
 
-const LandingPage = () => (
-  <>
-    <h2 class="text-center text-4xl font-semibold">
-      Donde pingo se puede comer!!
-    </h2>
-    <p class="mb-12 text-center text-lg font-light italic">
-      Estas cagado de hambre y no sabes donde mierda buscar? Llegaste al lugar
-      correcto.
-    </p>
-    <div hx-get="/tags" hx-swap="outerHTML" hx-trigger="load" />
-    <div id="businesses" />
-  </>
-);
+export default main;

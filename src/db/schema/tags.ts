@@ -7,7 +7,7 @@ import {
 
 export const tag = sqliteTable("tag", {
   id: integer("id").primaryKey(),
-  name: text("name").notNull(),
+  name: text("name").notNull().unique(),
 });
 
 export const tagToBusiness = sqliteTable(

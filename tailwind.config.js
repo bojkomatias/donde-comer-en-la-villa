@@ -1,7 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-
 const { iconsPlugin, getIconCollections } = require("@egoist/tailwindcss-icons")
-
 
 export default {
   darkMode: 'class',
@@ -9,6 +7,9 @@ export default {
   theme: {
     extend: {
       fontFamily: { sans: ['Poppins', 'sans'] },
+      colors: {
+        'gray': { '850': '#161e2c' }
+      },
     },
   },
   plugins: [

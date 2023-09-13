@@ -13,7 +13,7 @@ if (Bun.env.SECRET === undefined)
  * Elysia has plugin checksum allowing to de-duplicate plugins on runtime
  * Here is the stuff reusable throughout the app, JWT, Cookie, Model, DB connection.
  */
-export const setup = new Elysia({ name: "setup" })
+const setup = new Elysia({ name: "setup" })
   .use(html())
   .use(bearer())
   .use(cookie())
@@ -41,6 +41,9 @@ export const setup = new Elysia({ name: "setup" })
       password: t.String(),
       csrfToken: t.String(),
     }),
+    tag: t.Object({
+      name: t.String(),
+    }),
   })
   // Pass DB connection
   .state("db", db)
@@ -50,4 +53,5 @@ export const setup = new Elysia({ name: "setup" })
     return { user: u ? u : null };
   });
 
+export default setup;
 export type Setup = typeof setup;

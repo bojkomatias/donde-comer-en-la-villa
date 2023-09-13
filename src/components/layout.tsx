@@ -50,12 +50,16 @@ export function Layout({
         hx-ext="response-targets, preload"
         _="on every htmx:beforeSend in <button /> tell it toggle @disabled until htmx:afterOnLoad"
       >
-        <header class="mx-auto flex max-w-7xl items-center justify-end gap-6 py-6">
+        <header class="mx-auto flex max-w-7xl items-center gap-6 border-b py-2 dark:border-gray-700">
+          <img src="/public/elysia.png" width="24" height="24" class="ml-8" />
+          <a href="/" class="flex-grow font-black">
+            Pedix 2.0
+          </a>
           {isAuth ? <NavMenu /> : <LoginButton />}
           <DarkMode />
         </header>
         <main
-          class="mx-auto min-h-screen max-w-7xl py-8"
+          class="mx-auto min-h-screen max-w-7xl px-0 lg:px-6"
           _="on click add .hidden to #dropdown end"
         >
           {children}

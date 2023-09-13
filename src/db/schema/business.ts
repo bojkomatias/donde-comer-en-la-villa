@@ -4,7 +4,7 @@ import { sql } from "drizzle-orm";
 
 export const business = sqliteTable("business", {
   id: integer("id").primaryKey(),
-  name: text("name").notNull(),
+  name: text("name").notNull().unique(),
   description: text("description"),
   phone: text("phone"),
   location: text("location"),

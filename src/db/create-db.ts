@@ -7,14 +7,14 @@ const sqlite = new Database("sqlite.db");
 
 sqlite
   .query(
-    "CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, email TEXT NOT NULL, password TEXT, image TEXT, role TEXT DEFAULT `customer`, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)",
+    "CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, email TEXT NOT NULL UNIQUE, password TEXT, image TEXT, role TEXT DEFAULT `customer`, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)",
   )
   .run();
 
 //business
 sqlite
   .query(
-    "CREATE TABLE IF NOT EXISTS business (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, description TEXT, phone TEXT, location TEXT, socials TEXT, webpage TEXT, image TEXT, featured INTEGER DEFAULT 0, user_id INTEGER, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (user_id) REFERENCES user(id))",
+    "CREATE TABLE IF NOT EXISTS business (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL UNIQUE, description TEXT, phone TEXT, location TEXT, socials TEXT, webpage TEXT, image TEXT, featured INTEGER DEFAULT 0, user_id INTEGER, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (user_id) REFERENCES user(id))",
   )
   .run();
 
@@ -35,7 +35,7 @@ sqlite
 // tags
 sqlite
   .query(
-    "CREATE TABLE IF NOT EXISTS tag (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)",
+    "CREATE TABLE IF NOT EXISTS tag (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL UNIQUE)",
   )
   .run();
 
@@ -51,3 +51,5 @@ sqlite
     "CREATE TABLE IF NOT EXISTS tag_to_product (tag_id INTEGER, product_id INTEGER, PRIMARY KEY (tag_id, product_id))",
   )
   .run();
+
+
