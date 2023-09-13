@@ -1,4 +1,4 @@
-import { cx } from "../../utils/cx";
+import { cx } from "@/utils/cx";
 
 interface Props extends JSX.HtmlButtonTag {
   intent?: "primary" | "secondary" | "outline" | "destructive";

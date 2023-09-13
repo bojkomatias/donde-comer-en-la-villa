@@ -1,5 +1,5 @@
-import { Button } from "../../../../components/ui/button";
-import { Tag } from "../../../../db/schema/tags";
+import { Button } from "@/components/ui/button";
+import { Tag } from "@/db/schema/tags";
 
 export const TagRow = ({ tag }: { tag: Tag }) => {
   return (

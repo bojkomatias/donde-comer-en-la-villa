@@ -1,5 +1,6 @@
-import { LoginButton, NavMenu } from "../plugins/auth";
+import { NavMenu } from "@/handlers/auth/components/nav-menu";
 import DarkMode from "./ui/dark-mode-toggle";
+import { LoginButton } from "@/handlers/auth/components/login-button";
 
 export function Layout({
   title,

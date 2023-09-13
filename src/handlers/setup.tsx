@@ -1,9 +1,9 @@
 import Elysia, { t } from "elysia";
-import { db } from "../db";
 import cookie from "@elysiajs/cookie";
 import jwt from "@elysiajs/jwt";
 import html from "@elysiajs/html";
 import bearer from "@elysiajs/bearer";
+import { db } from "@/db";
 
 if (Bun.env.SECRET === undefined)
   throw "Missing secret add SECRET to .env file";

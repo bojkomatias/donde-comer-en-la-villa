@@ -1,13 +1,13 @@
 import { eq } from "drizzle-orm";
-import { Button } from "../../components/ui/button";
-import { tag } from "../../db/schema/tags";
-import { Setup } from "../setup";
+import { Button } from "@/components/ui/button";
+import { tag } from "@/db/schema/tags";
 import { ProfilePage } from "./profile/page";
 import { DashboardLayout } from "./layout";
 import { TagFormRow } from "./tags/components/row-edit";
 import { TagPage } from "./tags/page";
 import { TagRow } from "./tags/components/row-view";
-import { user } from "../../db/schema/user";
+import { user } from "@/db/schema/user";
+import { Setup } from "../setup";
 
 const dashboard = (app: Setup) =>
   app.group(
@@ -84,11 +84,13 @@ const dashboard = (app: Setup) =>
               .put(
                 "/:id",
                 async ({ params: { id }, body, store: { db }, set }) => {
+                  let r;
                   try {
-                    await db
+                    r = await db
                       .update(tag)
                       .set({ name: body.name.toLocaleLowerCase() })
-                      .where(eq(tag.id, Number(id)));
+                      .where(eq(tag.id, Number(id)))
+                      .returning();
                   } catch (error) {
                     set.status = 403;
                     return (
@@ -100,11 +102,6 @@ const dashboard = (app: Setup) =>
                       </p>
                     );
                   }
-
-                  const r = await db
-                    .select()
-                    .from(tag)
-                    .where(eq(tag.id, Number(id)));
 
                   return <TagRow tag={r[0]} />;
                 },
@@ -113,10 +110,12 @@ const dashboard = (app: Setup) =>
               .post(
                 "/",
                 async ({ body, store: { db }, set }) => {
+                  let r;
                   try {
-                    await db
+                    r = await db
                       .insert(tag)
-                      .values({ name: body.name.toLocaleLowerCase() });
+                      .values({ name: body.name.toLocaleLowerCase() })
+                      .returning();
                   } catch (error) {
                     set.status = 403;
                     return (
@@ -129,11 +128,10 @@ const dashboard = (app: Setup) =>
                     );
                   }
 
-                  // Since no returning can't get the item nor the ID and for progressive enhancement y send an handpicked id
-                  return <TagRow tag={{ id: 9999, name: body.name }} />;
+                  return <TagRow tag={r[0]} />;
                 },
                 { body: "tag" },
               ),
         ),
   );
- export default dashboard
+export default dashboard;

@@ -1,6 +1,6 @@
-import { Layout } from "../../components/layout";
-import { Role } from "../../db/schema/user";
-import { cx } from "../../utils/cx";
+import { Layout } from "@/components/layout";
+import { Role } from "@/db/schema/user";
+import { cx } from "@/utils/cx";
 
 type Navigation = {
   name: string;

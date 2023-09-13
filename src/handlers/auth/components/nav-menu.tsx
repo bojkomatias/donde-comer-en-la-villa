@@ -1,4 +1,4 @@
-import { Button } from "../../../components/ui/button";
+import { Button } from "@/components/ui/button";
 
 export const NavMenu = () => (
   <div
@@ -14,7 +14,7 @@ export const NavMenu = () => (
            add .hidden to #dropdown
            trigger keyup
         end"
-      intent="primary"
+      intent="secondary"
     >
       Menu
       <i class="i-lucide-chevron-down" />

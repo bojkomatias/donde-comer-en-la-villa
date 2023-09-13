@@ -1,5 +1,5 @@
-import { Button } from "../../../components/ui/button";
-import { Tag } from "../../../db/schema/tags";
+import { Button } from "@/components/ui/button";
+import { Tag } from "@/db/schema/tags";
 import { TagForm } from "./components/form";
 
 export const TagPage = ({ tags }: { tags: Tag[] }) => (
