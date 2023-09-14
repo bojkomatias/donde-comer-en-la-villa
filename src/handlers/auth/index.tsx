@@ -65,7 +65,7 @@ const auth = (app: Setup) =>
             },
           );
 
-          return (set.redirect = "/");
+          return (set.redirect = "/dashboard");
         },
         { body: "auth" },
       )

@@ -23,7 +23,7 @@ export const NavMenu = () => (
     <div
       id="dropdown"
       role="menu"
-      class="absolute right-0 z-10 mt-1 hidden w-56 origin-top-right rounded-md bg-gray-100 shadow-lg ring-1 ring-gray-400/20 focus:outline-none dark:bg-gray-800"
+      class="absolute right-0 z-10 mt-1 hidden w-56 origin-top-right rounded-md bg-gray-100 shadow-lg ring-1 ring-gray-400/20 focus:outline-none dark:bg-gray-850"
     >
       <div class="py-1">
         <a

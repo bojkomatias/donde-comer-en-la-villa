@@ -3,7 +3,10 @@ import { Input } from "@/components/ui/input";
 
 export const SignInForm = (props: { csrfToken: string }) => {
   return (
-    <div class="mx-auto max-w-xl space-y-8 pt-40" hx-target="this">
+    <div
+      class="mx-auto mt-40 max-w-xl space-y-8 rounded-lg bg-gray-50 p-6 dark:bg-gray-850"
+      hx-target="this"
+    >
       <Button hx-get="/" hx-swap="outerHTML">
         <i class="i-lucide-chevron-left" />
         Back
@@ -23,15 +26,17 @@ export const SignInForm = (props: { csrfToken: string }) => {
           value={props.csrfToken}
           class="hidden"
         />
-        <div class="isolate -space-y-px rounded-md shadow-sm">
+        <div class="isolate -space-y-px">
           <Input
             name="email"
+            label="email"
             placeholder="example@example.com"
             type="email"
             required="true"
           />
           <Input
             name="password"
+            label="password"
             placeholder="***********"
             type="password"
             required="true"
@@ -41,7 +46,7 @@ export const SignInForm = (props: { csrfToken: string }) => {
           <Button
             intent="primary"
             class="flex-grow"
-            style="view-transition-name: sign"
+
           >
             Log In
           </Button>

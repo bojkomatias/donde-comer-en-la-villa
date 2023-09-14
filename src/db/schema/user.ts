@@ -15,5 +15,6 @@ export const user = sqliteTable("user", {
 });
 
 export type Role = "admin" | "owner" | "customer";
+
 export type User = typeof user.$inferSelect; // return type when queried
 export type InsertUser = typeof user.$inferInsert; // insert type

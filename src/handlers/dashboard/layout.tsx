@@ -10,9 +10,9 @@ type Navigation = {
 };
 const dashboardNavigation: Navigation[] = [
   {
-    name: "General",
+    name: "Profile",
     href: "/dashboard",
-    icon: "i-lucide-user-circle",
+    icon: "i-lucide-fingerprint",
     clearance: ["customer", "owner", "admin"],
   },
   {
@@ -55,8 +55,8 @@ export const DashboardLayout = ({
                     className={cx(
                       "group flex items-center gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm font-semibold leading-6",
                       item.href === current
-                        ? "dark:bg-gray-850 pointer-events-none bg-gray-50 text-cyan-600"
-                        : "dark:hover:bg-gray-850 text-gray-700 hover:bg-gray-50 hover:text-cyan-600",
+                        ? "pointer-events-none bg-gray-50 dark:bg-gray-850"
+                        : "text-gray-700 hover:bg-gray-50 hover:text-cyan-600 dark:text-gray-300 dark:hover:bg-gray-850",
                     )}
                   >
                     <i

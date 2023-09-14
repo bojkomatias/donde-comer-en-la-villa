@@ -6,17 +6,15 @@ export const TagFormRow = ({ tag }: { tag: InsertTag }) => {
   return (
     <tr key={tag.id} hx-target="this" hx-swap="outerHTML">
       <td class="flex-grow">
-        <span>
-          <Input
-            type="text"
-            name="name"
-            placeholder="Panificados"
-            class="flex-grow"
-            value={tag.name}
-            required="true"
-          />
-        </span>
-        <div id="row-error" />
+        <Input
+          type="text"
+          name="name"
+          placeholder="Panificados"
+          class="flex-grow"
+          value={tag.name}
+          required="true"
+        />
+        <span id="row-error" />
       </td>
       <td class="flex items-end justify-end gap-2 whitespace-nowrap py-4 pl-3 pr-4 sm:pr-0">
         <Button

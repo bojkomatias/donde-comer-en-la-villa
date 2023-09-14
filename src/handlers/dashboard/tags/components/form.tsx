@@ -15,6 +15,7 @@ export const TagForm = () => {
           <Input
             type="text"
             name="name"
+            label="tag name"
             placeholder="Pizzas a la piedra"
             required="true"
           />

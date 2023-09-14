@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { User } from "@/db/schema/user";
+import { PasswordChange, UserAttribute } from "./attribute-edit";
 
 export const ProfilePage = ({ user }: { user: User }) => (
   <div className="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
@@ -21,19 +22,13 @@ export const ProfilePage = ({ user }: { user: User }) => (
           <dt className="font-medium sm:w-64 sm:flex-none sm:pr-6">
             Full name
           </dt>
-          <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-            {user.name}
-            <Button size="sm">Update</Button>
-          </dd>
+          <UserAttribute id={user.id} attribute="name" value={user.name} />
         </div>
         <div className="pt-6 sm:flex">
           <dt className="font-medium sm:w-64 sm:flex-none sm:pr-6">
             Email address
           </dt>
-          <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-            {user.email}
-            <Button size="sm">Update</Button>
-          </dd>
+          <UserAttribute id={user.id} attribute="email" value={user.email} />
         </div>
         <div className="pt-6 sm:flex">
           <dt className="font-medium sm:w-64 sm:flex-none sm:pr-6">Role</dt>
@@ -43,5 +38,7 @@ export const ProfilePage = ({ user }: { user: User }) => (
         </div>
       </dl>
     </div>
+
+    <PasswordChange />
   </div>
 );

@@ -32,27 +32,32 @@ export function Layout({
         {/* Hyperscript */}
         <script src="https://unpkg.com/hyperscript.org@0.9.11"></script>
         {/* TailwindCSS */}
-        <link href="/public/output.css" rel="preload stylesheet" />
+        <link href="/public/output.css" rel="preload stylesheet" as="style" />
         {/* Google Fonts */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin
+          as="font"
+        />
         <link
           href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;800&display=swap"
           rel="stylesheet"
         />
 
         {/* Favicon + Title */}
-        <link rel="icon" href="/public/elysia.png" />
+        <link rel="icon" href="/public/favicon.ico" />
         <title>{title}</title>
       </head>
       <body
-        class="bg-white text-gray-800 subpixel-antialiased dark:bg-gray-900 dark:text-white/90"
+        class="bg-white text-black/70 subpixel-antialiased dark:bg-gray-900 dark:text-white/70"
         hx-boost="true"
         hx-ext="response-targets, preload"
         _="on every htmx:beforeSend in <button /> tell it toggle @disabled until htmx:afterOnLoad"
       >
         <header class="mx-auto flex max-w-7xl items-center gap-6 border-b py-2 dark:border-gray-700">
-          <img src="/public/elysia.png" width="24" height="24" class="ml-8" />
+          <img src="/public/favicon.ico" width="24" height="24" class="ml-8" />
           <a href="/" class="flex-grow font-black">
             Pedix 2.0
           </a>

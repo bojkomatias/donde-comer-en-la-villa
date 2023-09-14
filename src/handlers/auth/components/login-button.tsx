@@ -6,7 +6,6 @@ export const LoginButton = () => (
     hx-target="body"
     hx-swap="innerHTML"
     intent="primary"
-    style="view-transition-name: sign"
   >
     Log In
   </Button>

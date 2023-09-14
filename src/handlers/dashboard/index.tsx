@@ -8,6 +8,8 @@ import { TagPage } from "./tags/page";
 import { TagRow } from "./tags/components/row-view";
 import { user } from "@/db/schema/user";
 import { Setup } from "../setup";
+import { AttributeEdit, UserAttribute } from "./profile/attribute-edit";
+import { t } from "elysia";
 
 const dashboard = (app: Setup) =>
   app.group(
@@ -23,6 +25,7 @@ const dashboard = (app: Setup) =>
     (app) =>
       app
         // Can use user!.role because it's already guarded
+        /** Profile */
         .get("/", async ({ user: u, store: { db } }) => {
           const r = await db
             .select()
@@ -34,6 +37,57 @@ const dashboard = (app: Setup) =>
             </DashboardLayout>
           );
         })
+        .get("/:id/:attr", ({ params: { id, attr }, query }) => (
+          <AttributeEdit
+            id={id}
+            attribute={attr}
+            value={query.value as string}
+          />
+        ))
+        .patch("/:id", async ({ params: { id }, store: { db }, body }) => {
+          const [attr, val] = Object.entries(
+            body as { [key: string]: string },
+          ).flat();
+          const r = await db
+            .update(user)
+            .set({ [attr]: val })
+            .where(eq(user.id, Number(id)))
+            // @ts-ignore I know that I'm passing a safe key like 'name'
+            .returning({ [attr]: user[attr] });
+
+          return <UserAttribute id={id} attribute={attr} value={r[0][attr]} />;
+        })
+        .patch(
+          "/password",
+          async ({ user: u, store: { db }, body, set }) => {
+            const r = await db
+              .select({ currentPassword: user.password })
+              .from(user)
+              .where(eq(user.id, Number(u?.id)));
+
+            if (r[0].currentPassword !== body.currentPassword) {
+              set.status = 403;
+              return (
+                <p class="text-sm text-red-600">
+                  * Current password doesn't match the existing one
+                </p>
+              );
+            }
+            await db
+              .update(user)
+              .set({ password: body.password })
+              .where(eq(user.id, Number(u?.id)));
+
+            return <p class="text-sm text-cyan-600">Successfully updated</p>;
+          },
+          {
+            body: t.Object({
+              currentPassword: t.String(),
+              password: t.String(),
+            }),
+          },
+        )
+
         .get("/business", ({ user }) => (
           <DashboardLayout role={user!.role} current="/dashboard/business">
             <div class="space-y-3">
