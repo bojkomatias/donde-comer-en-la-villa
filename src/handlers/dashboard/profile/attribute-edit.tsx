@@ -67,7 +67,7 @@ export const PasswordChange = () => (
       hx-target="#password-change"
       hx-target-403="#password-change"
       hx-swap="innerHTML"
-      class="mt-4 space-y-3 rounded-lg bg-gray-50 p-4 dark:bg-gray-850"
+      class="mt-4 space-y-3 rounded-lg bg-gray-50 p-4 dark:bg-gray-900/50"
     >
       <div class="isolate -space-y-px">
         <Input

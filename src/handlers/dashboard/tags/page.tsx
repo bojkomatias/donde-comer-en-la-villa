@@ -11,7 +11,7 @@ export const TagPage = ({ tags }: { tags: Tag[] }) => (
         adding an in row edit functionality.
       </p>
     </div>
-    <div class="rounded-lg bg-gray-50 p-4 pt-6 dark:bg-gray-850/40">
+    <div class="rounded-lg bg-gray-50 p-4 pt-6 dark:bg-gray-900/50">
       <h2 className="text-sm font-semibold leading-6">New tag</h2>
       <p className="mb-4 mt-1 text-xs text-gray-500">
         Add a new tag to the collection

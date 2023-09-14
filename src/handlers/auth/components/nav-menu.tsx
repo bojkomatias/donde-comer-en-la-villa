@@ -8,51 +8,47 @@ export const NavMenu = () => (
     hx-swap="innerHTML"
   >
     <Button
-      _="on click toggle .hidden on #dropdown end
+      _="on click halt 
+        on click send change to #dropdown end
         on keyup
          if the event's key is 'Escape'
            add .hidden to #dropdown
            trigger keyup
         end"
-      intent="secondary"
+      class="rounded-full p-0"
     >
-      Menu
-      <i class="i-lucide-chevron-down" />
+      <img
+        src="https://avatars.githubusercontent.com/u/55543631?s=48&v=4"
+        class="h-8 w-8 overflow-hidden rounded-full"
+        alt="User image"
+      />
     </Button>
 
     <div
       id="dropdown"
       role="menu"
-      class="absolute right-0 z-10 mt-1 hidden w-56 origin-top-right rounded-md bg-gray-100 shadow-lg ring-1 ring-gray-400/20 focus:outline-none dark:bg-gray-850"
+      class="dropdown absolute right-0 z-10 mt-1 hidden w-56 origin-top-right scale-95 divide-y divide-gray-100 rounded-md bg-gray-50 opacity-0 shadow-lg ring-1 ring-gray-400/20 transition duration-150 ease-in-out focus:outline-none dark:divide-gray-800 dark:bg-gray-950"
+      _="on change 
+        if @class contains 'hidden' 
+          then toggle .hidden on me wait
+            then toggle .opacity-0 .scale-95 on me
+        else toggle .opacity-0 .scale-95 on me settle then add .hidden to me"
     >
-      <div class="py-1">
-        <a
-          href="/"
-          hx-push-url="true"
-          class="flex items-center gap-3 px-4 py-3 text-sm opacity-80 hover:bg-gray-400/10 hover:opacity-100"
-        >
-          <i class="i-lucide-home" />
-          Home
-        </a>
-
-        <a
-          href="/dashboard"
-          hx-push-url="true"
-          class="flex items-center gap-3 px-4 py-3 text-sm opacity-80 hover:bg-gray-400/10 hover:opacity-100"
-        >
-          <i class="i-lucide-file-box" />
-          Dashboard
-        </a>
-
-        <button
-          hx-post="/auth/logout"
-          hx-push-url="true"
-          class="flex w-full items-center gap-3 px-4 py-3 text-sm font-semibold opacity-80 hover:bg-gray-400/10 hover:opacity-100"
-        >
-          <i class="i-lucide-log-out" />
-          Logout
-        </button>
-      </div>
+      <div
+        hx-get="/auth/navigation"
+        hx-target="this"
+        hx-swap="outerHTML"
+        hx-trigger="load"
+      />
+      <button
+        hx-post="/auth/logout"
+        hx-push-url="true"
+        class="flex w-full items-center gap-3 px-4 py-3 text-sm font-semibold hover:bg-gray-400/10"
+        tabindex="-1"
+      >
+        <i class="i-lucide-log-out h-4 w-4 text-gray-500" />
+        Logout
+      </button>
     </div>
   </div>
 );

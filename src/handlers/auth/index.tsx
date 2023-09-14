@@ -3,6 +3,7 @@ import { user } from "@/db/schema/user";
 import { and, eq } from "drizzle-orm";
 import { Setup } from "../setup";
 import { SignInForm } from "./components/form";
+import { UserNavigation } from "./components/user-navigation";
 
 const hasher = new Bun.CryptoHasher("sha256");
 
@@ -69,6 +70,14 @@ const auth = (app: Setup) =>
         },
         { body: "auth" },
       )
+      .get("/navigation", ({ user }) => <UserNavigation user={user} />, {
+        beforeHandle: ({ user, set }) => {
+          if (!user) {
+            set.status = 401;
+            return "Unauthorized";
+          }
+        },
+      })
 
       .post("/logout", ({ setCookie, set }) => {
         // Remove cookie not working

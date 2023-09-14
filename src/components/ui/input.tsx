@@ -1,9 +1,9 @@
 export function Input(props: JSX.HtmlInputTag) {
   return (
-    <div class="group relative flex flex-col-reverse px-3 pb-1.5 pt-2.5 ring-1 ring-inset ring-gray-300 first-of-type:rounded-t last-of-type:rounded-b focus-within:z-10 focus-within:ring-2 focus-within:ring-cyan-600 dark:ring-gray-600 dark:focus-within:ring-cyan-700">
+    <div class="group relative flex flex-col-reverse bg-white px-3 pb-1.5 pt-2.5 ring-1 ring-inset ring-gray-300 first-of-type:rounded-t last-of-type:rounded-b focus-within:z-10 focus-within:ring-2 focus-within:ring-cyan-600 dark:bg-gray-950 dark:ring-gray-600 dark:focus-within:ring-cyan-700">
       <input
         {...props}
-        class="peer block w-full border-0 bg-transparent p-0 text-sm font-light placeholder:text-gray-400/50 focus:ring-0 sm:leading-6"
+        class="peer block w-full border-0 bg-transparent p-0 text-sm placeholder:font-light placeholder:text-gray-400/30 focus:ring-0 sm:leading-6"
       />
       <label
         htmlFor={props.name}

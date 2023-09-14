@@ -4,10 +4,10 @@ import { Input } from "@/components/ui/input";
 export const SignInForm = (props: { csrfToken: string }) => {
   return (
     <div
-      class="mx-auto mt-40 max-w-xl space-y-8 rounded-lg bg-gray-50 p-6 dark:bg-gray-850"
+      class="mx-auto mt-40 max-w-xl space-y-8 rounded-lg bg-gray-50 p-6 dark:bg-gray-900/50"
       hx-target="this"
     >
-      <Button hx-get="/" hx-swap="outerHTML">
+      <Button hx-get="/" hx-swap="outerHTML" size="sm">
         <i class="i-lucide-chevron-left" />
         Back
       </Button>
@@ -43,12 +43,8 @@ export const SignInForm = (props: { csrfToken: string }) => {
           />
         </div>
         <div class="m-4 flex gap-6">
-          <Button
-            intent="primary"
-            class="flex-grow"
-
-          >
-            Log In
+          <Button intent="primary" class="flex-grow">
+            Login
           </Button>
           <Button class="flex-grow" disabled="true">
             Crear cuenta

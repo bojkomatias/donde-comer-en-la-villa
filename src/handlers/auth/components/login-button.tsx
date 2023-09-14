@@ -7,6 +7,6 @@ export const LoginButton = () => (
     hx-swap="innerHTML"
     intent="primary"
   >
-    Log In
+    Login
   </Button>
 );
