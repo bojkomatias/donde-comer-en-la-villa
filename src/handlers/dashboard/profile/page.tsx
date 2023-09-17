@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { User } from "@/db/schema/user";
 import { PasswordChange, UserAttribute } from "./attribute-edit";
+import { cx } from "@/utils/cx";
 
 export const ProfilePage = ({ user }: { user: User }) => (
   <div className="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
@@ -39,6 +40,14 @@ export const ProfilePage = ({ user }: { user: User }) => (
       </dl>
     </div>
 
-    <PasswordChange />
+    <div
+      class={cx(
+        user.password
+          ? ""
+          : "pointer-events-none select-none opacity-75 saturate-0",
+      )}
+    >
+      <PasswordChange />
+    </div>
   </div>
 );

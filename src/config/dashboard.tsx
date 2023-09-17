@@ -10,13 +10,13 @@ export const dashboardNav: Navigation[] = [
   {
     name: "Profile",
     href: "/dashboard",
-    icon: "i-lucide-fingerprint",
+    icon: "i-lucide-settings",
     clearance: ["customer", "owner", "admin"],
   },
   {
     name: "Business",
     href: "/dashboard/business",
-    icon: "i-lucide-box",
+    icon: "i-lucide-layout-dashboard",
     clearance: ["owner", "admin"],
   },
   {

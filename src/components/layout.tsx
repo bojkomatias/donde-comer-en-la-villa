@@ -1,4 +1,3 @@
-import { NavMenu } from "@/handlers/auth/components/nav-menu";
 import DarkMode from "./ui/dark-mode-toggle";
 import { LoginButton } from "@/handlers/auth/components/login-button";
 
@@ -75,7 +74,16 @@ export function Layout({
                   <span>Activity</span>
                 </a>
 
-                {isAuth ? <NavMenu /> : <LoginButton />}
+                {isAuth ? (
+                  <i
+                    hx-get="/auth/navigation"
+                    hx-trigger="load"
+                    hx-swap="outerHTML"
+                    class="i-lucide-fingerprint h-8 w-8 overflow-hidden rounded-full text-gray-500"
+                  />
+                ) : (
+                  <LoginButton />
+                )}
               </div>
             </header>
             <main class="mx-auto max-w-7xl px-0 lg:px-6">{children}</main>

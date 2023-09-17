@@ -5,12 +5,20 @@ import { Setup } from "../setup";
 import { SignInForm } from "./components/form";
 import { UserNavigation } from "./components/user-navigation";
 import { Notification } from "@/components/ui/notification";
+import OAuth2 from "@/utils/oauth2";
+
+if (Bun.env.GOOGLE_CLIENT_ID === undefined)
+  throw "Missing secret add CLIENT_ID to .env file";
+
+if (Bun.env.GOOGLE_CLIENT_SECRET === undefined)
+  throw "Missing secret add CLIENT_SECRET to .env file";
 
 const hasher = new Bun.CryptoHasher("sha256");
 
 const auth = (app: Setup) =>
   app.group("/auth", (app) =>
     app
+
       /** Get auth form */
       .get("/form", async ({ setCookie }) => {
         /** Implements double submit cookies method for protection against CSRF */
@@ -35,6 +43,7 @@ const auth = (app: Setup) =>
               id: user.id,
               name: user.name,
               email: user.email,
+              image: user.image,
               role: user.role,
             })
             .from(user)
@@ -61,6 +70,7 @@ const auth = (app: Setup) =>
               id: String(result.id),
               name: result.name,
               email: result.email,
+              image: result.image,
               role: result.role,
             }),
             {
@@ -73,6 +83,44 @@ const auth = (app: Setup) =>
         },
         { body: "auth" },
       )
+      .get(
+        "/callback/google",
+        async ({ query, setCookie, jwt, set, store: { db } }) => {
+          const oauth_user = await OAuth2(query["code"] as string);
+
+          console.log(oauth_user);
+          // Check if user exists in DB
+          let r = await db
+            .select()
+            .from(user)
+            .where(eq(user.email, oauth_user.email));
+
+          // If not create it
+          if (r.length === 0) {
+            r = await db
+              .insert(user)
+              .values({ ...oauth_user, image: oauth_user.picture })
+              .returning();
+          }
+          // Set cookie
+          setCookie(
+            "auth",
+            await jwt.sign({
+              id: r[0].id.toString(),
+              name: r[0].name,
+              email: r[0].email,
+              image: r[0].image,
+              role: r[0].role,
+            }),
+            {
+              httpOnly: true,
+              maxAge: 7 * 86400,
+            },
+          );
+
+          set.redirect = "/";
+        },
+      )
       .get("/navigation", ({ user }) => <UserNavigation user={user} />, {
         beforeHandle: ({ user, set }) => {
           if (!user) {
@@ -81,7 +129,6 @@ const auth = (app: Setup) =>
           }
         },
       })
-
       .post("/logout", ({ setCookie, set }) => {
         // Remove cookie not working
         setCookie("auth", "");

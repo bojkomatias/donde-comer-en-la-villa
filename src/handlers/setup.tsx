@@ -24,6 +24,7 @@ const setup = new Elysia({ name: "setup" })
       schema: t.Object({
         id: t.String(),
         email: t.String(),
+        image: t.Union([t.String(), t.Null()]),
         name: t.String(),
         role: t.Required(
           t.Union([

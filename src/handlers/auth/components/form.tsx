@@ -1,6 +1,15 @@
 import { Button, buttonStyles } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+const google = new URL("auth", "https://accounts.google.com/o/oauth2/v2/");
+google.searchParams.set(
+  "redirect_uri",
+  "http://localhost:3000/auth/callback/google/",
+);
+google.searchParams.set("response_type", "code");
+google.searchParams.set("scope", "profile email");
+google.searchParams.set("client_id", Bun.env.GOOGLE_CLIENT_ID!);
+
 export const SignInForm = (props: { csrfToken: string }) => {
   return (
     <div class="mx-auto mt-40 max-w-xl space-y-8 rounded-lg bg-gray-50 p-6 dark:bg-gray-900/50">
@@ -48,6 +57,48 @@ export const SignInForm = (props: { csrfToken: string }) => {
           <Button class="flex-grow" disabled="true">
             Crear cuenta
           </Button>
+        </div>
+        <div class="m-4 flex gap-6">
+          <button
+            intent="primary"
+            class={buttonStyles({
+              intent: "secondary",
+              class: "flex-grow",
+            })}
+            disabled=""
+          >
+            <img
+              src="/public/google-svg.svg"
+              class="mr-2 h-5 w-5 rounded-full"
+            />
+          </button>
+          <a
+            href={google.href}
+            intent="primary"
+            class={buttonStyles({
+              intent: "secondary",
+              class: "flex-grow",
+            })}
+          >
+            <img
+              src="/public/google-svg.svg"
+              class="mr-2 h-5 w-5 rounded-full"
+            />
+          </a>
+          <button
+            href={google.href}
+            intent="primary"
+            class={buttonStyles({
+              intent: "secondary",
+              class: "flex-grow",
+            })}
+            disabled=""
+          >
+            <img
+              src="/public/google-svg.svg"
+              class="mr-2 h-5 w-5 rounded-full"
+            />
+          </button>
         </div>
       </form>
     </div>
