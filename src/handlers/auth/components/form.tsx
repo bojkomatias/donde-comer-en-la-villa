@@ -1,24 +1,23 @@
-import { Button } from "@/components/ui/button";
+import { Button, buttonStyles } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 export const SignInForm = (props: { csrfToken: string }) => {
   return (
-    <div
-      class="mx-auto mt-40 max-w-xl space-y-8 rounded-lg bg-gray-50 p-6 dark:bg-gray-900/50"
-      hx-target="this"
-    >
-      <Button hx-get="/" hx-swap="outerHTML" size="sm">
+    <div class="mx-auto mt-40 max-w-xl space-y-8 rounded-lg bg-gray-50 p-6 dark:bg-gray-900/50">
+      <a href="/" class={buttonStyles({ size: "sm" })}>
         <i class="i-lucide-chevron-left" />
         Back
-      </Button>
+      </a>
       <p class="text-xl">Welcome back!</p>
       <p class="text-sm text-gray-600">
         Authenticate to visit your business dashboard
       </p>
       <form
         hx-post="/auth/login"
-        hx-target-404="#not-found"
-        hx-swap="outerHTML"
+        hx-target-4xx="#notification"
+        // Target body cause it's a full page redirect
+        hx-target="body"
+        // hx-push-url="true"
       >
         <input
           type="text"
@@ -50,8 +49,6 @@ export const SignInForm = (props: { csrfToken: string }) => {
             Crear cuenta
           </Button>
         </div>
-
-        <div id="not-found" />
       </form>
     </div>
   );

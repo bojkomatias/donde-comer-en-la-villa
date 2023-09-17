@@ -7,7 +7,7 @@ import { LandingPage } from "./page";
 const main = (app: Setup) =>
   app
     .get("/", ({ user }) => (
-      <Layout title="Donde comer?" isAuth={!!user}>
+      <Layout isAuth={!!user}>
         <LandingPage />
       </Layout>
     ))

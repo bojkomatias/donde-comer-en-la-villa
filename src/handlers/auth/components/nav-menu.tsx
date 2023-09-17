@@ -27,7 +27,7 @@ export const NavMenu = () => (
     <div
       id="dropdown"
       role="menu"
-      class="dropdown absolute right-0 z-10 mt-1 hidden w-56 origin-top-right scale-95 divide-y divide-gray-100 rounded-md bg-gray-50 opacity-0 shadow-lg ring-1 ring-gray-400/20 transition duration-150 ease-in-out focus:outline-none dark:divide-gray-800 dark:bg-gray-950"
+      class="dropdown absolute right-0 z-10 mt-1 hidden w-56 origin-top-right scale-95 divide-y divide-gray-100 rounded-md bg-white opacity-0 shadow-lg ring-1 ring-gray-200 transition duration-150 ease-in-out focus:outline-none dark:divide-gray-800 dark:bg-gray-950 dark:shadow-black dark:ring-gray-800"
       _="on change 
         if @class contains 'hidden' 
           then toggle .hidden on me wait

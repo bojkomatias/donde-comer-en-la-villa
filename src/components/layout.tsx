@@ -3,12 +3,10 @@ import DarkMode from "./ui/dark-mode-toggle";
 import { LoginButton } from "@/handlers/auth/components/login-button";
 
 export function Layout({
-  title,
-  isAuth,
+  isAuth = true,
   children,
 }: {
-  title: string;
-  isAuth: boolean;
+  isAuth?: boolean;
   children?: any;
 }) {
   return (
@@ -53,33 +51,35 @@ export function Layout({
 
           {/* Favicon + Title */}
           <link rel="icon" href="/public/favicon.ico" />
-          <title>{title}</title>
+          <title>Activity</title>
         </head>
         <body
-          class="bg-white text-black/70 subpixel-antialiased dark:bg-gray-950 dark:text-white/70"
+          class="bg-white text-black/80 subpixel-antialiased dark:bg-gray-950 dark:text-white/80"
           hx-boost="true"
           hx-ext="response-targets, preload"
           _={`on every htmx:beforeSend in <button /> tell it toggle @disabled until htmx:afterOnLoad end
         on click add .hidden .opacity-0 .scale-95 to .dropdown end`}
           // Handles click outside for all menus
         >
-          <header class="border-b py-3 dark:border-gray-700">
-            <div class="mx-auto flex max-w-7xl items-center justify-between px-8">
-              <a
-                href="/"
-                class="flex items-end gap-3 text-xl font-black"
-                tabindex="-1"
-              >
-                <i class="i-lucide-activity h-8 w-8" />
-                <span>Activity</span>
-              </a>
+          {/* Notifications fall all here! */}
+          <div id="notification" />
+          <div class="min-h-screen">
+            <header class="border-b py-3 dark:border-gray-700">
+              <div class="mx-auto flex max-w-7xl items-center justify-between px-8">
+                <a
+                  href="/"
+                  class="flex items-end gap-3 text-xl font-black "
+                  tabindex="-1"
+                >
+                  <i class="i-lucide-activity h-8 w-8 text-cyan-600" />
+                  <span>Activity</span>
+                </a>
 
-              {isAuth ? <NavMenu /> : <LoginButton />}
-            </div>
-          </header>
-          <main class="mx-auto min-h-screen max-w-7xl px-0 lg:px-6">
-            {children}
-          </main>
+                {isAuth ? <NavMenu /> : <LoginButton />}
+              </div>
+            </header>
+            <main class="mx-auto max-w-7xl px-0 lg:px-6">{children}</main>
+          </div>
           <footer class="border-t dark:border-gray-700">
             <div class="mx-auto flex max-w-7xl flex-col items-center gap-6 p-8 sm:flex-row">
               <i class="i-lucide-activity h-8 w-8" />
@@ -101,3 +101,12 @@ export function Layout({
     </>
   );
 }
+/**
+ * A function to help with page refreshes!
+ * So when a user triggers a refresh adds the layout. (avoid using redirects on handlers)
+ * @hx Indicating a normal hx request, if not defaults to layout
+ * @Component the JSX passed
+ */
+export const withLayout = (hx: boolean, Component: JSX.Element) => {
+  return hx ? Component : <Layout>{Component}</Layout>;
+};

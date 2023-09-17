@@ -23,14 +23,16 @@ export const UserNavigation = ({ user }: { user: User }) => {
         {dashboardNav
           .filter((link) => link.clearance?.includes(user.role))
           .map((item) => (
-            <a
-              href={item.href}
+            <button
+              hx-get={item.href}
               hx-push-url="true"
-              class="flex items-center gap-3 px-4 py-3 text-sm hover:bg-gray-400/10"
+              hx-target="main"
+              hx-swap="innerHTML"
+              class="flex w-full items-center gap-3 px-4 py-3 text-sm hover:bg-gray-400/10"
             >
               <i class={cx(item.icon, "h-4 w-4 text-gray-500")} />
               {item.name}
-            </a>
+            </button>
           ))}
       </nav>
     </>

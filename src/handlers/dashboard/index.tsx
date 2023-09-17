@@ -10,6 +10,8 @@ import { user } from "@/db/schema/user";
 import { Setup } from "../setup";
 import { AttributeEdit, UserAttribute } from "./profile/attribute-edit";
 import { t } from "elysia";
+import { Layout, withLayout } from "@/components/layout";
+import { Fragment } from "@elysiajs/html";
 
 const dashboard = (app: Setup) =>
   app.group(
@@ -26,15 +28,16 @@ const dashboard = (app: Setup) =>
       app
         // Can use user!.role because it's already guarded
         /** Profile */
-        .get("/", async ({ user: u, store: { db } }) => {
+        .get("/", async ({ user: u, store: { db }, headers }) => {
           const r = await db
             .select()
             .from(user)
             .where(eq(user.id, Number(u?.id)));
-          return (
+          return withLayout(
+            headers["hx-request"] === "true",
             <DashboardLayout role={r[0].role} current="/dashboard">
               <ProfilePage user={r[0]} />
-            </DashboardLayout>
+            </DashboardLayout>,
           );
         })
         .get("/:id/:attr", ({ params: { id, attr }, query }) => (
@@ -88,16 +91,21 @@ const dashboard = (app: Setup) =>
           },
         )
 
-        .get("/business", ({ user }) => (
-          <DashboardLayout role={user!.role} current="/dashboard/business">
-            <div class="space-y-3">
-              <Button intent="primary">Primary</Button>
-              <Button intent="secondary">Secondary</Button>
-              <Button intent="destructive">Destructive</Button>
-              <Button>Default</Button>
-            </div>
-          </DashboardLayout>
-        ))
+        .get("/business", ({ user, headers }) => {
+          console.log(headers);
+
+          return withLayout(
+            headers["hx-request"] === "true",
+            <DashboardLayout role={user!.role} current="/dashboard/business">
+              <div class="space-y-3">
+                <Button intent="primary">Primary</Button>
+                <Button intent="secondary">Secondary</Button>
+                <Button intent="destructive">Destructive</Button>
+                <Button>Default</Button>
+              </div>
+            </DashboardLayout>,
+          );
+        })
         // Admin access only
         .group(
           "/tag",
@@ -111,12 +119,13 @@ const dashboard = (app: Setup) =>
           },
           (app) =>
             app
-              .get("/", async ({ user, store: { db } }) => {
+              .get("/", async ({ user, store: { db }, headers }) => {
                 const r = await db.select().from(tag);
-                return (
+                return withLayout(
+                  headers["hx-request"] === "true",
                   <DashboardLayout role={user!.role} current="/dashboard/tag">
                     <TagPage tags={r} />
-                  </DashboardLayout>
+                  </DashboardLayout>,
                 );
               })
               .get("/:id/form", async ({ params: { id }, store: { db } }) => {

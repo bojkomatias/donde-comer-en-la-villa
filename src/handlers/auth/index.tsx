@@ -4,6 +4,7 @@ import { and, eq } from "drizzle-orm";
 import { Setup } from "../setup";
 import { SignInForm } from "./components/form";
 import { UserNavigation } from "./components/user-navigation";
+import { Notification } from "@/components/ui/notification";
 
 const hasher = new Bun.CryptoHasher("sha256");
 
@@ -46,9 +47,11 @@ const auth = (app: Setup) =>
           if (!result) {
             set.status = 404;
             return (
-              <div class="text-sm text-red-600">
-                * Incorrect email or password
-              </div>
+              <Notification
+                title={"Error"}
+                description={"Incorrect username or password"}
+                icon="i-lucide-x-circle text-red-500"
+              />
             );
           }
 
@@ -66,7 +69,7 @@ const auth = (app: Setup) =>
             },
           );
 
-          return (set.redirect = "/dashboard");
+          set.redirect = "/";
         },
         { body: "auth" },
       )

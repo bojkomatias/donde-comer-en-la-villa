@@ -37,8 +37,14 @@ const setup = new Elysia({ name: "setup" })
   )
   .model({
     auth: t.Object({
-      email: t.String(),
-      password: t.String(),
+      email: t.String({
+        minLength: 6,
+        error: "Email has to be at least 6 characters long",
+      }),
+      password: t.String({
+        minLength: 4,
+        error: "Password has to be al least 4 characters long",
+      }),
       csrfToken: t.String(),
     }),
     tag: t.Object({

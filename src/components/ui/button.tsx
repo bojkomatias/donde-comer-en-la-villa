@@ -28,7 +28,7 @@ export const buttonStyles = (props: {
   class?: string;
 }) => {
   return cx(
-    "group flex items-center gap-1 rounded px-3.5 py-2 text-sm font-semibold hover:bg-gray-100 active:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 disabled:saturate-50 dark:hover:bg-gray-900",
+    "group flex w-fit items-center justify-center gap-1 rounded px-3.5 py-2 text-sm font-semibold hover:bg-gray-100 active:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 disabled:saturate-50 dark:hover:bg-gray-900",
     props.intent === "primary" &&
       "bg-gray-900 text-white hover:bg-black dark:bg-gray-200 dark:text-black dark:hover:bg-white",
     props.intent === "secondary" &&
