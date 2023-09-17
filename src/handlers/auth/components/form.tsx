@@ -50,34 +50,23 @@ export const SignInForm = (props: { csrfToken: string }) => {
             required="true"
           />
         </div>
-        <div class="m-4 flex gap-6">
-          <Button intent="primary" class="flex-grow">
+        <div class="my-4 gap-6">
+          <Button intent="primary" class="w-full">
             Login
           </Button>
-          <Button class="flex-grow" disabled="true">
-            Crear cuenta
-          </Button>
+          {/* <Button disabled="true">Crear cuenta</Button> */}
         </div>
-        <div class="m-4 flex gap-6">
-          <button
-            intent="primary"
-            class={buttonStyles({
-              intent: "secondary",
-              class: "flex-grow",
-            })}
-            disabled=""
-          >
-            <img
-              src="/public/google-svg.svg"
-              class="mr-2 h-5 w-5 rounded-full"
-            />
-          </button>
+        <div class="pb-12 pt-8 text-center text-xs font-medium">
+          Or login in with OAuth
+        </div>
+
+        <div class="flex gap-6">
           <a
             href={google.href}
             intent="primary"
             class={buttonStyles({
-              intent: "secondary",
-              class: "flex-grow",
+              class:
+                "flex-grow bg-white ring-1 ring-gray-500/50 transition hover:shadow dark:hover:bg-gray-200",
             })}
           >
             <img
@@ -86,17 +75,17 @@ export const SignInForm = (props: { csrfToken: string }) => {
             />
           </a>
           <button
-            href={google.href}
+            type="button"
             intent="primary"
             class={buttonStyles({
-              intent: "secondary",
-              class: "flex-grow",
+              class:
+                "flex-grow bg-gray-900 ring-1 ring-gray-500/50 transition hover:bg-gray-900 hover:shadow",
             })}
-            disabled=""
+            disabled="true"
           >
             <img
-              src="/public/google-svg.svg"
-              class="mr-2 h-5 w-5 rounded-full"
+              src="/public/github-svg.svg"
+              class="mr-2 h-5 w-5 rounded-full invert"
             />
           </button>
         </div>

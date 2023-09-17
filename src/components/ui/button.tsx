@@ -1,7 +1,7 @@
 import { cx } from "@/utils/cx";
 
 interface Props extends JSX.HtmlButtonTag {
-  intent?: "primary" | "secondary" | "outline" | "destructive";
+  intent?: "primary" | "secondary" | "destructive";
   size?: "xs" | "sm";
   children?: any;
 }
@@ -23,7 +23,7 @@ export const Button = ({
 };
 
 export const buttonStyles = (props: {
-  intent?: "primary" | "secondary" | "outline" | "destructive";
+  intent?: "primary" | "secondary" | "destructive";
   size?: "xs" | "sm";
   class?: string;
 }) => {

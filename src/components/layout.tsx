@@ -67,10 +67,10 @@ export function Layout({
               <div class="mx-auto flex max-w-7xl items-center justify-between px-8">
                 <a
                   href="/"
-                  class="flex items-end gap-3 text-xl font-black "
+                  class="group flex items-end gap-3 text-xl font-black hover:text-black dark:hover:text-white"
                   tabindex="-1"
                 >
-                  <i class="i-lucide-activity h-8 w-8 text-cyan-600" />
+                  <i class="i-lucide-activity h-8 w-8 text-gray-500 group-hover:scale-105 group-hover:text-cyan-600" />
                   <span>Activity</span>
                 </a>
 
