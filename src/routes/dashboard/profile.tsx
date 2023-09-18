@@ -18,7 +18,7 @@ const profile = new Elysia({
       .where(eq(user.id, Number(u?.id)));
     return withLayout(
       headers["hx-request"] === "true",
-      <DashboardLayout role={r[0].role} current="/dashboard">
+      <DashboardLayout role={r[0].role} current="/d">
         <Profile user={r[0]} />
       </DashboardLayout>,
     );

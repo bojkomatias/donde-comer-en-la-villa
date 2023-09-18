@@ -9,19 +9,19 @@ type Navigation = {
 export const dashboardNav: Navigation[] = [
   {
     name: "Profile",
-    href: "/dashboard",
+    href: "/d",
     icon: "i-lucide-fingerprint",
     clearance: ["customer", "owner", "admin"],
   },
   {
     name: "Business",
-    href: "/dashboard/business",
+    href: "/d/business",
     icon: "i-lucide-layout-dashboard",
     clearance: ["owner", "admin"],
   },
   {
     name: "Tags",
-    href: "/dashboard/tag",
+    href: "/d/tag",
     icon: "i-lucide-tag",
     clearance: ["admin"],
   },

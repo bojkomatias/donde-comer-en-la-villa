@@ -16,7 +16,7 @@ const tags = new Elysia({
     const r = await db.select().from(tag);
     return withLayout(
       headers["hx-request"] === "true",
-      <DashboardLayout role={user!.role} current="/dashboard/tag">
+      <DashboardLayout role={user!.role} current="/d/tag">
         <Tags tags={r} />
       </DashboardLayout>,
     );

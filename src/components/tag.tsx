@@ -41,7 +41,7 @@ const Tags = ({ tags }: { tags: Tag[] }) => (
               </td>
               <td className="flex justify-end whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-0">
                 <Button
-                  hx-get={`/dashboard/tag/${tag.id}/form`}
+                  hx-get={`/d/tag/${tag.id}/form`}
                   hx-target="closest tr"
                   hx-swap="outerHTML"
                   size="xs"
@@ -70,7 +70,7 @@ Tags.Row = ({ tag }: { tag: Tag }) => {
       </td>
       <td className="flex justify-end whitespace-nowrap py-4 pl-3 pr-4 sm:pr-0">
         <Button
-          hx-get={`/dashboard/tag/${tag.id}/form`}
+          hx-get={`/d/tag/${tag.id}/form`}
           hx-target="closest tr"
           hx-swap="innerHTML"
           size="xs"
@@ -100,7 +100,7 @@ Tags.Edit = ({ tag }: { tag: InsertTag }) => {
         <Button
           intent="primary"
           size="xs"
-          hx-put={`/dashboard/tag/${tag.id}`}
+          hx-put={`/d/tag/${tag.id}`}
           hx-include="closest tr"
           hx-target-403="#row-error"
         >
@@ -110,7 +110,7 @@ Tags.Edit = ({ tag }: { tag: InsertTag }) => {
           type="button"
           intent="secondary"
           size="xs"
-          hx-get={`/dashboard/tag/${tag.id}/row`}
+          hx-get={`/d/tag/${tag.id}/row`}
         >
           Cancel
         </Button>
@@ -123,7 +123,7 @@ Tags.New = () => {
   return (
     <div>
       <form
-        hx-post="/dashboard/tag"
+        hx-post="/d/tag"
         hx-target="#tag-results"
         hx-swap="beforebegin"
         hx-target-403="#error"

@@ -26,6 +26,7 @@ if (Bun.env.GOOGLE_CLIENT_SECRET === undefined)
  * Here is the stuff reusable throughout the app, JWT, Cookie, Model, DB connection.
  */
 const setup = new Elysia({ name: "setup" })
+  .get("/styles.css", () => Bun.file("./src/output.css"))
   .use(html())
   .use(bearer())
   .use(cookie())

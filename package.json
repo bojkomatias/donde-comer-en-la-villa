@@ -4,8 +4,8 @@
   "scripts": {
     "dev": "concurrently \"bun run --hot src/index.tsx\" \"bun run tw:dev\"",
     "production": "bun run tw && bun run src/index.tsx --production",
-    "tw": "bun tailwindcss -i ./src/input.css -o ./public/output.css --minify",
-    "tw:dev": "bun tailwindcss -i ./src/input.css -o ./public/output.css --watch",
+    "tw": "bun tailwindcss -i ./src/input.css -o ./src/output.css --minify",
+    "tw:dev": "bun tailwindcss -i ./src/input.css -o ./src/output.css --watch",
     "db:generate": "bunx drizzle-kit generate:sqlite",
     "db:push": "bunx drizzle-kit push:sqlite",
     "db:studio": "bunx drizzle-kit studio"

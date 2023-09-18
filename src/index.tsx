@@ -16,7 +16,7 @@ const app = new Elysia()
   .use(auth)
   .get("/", ({ user }) => <Layout isAuth={!!user} />)
   .group(
-    "/dashboard",
+    "/d",
     {
       beforeHandle: async ({ user, set }) => {
         if (!user) {

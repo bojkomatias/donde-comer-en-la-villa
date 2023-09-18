@@ -17,7 +17,7 @@ const Auth = () => null;
 
 Auth.Form = (props: { csrfToken: string }) => {
   return (
-    <div class="mx-auto mt-40 max-w-xl space-y-8 rounded-lg bg-gray-50 p-6 dark:bg-gray-900/50">
+    <div class="mx-auto mt-20 max-w-xl space-y-8 rounded-lg bg-gray-50 p-6 dark:bg-gray-900/50">
       <a href="/" class={buttonStyles({ size: "sm" })}>
         <i class="i-lucide-chevron-left" />
         Back

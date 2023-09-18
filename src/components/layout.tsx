@@ -35,7 +35,7 @@ export function Layout({
           {/* Hyperscript */}
           <script src="https://unpkg.com/hyperscript.org@0.9.11"></script>
           {/* TailwindCSS */}
-          <link href="/public/output.css" rel="preload stylesheet" as="style" />
+          <link href="/styles.css" rel="preload stylesheet" as="style" />
           {/* Fonts */}
           <link
             href="https://api.fontshare.com/v2/css?f[]=red-hat-display@2,1&f[]=bespoke-stencil@2,1&display=swap"
@@ -61,11 +61,10 @@ export function Layout({
               <div class="container mx-auto flex items-center justify-between px-2 sm:px-6 lg:px-16">
                 <a
                   href="/"
-                  class="group flex items-end gap-3 font-heading text-lg font-black hover:text-black dark:hover:text-white"
+                  class="font-heading font-black hover:text-black dark:hover:text-white"
                   tabindex="-1"
                 >
-                  <i class="i-lucide-activity h-8 w-8 text-gray-500 group-hover:scale-105 group-hover:text-cyan-600" />
-                  <span>¿Donde comer en la villa?</span>
+                  ¿Donde comer en la villa?
                 </a>
 
                 {isAuth ? (
@@ -80,7 +79,7 @@ export function Layout({
                 )}
               </div>
             </header>
-            <main class="container mx-auto min-h-screen px-2 pb-20 sm:px-6 lg:px-16">
+            <main class="container mx-auto min-h-screen px-2 pb-8 sm:px-6 lg:px-16">
               {children}
             </main>
           </div>

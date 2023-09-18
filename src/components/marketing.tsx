@@ -1,6 +1,6 @@
 const Marketing = () => (
   <>
-    <h1 class="mx-auto max-w-xl text-center font-heading text-4xl font-black leading-relaxed">
+    <h1 class="mx-auto mt-12 max-w-xl text-center font-heading text-4xl font-black leading-relaxed">
       ¿Estás{" "}
       <span class="relative inline-block line-through after:absolute after:inset-0 after:-top-4 after:text-3xl after:content-['*muerto']">
         <div class="translate-y-2 text-4xl text-gray-500/30 ">cagado</div>

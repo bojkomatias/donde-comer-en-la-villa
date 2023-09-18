@@ -69,7 +69,7 @@ Profile.Attribute = ({
     <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
       {value}
       <Button
-        hx-get={`/dashboard/${id}/${attribute}/edit?value=${value}`}
+        hx-get={`/d/${id}/${attribute}/edit?value=${value}`}
         hx-target="closest dd"
         hx-swap="outerHTML"
         size="sm"
@@ -92,7 +92,7 @@ Profile.AttributeEdit = ({
 }) => {
   return (
     <form
-      hx-patch={`/dashboard/${id}`}
+      hx-patch={`/d/${id}`}
       hx-target="this"
       hx-swap="outerHTML"
       class="-mb-3 mt-0 flex items-center justify-between gap-x-6 sm:-mt-4 sm:flex-auto"
@@ -103,7 +103,7 @@ Profile.AttributeEdit = ({
           Save
         </Button>
         <Button
-          hx-get={`/dashboard/${id}/${attribute}?value=${value}`}
+          hx-get={`/d/${id}/${attribute}?value=${value}`}
           size="sm"
           intent="secondary"
           type="reset"
@@ -123,7 +123,7 @@ Profile.PasswordChange = () => (
       take effect the next time you log in.
     </p>
     <form
-      hx-patch="/dashboard/password"
+      hx-patch="/d/password"
       hx-target="#notification"
       hx-target-403="#notification"
       hx-swap="none"
