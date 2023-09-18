@@ -8,6 +8,12 @@ import { db } from "@/db";
 if (Bun.env.JWT_SECRET === undefined)
   throw "Missing secret add JWT_SECRET to .env file";
 
+if (Bun.env.DATABASE_URL === undefined)
+  throw "Missing secret add DATABASE_URL to .env file";
+
+if (Bun.env.DATABASE_AUTH_TOKEN === undefined)
+  throw "Missing secret add DATABASE_AUTH_TOKEN to .env file";
+
 if (Bun.env.GOOGLE_CLIENT_ID === undefined)
   throw "Missing secret add CLIENT_ID to .env file";
 
@@ -58,8 +64,6 @@ const setup = new Elysia({ name: "setup" })
       name: t.String(),
     }),
   })
-  // Pass DB connection
-  .state("db", db)
   // Derive user verification
   .derive(async ({ jwt, cookie }) => {
     const u = await jwt.verify(cookie.auth);

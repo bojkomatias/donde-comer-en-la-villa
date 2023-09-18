@@ -1,7 +1,7 @@
 import { randomBytes } from "crypto";
 import { user } from "@/db/schema/user";
 import { and, eq } from "drizzle-orm";
-import setup from "../(setup)";
+import setup from "@/(setup)";
 import OAuth2 from "@/utils/oauth2";
 import Auth from "@/components/auth";
 import { Notification } from "@/components/ui/notification";
@@ -10,7 +10,7 @@ import { db } from "@/db";
 
 const hasher = new Bun.CryptoHasher("sha256");
 
-const auth = new Elysia({ prefix: "/auth" })
+const auth = new Elysia({ name: "auth", prefix: "/auth" })
   .use(setup)
   .get("/form", async ({ setCookie }) => {
     /** Implements double submit cookies method for protection against CSRF */
@@ -75,44 +75,41 @@ const auth = new Elysia({ prefix: "/auth" })
     },
     { body: "auth" },
   )
-  .get(
-    "/callback/google",
-    async ({ query, setCookie, jwt, set, store: { db } }) => {
-      const oauth_user = await OAuth2(query["code"] as string);
+  .get("/callback/google", async ({ query, setCookie, jwt, set }) => {
+    const oauth_user = await OAuth2(query["code"] as string);
 
-      console.log(oauth_user);
-      // Check if user exists in DB
-      let r = await db
-        .select()
-        .from(user)
-        .where(eq(user.email, oauth_user.email));
+    console.log(oauth_user);
+    // Check if user exists in DB
+    let r = await db
+      .select()
+      .from(user)
+      .where(eq(user.email, oauth_user.email));
 
-      // If not create it
-      if (r.length === 0) {
-        r = await db
-          .insert(user)
-          .values({ ...oauth_user, image: oauth_user.picture })
-          .returning();
-      }
-      // Set cookie
-      setCookie(
-        "auth",
-        await jwt.sign({
-          id: r[0].id.toString(),
-          name: r[0].name,
-          email: r[0].email,
-          image: r[0].image,
-          role: r[0].role,
-        }),
-        {
-          httpOnly: true,
-          maxAge: 7 * 86400,
-        },
-      );
+    // If not create it
+    if (r.length === 0) {
+      r = await db
+        .insert(user)
+        .values({ ...oauth_user, image: oauth_user.picture })
+        .returning();
+    }
+    // Set cookie
+    setCookie(
+      "auth",
+      await jwt.sign({
+        id: r[0].id.toString(),
+        name: r[0].name,
+        email: r[0].email,
+        image: r[0].image,
+        role: r[0].role,
+      }),
+      {
+        httpOnly: true,
+        maxAge: 7 * 86400,
+      },
+    );
 
-      set.redirect = "/";
-    },
-  )
+    set.redirect = "/";
+  })
   .get("/navigation", ({ user }) => <Auth.Navigation user={user} />, {
     beforeHandle: ({ user, set }) => {
       if (!user) {

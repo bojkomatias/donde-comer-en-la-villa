@@ -6,7 +6,7 @@ import { cx } from "@/utils/cx";
 const Profile = ({ user }: { user: User }) => (
   <div className="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
     <div>
-      <h2 className="text-base font-semibold leading-7">Profile</h2>
+      <h1 className="font-heading text-xl font-black leading-loose">Profile</h1>
       <p className="mt-1 text-sm leading-6 text-gray-500">
         This information will be displayed publicly so be careful what you
         share.
@@ -69,7 +69,7 @@ Profile.Attribute = ({
     <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
       {value}
       <Button
-        hx-get={`/dashboard/${id}/${attribute}?value=${value}`}
+        hx-get={`/dashboard/${id}/${attribute}/edit?value=${value}`}
         hx-target="closest dd"
         hx-swap="outerHTML"
         size="sm"
@@ -97,13 +97,18 @@ Profile.AttributeEdit = ({
       hx-swap="outerHTML"
       class="-mb-3 mt-0 flex items-center justify-between gap-x-6 sm:-mt-4 sm:flex-auto"
     >
-      <Input name={attribute} value={value} type="text" />
+      <Input name={attribute} label={attribute} value={value} type="text" />
       <span class="flex gap-2 sm:gap-4">
         <Button size="sm" intent="primary">
           Save
         </Button>
-        <Button size="sm" intent="secondary" type="button">
-          Cancel{" "}
+        <Button
+          hx-get={`/dashboard/${id}/${attribute}?value=${value}`}
+          size="sm"
+          intent="secondary"
+          type="reset"
+        >
+          Cancel
         </Button>
       </span>
     </form>
@@ -119,12 +124,12 @@ Profile.PasswordChange = () => (
     </p>
     <form
       hx-patch="/dashboard/password"
-      hx-target="#password-change"
-      hx-target-403="#password-change"
-      hx-swap="innerHTML"
+      hx-target="#notification"
+      hx-target-403="#notification"
+      hx-swap="none"
       class="mt-4 space-y-3 rounded-lg bg-gray-50 p-4 dark:bg-gray-900/50"
     >
-      <div class="isolate -space-y-px">
+      <div class="isolate">
         <Input
           name="currentPassword"
           label="current password"
@@ -142,7 +147,6 @@ Profile.PasswordChange = () => (
       </div>
 
       <div class="flex justify-between">
-        <div id="password-change" />
         <Button intent="destructive">Update password</Button>
       </div>
     </form>

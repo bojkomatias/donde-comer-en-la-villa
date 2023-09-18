@@ -36,22 +36,15 @@ export function Layout({
           <script src="https://unpkg.com/hyperscript.org@0.9.11"></script>
           {/* TailwindCSS */}
           <link href="/public/output.css" rel="preload stylesheet" as="style" />
-          {/* Google Fonts */}
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          {/* Fonts */}
           <link
-            rel="preconnect"
-            href="https://fonts.gstatic.com"
-            crossOrigin
-            as="font"
-          />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+            href="https://api.fontshare.com/v2/css?f[]=red-hat-display@2,1&f[]=bespoke-stencil@2,1&display=swap"
             rel="stylesheet"
           />
 
           {/* Favicon + Title */}
           <link rel="icon" href="/public/favicon.ico" />
-          <title>Activity</title>
+          <title>Donde comer en la villa</title>
         </head>
         <body
           class="bg-white text-black/80 subpixel-antialiased dark:bg-gray-950 dark:text-white/80"
@@ -63,16 +56,16 @@ export function Layout({
         >
           {/* Notifications fall all here! */}
           <div id="notification" />
-          <div class="min-h-screen">
+          <div>
             <header class="border-b py-3 dark:border-gray-700">
-              <div class="mx-auto flex max-w-7xl items-center justify-between px-8">
+              <div class="container mx-auto flex items-center justify-between px-2 sm:px-6 lg:px-16">
                 <a
                   href="/"
-                  class="group flex items-end gap-3 text-xl font-black hover:text-black dark:hover:text-white"
+                  class="group flex items-end gap-3 font-heading text-lg font-black hover:text-black dark:hover:text-white"
                   tabindex="-1"
                 >
                   <i class="i-lucide-activity h-8 w-8 text-gray-500 group-hover:scale-105 group-hover:text-cyan-600" />
-                  <span>Activity</span>
+                  <span>¿Donde comer en la villa?</span>
                 </a>
 
                 {isAuth ? (
@@ -87,10 +80,12 @@ export function Layout({
                 )}
               </div>
             </header>
-            <main class="mx-auto max-w-7xl px-0 lg:px-6">{children}</main>
+            <main class="container mx-auto min-h-screen px-2 pb-20 sm:px-6 lg:px-16">
+              {children}
+            </main>
           </div>
           <footer class="border-t dark:border-gray-700">
-            <div class="mx-auto flex max-w-7xl flex-col items-center gap-6 p-8 sm:flex-row">
+            <div class="container mx-auto flex flex-col items-center gap-6 px-2 py-8 sm:flex-row sm:px-6 lg:px-16">
               <i class="i-lucide-activity h-8 w-8" />
               <p class="flex-auto text-center text-sm leading-loose text-gray-600 dark:text-gray-400 sm:text-left">
                 Built by{" "}

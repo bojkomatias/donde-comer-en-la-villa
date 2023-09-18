@@ -39,7 +39,7 @@ Auth.Form = (props: { csrfToken: string }) => {
           value={props.csrfToken}
           class="hidden"
         />
-        <div class="isolate -space-y-px">
+        <div class="isolate">
           <Input
             name="email"
             label="email"
@@ -59,7 +59,7 @@ Auth.Form = (props: { csrfToken: string }) => {
           <Button intent="primary" class="w-full">
             Login
           </Button>
-          {/* <Button disabled="true">Crear cuenta</Button> */}
+          <Button type="reset">Crear cuenta</Button>
         </div>
         <div class="pb-12 pt-8 text-center text-xs font-medium">
           Or login in with OAuth

@@ -1,31 +1,19 @@
 import { Elysia } from "elysia";
 import staticPlugin from "@elysiajs/static";
+import setup from "@/(setup)";
+import auth from "@/routes/auth";
+import profile from "@/routes/dashboard/profile";
+import tags from "@/routes/dashboard/tags";
+import business from "@/routes/dashboard/business";
 
-import setup from "./(setup)";
-import auth from "./routes/auth";
-import { Notification } from "./components/ui/notification";
-import { profile } from "./routes/dashboard/profile";
-import { tags } from "./routes/dashboard/tags";
-import { Layout } from "./components/layout";
+import { Layout } from "@/components/layout";
+import { Notification } from "@/components/ui/notification";
+import NotFound from "./components/404-not-found";
 
 const app = new Elysia()
   .use(staticPlugin())
-  // type Setup passed to the rest of modules for inference
   .use(setup)
-  .onError(({ code, error }) => {
-    console.log(error.message);
-    if (code === "VALIDATION")
-      return (
-        <Notification
-          title={error.name}
-          description={error.all.map((e) => e.schema.error).join("<br/>")}
-          icon="i-lucide-x-circle text-red-500"
-        />
-      );
-  })
-
   .use(auth)
-
   .get("/", ({ user }) => <Layout isAuth={!!user} />)
   .group(
     "/dashboard",
@@ -37,9 +25,33 @@ const app = new Elysia()
         }
       },
     },
-    (app) => app.use(profile).use(tags),
+    (app) =>
+      app
+        .use(profile)
+        .use(business)
+        .group(
+          "/tag",
+          {
+            beforeHandle: ({ user, set }) => {
+              if (user!.role !== "admin") {
+                set.status = 401;
+                return "Unauthorized";
+              }
+            },
+          },
+          (app) => app.use(tags),
+        ),
   )
-
+  .onError(({ code, error, set }) => {
+    if (code === "VALIDATION")
+      return (
+        <Notification
+          title={error.name}
+          description={error.all.map((e) => e.schema.error).join("<br/>")}
+          icon="i-lucide-x-circle text-red-500"
+        />
+      );
+  })
   .listen(3000);
 
 console.log(

@@ -7,7 +7,7 @@ import DashboardLayout from "../../components/dashboard-layout";
 import Profile from "@/components/profile";
 import { db } from "@/db";
 
-export const profile = new Elysia({
+const profile = new Elysia({
   name: "profile",
 })
   .use(setup)
@@ -25,6 +25,13 @@ export const profile = new Elysia({
   })
   .get("/:id/:attr", ({ params: { id, attr }, query }) => (
     <Profile.Attribute id={id} attribute={attr} value={query.value as string} />
+  ))
+  .get("/:id/:attr/edit", ({ params: { id, attr }, query }) => (
+    <Profile.AttributeEdit
+      id={id}
+      attribute={attr}
+      value={query.value as string}
+    />
   ))
   .patch("/:id", async ({ params: { id }, body }) => {
     const [attr, val] = Object.entries(
@@ -69,3 +76,5 @@ export const profile = new Elysia({
       }),
     },
   );
+
+export default profile;

@@ -11,13 +11,9 @@ const DashboardLayout = ({
   current: string;
   children?: any;
 }) => (
-  <div
-    class="mx-auto max-w-7xl lg:flex lg:gap-x-8"
-    hx-target="this"
-    hx-swap="outerHTML"
-  >
-    <aside className="flex h-fit overflow-x-auto border-b bg-white py-4 dark:border-gray-700 dark:bg-gray-950 lg:sticky lg:top-0 lg:block lg:w-64 lg:flex-none lg:border-0 lg:py-16">
-      <nav className="flex-none px-4 sm:px-6 lg:px-2">
+  <div class="lg:flex lg:gap-x-8" hx-target="this" hx-swap="outerHTML">
+    <aside className="absolute left-0 flex h-fit w-screen max-w-none overflow-x-auto border-b bg-white py-4 dark:border-gray-700 dark:bg-gray-950 lg:sticky lg:top-0 lg:block lg:w-64 lg:flex-none lg:border-0 lg:py-16">
+      <nav className="container mx-auto flex-none px-4 sm:px-6 lg:px-2">
         <ul
           role="list"
           className="flex gap-x-3 gap-y-1 whitespace-nowrap lg:flex-col"
@@ -54,7 +50,9 @@ const DashboardLayout = ({
       </nav>
     </aside>
 
-    <div className="px-4 py-12 sm:px-6 lg:flex-auto lg:px-0">{children}</div>
+    <div className="px-4 pt-24 sm:px-6 lg:flex-auto lg:px-0 lg:pt-12">
+      {children}
+    </div>
   </div>
 );
 
