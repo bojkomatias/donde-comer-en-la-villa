@@ -1,12 +1,18 @@
 import Elysia, { t } from "elysia";
 import cookie from "@elysiajs/cookie";
 import jwt from "@elysiajs/jwt";
-import html from "@elysiajs/html";
+import { html } from "@elysiajs/html";
 import bearer from "@elysiajs/bearer";
 import { db } from "@/db";
 
 if (Bun.env.JWT_SECRET === undefined)
   throw "Missing secret add JWT_SECRET to .env file";
+
+if (Bun.env.GOOGLE_CLIENT_ID === undefined)
+  throw "Missing secret add CLIENT_ID to .env file";
+
+if (Bun.env.GOOGLE_CLIENT_SECRET === undefined)
+  throw "Missing secret add CLIENT_SECRET to .env file";
 
 /**
  * Can re-use the setup plugin, even if duplicated (used only for typing)
@@ -61,4 +67,3 @@ const setup = new Elysia({ name: "setup" })
   });
 
 export default setup;
-export type Setup = typeof setup;

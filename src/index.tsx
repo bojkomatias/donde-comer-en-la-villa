@@ -1,11 +1,12 @@
 import { Elysia } from "elysia";
 import staticPlugin from "@elysiajs/static";
 
-import main from "./handlers/main";
-import setup from "./handlers/setup";
-import auth from "./handlers/auth";
-import dashboard from "./handlers/dashboard";
+import setup from "./(setup)";
+import auth from "./routes/auth";
 import { Notification } from "./components/ui/notification";
+import { profile } from "./routes/dashboard/profile";
+import { tags } from "./routes/dashboard/tags";
+import { Layout } from "./components/layout";
 
 const app = new Elysia()
   .use(staticPlugin())
@@ -22,13 +23,24 @@ const app = new Elysia()
         />
       );
   })
-  // Handler modules
-  .use(main)
-  .use(auth)
-  .use(dashboard)
-  .listen(3000);
 
-export type App = typeof app;
+  .use(auth)
+
+  .get("/", ({ user }) => <Layout isAuth={!!user} />)
+  .group(
+    "/dashboard",
+    {
+      beforeHandle: async ({ user, set }) => {
+        if (!user) {
+          set.status = 401;
+          return (set.redirect = "/");
+        }
+      },
+    },
+    (app) => app.use(profile).use(tags),
+  )
+
+  .listen(3000);
 
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,

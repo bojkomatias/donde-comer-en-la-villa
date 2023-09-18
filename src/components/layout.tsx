@@ -1,9 +1,10 @@
+import Auth from "./auth";
+import Marketing from "./marketing";
 import DarkMode from "./ui/dark-mode-toggle";
-import { LoginButton } from "@/handlers/auth/components/login-button";
 
 export function Layout({
   isAuth = true,
-  children,
+  children = <Marketing />,
 }: {
   isAuth?: boolean;
   children?: any;
@@ -82,7 +83,7 @@ export function Layout({
                     class="i-lucide-fingerprint h-8 w-8 overflow-hidden rounded-full text-gray-500"
                   />
                 ) : (
-                  <LoginButton />
+                  <Auth.Login />
                 )}
               </div>
             </header>

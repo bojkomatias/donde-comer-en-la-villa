@@ -10,7 +10,7 @@ export const dashboardNav: Navigation[] = [
   {
     name: "Profile",
     href: "/dashboard",
-    icon: "i-lucide-settings",
+    icon: "i-lucide-fingerprint",
     clearance: ["customer", "owner", "admin"],
   },
   {

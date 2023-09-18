@@ -1,9 +1,8 @@
-import { Layout } from "@/components/layout";
 import { dashboardNav } from "@/config/dashboard";
 import { Role } from "@/db/schema/user";
 import { cx } from "@/utils/cx";
 
-export const DashboardLayout = ({
+const DashboardLayout = ({
   role,
   current,
   children,
@@ -58,3 +57,5 @@ export const DashboardLayout = ({
     <div className="px-4 py-12 sm:px-6 lg:flex-auto lg:px-0">{children}</div>
   </div>
 );
+
+export default DashboardLayout;

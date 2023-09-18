@@ -1,4 +1,4 @@
-export const LandingPage = () => (
+const Marketing = () => (
   <>
     <h2 class="pt-16 text-center text-4xl font-semibold">
       Donde pingo se puede comer!!
@@ -11,3 +11,5 @@ export const LandingPage = () => (
     <div id="businesses" />
   </>
 );
+
+export default Marketing
