@@ -51,9 +51,7 @@ const DashboardLayout = ({
       </nav>
     </aside>
 
-    <div class="px-4 pt-24 sm:px-6 lg:flex-auto lg:px-0 lg:pt-12">
-      {children}
-    </div>
+    <div class="pt-24 lg:flex-auto lg:pt-12">{children}</div>
   </div>
 );
 

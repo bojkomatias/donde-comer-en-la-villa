@@ -51,7 +51,7 @@ const auth = new Elysia({ name: "auth", prefix: "/auth" })
           <Notification
             title={"Error"}
             description={"Incorrect username or password"}
-            icon="i-lucide-x-circle text-red-500"
+            isError
           />
         );
       }

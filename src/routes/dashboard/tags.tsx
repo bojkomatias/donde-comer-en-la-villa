@@ -1,11 +1,12 @@
 import Elysia from "elysia";
 import setup from "@/(setup)";
 import { tag } from "@/db/schema/tag";
-import DashboardLayout from "@/components/dashboard-layout";
+import DashboardLayout from "@/components/dashboard/layout";
 import Tags from "@/components/tag";
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { Layout } from "@/components/layout";
+import { Notification } from "@/components/ui/notification";
 
 const tags = new Elysia({
   name: "tags",
@@ -55,9 +56,11 @@ const tags = new Elysia({
       } catch (error) {
         set.status = 403;
         return (
-          <p class="text-xs text-red-600" _="init wait 6s then hide me">
-            * A tag already exists with that name
-          </p>
+          <Notification
+            isError
+            title="Error"
+            description="Ya existe una categoría con ese nombre"
+          />
         );
       }
 
@@ -77,9 +80,11 @@ const tags = new Elysia({
       } catch (error) {
         set.status = 403;
         return (
-          <p class="text-xs text-red-600" _="init wait 6s then hide me">
-            * A tag already exists with that name
-          </p>
+          <Notification
+            isError
+            title="Error"
+            description="Ya existe una categoría con ese nombre"
+          />
         );
       }
 

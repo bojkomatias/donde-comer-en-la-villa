@@ -1,4 +1,5 @@
 import { Elysia } from "elysia";
+import staticPlugin from "@elysiajs/static";
 import setup from "@/(setup)";
 import auth from "@/routes/auth";
 import profile from "@/routes/dashboard/profile";
@@ -7,6 +8,7 @@ import business from "@/routes/dashboard/business";
 import { Layout } from "@/components/layout";
 
 const app = new Elysia()
+  .use(staticPlugin())
   .use(setup)
   .use(auth)
   .get("/", ({ JWTUser }) => <Layout isAuth={!!JWTUser} />, {

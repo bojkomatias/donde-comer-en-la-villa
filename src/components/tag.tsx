@@ -2,22 +2,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "./ui/input";
 import type { Tag, InsertTag } from "@/db/schema/tag";
 import { dict } from "@/utils/dictionary";
+import { DashboardHeading } from "./dashboard/heading";
 
 const Tags = ({ tags }: { tags: Tag[] }) => (
   <>
     <div>
-      <h1 class="text-xl font-black capitalize leading-loose">
-        {dict.get("tags")}
-      </h1>
-      <p class="mb-4 mt-2 text-sm text-gray-500">
-        A list of all the tags in the application including their name, and
-        adding an in row edit functionality.
-      </p>
+      <DashboardHeading
+        title={dict.get("tags")}
+        subtitle="Categorías para clasificar productos y negocios"
+      />
     </div>
 
     <Tags.New />
 
-    <div class="-mx-4 mt-8 sm:-mx-0">
+    <div class="mt-8">
       <table class="min-w-full divide-y dark:divide-gray-700">
         <thead>
           <tr>
@@ -49,7 +47,7 @@ const Tags = ({ tags }: { tags: Tag[] }) => (
 
 Tags.Row = ({ tag }: { tag: Tag }) => {
   return (
-    <tr key={tag.id}>
+    <tr>
       <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium capitalize sm:pl-0">
         {tag.name}
       </td>
@@ -70,7 +68,7 @@ Tags.Row = ({ tag }: { tag: Tag }) => {
 
 Tags.Edit = ({ tag }: { tag: InsertTag }) => {
   return (
-    <tr key={tag.id} hx-target="this" hx-swap="outerHTML">
+    <tr hx-target="this" hx-swap="outerHTML">
       <td class="flex-grow">
         <Input
           type="text"
@@ -107,18 +105,19 @@ Tags.Edit = ({ tag }: { tag: InsertTag }) => {
 
 Tags.New = () => {
   return (
-    <div class="gap-6 rounded-lg bg-gray-50 p-4 pt-6 dark:bg-gray-900/50 sm:flex sm:justify-between">
+    <div class="mt-4 gap-6 bg-gray-50 p-4 pt-6 dark:bg-gray-900/50 sm:flex sm:justify-between sm:rounded-lg">
       <div>
-        <h2 class="text-sm font-semibold leading-6">Nueva {dict.get("tag")}</h2>
+        <h2 class="font-semibold leading-loose">Nueva {dict.get("tag")}</h2>
         <p class="mb-4 mt-1 text-xs text-gray-500">
-          Add a new tag to the collection
+          Agrega nueva categoría a la colección
         </p>
       </div>
       <form
         hx-post="/d/tag"
         hx-target="#tag-results"
         hx-swap="beforebegin"
-        hx-target-403="#notification"
+        hx-target-4xx="#notification"
+        _="on submit log 'xd'"
         class="flex-grow"
       >
         <Input

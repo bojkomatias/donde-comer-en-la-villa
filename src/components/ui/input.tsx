@@ -7,7 +7,12 @@ type Props = JSX.HtmlInputTag &
   };
 export function Input({ options, ...props }: Props) {
   return (
-    <div class="group relative -my-px flex flex-col-reverse bg-white px-3 pb-1.5 pt-2.5 ring-1 ring-inset ring-gray-300 first-of-type:rounded-t last-of-type:rounded-b focus-within:z-10 focus-within:ring-2 focus-within:ring-cyan-600 dark:bg-gray-950 dark:ring-gray-600 dark:focus-within:ring-cyan-700">
+    <div
+      class={cx(
+        "group relative -my-px flex flex-col-reverse bg-white px-3 pb-1.5 pt-2.5 ring-1 ring-inset ring-gray-300 first-of-type:rounded-t last-of-type:rounded-b focus-within:z-10 focus-within:ring-2 focus-within:ring-cyan-600 dark:bg-gray-950 dark:ring-gray-600 dark:focus-within:ring-cyan-700",
+        props.class,
+      )}
+    >
       {options ? (
         <select
           id={props.name}

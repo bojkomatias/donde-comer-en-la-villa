@@ -1,6 +1,6 @@
 import setup from "@/(setup)";
 import Business from "@/components/business";
-import DashboardLayout from "@/components/dashboard-layout";
+import DashboardLayout from "@/components/dashboard/layout";
 import { Layout } from "@/components/layout";
 import { db } from "@/db";
 import { business, businessForm } from "@/db/schema/business";
@@ -8,7 +8,7 @@ import Elysia from "elysia";
 import { Value } from "@sinclair/typebox/value";
 import { eq, getTableColumns } from "drizzle-orm";
 import { user } from "@/db/schema/user";
-import { tagToBusiness } from "@/db/schema/tag";
+import { Static } from "@sinclair/typebox";
 
 const businessRouter = new Elysia({
   name: "business",
@@ -16,13 +16,13 @@ const businessRouter = new Elysia({
 })
   .use(setup)
   .get("/", async ({ JWTUser, headers }) => {
-    const { id, name, phone, featured, userId, ...rest } =
-      getTableColumns(business);
+    const { id, name, phone, featured, enabled } = getTableColumns(business);
     const r = await db
-      .select({ id, name, phone, featured, owner: user.name })
+      .select({ id, name, phone })
       .from(business)
-      .leftJoin(user, eq(business.userId, user.id));
+      .leftJoin(user, eq(business.owner, user.id));
 
+    console.log(r);
     return headers["hx-request"] ? (
       <DashboardLayout role={JWTUser!.role} current="/d/business">
         <Business>
@@ -67,7 +67,8 @@ const businessRouter = new Elysia({
   .post(
     "/",
     async ({ body }) => {
-      // const { tags, ...rest } = body;
+      const { tags, ...rest } = body;
+      console.log(tags, rest);
       // const r = await db
       //   .insert(business)
       //   .values(rest)
@@ -82,11 +83,10 @@ const businessRouter = new Elysia({
     },
     {
       transform: ({ body }) => {
-        const c = Value.Convert(businessForm, body) as any;
-        body.featured = c.featured;
-        body.tags = c.tags.map((e: string) => Number(e));
-        body.userId = c.userId;
-        console.log(c);
+        const c = Value.Convert(businessForm, body) as Static<
+          typeof businessForm
+        >;
+        Object.assign(body, c);
       },
       body: businessForm,
     },

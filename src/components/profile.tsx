@@ -3,20 +3,18 @@ import { Input } from "@/components/ui/input";
 import type { User } from "@/db/schema/user";
 import { cx } from "@/utils/cx";
 import { dict } from "@/utils/dictionary";
+import { DashboardHeading } from "./dashboard/heading";
 
 const Profile = ({ user }: { user: User }) => (
-  <div class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
+  <div class="space-y-16 sm:space-y-20">
     <div>
-      <h1 class="text-xl font-black capitalize leading-loose">
-        {dict.get("profile")}
-      </h1>
-      <p class="mt-1 text-sm leading-6 text-gray-500">
-        This information will be displayed publicly so be careful what you
-        share.
-      </p>
+      <DashboardHeading
+        title={dict.get("profile")}
+        subtitle="Informacion del perfil de tu cuenta, algunos de estos datos son publicos."
+      />
 
       <dl class="mt-6 space-y-6 divide-y border-t-2 text-sm leading-6 dark:divide-gray-700 dark:border-gray-700">
-        <div class="pt-6 sm:flex">
+        <div class="px-4 pt-6 sm:flex sm:px-0">
           <dt class="font-medium capitalize sm:w-64 sm:flex-none sm:pr-6">
             {dict.get("id")}
           </dt>
@@ -24,13 +22,13 @@ const Profile = ({ user }: { user: User }) => (
             {user.id}
           </dd>
         </div>
-        <div class="pt-6 sm:flex">
+        <div class="px-4 pt-6 sm:flex sm:px-0">
           <dt class="font-medium capitalize sm:w-64 sm:flex-none sm:pr-6">
             {dict.get("name")}
           </dt>
           <Profile.Attribute id={user.id} attribute="name" value={user.name} />
         </div>
-        <div class="pt-6 sm:flex">
+        <div class="px-4 pt-6 sm:flex sm:px-0">
           <dt class="font-medium capitalize sm:w-64 sm:flex-none sm:pr-6">
             {dict.get("email")}
           </dt>
@@ -40,7 +38,7 @@ const Profile = ({ user }: { user: User }) => (
             value={user.email}
           />
         </div>
-        <div class="pt-6 sm:flex">
+        <div class="px-4 pt-6 sm:flex sm:px-0">
           <dt class="font-medium capitalize sm:w-64 sm:flex-none sm:pr-6">
             {dict.get("role")}
           </dt>
@@ -87,7 +85,7 @@ Profile.Attribute = ({
   );
 };
 
-// Can only change name or email so ... it's all string
+// Can only change name or email so ... it's all string attributes
 Profile.AttributeEdit = ({
   id,
   attribute,
@@ -104,7 +102,7 @@ Profile.AttributeEdit = ({
       hx-swap="outerHTML"
       class="-mb-3 mt-0 flex items-center justify-between gap-x-6 sm:-mt-4 sm:flex-auto"
     >
-      <Input name={attribute} label={attribute} value={value} type="text" />
+      <Input name={attribute} value={value} type="text" />
       <span class="flex gap-2 sm:gap-4">
         <Button size="sm" intent="primary">
           {dict.get("save")}
@@ -123,7 +121,7 @@ Profile.AttributeEdit = ({
 };
 
 Profile.PasswordChange = () => (
-  <div class="-mx-4 rounded-lg bg-gray-50 p-4 dark:bg-gray-900/50">
+  <div class="bg-gray-50 p-4 dark:bg-gray-900/50 sm:rounded-lg">
     <h2 class="text-base font-semibold leading-7 first-letter:capitalize">
       {dict.get("update")} {dict.get("password")}
     </h2>

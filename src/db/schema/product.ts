@@ -13,6 +13,7 @@ export const product = sqliteTable("product", {
     .notNull()
     .references(() => business.id),
   createdAt: integer("created_at").default(sql`(CURRENT_TIMESTAMP)`),
+  updatedAt: integer("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
 });
 
 export type Product = typeof product.$inferSelect; // return type when queried

@@ -83,7 +83,7 @@ export function Layout({
                 )}
               </div>
             </header>
-            <main class="container mx-auto min-h-screen px-2 pb-8 sm:px-6 lg:px-16">
+            <main class="container mx-auto min-h-screen px-0 pb-8 sm:px-6 lg:px-16">
               {children}
             </main>
           </div>
@@ -98,7 +98,7 @@ export function Layout({
                 >
                   bojkomatias
                 </a>
-                . Source code available on{" "}
+                .<br class="block sm:hidden" /> Source code available on{" "}
                 <a
                   href={siteConfig.links.github}
                   class="text-black underline underline-offset-2 dark:text-white"

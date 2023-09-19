@@ -4,7 +4,7 @@ import {
   integer,
   uniqueIndex,
 } from "drizzle-orm/sqlite-core";
-import { createInsertSchema, createSelectSchema } from "drizzle-typebox";
+import { createInsertSchema } from "drizzle-typebox";
 import { user } from "./user";
 import { sql } from "drizzle-orm";
 import { t } from "elysia";
@@ -18,12 +18,16 @@ export const business = sqliteTable(
     phone: text("phone"),
     instagram: text("instagram"),
     twitter: text("twitter"),
+    address: text("address"),
     location: text("location"),
     webpage: text("webpage"),
     image: text("image"),
+    tags: text("tags"),
     featured: integer("featured", { mode: "boolean" }).default(false),
-    userId: integer("user_id").references(() => user.id),
+    enabled: integer("enabled", { mode: "boolean" }).default(false),
+    owner: integer("user_id").references(() => user.id),
     createdAt: integer("created_at").default(sql`(CURRENT_TIMESTAMP)`),
+    updatedAt: integer("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
   },
   (table) => {
     return {
@@ -35,9 +39,10 @@ export const business = sqliteTable(
 export type Business = typeof business.$inferSelect; // return type when queried
 export type InsertBusiness = typeof business.$inferInsert; // insert type
 
-export const businessForm = t.Intersect([
-  createInsertSchema(business, {
-    userId: t.Number({ error: "Propietario debe referenciar ID numérico" }),
-  }),
-  t.Object({ tags: t.Array(t.Number()) }),
-]);
+/** Schema to validate API body
+ * (tags exist on form) => then are passed to tag_to_business on db
+ */
+export const businessForm = createInsertSchema(business, {
+  owner: t.Number(),
+  tags: t.Union([t.Number(), t.Array(t.Number())]),
+});

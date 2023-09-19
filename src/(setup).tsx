@@ -31,6 +31,7 @@ const setup = new Elysia({ name: "setup" })
       console.log(error.all);
       return (
         <Notification
+          isError
           title={error.name}
           description={
             error.all
@@ -38,7 +39,6 @@ const setup = new Elysia({ name: "setup" })
               .map((e) => e.schema.error)
               .join("<br/>") || "Error en la validación del formulario"
           }
-          icon="i-lucide-x-circle text-red-500"
         />
       );
     }

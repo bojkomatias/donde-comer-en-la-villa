@@ -10,15 +10,18 @@ dict.set("password", "constraseña");
 dict.set("currentPassword", "constraseña actual");
 dict.set("role", "rol");
 dict.set("phone", "teléfono");
-dict.set("location", "dirección");
-dict.set("socials", "redes sociales");
+dict.set("address", "dirección");
+dict.set("location", "ubicación");
+dict.set("instagram", "instagram");
+dict.set("twitter", "twitter");
 dict.set("webpage", "página web");
 dict.set("featured", "promocionado");
-dict.set("owner", "propietario");
+dict.set("enabled", "habilitado");
 dict.set("description", "descripción");
 
 // Roles
 dict.set("customer", "cliente");
+dict.set("owner", "propietario");
 dict.set("admin", "administrador");
 
 // Colecciones
