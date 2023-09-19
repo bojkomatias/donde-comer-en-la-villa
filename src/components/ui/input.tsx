@@ -3,7 +3,7 @@ import { dict } from "@/utils/dictionary";
 
 type Props = JSX.HtmlInputTag &
   JSX.HtmlSelectTag & {
-    options?: string[];
+    options?: { id: number; name: string }[];
   };
 export function Input({ options, ...props }: Props) {
   return (
@@ -14,8 +14,8 @@ export function Input({ options, ...props }: Props) {
           {...props}
           class="peer block w-full border-0 bg-transparent p-0 text-sm placeholder:font-light placeholder:text-gray-500/50 focus:ring-0 sm:leading-loose"
         >
-          {options.map((opt) => (
-            <option>{opt}</option>
+          {options.map(({ id, name }) => (
+            <option value={id.toString()}>{name}</option>
           ))}
         </select>
       ) : (
@@ -36,7 +36,7 @@ export function Input({ options, ...props }: Props) {
           props.type == "checkbox" && "mb-1 ml-6 mt-px",
         )}
       >
-{dict.get(props.name)}
+        {dict.get(props.name)}
         <span class="float-right -mt-0.5 text-[0.6rem] text-gray-500">
           {options &&
             props.multiple &&

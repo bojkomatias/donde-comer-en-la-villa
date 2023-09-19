@@ -1,9 +1,9 @@
-import Elysia, { t } from "elysia";
+import { Elysia, t } from "elysia";
 import cookie from "@elysiajs/cookie";
 import jwt from "@elysiajs/jwt";
-import { html } from "@elysiajs/html";
 import bearer from "@elysiajs/bearer";
-import { db } from "@/db";
+import { html } from "@elysiajs/html";
+import { Notification } from "./components/ui/notification";
 
 if (Bun.env.JWT_SECRET === undefined)
   throw "Missing secret add JWT_SECRET to .env file";
@@ -26,6 +26,23 @@ if (Bun.env.GOOGLE_CLIENT_SECRET === undefined)
  * Here is the stuff reusable throughout the app, JWT, Cookie, Model, DB connection.
  */
 const setup = new Elysia({ name: "setup" })
+  .onError(({ code, error }) => {
+    if (code === "VALIDATION") {
+      console.log(error.all);
+      return (
+        <Notification
+          title={error.name}
+          description={
+            error.all
+              .filter((e) => e.schema.error)
+              .map((e) => e.schema.error)
+              .join("<br/>") || "Error en la validación del formulario"
+          }
+          icon="i-lucide-x-circle text-red-500"
+        />
+      );
+    }
+  })
   .get("/styles.css", () => Bun.file("./src/output.css"))
   .use(html())
   .use(bearer())
@@ -68,7 +85,7 @@ const setup = new Elysia({ name: "setup" })
   // Derive user verification
   .derive(async ({ jwt, cookie }) => {
     const u = await jwt.verify(cookie.auth);
-    return { user: u ? u : null };
+    return { JWTUser: u ? u : null };
   });
 
 export default setup;

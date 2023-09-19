@@ -1,24 +1,29 @@
 import Elysia from "elysia";
 import setup from "@/(setup)";
-import { tag } from "@/db/schema/tags";
-import { withLayout } from "@/components/layout";
+import { tag } from "@/db/schema/tag";
 import DashboardLayout from "@/components/dashboard-layout";
 import Tags from "@/components/tag";
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
+import { Layout } from "@/components/layout";
 
 const tags = new Elysia({
   name: "tags",
 })
   .use(setup)
 
-  .get("/", async ({ user, headers }) => {
+  .get("/", async ({ JWTUser, headers }) => {
     const r = await db.select().from(tag);
-    return withLayout(
-      headers["hx-request"] === "true",
-      <DashboardLayout role={user!.role} current="/d/tag">
+    return headers["hx-request"] ? (
+      <DashboardLayout role={JWTUser!.role} current="/d/tag">
         <Tags tags={r} />
-      </DashboardLayout>,
+      </DashboardLayout>
+    ) : (
+      <Layout>
+        <DashboardLayout role={JWTUser!.role} current="/d/tag">
+          <Tags tags={r} />
+        </DashboardLayout>
+      </Layout>
     );
   })
   .get("/:id/form", async ({ params: { id } }) => {

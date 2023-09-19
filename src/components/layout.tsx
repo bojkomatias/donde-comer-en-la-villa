@@ -39,7 +39,7 @@ export function Layout({
           {/* Hyperscript */}
           <script src="https://unpkg.com/hyperscript.org@0.9.11"></script>
           {/* TailwindCSS */}
-          <link href="/styles.css" rel="preload stylesheet" as="style" />
+          <link href="/styles.css" rel="preload stylesheet" />
           {/* Fonts */}
           <link
             href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@1&f[]=bespoke-stencil@2,1&f[]=outfit@1&display=swap"
@@ -114,12 +114,3 @@ export function Layout({
     </>
   );
 }
-/**
- * A function to help with page refreshes!
- * So when a user triggers a refresh adds the layout. (avoid using redirects on handlers)
- * @hx Indicating a normal hx request, if not defaults to layout
- * @Component the JSX passed
- */
-export const withLayout = (hx: boolean, Component: JSX.Element) => {
-  return hx ? Component : <Layout>{Component}</Layout>;
-};

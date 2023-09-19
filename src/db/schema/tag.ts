@@ -3,12 +3,21 @@ import {
   text,
   integer,
   primaryKey,
+  uniqueIndex,
 } from "drizzle-orm/sqlite-core";
 
-export const tag = sqliteTable("tag", {
-  id: integer("id").primaryKey(),
-  name: text("name").notNull().unique(),
-});
+export const tag = sqliteTable(
+  "tag",
+  {
+    id: integer("id").primaryKey().notNull(),
+    name: text("name").notNull(),
+  },
+  (table) => {
+    return {
+      nameUnique: uniqueIndex("tag_name_unique").on(table.name),
+    };
+  },
+);
 
 export const tagToBusiness = sqliteTable(
   "tag_to_business",
@@ -18,7 +27,7 @@ export const tagToBusiness = sqliteTable(
   },
   (table) => {
     return {
-      pk: primaryKey(table.tagId, table.businessId),
+      pk0: primaryKey(table.businessId, table.tagId),
     };
   },
 );
@@ -31,7 +40,7 @@ export const tagToProduct = sqliteTable(
   },
   (table) => {
     return {
-      pk: primaryKey(table.tagId, table.productId),
+      pk0: primaryKey(table.productId, table.tagId),
     };
   },
 );

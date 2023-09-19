@@ -1,34 +1,95 @@
 import setup from "@/(setup)";
 import Business from "@/components/business";
 import DashboardLayout from "@/components/dashboard-layout";
-import { Layout, withLayout } from "@/components/layout";
-import { insertBusinessSchema } from "@/db/schema/business";
-import { withLayoutV2 } from "@/utils/with-layout";
+import { Layout } from "@/components/layout";
+import { db } from "@/db";
+import { business, businessForm } from "@/db/schema/business";
 import Elysia from "elysia";
+import { Value } from "@sinclair/typebox/value";
+import { eq, getTableColumns } from "drizzle-orm";
+import { user } from "@/db/schema/user";
+import { tagToBusiness } from "@/db/schema/tag";
 
-const business = new Elysia({
+const businessRouter = new Elysia({
   name: "business",
   prefix: "/business",
 })
   .use(setup)
-  .get("/", ({ user, headers }) => {
-    return withLayout(
-      headers["hx-request"] === "true",
-      <DashboardLayout role={user!.role} current="/d/business">
-        <Business />
-      </DashboardLayout>,
+  .get("/", async ({ JWTUser, headers }) => {
+    const { id, name, phone, featured, userId, ...rest } =
+      getTableColumns(business);
+    const r = await db
+      .select({ id, name, phone, featured, owner: user.name })
+      .from(business)
+      .leftJoin(user, eq(business.userId, user.id));
+
+    return headers["hx-request"] ? (
+      <DashboardLayout role={JWTUser!.role} current="/d/business">
+        <Business>
+          <Business.Table businesses={r} />
+        </Business>
+      </DashboardLayout>
+    ) : (
+      <Layout>
+        <DashboardLayout role={JWTUser!.role} current="/d/business">
+          <Business>
+            <Business.Table businesses={r} />
+          </Business>
+        </DashboardLayout>
+      </Layout>
     );
   })
 
-  .get("/new", ({ headers }) => {
-    return withLayoutV2({
-      hx: headers["hx-request"] === "true",
-      Layout: Layout,
-      props: { isAuth: true },
-      Component: <Business.Form />,
-    });
-  })
+  .get("/new", ({ JWTUser, headers }) =>
+    headers["hx-request"] ? (
+      <Business.Form
+        tags={[
+          { id: 1, name: "Hambur" },
+          { id: 2, name: "Sand" },
+        ]}
+        users={[{ id: 1, name: "Matias bojko" }]}
+      />
+    ) : (
+      <Layout>
+        <DashboardLayout role={JWTUser!.role} current="/d/business">
+          <Business.Form
+            tags={[
+              { id: 1, name: "Hambur" },
+              { id: 2, name: "Sand" },
+            ]}
+            users={[{ id: 1, name: "Matias bojko" }]}
+          />
+        </DashboardLayout>
+      </Layout>
+    ),
+  )
 
-  .post("/", ({ body }) => console.log(body), { body: insertBusinessSchema });
+  .post(
+    "/",
+    async ({ body }) => {
+      // const { tags, ...rest } = body;
+      // const r = await db
+      //   .insert(business)
+      //   .values(rest)
+      //   .returning({ id: business.id });
+      // if (tags) {
+      //   const t_b_values = tags?.map((e) => ({
+      //     businessId: r[0].id,
+      //     tagId: e,
+      //   }));
+      //   const _r = await db.insert(tagToBusiness).values(t_b_values);
+      // }
+    },
+    {
+      transform: ({ body }) => {
+        const c = Value.Convert(businessForm, body) as any;
+        body.featured = c.featured;
+        body.tags = c.tags.map((e: string) => Number(e));
+        body.userId = c.userId;
+        console.log(c);
+      },
+      body: businessForm,
+    },
+  );
 
-export default business;
+export default businessRouter;

@@ -13,28 +13,28 @@ const DashboardLayout = ({
   children?: any;
 }) => (
   <div class="lg:flex lg:gap-x-8" hx-target="this" hx-swap="outerHTML">
-    <aside className="absolute left-0 flex h-fit w-screen max-w-none overflow-x-auto border-b bg-white py-4 dark:border-gray-700 dark:bg-gray-950 lg:sticky lg:top-0 lg:block lg:w-64 lg:flex-none lg:border-0 lg:py-16">
-      <nav className="container mx-auto flex-none px-4 sm:px-6 lg:px-2">
+    <aside class="absolute left-0 flex h-fit w-screen max-w-none overflow-x-auto border-b bg-white py-4 dark:border-gray-700 dark:bg-gray-950 lg:sticky lg:top-0 lg:block lg:w-64 lg:flex-none lg:border-0 lg:py-16">
+      <nav class="container mx-auto flex-none px-4 sm:px-6 lg:px-2">
         <ul
           role="list"
-          className="flex gap-x-3 gap-y-1 whitespace-nowrap lg:flex-col"
+          class="flex gap-x-3 gap-y-1 whitespace-nowrap lg:flex-col"
         >
           {dashboardNav
             .filter((link) => link.clearance?.includes(role))
             .map((item) => (
-              <li key={item.name}>
+              <li>
                 <button
                   hx-get={item.href}
                   hx-push-url="true"
-                  className={cx(
-                    "group flex w-full items-center gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm font-semibold leading-6 capitalize",
+                  class={cx(
+                    "group flex w-full items-center gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm font-semibold capitalize leading-6",
                     item.href === current
-                      ? "pointer-events-none bg-gray-50 dark:bg-gray-900/50"
+                      ? "bg-gray-50 dark:bg-gray-900/50"
                       : "text-gray-700 hover:bg-gray-50 hover:text-cyan-600 dark:text-gray-300 dark:hover:bg-gray-900",
                   )}
                 >
                   <i
-                    className={cx(
+                    class={cx(
                       item.icon,
                       "h-5 w-5",
                       item.href === current
@@ -43,7 +43,7 @@ const DashboardLayout = ({
                     )}
                     aria-hidden="true"
                   />
-                   {dict.get(item.name)}
+                  {dict.get(item.name)}
                 </button>
               </li>
             ))}
@@ -51,7 +51,7 @@ const DashboardLayout = ({
       </nav>
     </aside>
 
-    <div className="px-4 pt-24 sm:px-6 lg:flex-auto lg:px-0 lg:pt-12">
+    <div class="px-4 pt-24 sm:px-6 lg:flex-auto lg:px-0 lg:pt-12">
       {children}
     </div>
   </div>

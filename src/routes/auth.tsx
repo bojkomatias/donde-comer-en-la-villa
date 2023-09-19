@@ -110,8 +110,8 @@ const auth = new Elysia({ name: "auth", prefix: "/auth" })
 
     set.redirect = "/";
   })
-  .get("/navigation", ({ user }) => <Auth.Navigation user={user} />, {
-    beforeHandle: ({ user, set }) => {
+  .get("/navigation", ({ JWTUser }) => <Auth.Navigation user={JWTUser} />, {
+    beforeHandle: ({ JWTUser, set }) => {
       if (!user) {
         set.status = 401;
         return "Unauthorized";

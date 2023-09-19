@@ -5,33 +5,33 @@ import { cx } from "@/utils/cx";
 import { dict } from "@/utils/dictionary";
 
 const Profile = ({ user }: { user: User }) => (
-  <div className="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
+  <div class="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
     <div>
-      <h1 className="text-xl font-black capitalize leading-loose">
+      <h1 class="text-xl font-black capitalize leading-loose">
         {dict.get("profile")}
       </h1>
-      <p className="mt-1 text-sm leading-6 text-gray-500">
+      <p class="mt-1 text-sm leading-6 text-gray-500">
         This information will be displayed publicly so be careful what you
         share.
       </p>
 
-      <dl className="mt-6 space-y-6 divide-y border-t-2 text-sm leading-6 dark:divide-gray-700 dark:border-gray-700">
-        <div className="pt-6 sm:flex">
-          <dt className="font-medium capitalize sm:w-64 sm:flex-none sm:pr-6">
+      <dl class="mt-6 space-y-6 divide-y border-t-2 text-sm leading-6 dark:divide-gray-700 dark:border-gray-700">
+        <div class="pt-6 sm:flex">
+          <dt class="font-medium capitalize sm:w-64 sm:flex-none sm:pr-6">
             {dict.get("id")}
           </dt>
-          <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+          <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
             {user.id}
           </dd>
         </div>
-        <div className="pt-6 sm:flex">
-          <dt className="font-medium capitalize sm:w-64 sm:flex-none sm:pr-6">
+        <div class="pt-6 sm:flex">
+          <dt class="font-medium capitalize sm:w-64 sm:flex-none sm:pr-6">
             {dict.get("name")}
           </dt>
           <Profile.Attribute id={user.id} attribute="name" value={user.name} />
         </div>
-        <div className="pt-6 sm:flex">
-          <dt className="font-medium capitalize sm:w-64 sm:flex-none sm:pr-6">
+        <div class="pt-6 sm:flex">
+          <dt class="font-medium capitalize sm:w-64 sm:flex-none sm:pr-6">
             {dict.get("email")}
           </dt>
           <Profile.Attribute
@@ -40,11 +40,11 @@ const Profile = ({ user }: { user: User }) => (
             value={user.email}
           />
         </div>
-        <div className="pt-6 sm:flex">
-          <dt className="font-medium capitalize sm:w-64 sm:flex-none sm:pr-6">
+        <div class="pt-6 sm:flex">
+          <dt class="font-medium capitalize sm:w-64 sm:flex-none sm:pr-6">
             {dict.get("role")}
           </dt>
-          <dd className="mt-1 flex justify-between gap-x-6 capitalize sm:mt-0 sm:flex-auto">
+          <dd class="mt-1 flex justify-between gap-x-6 capitalize sm:mt-0 sm:flex-auto">
             {dict.get(user.role)}
           </dd>
         </div>
@@ -73,7 +73,7 @@ Profile.Attribute = ({
   value: string;
 }) => {
   return (
-    <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+    <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
       {value}
       <Button
         hx-get={`/d/${id}/${attribute}/edit?value=${value}`}
@@ -124,10 +124,10 @@ Profile.AttributeEdit = ({
 
 Profile.PasswordChange = () => (
   <div class="-mx-4 rounded-lg bg-gray-50 p-4 dark:bg-gray-900/50">
-    <h2 className="text-base font-semibold leading-7 first-letter:capitalize">
+    <h2 class="text-base font-semibold leading-7 first-letter:capitalize">
       {dict.get("update")} {dict.get("password")}
     </h2>
-    <p className="mt-1 text-sm leading-6 text-gray-500">
+    <p class="mt-1 text-sm leading-6 text-gray-500">
       On password change current session will continue to exists, and changes
       take effect the next time you log in.
     </p>

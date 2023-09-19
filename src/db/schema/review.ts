@@ -6,8 +6,8 @@ export const review = sqliteTable("review", {
   qualification: integer("qualification").$type<1 | 2 | 3 | 4 | 5>().notNull(),
   comment: text("comment"),
   business: integer("business_id")
-    .references(() => business.id)
-    .notNull(),
+    .notNull()
+    .references(() => business.id),
 });
 
 export type Review = typeof review.$inferSelect; // return type when queried

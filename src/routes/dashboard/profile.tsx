@@ -1,4 +1,3 @@
-import { withLayout } from "@/components/layout";
 import { user } from "@/db/schema/user";
 import setup from "@/(setup)";
 import { eq } from "drizzle-orm";
@@ -6,6 +5,7 @@ import Elysia, { t } from "elysia";
 import DashboardLayout from "../../components/dashboard-layout";
 import Profile from "@/components/profile";
 import { db } from "@/db";
+import { Layout } from "@/components/layout";
 
 const profile = new Elysia({
   name: "profile",
@@ -16,11 +16,16 @@ const profile = new Elysia({
       .select()
       .from(user)
       .where(eq(user.id, Number(u?.id)));
-    return withLayout(
-      headers["hx-request"] === "true",
+    return headers["hx-request"] ? (
       <DashboardLayout role={r[0].role} current="/d">
         <Profile user={r[0]} />
-      </DashboardLayout>,
+      </DashboardLayout>
+    ) : (
+      <Layout>
+        <DashboardLayout role={r[0].role} current="/d">
+          <Profile user={r[0]} />
+        </DashboardLayout>
+      </Layout>
     );
   })
   .get("/:id/:attr", ({ params: { id, attr }, query }) => (
