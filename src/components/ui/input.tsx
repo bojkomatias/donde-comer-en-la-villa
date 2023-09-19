@@ -1,4 +1,5 @@
 import { cx } from "@/utils/cx";
+import { dict } from "@/utils/dictionary";
 
 type Props = JSX.HtmlInputTag &
   JSX.HtmlSelectTag & {
@@ -35,7 +36,7 @@ export function Input({ options, ...props }: Props) {
           props.type == "checkbox" && "mb-1 ml-6 mt-px",
         )}
       >
-        {props.label}
+{dict.get(props.name)}
         <span class="float-right -mt-0.5 text-[0.6rem] text-gray-500">
           {options &&
             props.multiple &&

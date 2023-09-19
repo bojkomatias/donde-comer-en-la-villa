@@ -1,3 +1,4 @@
+import { siteConfig } from "@/config/site";
 import Auth from "./auth";
 import Marketing from "./marketing";
 import DarkMode from "./ui/dark-mode-toggle";
@@ -15,6 +16,9 @@ export function Layout({
       <html lang="en">
         <head>
           <meta charset="UTF-8" />
+          <meta name="description" content={siteConfig.description} />
+          <meta name="keywords" content={siteConfig.keywords} />
+          <meta name="author" content={siteConfig.author} />
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0"
@@ -38,13 +42,13 @@ export function Layout({
           <link href="/styles.css" rel="preload stylesheet" as="style" />
           {/* Fonts */}
           <link
-            href="https://api.fontshare.com/v2/css?f[]=red-hat-display@2,1&f[]=bespoke-stencil@2,1&display=swap"
+            href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@1&f[]=bespoke-stencil@2,1&f[]=outfit@1&display=swap"
             rel="stylesheet"
           />
 
           {/* Favicon + Title */}
-          <link rel="icon" href="/public/favicon.ico" />
-          <title>Donde comer en la villa</title>
+          <link rel="icon" href="/public/vercel.svg" />
+          <title>{siteConfig.name}</title>
         </head>
         <body
           class="bg-white text-black/80 subpixel-antialiased dark:bg-gray-950 dark:text-white/80"
@@ -64,7 +68,7 @@ export function Layout({
                   class="font-heading font-black hover:text-black dark:hover:text-white"
                   tabindex="-1"
                 >
-                  ¿Donde comer en la villa?
+                  {siteConfig.name}
                 </a>
 
                 {isAuth ? (
@@ -88,11 +92,17 @@ export function Layout({
               <i class="i-lucide-activity h-8 w-8" />
               <p class="flex-auto text-center text-sm leading-loose text-gray-600 dark:text-gray-400 sm:text-left">
                 Built by{" "}
-                <a class="text-black underline underline-offset-2 dark:text-white">
+                <a
+                  href={siteConfig.links.twitter}
+                  class="text-black underline underline-offset-2 dark:text-white"
+                >
                   bojkomatias
                 </a>
                 . Source code available on{" "}
-                <a class="text-black underline underline-offset-2 dark:text-white">
+                <a
+                  href={siteConfig.links.github}
+                  class="text-black underline underline-offset-2 dark:text-white"
+                >
                   Github
                 </a>
               </p>

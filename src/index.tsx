@@ -8,13 +8,15 @@ import business from "@/routes/dashboard/business";
 
 import { Layout } from "@/components/layout";
 import { Notification } from "@/components/ui/notification";
-import NotFound from "./components/404-not-found";
 
 const app = new Elysia()
-  .use(staticPlugin())
   .use(setup)
   .use(auth)
-  .get("/", ({ user }) => <Layout isAuth={!!user} />)
+  .get("/", ({ user }) => <Layout isAuth={!!user} />, {
+    afterHandle: ({ headers }, response) => {
+      console.log("AFGTER /", response);
+    },
+  })
   .group(
     "/d",
     {

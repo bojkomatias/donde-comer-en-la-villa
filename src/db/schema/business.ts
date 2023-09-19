@@ -1,4 +1,5 @@
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { createInsertSchema, createSelectSchema } from "drizzle-typebox";
 import { user } from "./user";
 import { sql } from "drizzle-orm";
 
@@ -22,3 +23,5 @@ export const business = sqliteTable("business", {
 
 export type Business = typeof business.$inferSelect; // return type when queried
 export type InsertBusiness = typeof business.$inferInsert; // insert type
+
+export const insertBusinessSchema = createInsertSchema(business);

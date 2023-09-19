@@ -1,6 +1,7 @@
 import { dashboardNav } from "@/config/dashboard";
 import { Role } from "@/db/schema/user";
 import { cx } from "@/utils/cx";
+import { dict } from "@/utils/dictionary";
 
 const DashboardLayout = ({
   role,
@@ -26,7 +27,7 @@ const DashboardLayout = ({
                   hx-get={item.href}
                   hx-push-url="true"
                   className={cx(
-                    "group flex w-full items-center gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm font-semibold leading-6",
+                    "group flex w-full items-center gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm font-semibold leading-6 capitalize",
                     item.href === current
                       ? "pointer-events-none bg-gray-50 dark:bg-gray-900/50"
                       : "text-gray-700 hover:bg-gray-50 hover:text-cyan-600 dark:text-gray-300 dark:hover:bg-gray-900",
@@ -42,7 +43,7 @@ const DashboardLayout = ({
                     )}
                     aria-hidden="true"
                   />
-                  {item.name}
+                   {dict.get(item.name)}
                 </button>
               </li>
             ))}

@@ -1,23 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "./ui/input";
 import type { Tag, InsertTag } from "@/db/schema/tags";
+import { dict } from "@/utils/dictionary";
 
 const Tags = ({ tags }: { tags: Tag[] }) => (
   <>
     <div>
-      <h1 className="font-heading text-xl font-black leading-loose">Tags</h1>
+      <h1 className="text-xl font-black capitalize leading-loose">
+        {dict.get("tags")}
+      </h1>
       <p className="mb-4 mt-2 text-sm text-gray-500">
         A list of all the tags in the application including their name, and
         adding an in row edit functionality.
       </p>
     </div>
-    <div class="rounded-lg bg-gray-50 p-4 pt-6 dark:bg-gray-900/50">
-      <h2 className="text-sm font-semibold leading-6">New tag</h2>
-      <p className="mb-4 mt-1 text-xs text-gray-500">
-        Add a new tag to the collection
-      </p>
-      <Tags.New />
-    </div>
+
+    <Tags.New />
+
     <div className="-mx-4 mt-8 sm:-mx-0">
       <table className="min-w-full divide-y dark:divide-gray-700">
         <thead>
@@ -35,27 +34,13 @@ const Tags = ({ tags }: { tags: Tag[] }) => (
         </thead>
         <tbody id="tag-results" className="divide-y dark:divide-gray-700">
           {tags.map((tag) => (
-            <tr key={tag.id}>
-              <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium capitalize sm:pl-0">
-                {tag.name}
-              </td>
-              <td className="flex justify-end whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-0">
-                <Button
-                  hx-get={`/d/tag/${tag.id}/form`}
-                  hx-target="closest tr"
-                  hx-swap="outerHTML"
-                  size="xs"
-                >
-                  Edit<span className="sr-only">, {tag.name}</span>
-                </Button>
-              </td>
-            </tr>
+            <Tags.Row tag={tag} />
           ))}
         </tbody>
       </table>
       {tags.length === 0 && (
-        <div class="py-20 text-center text-xs font-light text-gray-400">
-          No tags found
+        <div class="py-20 text-center text-sm font-light text-gray-400">
+          No se encontraron categorías
         </div>
       )}
     </div>
@@ -75,7 +60,8 @@ Tags.Row = ({ tag }: { tag: Tag }) => {
           hx-swap="innerHTML"
           size="xs"
         >
-          Edit<span className="sr-only">, {tag.name}</span>
+          {dict.get("edit")}
+          <span className="sr-only">, {tag.name}</span>
         </Button>
       </td>
     </tr>
@@ -104,7 +90,7 @@ Tags.Edit = ({ tag }: { tag: InsertTag }) => {
           hx-include="closest tr"
           hx-target-403="#row-error"
         >
-          Save
+          {dict.get("save")}
         </Button>
         <Button
           type="button"
@@ -112,7 +98,7 @@ Tags.Edit = ({ tag }: { tag: InsertTag }) => {
           size="xs"
           hx-get={`/d/tag/${tag.id}/row`}
         >
-          Cancel
+          {dict.get("cancel")}
         </Button>
       </td>
     </tr>
@@ -121,28 +107,34 @@ Tags.Edit = ({ tag }: { tag: InsertTag }) => {
 
 Tags.New = () => {
   return (
-    <div>
+    <div class="gap-6 rounded-lg bg-gray-50 p-4 pt-6 dark:bg-gray-900/50 sm:flex sm:justify-between">
+      <div>
+        <h2 className="text-sm font-semibold leading-6">
+          Nueva {dict.get("tag")}
+        </h2>
+        <p className="mb-4 mt-1 text-xs text-gray-500">
+          Add a new tag to the collection
+        </p>
+      </div>
       <form
         hx-post="/d/tag"
         hx-target="#tag-results"
         hx-swap="beforebegin"
-        hx-target-403="#error"
-        class="flex items-end gap-6 pr-0 sm:pr-16"
+        hx-target-403="#notification"
+        class="flex-grow"
       >
-        <div class="flex-grow">
-          <Input
-            type="text"
-            name="name"
-            label="tag name"
-            placeholder="Pizzas a la piedra"
-            required="true"
-          />
-        </div>
-        <Button intent="primary" size="sm">
-          Crear
-        </Button>
+        <Input
+          type="text"
+          name="name"
+          placeholder="Pizzas a la piedra"
+          required="true"
+        />
+        <span class="mt-2 flex justify-end">
+          <Button intent="primary" size="sm">
+            {dict.get("save")}
+          </Button>
+        </span>
       </form>
-      <p id="error" />
     </div>
   );
 };

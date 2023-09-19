@@ -20,6 +20,7 @@
     "@iconify/json": "^2.2.116",
     "@libsql/client": "^0.3.5-pre.1",
     "drizzle-orm": "^0.28.6",
+    "drizzle-typebox": "^0.1.1",
     "elysia": "^0.6.22"
   },
   "devDependencies": {

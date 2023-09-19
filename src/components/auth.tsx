@@ -2,6 +2,7 @@ import { Button, buttonStyles } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { dashboardNav } from "@/config/dashboard";
 import { cx } from "@/utils/cx";
+import { dict } from "@/utils/dictionary";
 import { JWTPayloadSpec } from "@elysiajs/jwt";
 
 const google = new URL("auth", "https://accounts.google.com/o/oauth2/v2/");
@@ -20,7 +21,7 @@ Auth.Form = (props: { csrfToken: string }) => {
     <div class="mx-auto mt-20 max-w-xl space-y-8 rounded-lg bg-gray-50 p-6 dark:bg-gray-900/50">
       <a href="/" class={buttonStyles({ size: "sm" })}>
         <i class="i-lucide-chevron-left" />
-        Back
+        {dict.get("back")}
       </a>
       <p class="text-xl">Welcome back!</p>
       <p class="text-sm text-gray-600">
@@ -42,14 +43,12 @@ Auth.Form = (props: { csrfToken: string }) => {
         <div class="isolate">
           <Input
             name="email"
-            label="email"
             placeholder="example@example.com"
             type="email"
             required="true"
           />
           <Input
             name="password"
-            label="password"
             placeholder="***********"
             type="password"
             required="true"
@@ -106,7 +105,7 @@ Auth.Login = () => (
     hx-swap="innerHTML"
     intent="primary"
   >
-    Login
+    {dict.get("login")}
   </Button>
 );
 
@@ -173,21 +172,21 @@ Auth.Navigation = ({ user }: { user: User }) => {
                 hx-push-url="true"
                 hx-target="main"
                 hx-swap="innerHTML"
-                class="flex w-full items-center gap-3 px-4 py-3 text-sm hover:bg-gray-400/10"
+                class="flex w-full items-center gap-3 px-4 py-3 text-sm capitalize hover:bg-gray-400/10"
               >
                 <i class={cx(item.icon, "h-4 w-4 text-gray-500")} />
-                {item.name}
+                {dict.get(item.name)}
               </button>
             ))}
         </nav>
         <button
           hx-post="/auth/logout"
           hx-push-url="true"
-          class="flex w-full items-center gap-3 px-4 py-3 text-sm font-semibold hover:bg-gray-400/10"
+          class="flex w-full items-center gap-3 px-4 py-3 text-sm font-semibold capitalize hover:bg-gray-400/10"
           tabindex="-1"
         >
           <i class="i-lucide-log-out h-4 w-4 text-gray-500" />
-          Logout
+          {dict.get("logout")}
         </button>
       </div>
     </div>
