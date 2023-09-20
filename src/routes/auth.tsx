@@ -1,7 +1,7 @@
 import { randomBytes } from "crypto";
 import { user } from "@/db/schema/user";
 import { and, eq } from "drizzle-orm";
-import setup from "@/(setup)";
+import setup from "@/routes/(setup)";
 import OAuth2 from "@/utils/oauth2";
 import Elysia from "elysia";
 import { db } from "@/db";

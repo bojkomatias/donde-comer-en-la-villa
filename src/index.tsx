@@ -1,18 +1,20 @@
 import { Elysia } from "elysia";
 import staticPlugin from "@elysiajs/static";
-import setup from "@/(setup)";
+import setup from "@/routes/(setup)";
 import auth from "@/routes/auth";
 import profile from "@/routes/dashboard/profile";
 import tags from "@/routes/dashboard/tags";
 import business from "@/routes/dashboard/business";
-import { Layout } from "./ui/layout";
+import { Layout } from "@/ui/layout";
 
 
 const app = new Elysia()
   .use(staticPlugin())
   .use(setup)
   .use(auth)
+  /** Entry point */
   .get("/", ({ JWTUser }) => <Layout isAuth={!!JWTUser} />)
+  /** Dashboard group /d as a shorthand */
   .group(
     "/d",
     {

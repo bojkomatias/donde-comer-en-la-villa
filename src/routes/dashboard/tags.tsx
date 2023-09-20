@@ -1,12 +1,13 @@
 import Elysia from "elysia";
-import setup from "@/(setup)";
+import setup from "@/routes/(setup)";
 import { tag } from "@/db/schema/tag";
-import DashboardLayout from "@/components/dashboard/layout";
-import Tags from "@/components/tag";
-import { eq } from "drizzle-orm";
 import { db } from "@/db";
-import { Layout } from "@/components/ui/layout";
-import { Notification } from "@/components/ui/notification";
+import Tags from "@/modules/tag";
+import { DashboardLayout } from "@/ui/dashboard/layout";
+import { Layout } from "@/ui/layout";
+import { Notification } from "@/ui/notification";
+import { eq } from "drizzle-orm";
+
 
 const tags = new Elysia({
   name: "tags",

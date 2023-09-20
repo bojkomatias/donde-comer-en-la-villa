@@ -1,6 +1,7 @@
-import { Button, buttonStyles } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+
 import { dashboardNav } from "@/config/dashboard";
+import { buttonStyles, Button } from "@/ui/button";
+import { Input } from "@/ui/input";
 import { cx } from "@/utils/cx";
 import { dict } from "@/utils/dictionary";
 import { JWTPayloadSpec } from "@elysiajs/jwt";

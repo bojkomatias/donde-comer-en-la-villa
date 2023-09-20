@@ -1,12 +1,13 @@
+import { db } from "@/db";
 import { user } from "@/db/schema/user";
-import setup from "@/(setup)";
+import Profile from "@/modules/profile";
+import setup from "@/routes/(setup)";
+import { DashboardLayout } from "@/ui/dashboard/layout";
+import { Layout } from "@/ui/layout";
+import { Notification } from "@/ui/notification";
 import { eq } from "drizzle-orm";
 import Elysia, { t } from "elysia";
-import DashboardLayout from "../../components/dashboard/layout";
-import Profile from "@/components/profile";
-import { db } from "@/db";
-import { Layout } from "@/components/ui/layout";
-import { Notification } from "@/components/ui/notification";
+
 
 const profile = new Elysia({
   name: "profile",

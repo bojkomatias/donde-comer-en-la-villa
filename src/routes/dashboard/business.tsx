@@ -1,4 +1,4 @@
-import setup from "@/(setup)";
+import setup from "@/routes/(setup)";
 import { db } from "@/db";
 import { business, businessForm } from "@/db/schema/business";
 import Elysia from "elysia";

@@ -1,3 +1,4 @@
+/** Refers to Landing page as in '/' app entry point */
 const Marketing = () => (
   <>
     <h1 class="mx-auto mt-12 max-w-xl text-center font-heading text-4xl font-black leading-relaxed">
