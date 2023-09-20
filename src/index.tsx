@@ -11,9 +11,7 @@ const app = new Elysia()
   .use(staticPlugin())
   .use(setup)
   .use(auth)
-  .get("/", ({ JWTUser }) => <Layout isAuth={!!JWTUser} />, {
-    afterHandle: () => console.log("BEFF"),
-  })
+  .get("/", ({ JWTUser }) => <Layout isAuth={!!JWTUser} />)
   .group(
     "/d",
     {

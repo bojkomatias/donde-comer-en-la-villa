@@ -78,7 +78,6 @@ const auth = new Elysia({ name: "auth", prefix: "/auth" })
   .get("/callback/google", async ({ query, setCookie, jwt, set }) => {
     const oauth_user = await OAuth2(query["code"] as string);
 
-    console.log(oauth_user);
     // Check if user exists in DB
     let r = await db
       .select()

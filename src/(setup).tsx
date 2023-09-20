@@ -28,7 +28,6 @@ if (Bun.env.GOOGLE_CLIENT_SECRET === undefined)
 const setup = new Elysia({ name: "setup" })
   .onError(({ code, error }) => {
     if (code === "VALIDATION") {
-      console.log(error.all);
       return (
         <Notification
           isError

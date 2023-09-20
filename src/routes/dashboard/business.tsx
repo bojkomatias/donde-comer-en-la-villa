@@ -24,7 +24,6 @@ const businessRouter = new Elysia({
       .from(business)
       .leftJoin(user, eq(business.owner, user.id));
 
-    console.log(r);
     return headers["hx-request"] ? (
       <DashboardLayout role={JWTUser!.role} current="/d/business">
         <Business>
