@@ -6,8 +6,10 @@ import profile from "@/routes/dashboard/profile";
 import tags from "@/routes/dashboard/tags";
 import business from "@/routes/dashboard/business";
 import { Layout } from "@/ui/layout";
+import {swagger} from "@elysiajs/swagger"
 
 const app = new Elysia()
+  .use(swagger())
   .use(staticPlugin())
   .use(setup)
   .use(auth)
