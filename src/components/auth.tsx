@@ -23,16 +23,27 @@ Auth.Form = (props: { csrfToken: string }) => {
         <i class="i-lucide-chevron-left" />
         {dict.get("back")}
       </a>
-      <p class="text-xl">Welcome back!</p>
-      <p class="text-sm text-gray-600">
-        Authenticate to visit your business dashboard
+      <p class="text-xl">Volviste!</p>
+      <p class="text-sm text-gray-700 dark:text-gray-300">
+        Ingresá con Google o autenticate con tus credenciales.
       </p>
+      <a
+        href={google.href}
+        class={buttonStyles({
+          class:
+            "w-full flex-grow bg-white font-medium text-black ring-1 ring-gray-500/50 transition hover:shadow dark:hover:bg-gray-200",
+        })}
+      >
+        <img
+          src="/public/google-svg.svg"
+          class="-ml-4 mr-4 h-5 w-5 rounded-full"
+        />{" "}
+        Ingresar con Google
+      </a>
       <form
         hx-post="/auth/login"
         hx-target-4xx="#notification"
-        // Target body cause it's a full page redirect
         hx-target="body"
-        // hx-push-url="true"
       >
         <input
           type="text"
@@ -54,44 +65,13 @@ Auth.Form = (props: { csrfToken: string }) => {
             required="true"
           />
         </div>
-        <div class="my-4 gap-6">
-          <Button intent="primary" class="w-full">
+        <div class="mt-6 flex gap-6">
+          <Button intent="primary" class="w-1/2">
             Login
           </Button>
-          <Button type="reset">Crear cuenta</Button>
-        </div>
-        <div class="pb-12 pt-8 text-center text-xs font-medium">
-          Or login in with OAuth
-        </div>
-
-        <div class="flex gap-6">
-          <a
-            href={google.href}
-            intent="primary"
-            class={buttonStyles({
-              class:
-                "flex-grow bg-white ring-1 ring-gray-500/50 transition hover:shadow dark:hover:bg-gray-200",
-            })}
-          >
-            <img
-              src="/public/google-svg.svg"
-              class="mr-2 h-5 w-5 rounded-full"
-            />
-          </a>
-          <button
-            type="button"
-            intent="primary"
-            class={buttonStyles({
-              class:
-                "flex-grow bg-gray-900 ring-1 ring-gray-500/50 transition hover:bg-gray-900 hover:shadow",
-            })}
-            disabled="true"
-          >
-            <img
-              src="/public/github-svg.svg"
-              class="mr-2 h-5 w-5 rounded-full invert"
-            />
-          </button>
+          <Button type="reset" intent="secondary" class="w-1/2">
+            Crear cuenta
+          </Button>
         </div>
       </form>
     </div>
@@ -160,8 +140,12 @@ Auth.Navigation = ({ user }: { user: User }) => {
         else toggle .opacity-0 .scale-95 on me settle then add .hidden to me"
       >
         <div class="px-4 py-3">
-          <div class="text-sm font-semibold leading-loose">{user.name}</div>
-          <span class="text-xs font-light text-gray-500">{user.email}</span>
+          <div class="text-sm font-semibold leading-loose" safe>
+            {user.name}
+          </div>
+          <span class="text-xs font-light text-gray-500" safe>
+            {user.email}
+          </span>
         </div>
         <nav class="py-1">
           {dashboardNav

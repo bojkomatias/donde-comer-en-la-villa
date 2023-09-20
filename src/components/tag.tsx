@@ -16,27 +16,28 @@ const Tags = ({ tags }: { tags: Tag[] }) => (
     <Tags.New />
 
     <div class="mt-8">
-      <table class="min-w-full divide-y dark:divide-gray-700">
-        <thead>
-          <tr>
-            <th
-              scope="col"
-              class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-0"
-            >
-              Name
-            </th>
-            <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
-              <span class="sr-only">Edit</span>
-            </th>
-          </tr>
-        </thead>
-        <tbody id="tag-results" class="divide-y dark:divide-gray-700">
-          {tags.map((tag) => (
-            <Tags.Row tag={tag} />
-          ))}
-        </tbody>
-      </table>
-      {tags.length === 0 && (
+      {tags.length > 0 ? (
+        <table class="min-w-full divide-y dark:divide-gray-700">
+          <thead>
+            <tr>
+              <th
+                scope="col"
+                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold capitalize sm:pl-0"
+              >
+                {dict.get("name")}
+              </th>
+              <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
+                <span class="sr-only">Edit</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody id="tag-results" class="divide-y dark:divide-gray-700">
+            {tags.map((tag) => (
+              <Tags.Row tag={tag} />
+            ))}
+          </tbody>
+        </table>
+      ) : (
         <div class="py-20 text-center text-sm font-light text-gray-400">
           No se encontraron categorías
         </div>
@@ -48,7 +49,10 @@ const Tags = ({ tags }: { tags: Tag[] }) => (
 Tags.Row = ({ tag }: { tag: Tag }) => {
   return (
     <tr>
-      <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium capitalize sm:pl-0">
+      <td
+        class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium capitalize sm:pl-0"
+        safe
+      >
         {tag.name}
       </td>
       <td class="flex justify-end whitespace-nowrap py-4 pl-3 pr-4 sm:pr-0">
@@ -59,7 +63,6 @@ Tags.Row = ({ tag }: { tag: Tag }) => {
           size="xs"
         >
           {dict.get("edit")}
-          <span class="sr-only">, {tag.name}</span>
         </Button>
       </td>
     </tr>

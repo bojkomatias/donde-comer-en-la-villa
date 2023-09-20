@@ -9,6 +9,8 @@ import { Value } from "@sinclair/typebox/value";
 import { eq, getTableColumns } from "drizzle-orm";
 import { user } from "@/db/schema/user";
 import { Static } from "@sinclair/typebox";
+import { tag, tagToBusiness } from "@/db/schema/tag";
+import { Notification } from "@/components/ui/notification";
 
 const businessRouter = new Elysia({
   name: "business",
@@ -18,7 +20,7 @@ const businessRouter = new Elysia({
   .get("/", async ({ JWTUser, headers }) => {
     const { id, name, phone, featured, enabled } = getTableColumns(business);
     const r = await db
-      .select({ id, name, phone })
+      .select({ id, name, phone, featured, enabled })
       .from(business)
       .leftJoin(user, eq(business.owner, user.id));
 
@@ -40,46 +42,60 @@ const businessRouter = new Elysia({
     );
   })
 
-  .get("/new", ({ JWTUser, headers }) =>
-    headers["hx-request"] ? (
-      <Business.Form
-        tags={[
-          { id: 1, name: "Hambur" },
-          { id: 2, name: "Sand" },
-        ]}
-        users={[{ id: 1, name: "Matias bojko" }]}
-      />
+  .get("/new", async ({ JWTUser, headers }) => {
+    const tags = await db.select().from(tag);
+    const users = await db.select({ id: user.id, name: user.name }).from(user);
+    return headers["hx-request"] ? (
+      <Business.Form tags={tags} users={users} />
     ) : (
       <Layout>
         <DashboardLayout role={JWTUser!.role} current="/d/business">
-          <Business.Form
-            tags={[
-              { id: 1, name: "Hambur" },
-              { id: 2, name: "Sand" },
-            ]}
-            users={[{ id: 1, name: "Matias bojko" }]}
-          />
+          <Business.Form tags={tags} users={users} />
         </DashboardLayout>
       </Layout>
-    ),
-  )
-
+    );
+  })
   .post(
     "/",
     async ({ body }) => {
       const { tags, ...rest } = body;
-      console.log(tags, rest);
-      // const r = await db
-      //   .insert(business)
-      //   .values(rest)
-      //   .returning({ id: business.id });
-      // if (tags) {
-      //   const t_b_values = tags?.map((e) => ({
-      //     businessId: r[0].id,
-      //     tagId: e,
-      //   }));
-      //   const _r = await db.insert(tagToBusiness).values(t_b_values);
-      // }
+      const r = await db
+        .insert(business)
+        .values(rest)
+        .returning({ id: business.id });
+      if (tags) {
+        const t_b_values =
+          typeof tags === "number"
+            ? [
+                {
+                  businessId: r[0].id,
+                  tagId: tags,
+                },
+              ]
+            : tags?.map((e) => ({
+                businessId: r[0].id,
+                tagId: e,
+              }));
+        await db.insert(tagToBusiness).values(t_b_values);
+      }
+
+      const { id, name, phone, featured, enabled } = getTableColumns(business);
+      const s = await db
+        .select({ id, name, phone, featured, enabled })
+        .from(business)
+        .leftJoin(user, eq(business.owner, user.id));
+
+      return (
+        <>
+          <Notification
+            title="Creado"
+            description="Nuevo negocio creado con éxito"
+          />
+          <Business>
+            <Business.Table businesses={s} />
+          </Business>
+        </>
+      );
     },
     {
       transform: ({ body }) => {

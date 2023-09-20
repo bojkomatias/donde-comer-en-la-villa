@@ -6,7 +6,7 @@ import { Tag } from "@/db/schema/tag";
 import { DashboardHeading } from "./dashboard/heading";
 
 const Business = ({ children }: { children: JSX.Element }) => (
-  <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none" hx-target="this">
+  <div hx-target="this">
     <DashboardHeading
       title={dict.get("business")}
       subtitle="Panel de administración de tu negocio. Si no tenes negocio, podes postular
@@ -54,16 +54,16 @@ Business.Table = ({ businesses }: { businesses: InsertBusiness[] }) => (
             <tr>
               {Object.keys(businesses[0]).map((header, i) =>
                 !i ? null : (
-                  <td class="hidden whitespace-nowrap py-4 pl-4 pr-3 text-sm capitalize text-gray-500 first:table-cell first:font-medium first:text-gray-900 sm:table-cell sm:pl-0">
+                  <td
+                    class="hidden whitespace-nowrap py-4 pl-4 pr-3 text-sm capitalize text-gray-500 first:table-cell first:font-medium first:text-inherit sm:table-cell sm:pl-0"
+                    safe
+                  >
                     {business[header as keyof InsertBusiness]}
                   </td>
                 ),
               )}
               <td class="flex justify-end whitespace-nowrap py-4 pl-3 pr-4 sm:pr-0">
-                <Button size="xs">
-                  {dict.get("view")}
-                  <span class="sr-only">, {business.name}</span>
-                </Button>
+                <Button size="xs">{dict.get("view")}</Button>
               </td>
             </tr>
           ))}
@@ -84,16 +84,21 @@ Business.Form = ({
   tags: Tag[];
   users: { id: number; name: string }[];
 }) => (
-  <div class="bg-gray-50 p-2 dark:bg-gray-900 sm:rounded-lg lg:p-4">
+  <div
+    hx-target="this"
+    class="bg-gray-50 p-4 dark:bg-gray-900/50 sm:rounded-lg"
+  >
     <DashboardHeading
       title={"Nuevo " + dict.get("business")}
       subtitle="Crea un nuevo negocio"
     />
     <form
-      hx-swap="none"
       hx-post="/d/business"
+      hx-swap="outerHTML"
+      hx-push-url="true"
       hx-target-4xx="#notification"
       autocomplete="off"
+      class="-mx-1 mt-4 sm:mx-0"
     >
       <Input name="name" required="true" placeholder="Burguesía" />
       <Input name="description" placeholder="Las burgers más burgueses" />

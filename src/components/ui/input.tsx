@@ -20,7 +20,9 @@ export function Input({ options, ...props }: Props) {
           class="peer block w-full border-0 bg-transparent p-0 text-sm placeholder:font-light placeholder:text-gray-500/50 focus:ring-0 sm:leading-loose"
         >
           {options.map(({ id, name }) => (
-            <option value={id.toString()}>{name}</option>
+            <option value={id.toString()} class="capitalize">
+              {name}
+            </option>
           ))}
         </select>
       ) : (
@@ -32,6 +34,7 @@ export function Input({ options, ...props }: Props) {
             props.type == "checkbox" &&
               "absolute left-3 top-2.5 w-4 rounded border checked:bg-cyan-600 hover:checked:bg-cyan-600 focus:ring-2 focus:ring-cyan-600 focus:checked:bg-cyan-600 dark:focus:ring-offset-gray-950",
           )}
+          safe
         />
       )}
       <label
@@ -45,7 +48,7 @@ export function Input({ options, ...props }: Props) {
         <span class="float-right -mt-0.5 text-[0.6rem] text-gray-500">
           {options &&
             props.multiple &&
-            "Shift + click para seleccionar multiples"}
+            "Shift o Crtl para seleccionar multiples"}
           {props.title}
         </span>
       </label>

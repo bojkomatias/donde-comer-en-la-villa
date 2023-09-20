@@ -6,7 +6,7 @@ import { dict } from "@/utils/dictionary";
 import { DashboardHeading } from "./dashboard/heading";
 
 const Profile = ({ user }: { user: User }) => (
-  <div class="space-y-16 sm:space-y-20">
+  <>
     <div>
       <DashboardHeading
         title={dict.get("profile")}
@@ -32,11 +32,9 @@ const Profile = ({ user }: { user: User }) => (
           <dt class="font-medium capitalize sm:w-64 sm:flex-none sm:pr-6">
             {dict.get("email")}
           </dt>
-          <Profile.Attribute
-            id={user.id}
-            attribute="email"
-            value={user.email}
-          />
+          <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+            {user.email}
+          </dd>
         </div>
         <div class="px-4 pt-6 sm:flex sm:px-0">
           <dt class="font-medium capitalize sm:w-64 sm:flex-none sm:pr-6">
@@ -58,7 +56,7 @@ const Profile = ({ user }: { user: User }) => (
     >
       <Profile.PasswordChange />
     </div>
-  </div>
+  </>
 );
 
 Profile.Attribute = ({
@@ -72,7 +70,7 @@ Profile.Attribute = ({
 }) => {
   return (
     <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-      {value}
+      <span safe>{value}</span>
       <Button
         hx-get={`/d/${id}/${attribute}/edit?value=${value}`}
         hx-target="closest dd"
@@ -121,11 +119,11 @@ Profile.AttributeEdit = ({
 };
 
 Profile.PasswordChange = () => (
-  <div class="bg-gray-50 p-4 dark:bg-gray-900/50 sm:rounded-lg">
-    <h2 class="text-base font-semibold leading-7 first-letter:capitalize">
+  <div class="mt-16 bg-gray-50 p-4 dark:bg-gray-900/50 sm:mt-20 sm:rounded-lg">
+    <h2 class="text-base font-semibold leading-loose first-letter:capitalize">
       {dict.get("update")} {dict.get("password")}
     </h2>
-    <p class="mt-1 text-sm leading-6 text-gray-500">
+    <p class="mb-4 text-sm leading-6 text-gray-500">
       On password change current session will continue to exists, and changes
       take effect the next time you log in.
     </p>
