@@ -1,60 +1,50 @@
 import Elysia from "elysia";
 import setup from "@/routes/(setup)";
-import { tag } from "@/db/schema/tag";
-import { db } from "@/db";
+import { tagForm } from "@/db/schema/tag";
 import Tags from "@/modules/tag";
 import { DashboardLayout } from "@/ui/dashboard/layout";
 import { Layout } from "@/ui/layout";
 import { Notification } from "@/ui/notification";
-import { eq } from "drizzle-orm";
-
+import { createTag, getTagById, getTags, updateTag } from "@/services/tag";
 
 const tags = new Elysia({
   name: "tags",
+  prefix: "/d/tag",
 })
   .use(setup)
-
   .get("/", async ({ JWTUser, headers }) => {
-    const r = await db.select().from(tag);
+    const tags = await getTags();
+
     return headers["hx-request"] ? (
       <DashboardLayout role={JWTUser!.role} current="/d/tag">
-        <Tags tags={r} />
+        <Tags tags={tags} />
       </DashboardLayout>
     ) : (
       <Layout>
         <DashboardLayout role={JWTUser!.role} current="/d/tag">
-          <Tags tags={r} />
+          <Tags tags={tags} />
         </DashboardLayout>
       </Layout>
     );
   })
   .get("/:id/form", async ({ params: { id } }) => {
-    const r = await db
-      .select()
-      .from(tag)
-      .where(eq(tag.id, Number(id)));
+    const tag = await getTagById(parseInt(id));
 
-    return <Tags.Edit tag={r[0]} />;
+    return <Tags.Edit tag={tag} />;
   })
   .get("/:id/row", async ({ params: { id } }) => {
-    const r = await db
-      .select()
-      .from(tag)
-      .where(eq(tag.id, Number(id)));
+    const tag = await getTagById(parseInt(id));
 
-    return <Tags.Row tag={r[0]} />;
+    return <Tags.Row tag={tag} />;
   })
   .put(
     "/:id",
     async ({ params: { id }, body, set }) => {
-      let r;
-      try {
-        r = await db
-          .update(tag)
-          .set({ name: body.name.toLocaleLowerCase() })
-          .where(eq(tag.id, Number(id)))
-          .returning();
-      } catch (error) {
+      const tag = await updateTag(parseInt(id), {
+        name: body.name.toLocaleLowerCase(),
+      });
+      // Handle existing tag error
+      if (!tag) {
         set.status = 403;
         return (
           <Notification
@@ -65,20 +55,18 @@ const tags = new Elysia({
         );
       }
 
-      return <Tags.Row tag={r[0]} />;
+      return <Tags.Row tag={tag} />;
     },
-    { body: "tag" },
+    { body: tagForm },
   )
   .post(
     "/",
     async ({ body, set }) => {
-      let r;
-      try {
-        r = await db
-          .insert(tag)
-          .values({ name: body.name.toLocaleLowerCase() })
-          .returning();
-      } catch (error) {
+      const tag = await createTag({
+        name: body.name.toLocaleLowerCase(),
+      });
+      // Handle existing tag error
+      if (!tag) {
         set.status = 403;
         return (
           <Notification
@@ -89,9 +77,9 @@ const tags = new Elysia({
         );
       }
 
-      return <Tags.Row tag={r[0]} />;
+      return <Tags.Row tag={tag} />;
     },
-    { body: "tag" },
+    { body: tagForm },
   );
 
 export default tags;

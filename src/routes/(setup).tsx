@@ -63,6 +63,7 @@ const setup = new Elysia({ name: "setup" })
           ]),
         ),
       }),
+      exp: "7d",
     }),
   )
   .model({
@@ -76,9 +77,6 @@ const setup = new Elysia({ name: "setup" })
         error: "Password has to be al least 4 characters long",
       }),
       csrfToken: t.String(),
-    }),
-    tag: t.Object({
-      name: t.String(),
     }),
   })
   // Derive user verification

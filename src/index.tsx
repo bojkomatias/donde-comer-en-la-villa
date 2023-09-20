@@ -7,7 +7,6 @@ import tags from "@/routes/dashboard/tags";
 import business from "@/routes/dashboard/business";
 import { Layout } from "@/ui/layout";
 
-
 const app = new Elysia()
   .use(staticPlugin())
   .use(setup)
@@ -15,8 +14,7 @@ const app = new Elysia()
   /** Entry point */
   .get("/", ({ JWTUser }) => <Layout isAuth={!!JWTUser} />)
   /** Dashboard group /d as a shorthand */
-  .group(
-    "/d",
+  .guard(
     {
       beforeHandle: async ({ JWTUser, set }) => {
         if (!JWTUser) {
@@ -29,8 +27,7 @@ const app = new Elysia()
       app
         .use(profile)
         .use(business)
-        .group(
-          "/tag",
+        .guard(
           {
             beforeHandle: ({ JWTUser, set }) => {
               if (JWTUser!.role !== "admin") {

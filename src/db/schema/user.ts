@@ -5,6 +5,7 @@ import {
   integer,
   uniqueIndex,
 } from "drizzle-orm/sqlite-core";
+import { createInsertSchema } from "drizzle-typebox";
 
 export const user = sqliteTable(
   "user",
@@ -28,3 +29,5 @@ export type Role = "admin" | "owner" | "customer";
 
 export type SelectUser = typeof user.$inferSelect; // return type when queried
 export type InsertUser = typeof user.$inferInsert; // insert type
+
+export const userSchema = createInsertSchema(user);

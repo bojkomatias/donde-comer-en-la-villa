@@ -1,4 +1,4 @@
-import { SelectUser } from "@/db/schema/user";
+import { InsertUser, SelectUser } from "@/db/schema/user";
 import { Button } from "@/ui/button";
 import { DashboardHeading } from "@/ui/dashboard/heading";
 import { Input } from "@/ui/input";
@@ -65,8 +65,8 @@ Profile.Attribute = ({
   value,
 }: {
   id: string | number;
-  attribute: string;
-  value: string;
+  attribute: keyof InsertUser;
+  value: InsertUser[typeof attribute];
 }) => {
   return (
     <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
@@ -83,15 +83,14 @@ Profile.Attribute = ({
   );
 };
 
-// Can only change name or email so ... it's all string attributes
 Profile.AttributeEdit = ({
   id,
   attribute,
   value,
 }: {
   id: string | number;
-  attribute: string;
-  value: string;
+  attribute: keyof InsertUser;
+  value: InsertUser[typeof attribute];
 }) => {
   return (
     <form
@@ -100,7 +99,7 @@ Profile.AttributeEdit = ({
       hx-swap="outerHTML"
       class="-mb-3 mt-0 flex items-center justify-between gap-x-6 sm:-mt-4 sm:flex-auto"
     >
-      <Input name={attribute} value={value} type="text" />
+      <Input name={attribute} value={value?.toString()} type="text" />
       <span class="flex gap-2 sm:gap-4">
         <Button size="sm" intent="primary">
           {dict.get("save")}

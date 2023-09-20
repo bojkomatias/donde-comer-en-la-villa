@@ -1,4 +1,3 @@
-
 import { dashboardNav } from "@/config/dashboard";
 import { buttonStyles, Button } from "@/ui/button";
 import { Input } from "@/ui/input";
@@ -140,7 +139,7 @@ Auth.Navigation = ({ user }: { user: User }) => {
             then toggle .opacity-0 .scale-95 on me
         else toggle .opacity-0 .scale-95 on me settle then add .hidden to me"
       >
-        <div class="px-4 py-3">
+        <div class="px-4 py-3" _="on click halt bubbling">
           <div class="text-sm font-semibold leading-loose" safe>
             {user.name}
           </div>

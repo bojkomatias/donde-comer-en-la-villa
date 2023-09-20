@@ -5,6 +5,7 @@ import {
   primaryKey,
   uniqueIndex,
 } from "drizzle-orm/sqlite-core";
+import { createInsertSchema } from "drizzle-typebox";
 
 export const tag = sqliteTable(
   "tag",
@@ -47,3 +48,5 @@ export const tagToProduct = sqliteTable(
 
 export type SelectTag = typeof tag.$inferSelect; // return type when queried
 export type InsertTag = typeof tag.$inferInsert; // insert type
+
+export const tagForm = createInsertSchema(tag);
