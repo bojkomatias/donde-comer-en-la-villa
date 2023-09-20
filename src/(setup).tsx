@@ -3,7 +3,7 @@ import cookie from "@elysiajs/cookie";
 import jwt from "@elysiajs/jwt";
 import bearer from "@elysiajs/bearer";
 import { html } from "@elysiajs/html";
-import { Notification } from "./components/ui/notification";
+import { Notification } from "@/ui/notification";
 
 if (Bun.env.JWT_SECRET === undefined)
   throw "Missing secret add JWT_SECRET to .env file";
@@ -23,7 +23,7 @@ if (Bun.env.GOOGLE_CLIENT_SECRET === undefined)
 /**
  * Can re-use the setup plugin, even if duplicated (used only for typing)
  * Elysia has plugin checksum allowing to de-duplicate plugins on runtime
- * Here is the stuff reusable throughout the app, JWT, Cookie, Model, DB connection.
+ * Here is the stuff reusable throughout the app, JWT, Cookie, User decorator (pass user)
  */
 const setup = new Elysia({ name: "setup" })
   .onError(({ code, error }) => {

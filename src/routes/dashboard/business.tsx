@@ -1,7 +1,4 @@
 import setup from "@/(setup)";
-import Business from "@/components/business";
-import DashboardLayout from "@/components/dashboard/layout";
-import { Layout } from "@/components/layout";
 import { db } from "@/db";
 import { business, businessForm } from "@/db/schema/business";
 import Elysia from "elysia";
@@ -10,7 +7,11 @@ import { eq, getTableColumns } from "drizzle-orm";
 import { user } from "@/db/schema/user";
 import { Static } from "@sinclair/typebox";
 import { tag, tagToBusiness } from "@/db/schema/tag";
-import { Notification } from "@/components/ui/notification";
+import Business from "@/modules/business";
+import {DashboardLayout} from "@/ui/dashboard/layout";
+import { Layout } from "@/ui/layout";
+import { Notification } from "@/ui/notification";
+
 
 const businessRouter = new Elysia({
   name: "business",

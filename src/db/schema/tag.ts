@@ -45,5 +45,5 @@ export const tagToProduct = sqliteTable(
   },
 );
 
-export type Tag = typeof tag.$inferSelect; // return type when queried
+export type SelectTag = typeof tag.$inferSelect; // return type when queried
 export type InsertTag = typeof tag.$inferInsert; // insert type

@@ -3,7 +3,7 @@ import { Role } from "@/db/schema/user";
 import { cx } from "@/utils/cx";
 import { dict } from "@/utils/dictionary";
 
-const DashboardLayout = ({
+export const DashboardLayout = ({
   role,
   current,
   children,
@@ -55,4 +55,3 @@ const DashboardLayout = ({
   </div>
 );
 
-export default DashboardLayout;

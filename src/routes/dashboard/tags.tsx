@@ -5,7 +5,7 @@ import DashboardLayout from "@/components/dashboard/layout";
 import Tags from "@/components/tag";
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
-import { Layout } from "@/components/layout";
+import { Layout } from "@/components/ui/layout";
 import { Notification } from "@/components/ui/notification";
 
 const tags = new Elysia({

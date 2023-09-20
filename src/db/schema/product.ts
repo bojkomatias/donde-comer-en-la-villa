@@ -16,5 +16,5 @@ export const product = sqliteTable("product", {
   updatedAt: integer("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
 });
 
-export type Product = typeof product.$inferSelect; // return type when queried
+export type SelectProduct = typeof product.$inferSelect; // return type when queried
 export type InsertProduct = typeof product.$inferInsert; // insert type

@@ -5,7 +5,7 @@ import Elysia, { t } from "elysia";
 import DashboardLayout from "../../components/dashboard/layout";
 import Profile from "@/components/profile";
 import { db } from "@/db";
-import { Layout } from "@/components/layout";
+import { Layout } from "@/components/ui/layout";
 import { Notification } from "@/components/ui/notification";
 
 const profile = new Elysia({

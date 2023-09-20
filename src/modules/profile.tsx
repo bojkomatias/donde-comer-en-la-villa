@@ -1,16 +1,16 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import type { User } from "@/db/schema/user";
+import { SelectUser } from "@/db/schema/user";
+import { Button } from "@/ui/button";
+import { DashboardHeading } from "@/ui/dashboard/heading";
+import { Input } from "@/ui/input";
 import { cx } from "@/utils/cx";
 import { dict } from "@/utils/dictionary";
-import { DashboardHeading } from "./dashboard/heading";
 
-const Profile = ({ user }: { user: User }) => (
+const Profile = ({ user }: { user: SelectUser }) => (
   <>
     <div>
       <DashboardHeading
         title={dict.get("profile")}
-        subtitle="Informacion del perfil de tu cuenta, algunos de estos datos son publicos."
+        subtitle="Información del perfil de tu cuenta, algunos de estos datos son públicos."
       />
 
       <dl class="mt-6 space-y-6 divide-y border-t-2 text-sm leading-6 dark:divide-gray-700 dark:border-gray-700">

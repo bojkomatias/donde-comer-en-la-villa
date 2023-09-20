@@ -1,10 +1,11 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "./ui/input";
-import type { Tag, InsertTag } from "@/db/schema/tag";
+import { InsertTag, SelectTag } from "@/db/schema/tag";
+import { Button } from "@/ui/button";
+import { DashboardHeading } from "@/ui/dashboard/heading";
+import { Input } from "@/ui/input";
 import { dict } from "@/utils/dictionary";
-import { DashboardHeading } from "./dashboard/heading";
 
-const Tags = ({ tags }: { tags: Tag[] }) => (
+
+const Tags = ({ tags }: { tags: SelectTag[] }) => (
   <>
     <div>
       <DashboardHeading
@@ -46,7 +47,7 @@ const Tags = ({ tags }: { tags: Tag[] }) => (
   </>
 );
 
-Tags.Row = ({ tag }: { tag: Tag }) => {
+Tags.Row = ({ tag }: { tag: SelectTag }) => {
   return (
     <tr>
       <td

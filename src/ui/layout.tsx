@@ -1,7 +1,7 @@
 import { siteConfig } from "@/config/site";
-import Auth from "./auth";
-import Marketing from "./marketing";
-import DarkMode from "./ui/dark-mode-toggle";
+import DarkMode from "./dark-mode-toggle";
+import Auth from "@/modules/auth";
+import Marketing from "@/modules/marketing";
 
 export function Layout({
   isAuth = true,

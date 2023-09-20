@@ -3,10 +3,10 @@ import { user } from "@/db/schema/user";
 import { and, eq } from "drizzle-orm";
 import setup from "@/(setup)";
 import OAuth2 from "@/utils/oauth2";
-import Auth from "@/components/auth";
-import { Notification } from "@/components/ui/notification";
 import Elysia from "elysia";
 import { db } from "@/db";
+import { Notification } from "@/ui/notification";
+import Auth from "@/modules/auth";
 
 const hasher = new Bun.CryptoHasher("sha256");
 

@@ -1,9 +1,10 @@
-import { type InsertBusiness } from "@/db/schema/business";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
+import { InsertBusiness } from "@/db/schema/business";
+import { SelectTag } from "@/db/schema/tag";
+import { Button } from "@/ui/button";
+import { DashboardHeading } from "@/ui/dashboard/heading";
+import { Input } from "@/ui/input";
 import { dict } from "@/utils/dictionary";
-import { Tag } from "@/db/schema/tag";
-import { DashboardHeading } from "./dashboard/heading";
+
 
 const Business = ({ children }: { children: JSX.Element }) => (
   <div hx-target="this">
@@ -81,7 +82,7 @@ Business.Form = ({
   tags,
   users,
 }: {
-  tags: Tag[];
+  tags: SelectTag[];
   users: { id: number; name: string }[];
 }) => (
   <div

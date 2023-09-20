@@ -12,5 +12,5 @@ export const review = sqliteTable("review", {
   created: integer("created_at").default(sql`(CURRENT_TIMESTAMP)`),
 });
 
-export type Review = typeof review.$inferSelect; // return type when queried
+export type SelectReview = typeof review.$inferSelect; // return type when queried
 export type InsertReview = typeof review.$inferInsert; // insert type

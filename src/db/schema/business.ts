@@ -36,7 +36,7 @@ export const business = sqliteTable(
   },
 );
 
-export type Business = typeof business.$inferSelect; // return type when queried
+export type SelectBusiness = typeof business.$inferSelect; // return type when queried
 export type InsertBusiness = typeof business.$inferInsert; // insert type
 
 /** Schema to validate API body
