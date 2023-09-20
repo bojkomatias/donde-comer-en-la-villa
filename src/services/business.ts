@@ -2,15 +2,21 @@ import { db } from "@/db";
 import { business, businessForm } from "@/db/schema/business";
 import { tagToBusiness } from "@/db/schema/tag";
 import { user } from "@/db/schema/user";
-import { eq, getTableColumns } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { Static } from "@sinclair/typebox";
 
-export async function getBusinessesAsAdmin() {
-  const { id, name, phone, featured, enabled } = getTableColumns(business);
+export async function getBusinessesWithUser() {
+  // const { id, name, phone, featured, enabled } = getTableColumns(business);
   return await db
-    .select({ id, name, phone, featured, enabled })
+    .select()
     .from(business)
     .leftJoin(user, eq(business.owner, user.id));
+}
+
+export async function getBusinessesById(id: number) {
+  const result = await db.select().from(business).where(eq(business.id, id));
+
+  return result[0];
 }
 
 export async function createBusiness(newBusiness: Static<typeof businessForm>) {

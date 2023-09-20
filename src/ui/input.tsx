@@ -4,6 +4,7 @@ import { dict } from "@/utils/dictionary";
 type Props = JSX.HtmlInputTag &
   JSX.HtmlSelectTag & {
     options?: { id: number; name: string }[];
+    values?: number[];
   };
 export function Input({ options, ...props }: Props) {
   return (
@@ -20,7 +21,14 @@ export function Input({ options, ...props }: Props) {
           class="peer block w-full border-0 bg-transparent p-0 text-sm placeholder:font-light placeholder:text-gray-500/50 focus:ring-0 sm:leading-loose"
         >
           {options.map(({ id, name }) => (
-            <option value={id.toString()} class="capitalize">
+            <option
+              value={id.toString()}
+              class="capitalize"
+              // Default select previous values on edit
+              selected={
+                props.values && props.values.includes(id) ? "true" : undefined
+              }
+            >
               {name}
             </option>
           ))}

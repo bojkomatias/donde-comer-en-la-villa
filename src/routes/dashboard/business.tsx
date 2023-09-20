@@ -7,10 +7,15 @@ import Business from "@/modules/business";
 import { DashboardLayout } from "@/ui/dashboard/layout";
 import { Layout } from "@/ui/layout";
 import { Notification } from "@/ui/notification";
-import { createBusiness, getBusinessesAsAdmin } from "@/services/business";
+import {
+  createBusiness,
+  getBusinessesById,
+  getBusinessesWithUser,
+} from "@/services/business";
 import { getUsersForSelector } from "@/services/user";
 
 import { getTags } from "@/services/tag";
+import { getTagsByBusinessId } from "@/services/tag-to-business";
 
 const businessRouter = new Elysia({
   name: "business",
@@ -18,7 +23,7 @@ const businessRouter = new Elysia({
 })
   .use(setup)
   .get("/", async ({ JWTUser, headers }) => {
-    const businesses = await getBusinessesAsAdmin();
+    const businesses = await getBusinessesWithUser();
 
     return headers["hx-request"] ? (
       <DashboardLayout role={JWTUser!.role} current="/d/business">
@@ -36,7 +41,6 @@ const businessRouter = new Elysia({
       </Layout>
     );
   })
-
   .get("/new", async ({ JWTUser, headers }) => {
     const tags = await getTags();
     const users = await getUsersForSelector();
@@ -47,6 +51,25 @@ const businessRouter = new Elysia({
       <Layout>
         <DashboardLayout role={JWTUser!.role} current="/d/business">
           <Business.Form tags={tags} users={users} />
+        </DashboardLayout>
+      </Layout>
+    );
+  })
+  .get("/:id/edit", async ({ JWTUser, headers, params: { id } }) => {
+    const tags = await getTags();
+    const users = await getUsersForSelector();
+    const business = await getBusinessesById(parseInt(id));
+    // Add tags from relation
+    business.tags = (await getTagsByBusinessId(business.id)).map(
+      (e) => e.tagId,
+    );
+
+    return headers["hx-request"] ? (
+      <Business.Form tags={tags} users={users} business={business} />
+    ) : (
+      <Layout>
+        <DashboardLayout role={JWTUser!.role} current="/d/business">
+          <Business.Form tags={tags} users={users} business={business} />
         </DashboardLayout>
       </Layout>
     );
@@ -67,7 +90,7 @@ const businessRouter = new Elysia({
         );
       }
 
-      const businesses = await getBusinessesAsAdmin();
+      const businesses = await getBusinessesWithUser();
       return (
         <>
           <Notification

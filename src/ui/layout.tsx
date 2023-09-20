@@ -54,8 +54,7 @@ export function Layout({
           class="bg-white text-black/80 subpixel-antialiased dark:bg-gray-950 dark:text-white/80"
           hx-boost="true"
           hx-ext="response-targets, preload"
-          _={`on every htmx:beforeSend in <button /> tell it toggle @disabled until htmx:afterOnLoad end
-        on click add .hidden .opacity-0 .scale-95 to .dropdown end`}
+          _="on click add .hidden .opacity-0 .scale-95 to .dropdown end"
           // Handles click outside for all menus
         >
           {/* Notifications fall all here! */}

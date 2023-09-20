@@ -22,7 +22,7 @@ export const business = sqliteTable(
     location: text("location"),
     webpage: text("webpage"),
     image: text("image"),
-    tags: text("tags"),
+    tags: text("tags").$type<number[]>(),
     featured: integer("featured", { mode: "boolean" }).default(false),
     enabled: integer("enabled", { mode: "boolean" }).default(false),
     owner: integer("user_id").references(() => user.id),

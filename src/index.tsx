@@ -13,7 +13,7 @@ const app = new Elysia()
   .use(auth)
   /** Entry point */
   .get("/", ({ JWTUser }) => <Layout isAuth={!!JWTUser} />)
-  /** Dashboard group /d as a shorthand */
+  /** Guard routes from plugins */
   .guard(
     {
       beforeHandle: async ({ JWTUser, set }) => {
