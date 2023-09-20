@@ -1,25 +1,23 @@
 import { Elysia } from "elysia";
 import staticPlugin from "@elysiajs/static";
-import setup from "@/(setup)";
+import setup from "@/routes/(setup)";
 import auth from "@/routes/auth";
 import profile from "@/routes/dashboard/profile";
 import tags from "@/routes/dashboard/tags";
 import business from "@/routes/dashboard/business";
-
-import { Layout } from "@/components/layout";
-import { Notification } from "@/components/ui/notification";
-import NotFound from "./components/404-not-found";
+import { Layout } from "@/ui/layout";
 
 const app = new Elysia()
   .use(staticPlugin())
   .use(setup)
   .use(auth)
-  .get("/", ({ user }) => <Layout isAuth={!!user} />)
-  .group(
-    "/d",
+  /** Entry point */
+  .get("/", ({ JWTUser }) => <Layout isAuth={!!JWTUser} />)
+  /** Dashboard group /d as a shorthand */
+  .guard(
     {
-      beforeHandle: async ({ user, set }) => {
-        if (!user) {
+      beforeHandle: async ({ JWTUser, set }) => {
+        if (!JWTUser) {
           set.status = 401;
           return (set.redirect = "/");
         }
@@ -29,11 +27,10 @@ const app = new Elysia()
       app
         .use(profile)
         .use(business)
-        .group(
-          "/tag",
+        .guard(
           {
-            beforeHandle: ({ user, set }) => {
-              if (user!.role !== "admin") {
+            beforeHandle: ({ JWTUser, set }) => {
+              if (JWTUser!.role !== "admin") {
                 set.status = 401;
                 return "Unauthorized";
               }
@@ -42,16 +39,6 @@ const app = new Elysia()
           (app) => app.use(tags),
         ),
   )
-  .onError(({ code, error, set }) => {
-    if (code === "VALIDATION")
-      return (
-        <Notification
-          title={error.name}
-          description={error.all.map((e) => e.schema.error).join("<br/>")}
-          icon="i-lucide-x-circle text-red-500"
-        />
-      );
-  })
   .listen(3000);
 
 console.log(

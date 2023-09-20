@@ -6,7 +6,7 @@ export default {
   content: ["./src/**/*.{html,tsx}"],
   theme: {
     extend: {
-      fontFamily: { sans: ['Red Hat Display', 'sans'], heading: ['Bespoke Stencil', 'sans'] },
+      fontFamily: { sans: ['Outfit', 'sans'], heading: ['Bespoke Stencil', 'sans'] },
       colors: {
         'gray': { '850': '#161e2c' }
       },

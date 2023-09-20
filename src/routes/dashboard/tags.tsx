@@ -1,86 +1,85 @@
 import Elysia from "elysia";
-import setup from "@/(setup)";
-import { tag } from "@/db/schema/tags";
-import { withLayout } from "@/components/layout";
-import DashboardLayout from "@/components/dashboard-layout";
-import Tags from "@/components/tag";
-import { eq } from "drizzle-orm";
-import { db } from "@/db";
+import setup from "@/routes/(setup)";
+import { tagForm } from "@/db/schema/tag";
+import Tags from "@/modules/tag";
+import { DashboardLayout } from "@/ui/dashboard/layout";
+import { Layout } from "@/ui/layout";
+import { Notification } from "@/ui/notification";
+import { createTag, getTagById, getTags, updateTag } from "@/services/tag";
 
 const tags = new Elysia({
   name: "tags",
+  prefix: "/d/tag",
 })
   .use(setup)
+  .get("/", async ({ JWTUser, headers }) => {
+    const tags = await getTags();
 
-  .get("/", async ({ user, headers }) => {
-    const r = await db.select().from(tag);
-    return withLayout(
-      headers["hx-request"] === "true",
-      <DashboardLayout role={user!.role} current="/d/tag">
-        <Tags tags={r} />
-      </DashboardLayout>,
+    return headers["hx-request"] ? (
+      <DashboardLayout role={JWTUser!.role} current="/d/tag">
+        <Tags tags={tags} />
+      </DashboardLayout>
+    ) : (
+      <Layout>
+        <DashboardLayout role={JWTUser!.role} current="/d/tag">
+          <Tags tags={tags} />
+        </DashboardLayout>
+      </Layout>
     );
   })
   .get("/:id/form", async ({ params: { id } }) => {
-    const r = await db
-      .select()
-      .from(tag)
-      .where(eq(tag.id, Number(id)));
+    const tag = await getTagById(parseInt(id));
 
-    return <Tags.Edit tag={r[0]} />;
+    return <Tags.Edit tag={tag} />;
   })
   .get("/:id/row", async ({ params: { id } }) => {
-    const r = await db
-      .select()
-      .from(tag)
-      .where(eq(tag.id, Number(id)));
+    const tag = await getTagById(parseInt(id));
 
-    return <Tags.Row tag={r[0]} />;
+    return <Tags.Row tag={tag} />;
   })
   .put(
     "/:id",
     async ({ params: { id }, body, set }) => {
-      let r;
-      try {
-        r = await db
-          .update(tag)
-          .set({ name: body.name.toLocaleLowerCase() })
-          .where(eq(tag.id, Number(id)))
-          .returning();
-      } catch (error) {
+      const tag = await updateTag(parseInt(id), {
+        name: body.name.toLocaleLowerCase(),
+      });
+      // Handle existing tag error
+      if (!tag) {
         set.status = 403;
         return (
-          <p class="text-xs text-red-600" _="init wait 6s then hide me">
-            * A tag already exists with that name
-          </p>
+          <Notification
+            isError
+            title="Error"
+            description="Ya existe una categoría con ese nombre"
+          />
         );
       }
 
-      return <Tags.Row tag={r[0]} />;
+      return <Tags.Row tag={tag} />;
     },
-    { body: "tag" },
+    { body: tagForm },
   )
   .post(
     "/",
     async ({ body, set }) => {
-      let r;
-      try {
-        r = await db
-          .insert(tag)
-          .values({ name: body.name.toLocaleLowerCase() })
-          .returning();
-      } catch (error) {
+      const tag = await createTag({
+        name: body.name.toLocaleLowerCase(),
+      });
+      // Handle existing tag error
+      if (!tag) {
         set.status = 403;
         return (
-          <p class="text-xs text-red-600" _="init wait 6s then hide me">
-            * A tag already exists with that name
-          </p>
+          <Notification
+            isError
+            title="Error"
+            description="Ya existe una categoría con ese nombre"
+          />
         );
       }
 
-      return <Tags.Row tag={r[0]} />;
+      return <Tags.Row tag={tag} />;
     },
-    { body: "tag" },
+    { body: tagForm },
   );
 
 export default tags;

@@ -1,73 +1,86 @@
-import { withLayout } from "@/components/layout";
-import { user } from "@/db/schema/user";
-import setup from "@/(setup)";
-import { eq } from "drizzle-orm";
+import { InsertUser, userSchema } from "@/db/schema/user";
+import Profile from "@/modules/profile";
+import setup from "@/routes/(setup)";
+import { getUserById, updateUserAttribute } from "@/services/user";
+import { DashboardLayout } from "@/ui/dashboard/layout";
+import { Layout } from "@/ui/layout";
+import { Notification } from "@/ui/notification";
 import Elysia, { t } from "elysia";
-import DashboardLayout from "../../components/dashboard-layout";
-import Profile from "@/components/profile";
-import { db } from "@/db";
 
 const profile = new Elysia({
   name: "profile",
+  prefix: "/d",
 })
   .use(setup)
-  .get("/", async ({ user: u, headers }) => {
-    const r = await db
-      .select()
-      .from(user)
-      .where(eq(user.id, Number(u?.id)));
-    return withLayout(
-      headers["hx-request"] === "true",
-      <DashboardLayout role={r[0].role} current="/d">
-        <Profile user={r[0]} />
-      </DashboardLayout>,
+  .get("/", async ({ JWTUser, headers }) => {
+    const user = await getUserById(parseInt(JWTUser!.id));
+
+    return headers["hx-request"] ? (
+      <DashboardLayout role={user.role} current="/d">
+        <Profile user={user} />
+      </DashboardLayout>
+    ) : (
+      <Layout>
+        <DashboardLayout role={user.role} current="/d">
+          <Profile user={user} />
+        </DashboardLayout>
+      </Layout>
     );
   })
   .get("/:id/:attr", ({ params: { id, attr }, query }) => (
-    <Profile.Attribute id={id} attribute={attr} value={query.value as string} />
+    <Profile.Attribute
+      id={id}
+      attribute={attr as keyof InsertUser}
+      value={query.value as string}
+    />
   ))
   .get("/:id/:attr/edit", ({ params: { id, attr }, query }) => (
     <Profile.AttributeEdit
       id={id}
-      attribute={attr}
+      attribute={attr as keyof InsertUser}
       value={query.value as string}
     />
   ))
-  .patch("/:id", async ({ params: { id }, body }) => {
-    const [attr, val] = Object.entries(
-      body as { [key: string]: string },
-    ).flat();
-    const r = await db
-      .update(user)
-      .set({ [attr]: val })
-      .where(eq(user.id, Number(id)))
-      // @ts-ignore I know that I'm passing a safe key like 'name'
-      .returning({ [attr]: user[attr] });
-
-    return <Profile.Attribute id={id} attribute={attr} value={r[0][attr]} />;
-  })
+  .patch(
+    "/:id",
+    async ({ params: { id }, body }) => {
+      const [attr, value] = Object.entries(body).flat() as [
+        attr: keyof InsertUser,
+        value: string | number | null,
+      ];
+      const r = await updateUserAttribute(parseInt(id), attr, value);
+      return <Profile.Attribute id={id} attribute={attr} value={r} />;
+    },
+    { body: t.Partial(userSchema) },
+  )
   .patch(
     "/password",
-    async ({ user: u, body, set }) => {
-      const r = await db
-        .select({ currentPassword: user.password })
-        .from(user)
-        .where(eq(user.id, Number(u?.id)));
+    async ({ JWTUser, body, set }) => {
+      const { password } = await getUserById(parseInt(JWTUser!.id));
 
-      if (r[0].currentPassword !== body.currentPassword) {
+      if (password !== body.currentPassword) {
         set.status = 403;
         return (
-          <p class="text-sm text-red-600">
-            * Current password doesn't match the existing one
-          </p>
+          <Notification
+            isError
+            title="Error"
+            description="Las contraseñas no coinciden"
+          />
         );
       }
-      await db
-        .update(user)
-        .set({ password: body.password })
-        .where(eq(user.id, Number(u?.id)));
 
-      return <p class="text-sm text-cyan-600">Successfully updated</p>;
+      await updateUserAttribute(
+        parseInt(JWTUser!.id),
+        "password",
+        body.password,
+      );
+
+      return (
+        <Notification
+          title="Actualizado"
+          description="La contraseña fue actualizada"
+        />
+      );
     },
     {
       body: t.Object({

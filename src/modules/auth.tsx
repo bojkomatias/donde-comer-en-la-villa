@@ -1,7 +1,8 @@
-import { Button, buttonStyles } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { dashboardNav } from "@/config/dashboard";
+import { buttonStyles, Button } from "@/ui/button";
+import { Input } from "@/ui/input";
 import { cx } from "@/utils/cx";
+import { dict } from "@/utils/dictionary";
 import { JWTPayloadSpec } from "@elysiajs/jwt";
 
 const google = new URL("auth", "https://accounts.google.com/o/oauth2/v2/");
@@ -20,18 +21,29 @@ Auth.Form = (props: { csrfToken: string }) => {
     <div class="mx-auto mt-20 max-w-xl space-y-8 rounded-lg bg-gray-50 p-6 dark:bg-gray-900/50">
       <a href="/" class={buttonStyles({ size: "sm" })}>
         <i class="i-lucide-chevron-left" />
-        Back
+        {dict.get("back")}
       </a>
-      <p class="text-xl">Welcome back!</p>
-      <p class="text-sm text-gray-600">
-        Authenticate to visit your business dashboard
+      <p class="text-xl">Volviste!</p>
+      <p class="text-sm text-gray-700 dark:text-gray-300">
+        Ingresá con Google o autenticate con tus credenciales.
       </p>
+      <a
+        href={google.href}
+        class={buttonStyles({
+          class:
+            "w-full flex-grow bg-white font-medium text-black ring-1 ring-gray-500/50 transition hover:shadow dark:hover:bg-gray-200",
+        })}
+      >
+        <img
+          src="/public/google-svg.svg"
+          class="-ml-4 mr-4 h-5 w-5 rounded-full"
+        />{" "}
+        Ingresar con Google
+      </a>
       <form
         hx-post="/auth/login"
         hx-target-4xx="#notification"
-        // Target body cause it's a full page redirect
         hx-target="body"
-        // hx-push-url="true"
       >
         <input
           type="text"
@@ -42,57 +54,24 @@ Auth.Form = (props: { csrfToken: string }) => {
         <div class="isolate">
           <Input
             name="email"
-            label="email"
             placeholder="example@example.com"
             type="email"
             required="true"
           />
           <Input
             name="password"
-            label="password"
             placeholder="***********"
             type="password"
             required="true"
           />
         </div>
-        <div class="my-4 gap-6">
-          <Button intent="primary" class="w-full">
+        <div class="mt-6 flex gap-6">
+          <Button intent="primary" class="w-1/2">
             Login
           </Button>
-          <Button type="reset">Crear cuenta</Button>
-        </div>
-        <div class="pb-12 pt-8 text-center text-xs font-medium">
-          Or login in with OAuth
-        </div>
-
-        <div class="flex gap-6">
-          <a
-            href={google.href}
-            intent="primary"
-            class={buttonStyles({
-              class:
-                "flex-grow bg-white ring-1 ring-gray-500/50 transition hover:shadow dark:hover:bg-gray-200",
-            })}
-          >
-            <img
-              src="/public/google-svg.svg"
-              class="mr-2 h-5 w-5 rounded-full"
-            />
-          </a>
-          <button
-            type="button"
-            intent="primary"
-            class={buttonStyles({
-              class:
-                "flex-grow bg-gray-900 ring-1 ring-gray-500/50 transition hover:bg-gray-900 hover:shadow",
-            })}
-            disabled="true"
-          >
-            <img
-              src="/public/github-svg.svg"
-              class="mr-2 h-5 w-5 rounded-full invert"
-            />
-          </button>
+          <Button type="reset" intent="secondary" class="w-1/2">
+            Crear cuenta
+          </Button>
         </div>
       </form>
     </div>
@@ -106,7 +85,7 @@ Auth.Login = () => (
     hx-swap="innerHTML"
     intent="primary"
   >
-    Login
+    {dict.get("login")}
   </Button>
 );
 
@@ -160,9 +139,13 @@ Auth.Navigation = ({ user }: { user: User }) => {
             then toggle .opacity-0 .scale-95 on me
         else toggle .opacity-0 .scale-95 on me settle then add .hidden to me"
       >
-        <div class="px-4 py-3">
-          <div class="text-sm font-semibold leading-loose">{user.name}</div>
-          <span class="text-xs font-light text-gray-500">{user.email}</span>
+        <div class="px-4 py-3" _="on click halt bubbling">
+          <div class="text-sm font-semibold leading-loose" safe>
+            {user.name}
+          </div>
+          <span class="text-xs font-light text-gray-500" safe>
+            {user.email}
+          </span>
         </div>
         <nav class="py-1">
           {dashboardNav
@@ -173,21 +156,21 @@ Auth.Navigation = ({ user }: { user: User }) => {
                 hx-push-url="true"
                 hx-target="main"
                 hx-swap="innerHTML"
-                class="flex w-full items-center gap-3 px-4 py-3 text-sm hover:bg-gray-400/10"
+                class="flex w-full items-center gap-3 px-4 py-3 text-sm capitalize hover:bg-gray-400/10"
               >
                 <i class={cx(item.icon, "h-4 w-4 text-gray-500")} />
-                {item.name}
+                {dict.get(item.name)}
               </button>
             ))}
         </nav>
         <button
           hx-post="/auth/logout"
           hx-push-url="true"
-          class="flex w-full items-center gap-3 px-4 py-3 text-sm font-semibold hover:bg-gray-400/10"
+          class="flex w-full items-center gap-3 px-4 py-3 text-sm font-semibold capitalize hover:bg-gray-400/10"
           tabindex="-1"
         >
           <i class="i-lucide-log-out h-4 w-4 text-gray-500" />
-          Logout
+          {dict.get("logout")}
         </button>
       </div>
     </div>
