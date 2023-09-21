@@ -1,23 +1,58 @@
 import { db } from "@/db";
-import { business, businessForm } from "@/db/schema/business";
-import { tagToBusiness } from "@/db/schema/tag";
-import { user } from "@/db/schema/user";
-import { eq } from "drizzle-orm";
+import { SelectBusiness, business, businessForm } from "@/db/schema/business";
+import { SelectTag, tag, tagToBusiness } from "@/db/schema/tag";
+import { SelectUser, user } from "@/db/schema/user";
+import { eq, getTableColumns } from "drizzle-orm";
 import { Static } from "@sinclair/typebox";
+import { review } from "@/db/schema/review";
 
 export async function getBusinessesWithUser() {
-  // const { id, name, phone, featured, enabled } = getTableColumns(business);
+  const columns = getTableColumns(business);
+
   return await db
-    .select()
+    .select({ ...columns, owner: user.name })
     .from(business)
     .leftJoin(user, eq(business.owner, user.id));
 }
+export type BusinessesWithUser = Awaited<
+  ReturnType<typeof getBusinessesWithUser>
+>;
 
-export async function getBusinessesById(id: number) {
+export async function getBusinessById(id: number) {
   const result = await db.select().from(business).where(eq(business.id, id));
 
   return result[0];
 }
+export async function getBusinessWithRelations(id: number) {
+  const columns = getTableColumns(business);
+  const rows = await db
+    .select({
+      ...columns,
+      tag: tag.name,
+      owner: user,
+      review: review,
+    })
+    .from(business)
+    .where(eq(business.id, id))
+    .leftJoin(user, eq(business.owner, user.id))
+    .leftJoin(tagToBusiness, eq(business.id, tagToBusiness.businessId))
+    .leftJoin(tag, eq(tagToBusiness.tagId, tag.id))
+    .leftJoin(review, eq(business.id, review.business));
+
+  // Map into a single row (flatten)
+  // This works because we are returning one object, returning many needs a better reduce.
+  const tags = rows.map((e) => e.tag).filter(Boolean);
+  const reviews = rows.map((e) => e.review).filter(Boolean);
+  // Exclude them since they were just placeholders
+  const { tag: tagD, review: reviewD, ...bus } = rows[0];
+
+  const result = { ...bus, tags, reviews };
+
+  return result;
+}
+export type BusinessWithRelation = Awaited<
+  ReturnType<typeof getBusinessWithRelations>
+>;
 
 export async function createBusiness(newBusiness: Static<typeof businessForm>) {
   let { tags, ...rest } = newBusiness;

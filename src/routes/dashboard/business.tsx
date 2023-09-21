@@ -9,7 +9,8 @@ import { Layout } from "@/ui/layout";
 import { Notification } from "@/ui/notification";
 import {
   createBusiness,
-  getBusinessesById,
+  getBusinessById,
+  getBusinessWithRelations,
   getBusinessesWithUser,
 } from "@/services/business";
 import { getUsersForSelector } from "@/services/user";
@@ -55,10 +56,23 @@ const businessRouter = new Elysia({
       </Layout>
     );
   })
+  .get("/:id", async ({ JWTUser, headers, params: { id } }) => {
+    const business = await getBusinessWithRelations(parseInt(id));
+
+    return headers["hx-request"] ? (
+      <Business.View business={business} />
+    ) : (
+      <Layout>
+        <DashboardLayout role={JWTUser!.role} current="/d/business">
+          <Business.View business={business} />
+        </DashboardLayout>
+      </Layout>
+    );
+  })
   .get("/:id/edit", async ({ JWTUser, headers, params: { id } }) => {
     const tags = await getTags();
     const users = await getUsersForSelector();
-    const business = await getBusinessesById(parseInt(id));
+    const business = await getBusinessById(parseInt(id));
     // Add tags from relation
     business.tags = (await getTagsByBusinessId(business.id)).map(
       (e) => e.tagId,

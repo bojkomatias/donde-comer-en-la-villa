@@ -1,6 +1,6 @@
 import { SelectBusiness } from "@/db/schema/business";
 import { SelectTag } from "@/db/schema/tag";
-import { SelectUser } from "@/db/schema/user";
+import { BusinessWithRelation, BusinessesWithUser } from "@/services/business";
 import { Button } from "@/ui/button";
 import { DashboardHeading } from "@/ui/dashboard/heading";
 import { Input } from "@/ui/input";
@@ -29,11 +29,7 @@ const Business = ({ children }: { children: JSX.Element }) => (
   </div>
 );
 
-Business.Table = ({
-  businesses,
-}: {
-  businesses: { business: SelectBusiness; user: SelectUser | null }[];
-}) => (
+Business.Table = ({ businesses }: { businesses: BusinessesWithUser }) => (
   <div class="mt-8">
     {businesses.length > 0 ? (
       <table class="min-w-full divide-y dark:divide-gray-700">
@@ -69,7 +65,7 @@ Business.Table = ({
           </tr>
         </thead>
         <tbody class="divide-y dark:divide-gray-700">
-          {businesses.map(({ business, user }) => (
+          {businesses.map((business) => (
             <tr>
               <td
                 class="table-cell whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium capitalize text-inherit sm:pl-0"
@@ -93,12 +89,13 @@ Business.Table = ({
                 class="hidden whitespace-nowrap px-2 py-4 text-sm capitalize text-gray-500 sm:table-cell"
                 safe
               >
-                {user?.name}
+                {business?.owner}
               </td>
               <td class="flex justify-end whitespace-nowrap py-4 pl-3 pr-4 sm:pr-0">
                 <Button
-                  hx-get={`/d/business/${business.id}/edit`}
+                  hx-get={`/d/business/${business.id}`}
                   hx-swap="outerHTML"
+                  hx-push-url="true"
                   size="xs"
                   preload
                 >
@@ -125,96 +122,109 @@ Business.Form = ({
   tags: SelectTag[];
   users: { id: number; name: string }[];
   business?: SelectBusiness;
-}) => {
-  return (
-    <div
-      hx-target="this"
-      class="bg-gray-50 p-4 dark:bg-gray-900/50 sm:rounded-lg"
+}) => (
+  <div
+    hx-target="this"
+    class="bg-gray-50 p-4 dark:bg-gray-900/50 sm:rounded-lg"
+  >
+    <DashboardHeading
+      title={(business ? "Editar " : "Nuevo ") + dict.get("business")}
+      subtitle={
+        business ? "Actualiza los datos de tu negocio" : "Crea un nuevo negocio"
+      }
+    />
+    <form
+      hx-post="/d/business"
+      hx-swap="outerHTML"
+      hx-push-url="true"
+      hx-target-4xx="#notification"
+      autocomplete="off"
+      class="-mx-1 mt-4 sm:mx-0"
     >
-      <DashboardHeading
-        title={(business ? "Editar " : "Nuevo ") + dict.get("business")}
-        subtitle={
-          business
-            ? "Actualiza los datos de tu negocio"
-            : "Crea un nuevo negocio"
-        }
+      <Input
+        name="name"
+        required="true"
+        placeholder="Burguesía"
+        value={business?.name}
       />
-      <form
-        hx-post="/d/business"
-        hx-swap="outerHTML"
-        hx-push-url="true"
-        hx-target-4xx="#notification"
-        autocomplete="off"
-        class="-mx-1 mt-4 sm:mx-0"
-      >
+      <Input name="description" placeholder="Las burgers más burgueses" />
+      <Input
+        name="phone"
+        type="tel"
+        pattern="[+549]{4}[0-9]{10}"
+        title="Numero con prefijo (+549) seguido de 10 dígitos"
+        placeholder="+5493435111111"
+        value={business?.phone || ""}
+      />
+      <Input
+        name="address"
+        placeholder="25 de Mayo y Sarmiento"
+        value={business?.address || ""}
+      />
+      <Input
+        name="location"
+        placeholder="https://maps.gl.io"
+        type="url"
+        value={business?.location || ""}
+      />
+      <span class="flex -space-x-px">
         <Input
-          name="name"
-          required="true"
-          placeholder="Burguesía"
-          value={business?.name}
-        />
-        <Input name="description" placeholder="Las burgers más burgueses" />
-        <Input
-          name="phone"
-          type="tel"
-          pattern="[+549]{4}[0-9]{10}"
-          title="Numero con prefijo (+549) seguido de 10 dígitos"
-          placeholder="+5493435111111"
-        />
-        <Input name="address" placeholder="25 de Mayo y Sarmiento" />
-        <Input name="location" placeholder="https://maps.gl.io" type="url" />
-        <span class="flex -space-x-px">
-          <Input
-            name="instagram"
-            placeholder="matibojko"
-            class="flex-grow first-of-type:rounded-t-none"
-          />
-          <Input
-            name="twitter"
-            placeholder="bojko_matias"
-            class="flex-grow last-of-type:rounded-b-none"
-          />
-        </span>
-        <Input
-          name="webpage"
-          type="url"
-          placeholder="https://www.matiasbojko.com"
+          name="instagram"
+          placeholder="matibojko"
+          class="flex-grow first-of-type:rounded-t-none"
+          value={business?.instagram || ""}
         />
         <Input
-          name="tags"
-          options={tags}
-          multiple="true"
-          values={business?.tags ? business.tags : undefined}
+          name="twitter"
+          placeholder="bojko_matias"
+          class="flex-grow last-of-type:rounded-b-none"
+          value={business?.twitter || ""}
         />
-        <span class="flex -space-x-px">
-          <Input
-            name="featured"
-            type="checkbox"
-            checked={business?.featured ? "true" : undefined}
-            // HTML if not set value string sets "on" by default
-            value="true"
-            class="flex-grow first-of-type:rounded-t-none"
-          />
-          <Input
-            name="enabled"
-            type="checkbox"
-            checked={business?.enabled ? "true" : undefined}
-            // HTML if not set value string sets "on" by default
-            value="true"
-            class="flex-grow last-of-type:rounded-b-none"
-          />
-        </span>
+      </span>
+      <Input
+        name="webpage"
+        type="url"
+        placeholder="https://www.matiasbojko.com"
+        value={business?.webpage || ""}
+      />
+      <Input
+        name="tags"
+        options={tags}
+        multiple="true"
+        values={business?.tags ? business.tags : undefined}
+      />
+      <span class="flex -space-x-px">
         <Input
-          name="owner"
-          options={users}
-          values={business?.owner ? [business.owner] : undefined}
+          name="featured"
+          type="checkbox"
+          checked={business?.featured ? "true" : undefined}
+          // HTML if not set value string sets "on" by default
+          value="true"
+          class="flex-grow first-of-type:rounded-t-none"
         />
-        <span class="mt-2 flex justify-end">
-          <Button intent="primary">{dict.get("save")}</Button>
-        </span>
-      </form>
-    </div>
-  );
-};
+        <Input
+          name="enabled"
+          type="checkbox"
+          checked={business?.enabled ? "true" : undefined}
+          // HTML if not set value string sets "on" by default
+          value="true"
+          class="flex-grow last-of-type:rounded-b-none"
+        />
+      </span>
+      <Input
+        name="owner"
+        options={users}
+        values={business?.owner ? [business.owner] : undefined}
+      />
+      <span class="mt-2 flex justify-end">
+        <Button intent="primary">{dict.get("save")}</Button>
+      </span>
+    </form>
+  </div>
+);
+
+Business.View = ({ business }: { business: BusinessWithRelation }) => (
+  <pre>{JSON.stringify(business, null, 2)}</pre>
+);
 
 export default Business;
