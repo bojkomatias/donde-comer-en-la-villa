@@ -1,5 +1,5 @@
 import setup from "@/routes/(setup)";
-import { businessForm } from "@/db/schema/business";
+import { insertBusinessForm } from "@/db/schema/business";
 import Elysia from "elysia";
 import { Value } from "@sinclair/typebox/value";
 import { Static } from "@sinclair/typebox";
@@ -12,6 +12,7 @@ import {
   getBusinessById,
   getBusinessWithRelations,
   getBusinessesWithUser,
+  updateBusiness,
 } from "@/services/business";
 import { getUsersForSelector } from "@/services/user";
 
@@ -42,20 +43,6 @@ const businessRouter = new Elysia({
       </Layout>
     );
   })
-  .get("/new", async ({ JWTUser, headers }) => {
-    const tags = await getTags();
-    const users = await getUsersForSelector();
-
-    return headers["hx-request"] ? (
-      <Business.Form tags={tags} users={users} />
-    ) : (
-      <Layout>
-        <DashboardLayout role={JWTUser!.role} current="/d/business">
-          <Business.Form tags={tags} users={users} />
-        </DashboardLayout>
-      </Layout>
-    );
-  })
   .get("/:id", async ({ JWTUser, headers, params: { id } }) => {
     const business = await getBusinessWithRelations(parseInt(id));
 
@@ -69,6 +56,50 @@ const businessRouter = new Elysia({
       </Layout>
     );
   })
+  .put(
+    "/:id",
+    async ({ body, set, params: { id } }) => {
+      const updated = await updateBusiness(parseInt(id), body);
+
+      if (!updated) {
+        set.status = 403;
+        return (
+          <Notification
+            isError
+            title="Error"
+            description="Ocurrió un error al actualizar el negocio"
+          />
+        );
+      }
+
+      const business = await getBusinessWithRelations(parseInt(id));
+
+      return (
+        <>
+          {" "}
+          <Notification
+            title="Actualizado"
+            description="Negocio actualizado con éxito"
+          />
+          <Business.View business={business} />
+        </>
+      );
+    },
+    {
+      transform: ({ body }) => {
+        /** Transformation to match HTML to Insert
+         * Mostly HTML returns string,
+         * Here we convert types with typebox
+         */
+        const c = Value.Convert(insertBusinessForm, body) as Static<
+          typeof insertBusinessForm
+        >;
+        // Object assign replaces object content body = c does not
+        Object.assign(body, c);
+      },
+      body: insertBusinessForm,
+    },
+  )
   .get("/:id/edit", async ({ JWTUser, headers, params: { id } }) => {
     const tags = await getTags();
     const users = await getUsersForSelector();
@@ -79,11 +110,25 @@ const businessRouter = new Elysia({
     );
 
     return headers["hx-request"] ? (
-      <Business.Form tags={tags} users={users} business={business} />
+      <Business.Edit tags={tags} users={users} business={business} />
     ) : (
       <Layout>
         <DashboardLayout role={JWTUser!.role} current="/d/business">
-          <Business.Form tags={tags} users={users} business={business} />
+          <Business.Edit tags={tags} users={users} business={business} />
+        </DashboardLayout>
+      </Layout>
+    );
+  })
+  .get("/new", async ({ JWTUser, headers }) => {
+    const tags = await getTags();
+    const users = await getUsersForSelector();
+
+    return headers["hx-request"] ? (
+      <Business.New tags={tags} users={users} />
+    ) : (
+      <Layout>
+        <DashboardLayout role={JWTUser!.role} current="/d/business">
+          <Business.New tags={tags} users={users} />
         </DashboardLayout>
       </Layout>
     );
@@ -123,13 +168,13 @@ const businessRouter = new Elysia({
          * Mostly HTML returns string,
          * Here we convert types with typebox
          */
-        const c = Value.Convert(businessForm, body) as Static<
-          typeof businessForm
+        const c = Value.Convert(insertBusinessForm, body) as Static<
+          typeof insertBusinessForm
         >;
         // Object assign replaces object content body = c does not
         Object.assign(body, c);
       },
-      body: businessForm,
+      body: insertBusinessForm,
     },
   );
 

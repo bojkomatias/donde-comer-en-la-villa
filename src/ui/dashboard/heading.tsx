@@ -4,10 +4,16 @@ export const DashboardHeading = (props: {
 }) => {
   return (
     <>
-      <h1 class="pl-3 text-xl font-black leading-loose first-letter:capitalize sm:pl-0">
+      <h1
+        class="pl-3 text-lg font-black first-letter:capitalize sm:pl-0 sm:text-xl sm:leading-loose"
+        safe
+      >
         {props.title}
       </h1>
-      <h2 class="mt-1 pl-3 text-sm leading-6 text-gray-500 sm:pl-0">
+      <h2
+        class="pl-3 text-xs font-light leading-6 text-gray-600 dark:text-gray-400 sm:pl-0 sm:text-sm"
+        safe
+      >
         {props.subtitle}
       </h2>
     </>

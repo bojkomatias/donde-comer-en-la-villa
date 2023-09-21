@@ -12,7 +12,12 @@ export const DashboardLayout = ({
   current: string;
   children?: any;
 }) => (
-  <div class="lg:flex lg:gap-x-8" hx-target="this" hx-swap="outerHTML">
+  <div
+    id="dashboard"
+    class="lg:flex lg:gap-x-8"
+    hx-target="this"
+    hx-swap="outerHTML"
+  >
     <aside class="absolute left-0 flex h-fit w-screen max-w-none overflow-x-auto border-b bg-white py-4 dark:border-gray-700 dark:bg-gray-950 lg:sticky lg:top-0 lg:block lg:w-64 lg:flex-none lg:border-0 lg:py-16">
       <nav class="container mx-auto flex-none px-4 sm:px-6 lg:px-2">
         <ul
@@ -54,4 +59,3 @@ export const DashboardLayout = ({
     <div class="pt-24 lg:flex-auto lg:pt-12">{children}</div>
   </div>
 );
-

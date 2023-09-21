@@ -1,7 +1,7 @@
 import { db } from "@/db";
-import { SelectBusiness, business, businessForm } from "@/db/schema/business";
-import { SelectTag, tag, tagToBusiness } from "@/db/schema/tag";
-import { SelectUser, user } from "@/db/schema/user";
+import { business, insertBusinessForm } from "@/db/schema/business";
+import { tag, tagToBusiness } from "@/db/schema/tag";
+import { user } from "@/db/schema/user";
 import { eq, getTableColumns } from "drizzle-orm";
 import { Static } from "@sinclair/typebox";
 import { review } from "@/db/schema/review";
@@ -54,7 +54,9 @@ export type BusinessWithRelation = Awaited<
   ReturnType<typeof getBusinessWithRelations>
 >;
 
-export async function createBusiness(newBusiness: Static<typeof businessForm>) {
+export async function createBusiness(
+  newBusiness: Static<typeof insertBusinessForm>,
+) {
   let { tags, ...rest } = newBusiness;
 
   // Transaction to handle rollback if needed
@@ -79,5 +81,44 @@ export async function createBusiness(newBusiness: Static<typeof businessForm>) {
       return ra;
     }
   });
+  return result;
+}
+
+export async function updateBusiness(
+  id: number,
+  newBusiness: Static<typeof insertBusinessForm>,
+) {
+  let { tags, ...rest } = newBusiness;
+
+  // Transaction to handle rollback if needed
+  const result = await db.transaction(async (tx) => {
+    const r = await tx
+      .update(business)
+      .set(rest)
+      .where(eq(business.id, id))
+      .returning({ id: business.id });
+
+    if (tags) {
+      //Delete all tags
+      await tx
+        .delete(tagToBusiness)
+        .where(eq(tagToBusiness.businessId, r[0].id));
+      // Then re-insert
+      tags = [tags].flat();
+      const t_b_values = tags?.map((e) => ({
+        businessId: r[0].id,
+        tagId: e,
+      }));
+
+      const ra = (await tx.insert(tagToBusiness).values(t_b_values))
+        .rowsAffected;
+
+      // Rollback the whole process if tags don't match inserted tags
+      if (ra !== tags.length) return tx.rollback();
+
+      return ra;
+    }
+  });
+
   return result;
 }
