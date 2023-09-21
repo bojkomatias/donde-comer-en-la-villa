@@ -1,5 +1,5 @@
 import setup from "@/routes/(setup)";
-import { businessForm } from "@/db/schema/business";
+import { insertBusinessForm } from "@/db/schema/business";
 import Elysia from "elysia";
 import { Value } from "@sinclair/typebox/value";
 import { Static } from "@sinclair/typebox";
@@ -7,10 +7,17 @@ import Business from "@/modules/business";
 import { DashboardLayout } from "@/ui/dashboard/layout";
 import { Layout } from "@/ui/layout";
 import { Notification } from "@/ui/notification";
-import { createBusiness, getBusinessesAsAdmin } from "@/services/business";
+import {
+  createBusiness,
+  getBusinessById,
+  getBusinessWithRelations,
+  getBusinessesWithUser,
+  updateBusiness,
+} from "@/services/business";
 import { getUsersForSelector } from "@/services/user";
 
 import { getTags } from "@/services/tag";
+import { getTagsByBusinessId } from "@/services/tag-to-business";
 
 const businessRouter = new Elysia({
   name: "business",
@@ -18,7 +25,7 @@ const businessRouter = new Elysia({
 })
   .use(setup)
   .get("/", async ({ JWTUser, headers }) => {
-    const businesses = await getBusinessesAsAdmin();
+    const businesses = await getBusinessesWithUser();
 
     return headers["hx-request"] ? (
       <DashboardLayout role={JWTUser!.role} current="/d/business">
@@ -36,17 +43,91 @@ const businessRouter = new Elysia({
       </Layout>
     );
   })
+  .get("/:id", async ({ JWTUser, headers, params: { id } }) => {
+    const business = await getBusinessWithRelations(parseInt(id));
 
+    return headers["hx-request"] ? (
+      <Business.View business={business} />
+    ) : (
+      <Layout>
+        <DashboardLayout role={JWTUser!.role} current="/d/business">
+          <Business.View business={business} />
+        </DashboardLayout>
+      </Layout>
+    );
+  })
+  .put(
+    "/:id",
+    async ({ body, set, params: { id } }) => {
+      const updated = await updateBusiness(parseInt(id), body);
+
+      if (!updated) {
+        set.status = 403;
+        return (
+          <Notification
+            isError
+            title="Error"
+            description="Ocurrió un error al actualizar el negocio"
+          />
+        );
+      }
+
+      const business = await getBusinessWithRelations(parseInt(id));
+
+      return (
+        <>
+          <Notification
+            title="Actualizado"
+            description="Negocio actualizado con éxito"
+          />
+          <Business.View business={business} />
+        </>
+      );
+    },
+    {
+      transform: ({ body }) => {
+        /** Transformation to match HTML to Insert
+         * Mostly HTML returns string,
+         * Here we convert types with typebox
+         */
+        const c = Value.Convert(insertBusinessForm, body) as Static<
+          typeof insertBusinessForm
+        >;
+        // Object assign replaces object content body = c does not
+        Object.assign(body, c);
+      },
+      body: insertBusinessForm,
+    },
+  )
+  .get("/:id/edit", async ({ JWTUser, headers, params: { id } }) => {
+    const tags = await getTags();
+    const users = await getUsersForSelector();
+    const business = await getBusinessById(parseInt(id));
+    // Add tags from relation
+    business.tags = (await getTagsByBusinessId(business.id)).map(
+      (e) => e.tagId,
+    );
+
+    return headers["hx-request"] ? (
+      <Business.Edit tags={tags} users={users} business={business} />
+    ) : (
+      <Layout>
+        <DashboardLayout role={JWTUser!.role} current="/d/business">
+          <Business.Edit tags={tags} users={users} business={business} />
+        </DashboardLayout>
+      </Layout>
+    );
+  })
   .get("/new", async ({ JWTUser, headers }) => {
     const tags = await getTags();
     const users = await getUsersForSelector();
 
     return headers["hx-request"] ? (
-      <Business.Form tags={tags} users={users} />
+      <Business.New tags={tags} users={users} />
     ) : (
       <Layout>
         <DashboardLayout role={JWTUser!.role} current="/d/business">
-          <Business.Form tags={tags} users={users} />
+          <Business.New tags={tags} users={users} />
         </DashboardLayout>
       </Layout>
     );
@@ -67,7 +148,7 @@ const businessRouter = new Elysia({
         );
       }
 
-      const businesses = await getBusinessesAsAdmin();
+      const businesses = await getBusinessesWithUser();
       return (
         <>
           <Notification
@@ -86,13 +167,13 @@ const businessRouter = new Elysia({
          * Mostly HTML returns string,
          * Here we convert types with typebox
          */
-        const c = Value.Convert(businessForm, body) as Static<
-          typeof businessForm
+        const c = Value.Convert(insertBusinessForm, body) as Static<
+          typeof insertBusinessForm
         >;
         // Object assign replaces object content body = c does not
         Object.assign(body, c);
       },
-      body: businessForm,
+      body: insertBusinessForm,
     },
   );
 

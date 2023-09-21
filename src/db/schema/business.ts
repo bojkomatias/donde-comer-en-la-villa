@@ -14,15 +14,15 @@ export const business = sqliteTable(
   {
     id: integer("id").primaryKey().notNull(),
     name: text("name").notNull(),
-    description: text("description"),
-    phone: text("phone"),
+    description: text("description").notNull(),
+    phone: text("phone").notNull(),
     instagram: text("instagram"),
     twitter: text("twitter"),
     address: text("address"),
     location: text("location"),
     webpage: text("webpage"),
-    image: text("image"),
-    tags: text("tags"),
+    image: text("image").notNull(),
+    tags: text("tags").$type<number[]>(),
     featured: integer("featured", { mode: "boolean" }).default(false),
     enabled: integer("enabled", { mode: "boolean" }).default(false),
     owner: integer("user_id").references(() => user.id),
@@ -42,7 +42,7 @@ export type InsertBusiness = typeof business.$inferInsert; // insert type
 /** Schema to validate API body
  * (tags exist on form) => then are passed to tag_to_business on db
  */
-export const businessForm = createInsertSchema(business, {
+export const insertBusinessForm = createInsertSchema(business, {
   owner: t.Number(),
   tags: t.Union([t.Number(), t.Array(t.Number())]),
 });

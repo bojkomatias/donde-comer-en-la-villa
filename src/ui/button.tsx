@@ -16,11 +16,7 @@ export const Button = ({ intent, size, children, ...props }: Props) => {
   );
 };
 
-export const buttonStyles = (props: {
-  intent?: "primary" | "secondary" | "destructive";
-  size?: "xs" | "sm";
-  class?: string;
-}) => {
+export const buttonStyles = (props: Props) => {
   return cx(
     "group flex w-fit items-center justify-center gap-1 rounded px-3.5 py-2 text-sm font-medium capitalize hover:bg-gray-100 active:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 disabled:saturate-50 dark:hover:bg-gray-900",
     props.intent === "primary" &&
