@@ -76,7 +76,6 @@ const businessRouter = new Elysia({
 
       return (
         <>
-          {" "}
           <Notification
             title="Actualizado"
             description="Negocio actualizado con éxito"
