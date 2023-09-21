@@ -11,6 +11,13 @@ const app = new Elysia()
   .use(staticPlugin())
   .use(setup)
   .use(auth)
+  .onRequest(({ request, set }) => {
+    // Only cache GET and Hx-Requests (this avoids refresh issues)
+    if (request.method === "GET" && request.headers.get("hx-request")) {
+      set.headers["Cache-Control"] =
+        "public, max-age=300, must-revalidate, stale-while-revalidate=300";
+    }
+  })
   /** Entry point */
   .get("/", ({ JWTUser }) => <Layout isAuth={!!JWTUser} />)
   /** Guard routes from plugins */
