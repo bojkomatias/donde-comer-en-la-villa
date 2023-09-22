@@ -28,6 +28,7 @@ export const Filters = ({ tags }: { tags: SelectTag[] }) => {
             )}
             intent="outline"
             size="sm"
+            preload="mouseover"
           >
             {tag.name}
           </Button>

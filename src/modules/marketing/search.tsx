@@ -2,10 +2,11 @@ export const Search = () => {
   return (
     <div class="relative mx-4 flex h-10 items-center lg:mr-0">
       <input
-        hx-post="/search"
+        hx-get="/search"
         hx-trigger="keyup changed delay:500ms, search"
         hx-target="#results"
         hx-swap="outerHTML"
+        hx-include="this"
         id="search"
         type="text"
         name="search"

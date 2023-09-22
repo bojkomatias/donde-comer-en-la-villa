@@ -14,7 +14,10 @@ export const Results = ({ businesses }: { businesses: SelectBusiness[] }) => {
           ))}
         </div>
       ) : (
-        <div class="mx-auto mt-20 max-w-sm text-sm font-light text-gray-500">
+        <div
+          id="results"
+          class="mx-auto mt-20 max-w-sm text-sm font-light text-gray-500"
+        >
           No se encontraron datos modifique su búsqueda
         </div>
       )}

@@ -16,7 +16,7 @@ const app = new Elysia()
   .onRequest(({ request, set }) => {
     // Only cache GET and Hx-Requests (this avoids refresh issues)
     // if (request.method === "GET" && request.headers.get("hx-request")) {
-    //   set.headers["Cache-Control"] = "public, max-age=60, must-revalidate";
+    //   set.headers["Cache-Control"] = "public, max-age=5, must-revalidate";
     // }
   })
   /** Entry point, marketing as alias to '/' */

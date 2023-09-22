@@ -2,7 +2,7 @@ import { db } from "@/db";
 import { business, insertBusinessForm } from "@/db/schema/business";
 import { tagToBusiness } from "@/db/schema/tag";
 import { user } from "@/db/schema/user";
-import { eq, getTableColumns, like, sql } from "drizzle-orm";
+import { eq, getTableColumns, like, or, sql } from "drizzle-orm";
 import { Static } from "@sinclair/typebox";
 
 export async function getInitialBusinesses() {
@@ -19,7 +19,13 @@ export async function getBusinessesQuery(q: string) {
   return await db
     .select()
     .from(business)
-    .where(like(business.name, `%${q}%`));
+    .where(
+      or(
+        like(business.name, `%${q}%`),
+        like(business.instagram, `%${q}%`),
+        like(business.tags, `%${q}%`),
+      ),
+    );
 }
 
 export async function getBusinessesWithRelations() {
