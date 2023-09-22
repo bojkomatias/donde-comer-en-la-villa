@@ -5,8 +5,8 @@ import auth from "@/routes/auth";
 import profile from "@/routes/dashboard/profile";
 import tags from "@/routes/dashboard/tags";
 import business from "@/routes/dashboard/business";
-import { Layout } from "@/ui/layout";
-import {swagger} from "@elysiajs/swagger"
+import marketing from "./routes/marketing";
+import { swagger } from "@elysiajs/swagger";
 
 const app = new Elysia()
   .use(swagger())
@@ -19,8 +19,8 @@ const app = new Elysia()
       set.headers["Cache-Control"] = "public, max-age=60, must-revalidate";
     }
   })
-  /** Entry point */
-  .get("/", ({ JWTUser }) => <Layout isAuth={!!JWTUser} />)
+  /** Entry point, marketing as alias to '/' */
+  .use(marketing)
   /** Guard routes from plugins */
   .guard(
     {

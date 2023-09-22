@@ -2,9 +2,13 @@ import { db } from "@/db";
 import { business, insertBusinessForm } from "@/db/schema/business";
 import { tag, tagToBusiness } from "@/db/schema/tag";
 import { user } from "@/db/schema/user";
-import { eq, getTableColumns } from "drizzle-orm";
+import { eq, getTableColumns, sql } from "drizzle-orm";
 import { Static } from "@sinclair/typebox";
 import { review } from "@/db/schema/review";
+
+export async function getBusinesses() {
+  return await db.select().from(business);
+}
 
 export async function getBusinessesWithUser() {
   const columns = getTableColumns(business);
@@ -94,7 +98,7 @@ export async function updateBusiness(
   const result = await db.transaction(async (tx) => {
     const r = await tx
       .update(business)
-      .set(rest)
+      .set({ ...rest, updatedAt: sql`CURRENT_TIMESTAMP` })
       .where(eq(business.id, id))
       .returning({ id: business.id });
 

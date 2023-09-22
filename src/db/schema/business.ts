@@ -17,7 +17,6 @@ export const business = sqliteTable(
     description: text("description").notNull(),
     phone: text("phone").notNull(),
     instagram: text("instagram"),
-    twitter: text("twitter"),
     address: text("address"),
     location: text("location"),
     webpage: text("webpage"),
@@ -26,8 +25,8 @@ export const business = sqliteTable(
     featured: integer("featured", { mode: "boolean" }).default(false),
     enabled: integer("enabled", { mode: "boolean" }).default(false),
     owner: integer("user_id").references(() => user.id),
-    createdAt: integer("created_at").default(sql`(CURRENT_TIMESTAMP)`),
-    updatedAt: integer("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
+    createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
+    updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
   },
   (table) => {
     return {

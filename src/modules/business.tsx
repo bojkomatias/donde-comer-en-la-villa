@@ -175,18 +175,11 @@ Business.New = ({
           type="url"
           title="Ubicación de google maps"
         />
-        <span class="flex -space-x-px">
-          <Input
-            name="instagram"
-            placeholder="matibojko"
-            class="flex-grow first-of-type:rounded-t-none"
-          />
-          <Input
-            name="twitter"
-            placeholder="bojko_matias"
-            class="flex-grow last-of-type:rounded-b-none"
-          />
-        </span>
+        <Input
+          name="instagram"
+          placeholder="matibojko"
+          class="flex-grow first-of-type:rounded-t-none"
+        />
         <Input
           name="webpage"
           type="url"
@@ -292,20 +285,12 @@ Business.Edit = ({
           value={business.location || ""}
           title="Ubicación de google maps"
         />
-        <span class="flex -space-x-px">
-          <Input
-            name="instagram"
-            placeholder="matibojko"
-            class="flex-grow first-of-type:rounded-t-none"
-            value={business.instagram || ""}
-          />
-          <Input
-            name="twitter"
-            placeholder="bojko_matias"
-            class="flex-grow last-of-type:rounded-b-none"
-            value={business.twitter || ""}
-          />
-        </span>
+        <Input
+          name="instagram"
+          placeholder="matibojko"
+          class="flex-grow first-of-type:rounded-t-none"
+          value={business.instagram || ""}
+        />
         <Input
           name="webpage"
           type="url"
@@ -413,11 +398,6 @@ Business.View = ({ business }: { business: BusinessWithRelation }) => {
           {dict.get("instagram")}
         </div>
         <div class="place-self-end overflow-hidden">{business.instagram}</div>
-
-        <div class="font-medium first-letter:capitalize">
-          {dict.get("twitter")}
-        </div>
-        <div class="place-self-end overflow-hidden">{business.twitter}</div>
 
         <div class="font-medium first-letter:capitalize">
           {dict.get("webpage")}

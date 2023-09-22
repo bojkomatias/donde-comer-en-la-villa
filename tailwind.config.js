@@ -16,7 +16,7 @@ export default {
     require('@tailwindcss/forms'),
     iconsPlugin({
       // Select the icon collections you want to use
-      collections: getIconCollections(["lucide"]),
+      collections: getIconCollections(["lucide", 'simple-icons']),
     }),
   ],
 };

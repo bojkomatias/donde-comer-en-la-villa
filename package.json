@@ -2,8 +2,8 @@
   "name": "bun-htmx",
   "version": "1.0.50",
   "scripts": {
-    "dev": "concurrently \"bun run --hot src/index.tsx\" \"bun run tw:dev\"",
-    "production": "bun run tw && bun run src/index.tsx --production",
+    "dev": "concurrently \"bun run --hot src/index.ts\" \"bun run tw:dev\"",
+    "production": "bun run tw && bun run src/index.ts --production",
     "tw": "bun tailwindcss -i ./src/input.css -o ./src/output.css --minify",
     "tw:dev": "bun tailwindcss -i ./src/input.css -o ./src/output.css --watch",
     "db:generate": "bunx drizzle-kit generate:sqlite",
