@@ -23,6 +23,7 @@ export async function updateTag(id: number, data: InsertTag) {
     return null;
   }
 }
+
 export async function createTag(data: InsertTag) {
   try {
     const result = await db.insert(tag).values(data).returning();

@@ -2,12 +2,23 @@ import { db } from "@/db";
 import { business, insertBusinessForm } from "@/db/schema/business";
 import { tag, tagToBusiness } from "@/db/schema/tag";
 import { user } from "@/db/schema/user";
-import { eq, getTableColumns, sql } from "drizzle-orm";
+import { eq, getTableColumns, like, sql } from "drizzle-orm";
 import { Static } from "@sinclair/typebox";
 import { review } from "@/db/schema/review";
 
-export async function getBusinesses() {
-  return await db.select().from(business);
+/**
+ * Function to give marketing results
+ * @param q query string
+ * @param filter tag id
+ * @returns
+ */
+export async function getBusinessesQuery(q: string) {
+  const columns = getTableColumns(business);
+
+  return await db
+    .select({ ...columns })
+    .from(business)
+    .where(like(business.name, `%${q}%`));
 }
 
 export async function getBusinessesWithUser() {

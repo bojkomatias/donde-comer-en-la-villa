@@ -1,11 +1,10 @@
 import { siteConfig } from "@/config/site";
 import DarkMode from "./dark-mode-toggle";
 import Auth from "@/modules/auth";
-import Marketing from "@/modules/marketing/page";
 
 export function Layout({
   isAuth = true,
-  children = <Marketing />,
+  children,
 }: {
   isAuth?: boolean;
   children?: any;

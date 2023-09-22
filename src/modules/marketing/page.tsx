@@ -1,7 +1,9 @@
+import { SelectTag } from "@/db/schema/tag";
 import { Search } from "./search";
+import { Filters } from "./filters";
 
 /** Refers to Landing page as in '/' app entry point */
-const Marketing = () => (
+const Marketing = ({ tags }: { tags: SelectTag[] }) => (
   <>
     <h1 class="mx-auto mt-12 max-w-xl text-center font-heading text-2xl font-black leading-relaxed sm:text-4xl">
       ¿Estás{" "}
@@ -15,14 +17,15 @@ const Marketing = () => (
     <h2 class="mx-auto mb-4 max-w-xl py-4 text-center text-lg font-thin">
       Si es así, caíste al lugar correcto. ¿Qué querés comer?
     </h2>
-    {/* Get the tag filters */}
-    <div hx-get="/filters" hx-trigger="load" hx-swap="outerHTML" />
+    {/* Tag filters */}
+    <Filters tags={tags} />
 
     {/* Search bar */}
     <Search />
 
     {/* List of businesses */}
-    <div hx-get="/results" hx-trigger="load" hx-swap="outerHTML" />
+    {/* <div hx-get="/initial" hx-trigger="load" hx-swap="outerHTML" /> */}
+    <div id="results" />
   </>
 );
 

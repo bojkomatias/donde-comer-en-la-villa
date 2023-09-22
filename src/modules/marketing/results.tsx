@@ -1,58 +1,10 @@
 import { SelectBusiness } from "@/db/schema/business";
 import { Badge } from "@/ui/badge";
 
-export const Results = ({ businesses }: { businesses?: SelectBusiness[] }) => {
-  const Abusinesses = [
-    {
-      id: 1,
-      name: "Sir Pane",
-      description: "Las burgers que te van a dejar con hambre",
-      phone: "+5493435444630",
-      instagram: "sir.pane",
-      address: "",
-      location: "",
-      webpage: "",
-      image:
-        "https://scontent.cdninstagram.com/v/t51.2885-19/341345283_1065553787735492_6192540832691458609_n.jpg?stp=dst-jpg_s160x160&_nc_cat=104&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=iT5bSWvDxrUAX-8vgyY&_nc_ht=scontent.cdninstagram.com&oh=00_AfCl_beSY_wbgJ6u2mKhqGAXFzc_17gf87QZL_OtHX9N8A&oe=651169D2",
-      tags: [
-        "Hamburguesas",
-        "Pizzas",
-        "Piedra",
-        "Horno",
-        "Hamburguesas",
-        "Pizzas",
-        "Piedra",
-        "Horno",
-      ],
-      featured: true,
-      enabled: true,
-      owner: 1,
-      createdAt: "2023-09-21 22:45:40",
-      updatedAt: "2023-09-21 22:45:40",
-    },
-    {
-      id: 2,
-      name: "Lage Pizzas",
-      description: "Las burgers que te van a dejar con hambre",
-      phone: "+5493435444630",
-      instagram: "lagepizzas",
-      address: "25 de Mayo",
-      location: "",
-      webpage: "pedix.app/sirpane",
-      image:
-        "https://scontent.cdninstagram.com/v/t51.2885-19/354561959_3444065439181557_5700418834955808138_n.jpg?stp=dst-jpg_s160x160&_nc_cat=109&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=Kp4BzhWbPfAAX-7LTQr&_nc_ht=scontent.cdninstagram.com&oh=00_AfAjdyf6MPUoFvIzuZMpsGPx0ge-5fXvsoaV_mlGDel5tw&oe=65120429",
-      tags: ["Hamburguesas", "Empanadas"],
-
-      featured: true,
-      enabled: true,
-      owner: 1,
-      createdAt: "2023-09-21 22:45:40",
-      updatedAt: "2023-09-21 22:45:40",
-    },
-  ];
+export const Results = ({ businesses }: { businesses: SelectBusiness[] }) => {
   return (
-    <div class="space-y-6 p-3 md:grid md:grid-cols-2 md:gap-6 md:space-y-0">
-      {Abusinesses.map((business) => (
+    <div class="space-y-4 p-3 md:grid md:grid-cols-2 md:gap-4 md:space-y-0 xl:grid-cols-3">
+      {businesses.map((business) => (
         <BusinessItem business={business} />
       ))}
     </div>
@@ -60,7 +12,7 @@ export const Results = ({ businesses }: { businesses?: SelectBusiness[] }) => {
 };
 
 const BusinessItem = ({ business }: { business: SelectBusiness }) => (
-  <div class="flex flex-col rounded-lg bg-gray-50 p-2 ring-1 ring-inset ring-gray-500/5 hover:shadow-lg dark:bg-gray-900/50 dark:shadow-black">
+  <div class="flex flex-col rounded bg-gray-50 p-2 ring-1 ring-inset ring-gray-500/5 hover:shadow-lg dark:bg-gray-900/50 dark:shadow-black">
     <div class="flex gap-3 pr-4">
       <img
         src={business.image}
