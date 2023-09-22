@@ -1,3 +1,5 @@
+import { Search } from "./search";
+
 /** Refers to Landing page as in '/' app entry point */
 const Marketing = () => (
   <>
@@ -10,13 +12,14 @@ const Marketing = () => (
       </span>{" "}
       de hambre?
     </h1>
-    <h2 class="mx-auto max-w-xl py-4 text-center text-lg font-thin">
+    <h2 class="mx-auto mb-4 max-w-xl py-4 text-center text-lg font-thin">
       Si es así, caíste al lugar correcto. ¿Qué querés comer?
     </h2>
     {/* Get the tag filters */}
-    {/* <div hx-get="/filters" hx-trigger="load" hx-swap="outerHTML" /> */}
+    <div hx-get="/filters" hx-trigger="load" hx-swap="outerHTML" />
 
     {/* Search bar */}
+    <Search />
 
     {/* List of businesses */}
     <div hx-get="/results" hx-trigger="load" hx-swap="outerHTML" />

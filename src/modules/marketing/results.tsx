@@ -9,7 +9,6 @@ export const Results = ({ businesses }: { businesses?: SelectBusiness[] }) => {
       description: "Las burgers que te van a dejar con hambre",
       phone: "+5493435444630",
       instagram: "sir.pane",
-      twitter: "",
       address: "",
       location: "",
       webpage: "",
@@ -37,8 +36,7 @@ export const Results = ({ businesses }: { businesses?: SelectBusiness[] }) => {
       description: "Las burgers que te van a dejar con hambre",
       phone: "+5493435444630",
       instagram: "lagepizzas",
-      twitter: "",
-      address: "",
+      address: "25 de Mayo",
       location: "",
       webpage: "pedix.app/sirpane",
       image:
@@ -62,8 +60,8 @@ export const Results = ({ businesses }: { businesses?: SelectBusiness[] }) => {
 };
 
 const BusinessItem = ({ business }: { business: SelectBusiness }) => (
-  <div class="rounded-lg bg-gray-50 p-2 dark:bg-gray-900/50">
-    <div class="flex gap-3">
+  <div class="flex flex-col rounded-lg bg-gray-50 p-2 ring-1 ring-inset ring-gray-500/5 hover:shadow-lg dark:bg-gray-900/50 dark:shadow-black">
+    <div class="flex gap-3 pr-4">
       <img
         src={business.image}
         height="50"
@@ -73,26 +71,45 @@ const BusinessItem = ({ business }: { business: SelectBusiness }) => (
       />
       <div class="flex-grow">
         <div class="font-bold leading-loose">{business.name}</div>
-        <div class="text-xs font-thin">{business.description}</div>
-        <div class="flex gap-4 pt-2">
+        <div class="-mt-1 text-xs font-light">{business.description}</div>
+        <div class="flex flex-wrap gap-3 pt-3">
           <a
             href="#"
-            class="flex items-center gap-1 text-xs underline-offset-2 hover:underline"
-          >
-            <i class="i-simple-icons-whatsapp h-3.5 w-3.5" />
-            {business.phone}
-          </a>
-          <a
-            href="#"
-            class="flex items-center gap-1 text-sm underline-offset-2 hover:underline"
+            class="group flex items-center gap-1 text-xs underline-offset-2 opacity-80 hover:underline hover:opacity-100 hover:drop-shadow-sm"
           >
             <i class="i-simple-icons-instagram h-3.5 w-3.5" />@
             {business.instagram}
           </a>
+          <a
+            href="#"
+            class="group flex items-center gap-1 text-xs underline-offset-2 opacity-80 hover:underline hover:opacity-100 hover:drop-shadow-sm"
+          >
+            <i class="i-simple-icons-whatsapp h-3.5 w-3.5" />
+            {business.phone}
+          </a>
+          {business.address && (
+            <a
+              href="#"
+              class="group flex items-center gap-1 text-xs underline-offset-2 opacity-80 hover:underline hover:opacity-100 hover:drop-shadow-sm"
+            >
+              <i class="i-lucide-map-pin h-4 w-4" />
+              {business.address}
+            </a>
+          )}
+          {business.webpage && (
+            <a
+              href="#"
+              class="group flex items-center gap-1 text-xs underline-offset-2 opacity-80 hover:underline hover:opacity-100 hover:drop-shadow-sm"
+            >
+              <i class="i-lucide-code-2 h-4 w-4" />
+              {business.webpage}
+            </a>
+          )}
         </div>
       </div>
     </div>
-    <div class="mt-4 flex gap-1 overflow-hidden">
+    <div class="flex-grow" />
+    <div class="mx-4 mt-4 flex gap-1 overflow-hidden">
       {business.tags?.map((e, i) => <Badge>{e}</Badge>)}
     </div>
   </div>
