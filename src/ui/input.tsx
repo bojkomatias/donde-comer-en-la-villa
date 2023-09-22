@@ -5,6 +5,7 @@ type Props = JSX.HtmlInputTag &
   JSX.HtmlSelectTag & {
     options?: { id: number; name: string }[];
     values?: number[];
+    valueIsJson?: true;
   };
 export function Input({ options, ...props }: Props) {
   return (
@@ -22,7 +23,11 @@ export function Input({ options, ...props }: Props) {
         >
           {options.map(({ id, name }) => (
             <option
-              value={id.toString()}
+              value={
+                props.valueIsJson
+                  ? `{ "id": ${id}, "name": "${name}" }`
+                  : id.toString()
+              }
               class="capitalize"
               // Default select previous values on edit
               selected={

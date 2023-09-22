@@ -1,9 +1,17 @@
 import { SelectTag } from "@/db/schema/tag";
 import { Search } from "./search";
 import { Filters } from "./filters";
+import { Results } from "./results";
+import { SelectBusiness } from "@/db/schema/business";
 
 /** Refers to Landing page as in '/' app entry point */
-const Marketing = ({ tags }: { tags: SelectTag[] }) => (
+const Marketing = ({
+  tags,
+  initialData,
+}: {
+  tags: SelectTag[];
+  initialData: SelectBusiness[];
+}) => (
   <>
     <h1 class="mx-auto mt-12 max-w-xl text-center font-heading text-2xl font-black leading-relaxed sm:text-4xl">
       ¿Estás{" "}
@@ -11,21 +19,22 @@ const Marketing = ({ tags }: { tags: SelectTag[] }) => (
         <div class="translate-y-2 text-2xl text-gray-500/20 sm:text-4xl ">
           cagado
         </div>
-      </span>{" "}
+      </span>
       de hambre?
     </h1>
-    <h2 class="mx-auto mb-4 max-w-xl py-4 text-center text-lg font-thin">
+    <h2 class="mx-auto max-w-xl py-4 text-center text-lg font-thin">
       Si es así, caíste al lugar correcto. ¿Qué querés comer?
     </h2>
-    {/* Tag filters */}
-    <Filters tags={tags} />
 
-    {/* Search bar */}
-    <Search />
+    <div class="space-y-2 lg:grid lg:grid-cols-3 lg:space-y-0">
+      {/* Search bar */}
+      <Search />
+      {/* Tag filters */}
+      <Filters tags={tags} />
+    </div>
 
     {/* List of businesses */}
-    {/* <div hx-get="/initial" hx-trigger="load" hx-swap="outerHTML" /> */}
-    <div id="results" />
+    <Results businesses={initialData} />
   </>
 );
 

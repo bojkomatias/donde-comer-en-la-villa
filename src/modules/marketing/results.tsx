@@ -3,16 +3,27 @@ import { Badge } from "@/ui/badge";
 
 export const Results = ({ businesses }: { businesses: SelectBusiness[] }) => {
   return (
-    <div class="space-y-4 p-3 md:grid md:grid-cols-2 md:gap-4 md:space-y-0 xl:grid-cols-3">
-      {businesses.map((business) => (
-        <BusinessItem business={business} />
-      ))}
-    </div>
+    <>
+      {businesses.length > 0 ? (
+        <div
+          id="results"
+          class="space-y-2 p-4 md:grid md:grid-cols-2 md:gap-2 md:space-y-0 xl:grid-cols-3"
+        >
+          {businesses.map((business) => (
+            <BusinessItem business={business} />
+          ))}
+        </div>
+      ) : (
+        <div class="mx-auto mt-20 max-w-sm text-sm font-light text-gray-500">
+          No se encontraron datos modifique su búsqueda
+        </div>
+      )}
+    </>
   );
 };
 
 const BusinessItem = ({ business }: { business: SelectBusiness }) => (
-  <div class="flex flex-col rounded bg-gray-50 p-2 ring-1 ring-inset ring-gray-500/5 hover:shadow-lg dark:bg-gray-900/50 dark:shadow-black">
+  <div class="flex flex-col rounded bg-gray-50 p-2 ring-1 ring-inset ring-gray-500/5 hover:shadow dark:bg-gray-900/50 dark:shadow-black">
     <div class="flex gap-3 pr-4">
       <img
         src={business.image}
@@ -62,7 +73,8 @@ const BusinessItem = ({ business }: { business: SelectBusiness }) => (
     </div>
     <div class="flex-grow" />
     <div class="mx-4 mt-4 flex gap-1 overflow-hidden">
-      {business.tags?.map((e, i) => <Badge>{e}</Badge>)}
+      {typeof business.tags === "string" &&
+        business.tags.split(",").map((e) => <Badge>{e}</Badge>)}
     </div>
   </div>
 );

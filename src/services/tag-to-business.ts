@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { business } from "@/db/schema/business";
-import { tag, tagToBusiness } from "@/db/schema/tag";
+import { tagToBusiness } from "@/db/schema/tag";
 import { eq, getTableColumns } from "drizzle-orm";
 
 export async function getTagsByBusinessId(id: number) {
@@ -13,9 +13,9 @@ export async function getTagsByBusinessId(id: number) {
 export async function getBusinessesByTag(id: number) {
   const columns = getTableColumns(business);
   return await db
-    .select({ ...columns, tags: tag })
+    .select(columns)
     .from(tagToBusiness)
     .where(eq(tagToBusiness.tagId, id))
-    .leftJoin(business, eq(tagToBusiness.businessId, business.id))
-    .leftJoin(tag, eq(tag.id, tagToBusiness.tagId));
+    .rightJoin(business, eq(tagToBusiness.businessId, business.id))
+    .orderBy(business.featured);
 }

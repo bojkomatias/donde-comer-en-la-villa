@@ -21,7 +21,8 @@ export const business = sqliteTable(
     location: text("location"),
     webpage: text("webpage"),
     image: text("image").notNull(),
-    tags: text("tags").$type<number[]>(),
+    // Tags are virtual, but we can still store them here as a helper
+    tags: text("tags").$type<number[] | string[] | string>().notNull(),
     featured: integer("featured", { mode: "boolean" }).default(false),
     enabled: integer("enabled", { mode: "boolean" }).default(false),
     owner: integer("user_id").references(() => user.id),
@@ -43,5 +44,6 @@ export type InsertBusiness = typeof business.$inferInsert; // insert type
  */
 export const insertBusinessForm = createInsertSchema(business, {
   owner: t.Number(),
-  tags: t.Union([t.Number(), t.Array(t.Number())]),
+  // Override the inserted type (real model type, an array of ids referencing to tags through middle table)
+  tags: t.Array(t.Object({ id: t.Number(), name: t.String() })),
 });

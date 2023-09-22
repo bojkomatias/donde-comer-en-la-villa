@@ -10,8 +10,8 @@ import { Notification } from "@/ui/notification";
 import {
   createBusiness,
   getBusinessById,
-  getBusinessWithRelations,
-  getBusinessesWithUser,
+  getBusinessByIdWithRelations,
+  getBusinessesWithRelations,
   updateBusiness,
 } from "@/services/business";
 import { getUsersForSelector } from "@/services/user";
@@ -25,7 +25,7 @@ const businessRouter = new Elysia({
 })
   .use(setup)
   .get("/", async ({ JWTUser, headers }) => {
-    const businesses = await getBusinessesWithUser();
+    const businesses = await getBusinessesWithRelations();
 
     return headers["hx-request"] ? (
       <DashboardLayout role={JWTUser!.role} current="/d/business">
@@ -44,7 +44,7 @@ const businessRouter = new Elysia({
     );
   })
   .get("/:id", async ({ JWTUser, headers, params: { id } }) => {
-    const business = await getBusinessWithRelations(parseInt(id));
+    const business = await getBusinessByIdWithRelations(parseInt(id));
 
     return headers["hx-request"] ? (
       <Business.View business={business} />
@@ -72,7 +72,7 @@ const businessRouter = new Elysia({
         );
       }
 
-      const business = await getBusinessWithRelations(parseInt(id));
+      const business = await getBusinessByIdWithRelations(parseInt(id));
 
       return (
         <>
@@ -95,6 +95,7 @@ const businessRouter = new Elysia({
         >;
         // Object assign replaces object content body = c does not
         Object.assign(body, c);
+        body.tags = [body.tags].flat().map((e: any) => JSON.parse(e));
       },
       body: insertBusinessForm,
     },
@@ -148,7 +149,7 @@ const businessRouter = new Elysia({
         );
       }
 
-      const businesses = await getBusinessesWithUser();
+      const businesses = await getBusinessesWithRelations();
       return (
         <>
           <Notification
@@ -172,6 +173,7 @@ const businessRouter = new Elysia({
         >;
         // Object assign replaces object content body = c does not
         Object.assign(body, c);
+        body.tags = [body.tags].flat().map((e: any) => JSON.parse(e));
       },
       body: insertBusinessForm,
     },

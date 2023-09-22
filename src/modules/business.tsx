@@ -1,6 +1,10 @@
 import { SelectBusiness } from "@/db/schema/business";
 import { SelectTag } from "@/db/schema/tag";
-import { BusinessWithRelation, BusinessesWithUser } from "@/services/business";
+import {
+  BusinessWithRelations,
+  BusinessesWithRelations,
+} from "@/services/business";
+import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
 import { DashboardHeading } from "@/ui/dashboard/heading";
 import { Input } from "@/ui/input";
@@ -18,7 +22,7 @@ const Business = ({ children }: { children: JSX.Element }) => (
   </div>
 );
 
-Business.Table = ({ businesses }: { businesses: BusinessesWithUser }) => (
+Business.Table = ({ businesses }: { businesses: BusinessesWithRelations }) => (
   <div class="mt-4">
     <div class="mb-2 flex justify-end pr-4 sm:pr-0">
       <Button
@@ -89,7 +93,7 @@ Business.Table = ({ businesses }: { businesses: BusinessesWithUser }) => (
                 class="hidden whitespace-nowrap px-2 py-4 text-sm capitalize text-gray-500 sm:table-cell"
                 safe
               >
-                {business?.owner}
+                {business.owner?.name}
               </td>
               <td class="flex justify-end whitespace-nowrap py-4 pl-3 pr-4 sm:pr-0">
                 <Button
@@ -185,7 +189,13 @@ Business.New = ({
           type="url"
           placeholder="https://www.matiasbojko.com"
         />
-        <Input name="tags" options={tags} multiple="true" required="true" />
+        <Input
+          name="tags"
+          options={tags}
+          multiple="true"
+          required="true"
+          valueIsJson
+        />
         <span class="flex -space-x-px">
           <Input
             name="featured"
@@ -302,6 +312,8 @@ Business.Edit = ({
           required="true"
           options={tags}
           multiple="true"
+          valueIsJson
+          // @ts-ignore I know i'm passing the ids
           values={business.tags ? business.tags : undefined}
         />
         <span class="flex -space-x-px">
@@ -335,7 +347,7 @@ Business.Edit = ({
   );
 };
 
-Business.View = ({ business }: { business: BusinessWithRelation }) => {
+Business.View = ({ business }: { business: BusinessWithRelations }) => {
   return (
     <div hx-target="this">
       <Button
@@ -437,12 +449,23 @@ Business.View = ({ business }: { business: BusinessWithRelation }) => {
         </div>
       </div>
       {/* Categories */}
-      <div class="px-4 sm:flex sm:gap-2">
+      <div class="px-4">
         <div class="text-sm font-medium first-letter:capitalize">
           {dict.get("tags")}:
         </div>
         <div class="pl-px text-sm font-light capitalize">
-          {business.tags.join(" - ")}
+          {typeof business.tags === "string" &&
+            business.tags.split(",").map((e) => <Badge>{e}</Badge>)}
+        </div>
+      </div>
+
+      {/* Owner */}
+      <div class="px-4">
+        <div class="text-sm font-medium first-letter:capitalize">
+          {dict.get("owner")}:
+        </div>
+        <div class="pl-px text-sm font-light capitalize">
+          {JSON.stringify(business.owner, null, 2)}
         </div>
       </div>
     </div>
