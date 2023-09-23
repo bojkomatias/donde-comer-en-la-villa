@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { business } from "@/db/schema/business";
 import { tagToBusiness } from "@/db/schema/tag";
-import { eq, getTableColumns } from "drizzle-orm";
+import { and, eq, getTableColumns } from "drizzle-orm";
 
 export async function getTagsByBusinessId(id: number) {
   return await db
@@ -15,7 +15,7 @@ export async function getBusinessesByTag(id: number) {
   return await db
     .select(columns)
     .from(tagToBusiness)
-    .where(eq(tagToBusiness.tagId, id))
+    .where(and(eq(tagToBusiness.tagId, id), eq(business.enabled, true)))
     .rightJoin(business, eq(tagToBusiness.businessId, business.id))
     .orderBy(business.featured);
 }

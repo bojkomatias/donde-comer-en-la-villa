@@ -1,28 +1,24 @@
 import { SelectBusiness } from "@/db/schema/business";
 import { SelectTag } from "@/db/schema/tag";
-import {
-  BusinessWithRelations,
-  BusinessesWithRelations,
-} from "@/services/business";
-import { Badge } from "@/ui/badge";
+import { BusinessWithOwner } from "@/services/business";
 import { Button } from "@/ui/button";
 import { DashboardHeading } from "@/ui/dashboard/heading";
 import { Input } from "@/ui/input";
+import { cx } from "@/utils/cx";
 import { dict } from "@/utils/dictionary";
 
 const Business = ({ children }: { children: JSX.Element }) => (
   <div hx-target="this">
     <DashboardHeading
-      title={dict.get("business")}
-      subtitle="Panel de administración de tu negocio. Si no tenes negocio, podes postular
-        uno, y los administradores lo revisaran para aceptarlo."
+      title={dict.get("businesses")}
+      subtitle="Panel de administrador de los negocios de la aplicación. Lista de todos los negocios y sus dueños."
     />
 
     {children}
   </div>
 );
 
-Business.Table = ({ businesses }: { businesses: BusinessesWithRelations }) => (
+Business.Table = ({ businesses }: { businesses: BusinessWithOwner[] }) => (
   <div class="mt-4">
     <div class="mb-2 flex justify-end pr-4 sm:pr-0">
       <Button
@@ -121,10 +117,13 @@ Business.Table = ({ businesses }: { businesses: BusinessesWithRelations }) => (
 Business.New = ({
   tags,
   users,
+  asAdmin,
+  ownerId,
 }: {
   tags: SelectTag[];
   users: { id: number; name: string }[];
-  business?: SelectBusiness;
+  asAdmin?: boolean;
+  ownerId?: number;
 }) => {
   return (
     <div hx-target="this">
@@ -142,7 +141,7 @@ Business.New = ({
 
       <DashboardHeading
         title={"Nuevo " + dict.get("business")}
-        subtitle={"Crea un nuevo negocio"}
+        subtitle={"Crea tu negocio"}
       />
       <form
         hx-post="/d/business"
@@ -187,7 +186,7 @@ Business.New = ({
         <Input
           name="webpage"
           type="url"
-          placeholder="https://www.matiasbojko.com"
+          placeholder="https://www.janedoe.com"
         />
         <Input
           name="tags"
@@ -195,8 +194,10 @@ Business.New = ({
           multiple="true"
           required="true"
           valueIsJson
+          class={asAdmin ? "" : "rounded-b"}
         />
-        <span class="flex -space-x-px">
+
+        <span class={cx("flex -space-x-px", asAdmin ? "" : "hidden")}>
           <Input
             name="featured"
             type="checkbox"
@@ -212,7 +213,13 @@ Business.New = ({
             class="flex-grow last-of-type:rounded-b-none"
           />
         </span>
-        <Input name="owner" options={users} />
+        <Input
+          name="owner"
+          options={users}
+          values={ownerId ? [ownerId] : undefined}
+          class={asAdmin ? "" : "hidden"}
+        />
+
         <span class="mt-2 flex justify-end">
           <Button intent="primary">{dict.get("save")}</Button>
         </span>
@@ -225,10 +232,12 @@ Business.Edit = ({
   tags,
   users,
   business,
+  asAdmin,
 }: {
   tags: SelectTag[];
   users: { id: number; name: string }[];
   business: SelectBusiness;
+  asAdmin?: boolean;
 }) => {
   return (
     <div hx-target="this">
@@ -281,7 +290,7 @@ Business.Edit = ({
           pattern="[+549]{4}[0-9]{10}"
           title="Formato de numero como Whatsapp"
           placeholder="+5493435111111"
-          value={business.phone || ""}
+          value={business.phone}
         />
         <Input
           name="address"
@@ -315,8 +324,9 @@ Business.Edit = ({
           valueIsJson
           // @ts-ignore I know i'm passing the ids
           values={business.tags ? business.tags : undefined}
+          class={asAdmin ? "" : "rounded-b"}
         />
-        <span class="flex -space-x-px">
+        <span class={cx("flex -space-x-px", asAdmin ? "" : "hidden")}>
           <Input
             name="featured"
             type="checkbox"
@@ -338,6 +348,7 @@ Business.Edit = ({
           name="owner"
           options={users}
           values={business.owner ? [business.owner] : undefined}
+          class={asAdmin ? "" : "hidden"}
         />
         <span class="mt-2 flex justify-end">
           <Button intent="primary">{dict.get("save")}</Button>
@@ -347,20 +358,34 @@ Business.Edit = ({
   );
 };
 
-Business.View = ({ business }: { business: BusinessWithRelations }) => {
+Business.View = ({
+  business,
+  asAdmin,
+}: {
+  business: BusinessWithOwner;
+  asAdmin?: boolean;
+}) => {
   return (
     <div hx-target="this">
-      <Button
-        size="xs"
-        hx-get="/d/business"
-        hx-target="#dashboard"
-        hx-swap="outerHTML"
-        hx-push-url="true"
-        class="ml-4 sm:ml-0"
-      >
-        <i class="i-lucide-chevron-left" />
-        volver
-      </Button>
+      {asAdmin ? (
+        <Button
+          size="xs"
+          hx-get="/d/business"
+          hx-target="#dashboard"
+          hx-swap="outerHTML"
+          hx-push-url="true"
+          class="ml-4 sm:ml-0"
+        >
+          <i class="i-lucide-chevron-left" />
+          volver
+        </Button>
+      ) : (
+        <DashboardHeading
+          title={"Tu " + dict.get("business")}
+          subtitle="Acordate de mantener todos los datos actualizados así los clientes te pueden encontrar fácil."
+        />
+      )}
+
       <div class="flex justify-end pr-4">
         <Button
           hx-get={`/d/business/${business.id}/edit`}
@@ -372,101 +397,108 @@ Business.View = ({ business }: { business: BusinessWithRelations }) => {
           Editar
         </Button>
       </div>
-
-      <div class="flex items-center gap-4">
-        <img
-          src={business.image ? business.image : undefined}
-          width="50"
-          height="50"
-          alt="Imagen del local"
-          class="h-20 w-20 rounded-full p-2"
-        />
-        <div class="flex-grow">
-          <DashboardHeading
-            title={business.name}
-            subtitle={business.description || ""}
+      <div class="p-6">
+        <div class="flex items-center gap-4">
+          <img
+            src={business.image ? business.image : undefined}
+            width="50"
+            height="50"
+            alt="Imagen del local"
+            class="h-20 w-20 rounded-full p-1"
           />
+          <div class="flex-grow">
+            <DashboardHeading
+              title={business.name}
+              subtitle={business.description || ""}
+            />
+          </div>
         </div>
-      </div>
-      {/* Created , Updated */}
-      <div class="mt-2 px-4 text-xs font-light text-gray-500">
-        <div class="first-letter:capitalize">
-          <span class="font-medium">{dict.get("createdAt")}: </span>
-          {business.createdAt}
+        {/* Created , Updated */}
+        <div class="mt-2 text-xs font-light text-gray-500">
+          <div class="first-letter:capitalize">
+            <span class="font-medium">{dict.get("createdAt")}: </span>
+            {business.createdAt}
+          </div>
+          <div class="first-letter:capitalize">
+            <span class="font-medium">{dict.get("updatedAt")}: </span>
+            {business.updatedAt}
+          </div>
         </div>
-        <div class="first-letter:capitalize">
-          <span class="font-medium">{dict.get("updatedAt")}: </span>
-          {business.updatedAt}
-        </div>
-      </div>
-      {/* Tabular data */}
-      <div class="grid grid-cols-2 gap-x-20 gap-y-6 py-4 pl-4 pr-8 text-sm sm:grid-cols-4 sm:pr-4">
-        <div class="font-medium first-letter:capitalize">
-          {dict.get("phone")}
-        </div>
-        <div class="place-self-end overflow-hidden">{business.phone}</div>
+        {/* Tabular data */}
+        <div class="grid grid-cols-2 gap-x-20 gap-y-4 py-4 pr-8 text-sm">
+          <div class="font-medium first-letter:capitalize">
+            {dict.get("phone")}
+          </div>
+          <div class="place-self-end overflow-hidden">{business.phone}</div>
 
-        <div class="font-medium first-letter:capitalize">
-          {dict.get("instagram")}
-        </div>
-        <div class="place-self-end overflow-hidden">{business.instagram}</div>
+          <div class="font-medium first-letter:capitalize">
+            {dict.get("instagram")}
+          </div>
+          <div class="place-self-end overflow-hidden">{business.instagram}</div>
 
-        <div class="font-medium first-letter:capitalize">
-          {dict.get("webpage")}
-        </div>
-        <div class="place-self-end overflow-hidden">{business.webpage}</div>
+          <div class="font-medium first-letter:capitalize">
+            {dict.get("webpage")}
+          </div>
+          <div class="place-self-end overflow-hidden">{business.webpage}</div>
 
-        <div class="font-medium first-letter:capitalize">
-          {dict.get("address")}
-        </div>
-        <div class="place-self-end overflow-hidden">{business.address}</div>
+          <div class="font-medium first-letter:capitalize">
+            {dict.get("address")}
+          </div>
+          <div class="place-self-end overflow-hidden">{business.address}</div>
 
-        <div class="font-medium first-letter:capitalize">
-          {dict.get("location")}
+          <div class="font-medium first-letter:capitalize">
+            {dict.get("location")}
+          </div>
+          <div class="place-self-end overflow-hidden">{business.location}</div>
         </div>
-        <div class="place-self-end overflow-hidden">{business.location}</div>
+        {/* Categories */}
+        <div>
+          <div class="text-sm font-medium first-letter:capitalize">
+            {dict.get("tags")}:
+          </div>
+          <div class="flex flex-wrap gap-4 pl-2 pt-1 text-sm font-light capitalize">
+            {typeof business.tags === "string" &&
+              business.tags.split(",").map((t) => <span>{t}</span>)}
+          </div>
+        </div>
 
-        <div class="font-medium first-letter:capitalize">
-          {dict.get("featured")}
-        </div>
-        <div class="place-self-end overflow-hidden">
-          {business.featured ? (
-            <i class="i-lucide-check h-6 w-4" />
-          ) : (
-            <i class="i-lucide-x h-6 w-4" />
-          )}
-        </div>
+        {asAdmin ? (
+          <>
+            {/* Owner */}
+            <div class="py-4">
+              <div class="text-sm font-medium first-letter:capitalize">
+                {dict.get("owner")}:
+              </div>
+              <div class="flex flex-wrap gap-4 pl-2 pt-1 text-sm font-light">
+                <span>{business.owner?.id}</span>
+                <span>{business.owner?.name}</span>
+                <span>{business.owner?.email}</span>
+                <span>{business.owner?.role}</span>
+                <span>{business.owner?.createdAt}</span>
+              </div>
+            </div>
 
-        <div class="font-medium first-letter:capitalize">
-          {dict.get("enabled")}
-        </div>
-        <div class="place-self-end overflow-hidden">
-          {business.enabled ? (
-            <i class="i-lucide-check h-6 w-4" />
-          ) : (
-            <i class="i-lucide-x h-6 w-4" />
-          )}
-        </div>
-      </div>
-      {/* Categories */}
-      <div class="px-4">
-        <div class="text-sm font-medium first-letter:capitalize">
-          {dict.get("tags")}:
-        </div>
-        <div class="pl-px text-sm font-light capitalize">
-          {typeof business.tags === "string" &&
-            business.tags.split(",").map((e) => <Badge>{e}</Badge>)}
-        </div>
-      </div>
-
-      {/* Owner */}
-      <div class="px-4">
-        <div class="text-sm font-medium first-letter:capitalize">
-          {dict.get("owner")}:
-        </div>
-        <div class="pl-px text-sm font-light capitalize">
-          {JSON.stringify(business.owner, null, 2)}
-        </div>
+            {/* Habilitado promocionado */}
+            <div class="flex space-x-6 text-sm">
+              <div class="flex items-center gap-3 font-medium capitalize">
+                {dict.get("enabled")}:
+                {business.enabled ? (
+                  <i class="i-lucide-check text-emerald-600" />
+                ) : (
+                  <i class="i-lucide-x text-rose-600" />
+                )}
+              </div>
+              <div class="flex items-center gap-3 font-medium capitalize">
+                {dict.get("featured")}:
+                {business.featured ? (
+                  <i class="i-lucide-check text-emerald-600" />
+                ) : (
+                  <i class="i-lucide-x text-rose-600" />
+                )}
+              </div>
+            </div>
+          </>
+        ) : null}
       </div>
     </div>
   );

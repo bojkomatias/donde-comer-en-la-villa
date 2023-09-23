@@ -18,9 +18,9 @@ export const Button = ({ intent, size, children, ...props }: Props) => {
 
 export const buttonStyles = (props: Props) => {
   return cx(
-    "group flex w-fit items-center justify-center gap-1 rounded px-3.5 py-2 text-sm font-medium capitalize hover:bg-gray-100 active:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 disabled:saturate-50 dark:hover:bg-gray-900",
+    "group flex w-fit items-center justify-center gap-1 whitespace-nowrap rounded px-3.5 py-2 text-sm font-medium capitalize hover:bg-gray-100 active:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 disabled:saturate-50 dark:hover:bg-gray-900",
     props.intent === "primary" &&
-      "bg-gray-700 font-bold text-white hover:bg-black dark:bg-gray-300 dark:text-black dark:hover:bg-white",
+      "bg-gray-800 font-bold text-white hover:bg-black dark:bg-gray-300 dark:text-black dark:hover:bg-white",
     props.intent === "secondary" &&
       "bg-gray-100 font-semibold hover:bg-gray-200 dark:bg-gray-850",
     props.intent === "outline" &&

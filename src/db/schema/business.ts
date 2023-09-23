@@ -16,7 +16,7 @@ export const business = sqliteTable(
     name: text("name").notNull(),
     description: text("description").notNull(),
     phone: text("phone").notNull(),
-    instagram: text("instagram"),
+    instagram: text("instagram").notNull(),
     address: text("address"),
     location: text("location"),
     webpage: text("webpage"),

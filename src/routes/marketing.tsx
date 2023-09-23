@@ -41,22 +41,21 @@ const marketing = new Elysia({
 
             return (
               <>
-                <Button
+                <div
                   id="clear-filters"
                   hx-get="/filter"
                   hx-target="#results"
                   hx-swap="outerHTML"
                   hx-swap-oob="true"
-                  size="xs"
                   class={cx(
-                    "mr-1 h-full font-light text-gray-500",
+                    "mr-1 flex h-full cursor-pointer items-center justify-center rounded p-1.5 font-light text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700",
                     !tag && "hidden",
                   )}
                   _="on click send removeI to closest <div />"
                   title="Limpiar filtros"
                 >
                   <i class="i-lucide-x h-3.5 w-3.5" />
-                </Button>
+                </div>
 
                 <Results businesses={businesses} />
               </>

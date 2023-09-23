@@ -25,4 +25,10 @@ export const dashboardNav: Navigation[] = [
     icon: "i-lucide-tag",
     clearance: ["admin"],
   },
+  {
+    name: "users",
+    href: "/d/user",
+    icon: "i-lucide-users",
+    clearance: ["admin"],
+  },
 ];

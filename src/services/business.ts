@@ -2,33 +2,49 @@ import { db } from "@/db";
 import { business, insertBusinessForm } from "@/db/schema/business";
 import { tagToBusiness } from "@/db/schema/tag";
 import { user } from "@/db/schema/user";
-import { eq, getTableColumns, like, or, sql } from "drizzle-orm";
+import { and, eq, getTableColumns, like, or, sql } from "drizzle-orm";
 import { Static } from "@sinclair/typebox";
 
+// MARKETING
 export async function getInitialBusinesses() {
-  return await db.select().from(business).orderBy(business.featured);
+  return await db
+    .select()
+    .from(business)
+    .orderBy(business.featured)
+    .where(eq(business.enabled, true));
 }
 
-/**
- * Function to give marketing results
- * @param q query string
- * @param filter tag id
- * @returns
- */
 export async function getBusinessesQuery(q: string) {
   return await db
     .select()
     .from(business)
     .where(
-      or(
-        like(business.name, `%${q}%`),
-        like(business.instagram, `%${q}%`),
-        like(business.tags, `%${q}%`),
+      and(
+        or(
+          like(business.name, `%${q}%`),
+          like(business.instagram, `%${q}%`),
+          like(business.tags, `%${q}%`),
+        ),
+        eq(business.enabled, true),
       ),
     );
 }
 
-export async function getBusinessesWithRelations() {
+// OWNER
+export async function getBusinessesAsOwner(id: number) {
+  const columns = getTableColumns(business);
+  const result = await db
+    .select({ ...columns, owner: user })
+    .from(business)
+    .where(eq(business.owner, id))
+    .leftJoin(user, eq(business.owner, user.id));
+
+  // In the future. they may handle many
+  return result;
+}
+
+// ADMIN
+export async function getBusinessesAsAdmin() {
   const columns = getTableColumns(business);
 
   return await db
@@ -36,11 +52,8 @@ export async function getBusinessesWithRelations() {
     .from(business)
     .leftJoin(user, eq(business.owner, user.id));
 }
-export type BusinessesWithRelations = Awaited<
-  ReturnType<typeof getBusinessesWithRelations>
->;
 
-export async function getBusinessByIdWithRelations(id: number) {
+export async function getBusinessByIdWithOwner(id: number) {
   const columns = getTableColumns(business);
 
   const result = await db
@@ -51,8 +64,8 @@ export async function getBusinessByIdWithRelations(id: number) {
 
   return result[0];
 }
-export type BusinessWithRelations = Awaited<
-  ReturnType<typeof getBusinessByIdWithRelations>
+export type BusinessWithOwner = Awaited<
+  ReturnType<typeof getBusinessByIdWithOwner>
 >;
 
 export async function getBusinessById(id: number) {

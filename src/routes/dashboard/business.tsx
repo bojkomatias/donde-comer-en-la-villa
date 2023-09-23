@@ -10,8 +10,9 @@ import { Notification } from "@/ui/notification";
 import {
   createBusiness,
   getBusinessById,
-  getBusinessByIdWithRelations,
-  getBusinessesWithRelations,
+  getBusinessByIdWithOwner,
+  getBusinessesAsAdmin,
+  getBusinessesAsOwner,
   updateBusiness,
 } from "@/services/business";
 import { getUsersForSelector } from "@/services/user";
@@ -25,7 +26,22 @@ const businessRouter = new Elysia({
 })
   .use(setup)
   .get("/", async ({ JWTUser, headers }) => {
-    const businesses = await getBusinessesWithRelations();
+    if (JWTUser?.role === "owner") {
+      const [business] = await getBusinessesAsOwner(parseInt(JWTUser.id));
+
+      return headers["hx-request"] ? (
+        <DashboardLayout role={JWTUser!.role} current="/d/business">
+          <Business.View business={business} />
+        </DashboardLayout>
+      ) : (
+        <Layout>
+          <DashboardLayout role={JWTUser!.role} current="/d/business">
+            <Business.View business={business} />
+          </DashboardLayout>
+        </Layout>
+      );
+    }
+    const businesses = await getBusinessesAsAdmin();
 
     return headers["hx-request"] ? (
       <DashboardLayout role={JWTUser!.role} current="/d/business">
@@ -44,21 +60,24 @@ const businessRouter = new Elysia({
     );
   })
   .get("/:id", async ({ JWTUser, headers, params: { id } }) => {
-    const business = await getBusinessByIdWithRelations(parseInt(id));
-
+    const business = await getBusinessByIdWithOwner(parseInt(id));
+    console.log(headers);
     return headers["hx-request"] ? (
-      <Business.View business={business} />
+      <Business.View business={business} asAdmin={JWTUser?.role === "admin"} />
     ) : (
       <Layout>
         <DashboardLayout role={JWTUser!.role} current="/d/business">
-          <Business.View business={business} />
+          <Business.View
+            business={business}
+            asAdmin={JWTUser?.role === "admin"}
+          />
         </DashboardLayout>
       </Layout>
     );
   })
   .put(
     "/:id",
-    async ({ body, set, params: { id } }) => {
+    async ({ body, set, params: { id }, JWTUser }) => {
       const updated = await updateBusiness(parseInt(id), body);
 
       if (!updated) {
@@ -72,7 +91,7 @@ const businessRouter = new Elysia({
         );
       }
 
-      const business = await getBusinessByIdWithRelations(parseInt(id));
+      const business = await getBusinessByIdWithOwner(parseInt(id));
 
       return (
         <>
@@ -80,7 +99,10 @@ const businessRouter = new Elysia({
             title="Actualizado"
             description="Negocio actualizado con éxito"
           />
-          <Business.View business={business} />
+          <Business.View
+            business={business}
+            asAdmin={JWTUser?.role === "admin"}
+          />
         </>
       );
     },
@@ -110,11 +132,21 @@ const businessRouter = new Elysia({
     );
 
     return headers["hx-request"] ? (
-      <Business.Edit tags={tags} users={users} business={business} />
+      <Business.Edit
+        tags={tags}
+        users={users}
+        business={business}
+        asAdmin={JWTUser?.role === "admin"}
+      />
     ) : (
       <Layout>
         <DashboardLayout role={JWTUser!.role} current="/d/business">
-          <Business.Edit tags={tags} users={users} business={business} />
+          <Business.Edit
+            tags={tags}
+            users={users}
+            business={business}
+            asAdmin={JWTUser?.role === "admin"}
+          />
         </DashboardLayout>
       </Layout>
     );
@@ -124,18 +156,30 @@ const businessRouter = new Elysia({
     const users = await getUsersForSelector();
 
     return headers["hx-request"] ? (
-      <Business.New tags={tags} users={users} />
+      <Business.New
+        tags={tags}
+        users={users}
+        asAdmin={JWTUser?.role === "admin"}
+        ownerId={JWTUser?.role === "owner" ? parseInt(JWTUser.id) : undefined}
+      />
     ) : (
       <Layout>
         <DashboardLayout role={JWTUser!.role} current="/d/business">
-          <Business.New tags={tags} users={users} />
+          <Business.New
+            tags={tags}
+            users={users}
+            asAdmin={JWTUser?.role === "admin"}
+            ownerId={
+              JWTUser?.role === "owner" ? parseInt(JWTUser.id) : undefined
+            }
+          />
         </DashboardLayout>
       </Layout>
     );
   })
   .post(
     "/",
-    async ({ body, set }) => {
+    async ({ body, set, JWTUser }) => {
       const created = await createBusiness(body);
 
       if (!created) {
@@ -149,11 +193,24 @@ const businessRouter = new Elysia({
         );
       }
 
-      const businesses = await getBusinessesWithRelations();
+      if (JWTUser!.role !== "admin") {
+        const [business] = await getBusinessesAsOwner(parseInt(JWTUser!.id));
+        return (
+          <>
+            <Notification
+              title="Negocio creado"
+              description="Se le notificará a los administradores para que lo habiliten pronto"
+            />
+            <Business.View business={business} />
+          </>
+        );
+      }
+
+      const businesses = await getBusinessesAsAdmin();
       return (
         <>
           <Notification
-            title="Creado"
+            title="Negocio creado"
             description="Nuevo negocio creado con éxito"
           />
           <Business>
