@@ -5,12 +5,13 @@ type Props = JSX.HtmlInputTag &
   JSX.HtmlSelectTag & {
     options?: { id: number; name: string }[];
     values?: number[];
+    valueIsJson?: true;
   };
 export function Input({ options, ...props }: Props) {
   return (
     <div
       class={cx(
-        "group relative -my-px flex flex-col-reverse bg-white px-3 pb-1.5 pt-2.5 ring-1 ring-inset ring-gray-300 first-of-type:rounded-t last-of-type:rounded-b focus-within:z-10 focus-within:ring-2 focus-within:ring-cyan-600 dark:bg-gray-950 dark:ring-gray-600 dark:focus-within:ring-cyan-700",
+        "group relative -my-px flex flex-col-reverse bg-white px-3 pb-1.5 pt-2.5 ring-1 ring-inset ring-gray-200 first-of-type:rounded-t last-of-type:rounded-b focus-within:z-10 focus-within:ring-2 focus-within:ring-cyan-600 dark:bg-gray-950 dark:ring-gray-800 dark:focus-within:ring-cyan-600",
         props.class,
       )}
     >
@@ -22,7 +23,11 @@ export function Input({ options, ...props }: Props) {
         >
           {options.map(({ id, name }) => (
             <option
-              value={id.toString()}
+              value={
+                props.valueIsJson
+                  ? `{ "id": ${id}, "name": "${name}" }`
+                  : id.toString()
+              }
               class="capitalize"
               // Default select previous values on edit
               selected={

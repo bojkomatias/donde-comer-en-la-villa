@@ -9,6 +9,12 @@ input:-webkit-autofill:focus {
     color 0s 600000s;
 }
 
+::-webkit-scrollbar {
+  height: 0px; /* height of horizontal scrollbar ← You're missing this */
+  width: 4px;
+  border: 2px solid #d5d5d5;
+}
+
 @layer base {
   a:focus-visible,
   button:focus-visible {
