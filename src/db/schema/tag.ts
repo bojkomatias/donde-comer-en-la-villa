@@ -23,8 +23,8 @@ export const tag = sqliteTable(
 export const tagToBusiness = sqliteTable(
   "tag_to_business",
   {
-    tagId: integer("tag_id"),
-    businessId: integer("business_id"),
+    tagId: integer("tag_id").notNull(),
+    businessId: integer("business_id").notNull(),
   },
   (table) => {
     return {
@@ -36,8 +36,8 @@ export const tagToBusiness = sqliteTable(
 export const tagToProduct = sqliteTable(
   "tag_to_product",
   {
-    tagId: integer("tag_id"),
-    productId: integer("product_id"),
+    tagId: integer("tag_id").notNull(),
+    productId: integer("product_id").notNull(),
   },
   (table) => {
     return {
@@ -48,5 +48,7 @@ export const tagToProduct = sqliteTable(
 
 export type SelectTag = typeof tag.$inferSelect; // return type when queried
 export type InsertTag = typeof tag.$inferInsert; // insert type
+
+export type TagToBusiness = typeof tagToBusiness.$inferSelect;
 
 export const tagForm = createInsertSchema(tag);

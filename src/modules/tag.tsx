@@ -4,7 +4,6 @@ import { DashboardHeading } from "@/ui/dashboard/heading";
 import { Input } from "@/ui/input";
 import { dict } from "@/utils/dictionary";
 
-
 const Tags = ({ tags }: { tags: SelectTag[] }) => (
   <>
     <div>
@@ -13,13 +12,10 @@ const Tags = ({ tags }: { tags: SelectTag[] }) => (
         subtitle="Categorías para clasificar productos y negocios"
       />
     </div>
-
-    <Tags.New />
-
-    <div class="mt-8">
+    <div class="relative mt-8 max-h-96 overflow-auto pr-2">
       {tags.length > 0 ? (
-        <table class="min-w-full divide-y dark:divide-gray-700">
-          <thead>
+        <table class="min-w-full">
+          <thead class="sticky top-0 bg-white dark:bg-gray-950">
             <tr>
               <th
                 scope="col"
@@ -44,6 +40,10 @@ const Tags = ({ tags }: { tags: SelectTag[] }) => (
         </div>
       )}
     </div>
+    <span class="pl-4 text-xs font-thin sm:pl-0">
+      Total de {dict.get("tags")}: <b>{tags.length}</b>
+    </span>
+    <Tags.New />
   </>
 );
 
@@ -60,7 +60,7 @@ Tags.Row = ({ tag }: { tag: SelectTag }) => {
         <Button
           hx-get={`/d/tag/${tag.id}/form`}
           hx-target="closest tr"
-          hx-swap="innerHTML"
+          hx-swap="outerHTML"
           size="xs"
         >
           {dict.get("edit")}
@@ -72,7 +72,7 @@ Tags.Row = ({ tag }: { tag: SelectTag }) => {
 
 Tags.Edit = ({ tag }: { tag: InsertTag }) => {
   return (
-    <tr hx-target="this" hx-swap="outerHTML">
+    <tr hx-target="this">
       <td class="flex-grow">
         <Input
           type="text"
@@ -90,6 +90,7 @@ Tags.Edit = ({ tag }: { tag: InsertTag }) => {
           size="xs"
           hx-put={`/d/tag/${tag.id}`}
           hx-include="closest tr"
+          hx-swap="outerHTML"
           hx-target-403="#row-error"
         >
           {dict.get("save")}
@@ -99,6 +100,7 @@ Tags.Edit = ({ tag }: { tag: InsertTag }) => {
           intent="secondary"
           size="xs"
           hx-get={`/d/tag/${tag.id}/row`}
+          hx-swap="outerHTML"
         >
           {dict.get("cancel")}
         </Button>
@@ -109,12 +111,12 @@ Tags.Edit = ({ tag }: { tag: InsertTag }) => {
 
 Tags.New = () => {
   return (
-    <div class="mt-4 gap-6 bg-gray-50 p-4 pt-6 dark:bg-gray-900/50 sm:flex sm:justify-between sm:rounded-lg">
+    <div class="mt-8 gap-6 bg-gray-50 p-4 pt-6 dark:bg-gray-900/50 sm:flex sm:justify-between sm:rounded-lg">
       <div>
-        <h2 class="font-semibold leading-loose">Nueva {dict.get("tag")}</h2>
-        <p class="mb-4 mt-1 text-xs text-gray-500">
-          Agrega nueva categoría a la colección
-        </p>
+        <DashboardHeading
+          title={"Nueva " + dict.get("tag")}
+          subtitle="Agrega nueva categoría a la colección"
+        />
       </div>
       <form
         hx-post="/d/tag"

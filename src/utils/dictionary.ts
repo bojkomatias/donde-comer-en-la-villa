@@ -18,6 +18,9 @@ dict.set("webpage", "página web");
 dict.set("featured", "promocionado");
 dict.set("enabled", "habilitado");
 dict.set("description", "descripción");
+dict.set("image", "imagen");
+dict.set("createdAt", "fecha de creación");
+dict.set("updatedAt", "última edición");
 
 // Roles
 dict.set("customer", "cliente");
