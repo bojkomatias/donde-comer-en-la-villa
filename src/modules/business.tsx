@@ -127,16 +127,9 @@ Business.New = ({
 }) => {
   return (
     <div hx-target="this">
-      <Button
-        size="xs"
-        hx-get={`/d/business`}
-        hx-target="#dashboard"
-        hx-swap="outerHTML"
-        hx-push-url="true"
-        class="mb-2 ml-4 sm:ml-0"
-      >
+      <Button size="xs" _="on click go back" class="mb-2 ml-4 sm:ml-0">
         <i class="i-lucide-chevron-left" />
-        volver
+        {dict.get("back")}
       </Button>
 
       <DashboardHeading
@@ -241,15 +234,9 @@ Business.Edit = ({
 }) => {
   return (
     <div hx-target="this">
-      <Button
-        size="xs"
-        hx-get={`/d/business/${business.id}`}
-        hx-swap="outerHTML"
-        hx-push-url="true"
-        class="mb-2 ml-4 sm:ml-0"
-      >
+      <Button size="xs" _="on click go back" class="mb-2 ml-4 sm:ml-0">
         <i class="i-lucide-chevron-left" />
-        volver
+        {dict.get("back")}
       </Button>
 
       <DashboardHeading
@@ -368,16 +355,9 @@ Business.View = ({
   return (
     <div hx-target="this">
       {asAdmin ? (
-        <Button
-          size="xs"
-          hx-get="/d/business"
-          hx-target="#dashboard"
-          hx-swap="outerHTML"
-          hx-push-url="true"
-          class="ml-4 sm:ml-0"
-        >
+        <Button size="xs" _="on click go back" class="ml-4 sm:ml-0">
           <i class="i-lucide-chevron-left" />
-          volver
+          {dict.get("back")}
         </Button>
       ) : (
         <DashboardHeading
@@ -425,31 +405,50 @@ Business.View = ({
           </div>
         </div>
         {/* Tabular data */}
-        <div class="grid grid-cols-2 gap-x-20 gap-y-4 py-4 pr-8 text-sm">
+        <div class="grid grid-cols-2 gap-x-6 gap-y-4 py-4 pr-8 text-sm">
           <div class="font-medium first-letter:capitalize">
-            {dict.get("phone")}
+            {dict.get("phone")}:
           </div>
-          <div class="place-self-end overflow-hidden">{business.phone}</div>
+          <div class="w-32 place-self-end overflow-hidden text-ellipsis whitespace-nowrap text-right sm:w-80">
+            {business.phone}
+          </div>
 
           <div class="font-medium first-letter:capitalize">
-            {dict.get("instagram")}
+            {dict.get("instagram")}:
           </div>
-          <div class="place-self-end overflow-hidden">{business.instagram}</div>
+          <div class="w-32 place-self-end overflow-hidden text-ellipsis whitespace-nowrap text-right sm:w-80">
+            {business.instagram}
+          </div>
 
           <div class="font-medium first-letter:capitalize">
-            {dict.get("webpage")}
+            {dict.get("webpage")}:
           </div>
-          <div class="place-self-end overflow-hidden">{business.webpage}</div>
+          <div
+            class="w-32 place-self-end overflow-hidden text-ellipsis whitespace-nowrap text-right sm:w-80"
+            title={business.webpage || undefined}
+          >
+            {business.webpage?.substring(8)}
+          </div>
 
           <div class="font-medium first-letter:capitalize">
-            {dict.get("address")}
+            {dict.get("address")}:
           </div>
-          <div class="place-self-end overflow-hidden">{business.address}</div>
+          <div
+            class="w-32 place-self-end overflow-hidden text-ellipsis whitespace-nowrap text-right sm:w-80"
+            title={business.address || undefined}
+          >
+            {business.address}
+          </div>
 
           <div class="font-medium first-letter:capitalize">
-            {dict.get("location")}
+            {dict.get("location")}:
           </div>
-          <div class="place-self-end overflow-hidden">{business.location}</div>
+          <div
+            class="w-32 place-self-end overflow-hidden text-ellipsis whitespace-nowrap text-right sm:w-80"
+            title={business.location || undefined}
+          >
+            {business.location?.substring(8)}
+          </div>
         </div>
         {/* Categories */}
         <div>

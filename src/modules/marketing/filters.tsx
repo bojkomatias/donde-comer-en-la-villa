@@ -37,7 +37,7 @@ export const Filters = ({ tags }: { tags: SelectTag[] }) => {
       {/* Chevrons to scroll */}
       <button
         id="left-chevron"
-        class="absolute inset-y-0 left-4 flex w-11 items-center justify-center rounded-l border-y border-l border-gray-500/5 bg-gradient-to-r from-gray-100 from-50% to-transparent dark:from-gray-900 lg:left-2"
+        class="absolute inset-y-0 left-4 flex w-11 items-center justify-center rounded-l bg-gradient-to-r from-white from-30% to-transparent dark:from-gray-950 lg:left-2"
         _="on click go to bottom left of #first-tag smoothly"
       >
         <i class="i-lucide-chevron-left h-5 w-5" />
@@ -45,10 +45,10 @@ export const Filters = ({ tags }: { tags: SelectTag[] }) => {
 
       <button
         id="right-chevron"
-        class="absolute inset-y-0 right-4 flex w-11 items-center justify-center rounded-r border-y border-r border-gray-500/5 bg-gradient-to-l from-gray-100 from-50% to-transparent dark:from-gray-900"
+        class="absolute inset-y-0 right-4 flex w-11 items-center justify-center rounded-r bg-gradient-to-l from-white from-30% to-transparent dark:from-gray-950"
         _="on click go to bottom right of #last-tag smoothly"
       >
-        <i class="i-lucide-chevron-right h-5 w-5" />
+        <i class="i-lucide-chevron-right h-5 w-5 drop-shadow" />
       </button>
     </div>
   );

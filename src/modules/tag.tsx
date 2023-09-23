@@ -28,7 +28,7 @@ const Tags = ({ tags }: { tags: SelectTag[] }) => (
               </th>
             </tr>
           </thead>
-          <tbody id="tag-results" class="divide-y dark:divide-gray-700">
+          <tbody id="tag-results">
             {tags.map((tag) => (
               <Tags.Row tag={tag} />
             ))}
@@ -49,7 +49,7 @@ const Tags = ({ tags }: { tags: SelectTag[] }) => (
 
 Tags.Row = ({ tag }: { tag: SelectTag }) => {
   return (
-    <tr>
+    <tr class="border-t dark:border-gray-800">
       <td
         class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium capitalize sm:pl-0"
         safe
@@ -121,9 +121,9 @@ Tags.New = () => {
       <form
         hx-post="/d/tag"
         hx-target="#tag-results"
-        hx-swap="beforebegin"
+        hx-swap="afterend"
         hx-target-4xx="#notification"
-        _="on submit log 'xd'"
+        _="on htmx:afterRequest reset() me"
         class="flex-grow"
       >
         <Input

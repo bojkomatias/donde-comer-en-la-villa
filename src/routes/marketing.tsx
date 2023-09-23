@@ -6,7 +6,6 @@ import { getBusinessesQuery, getInitialBusinesses } from "@/services/business";
 import Marketing from "@/modules/marketing/page";
 import { Results } from "@/modules/marketing/results";
 import { getBusinessesByTag } from "@/services/tag-to-business";
-import { Button } from "@/ui/button";
 import { cx } from "@/utils/cx";
 
 const marketing = new Elysia({
@@ -17,8 +16,7 @@ const marketing = new Elysia({
     {
       // Cacheo todo para performance y preload
       beforeHandle: ({ set }) => {
-        set.headers["Cache-Control"] =
-          "public, max-age=300, must-revalidate, stale-while-revalidate=60";
+        set.headers["Cache-Control"] = "public, max-age=300, must-revalidate";
       },
     },
     (app) =>

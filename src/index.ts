@@ -24,8 +24,7 @@ const app = new Elysia()
           return (set.redirect = "/");
         }
         if (request.method === "GET" && headers["hx-request"])
-          set.headers["Cache-Control"] =
-            "public, max-age=10, must-revalidate, stale-while-revalidate=4";
+          set.headers["Cache-Control"] = "public, max-age=10, must-revalidate";
       },
     },
     (app) =>

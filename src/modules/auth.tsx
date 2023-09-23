@@ -31,7 +31,7 @@ Auth.Form = (props: { csrfToken: string }) => {
         href={google.href}
         class={buttonStyles({
           class:
-            "w-full flex-grow bg-white font-medium text-black ring-1 ring-gray-500/50 transition hover:shadow dark:hover:bg-gray-200",
+            "w-full flex-grow bg-white font-medium text-black ring-1 ring-gray-400/20 transition hover:shadow dark:hover:bg-gray-200",
         })}
       >
         <img

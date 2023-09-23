@@ -45,15 +45,15 @@ const BusinessItem = ({ business }: { business: SelectBusiness }) => (
             target="_blank"
             class="group flex items-center gap-1 text-xs underline-offset-2 opacity-80 hover:underline hover:opacity-100 hover:drop-shadow-sm"
           >
-            <i class="i-simple-icons-instagram h-3.5 w-3.5 group-hover:text-rose-600" />
-            @{business.instagram}
+            <i class="i-simple-icons-instagram group-hover:text-rose-600" />@
+            {business.instagram}
           </a>
           <a
             href={`https://wa.me/${business.phone}`}
             target="_blank"
             class="group flex items-center gap-1 text-xs underline-offset-2 opacity-80 hover:underline hover:opacity-100 hover:drop-shadow-sm"
           >
-            <i class="i-simple-icons-whatsapp h-3.5 w-3.5 group-hover:text-emerald-600" />
+            <i class="i-simple-icons-whatsapp group-hover:text-emerald-600" />
             {business.phone}
           </a>
           {business.address && (
@@ -66,7 +66,7 @@ const BusinessItem = ({ business }: { business: SelectBusiness }) => (
                   "underline underline-offset-1 hover:underline-offset-4 hover:opacity-100 hover:drop-shadow-sm",
               )}
             >
-              <i class="i-lucide-map-pin h-4 w-4" />
+              <i class="i-lucide-map-pin" />
               {business.address}
             </a>
           )}
@@ -76,7 +76,7 @@ const BusinessItem = ({ business }: { business: SelectBusiness }) => (
               target="_blank"
               class="group flex items-center gap-1 text-xs underline-offset-2 opacity-80 hover:underline hover:opacity-100 hover:drop-shadow-sm"
             >
-              <i class="i-lucide-external-link h-3.5 w-3.5" />
+              <i class="i-lucide-external-link" />
               {business.webpage.substring(8)}
             </a>
           )}
@@ -84,7 +84,7 @@ const BusinessItem = ({ business }: { business: SelectBusiness }) => (
       </div>
     </div>
     <div class="mt-4 flex-grow" />
-    <div class="mx-2 flex gap-1 overflow-hidden p-1">
+    <div class="mx-2 flex gap-1 overflow-auto p-1">
       {typeof business.tags === "string" &&
         business.tags.split(",").map((e) => <Badge>{e}</Badge>)}
     </div>
