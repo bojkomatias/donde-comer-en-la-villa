@@ -24,3 +24,9 @@ input:-webkit-autofill:focus {
     @apply border-[0.4px] dark:border-gray-800;
   } */
 }
+
+@layer utilities {
+  .tag-indicator {
+    @apply scale-105 font-bold shadow-none;
+  }
+}

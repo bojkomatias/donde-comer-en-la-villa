@@ -17,9 +17,10 @@ export const Results = ({ businesses }: { businesses: SelectBusiness[] }) => {
       ) : (
         <div
           id="results"
-          class="mx-auto mt-20 max-w-sm text-sm font-light text-gray-500"
+          class="m-4 rounded bg-gray-50/50 py-20 text-center text-sm font-thin leading-loose ring-1 ring-inset ring-gray-500/5 dark:bg-gray-900/30"
         >
-          No se encontraron datos modifique su búsqueda
+          No se encontraron datos.
+          <br /> Pruebe modificar su búsqueda o limpiar los filtros.
         </div>
       )}
     </>

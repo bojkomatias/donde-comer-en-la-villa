@@ -9,12 +9,16 @@ import {
   getUserByEmail,
   userMatchCredentials,
 } from "@/services/user";
+import { Layout } from "@/ui/layout";
 
 const hasher = new Bun.CryptoHasher("sha256");
 
-const auth = new Elysia({ name: "auth", prefix: "/auth" })
+const auth = new Elysia({ name: "auth" })
   .use(setup)
-  .get("/form", async ({ setCookie }) => {
+  .get("/login", async ({ setCookie, headers, JWTUser, set }) => {
+    // If already logged in kick
+    if (JWTUser) return (set.redirect = "/");
+
     /** Implements double submit cookies method for protection against CSRF */
     hasher.update(randomBytes(100));
     const csrfToken = hasher.digest("base64");
@@ -23,10 +27,16 @@ const auth = new Elysia({ name: "auth", prefix: "/auth" })
       sameSite: true,
     });
 
-    return <Auth.Form csrfToken={csrfToken} />;
+    return headers["hx-request"] ? (
+      <Auth.Form csrfToken={csrfToken} />
+    ) : (
+      <Layout>
+        <Auth.Form csrfToken={csrfToken} />
+      </Layout>
+    );
   })
   .post(
-    "/login",
+    "/auth/login",
     async ({ jwt, cookie, setCookie, body, set }) => {
       // Catch CSRF attack
       if (cookie.csrfToken !== body.csrfToken) return (set.status = 403);
@@ -63,7 +73,7 @@ const auth = new Elysia({ name: "auth", prefix: "/auth" })
     },
     { body: "auth" },
   )
-  .get("/callback/google", async ({ query, setCookie, jwt, set }) => {
+  .get("/auth/callback/google", async ({ query, setCookie, jwt, set }) => {
     const oauth_user = await OAuth2(query["code"] as string);
 
     // Check if user exists in DB
@@ -90,15 +100,23 @@ const auth = new Elysia({ name: "auth", prefix: "/auth" })
 
     set.redirect = "/";
   })
-  .get("/navigation", ({ JWTUser }) => <Auth.Navigation user={JWTUser} />, {
-    beforeHandle: ({ JWTUser, set }) => {
-      if (!JWTUser) {
-        set.status = 401;
-        return "Unauthorized";
-      }
-    },
+  .get("/auth/status", ({ JWTUser, set }) => {
+    if (JWTUser) return (set.redirect = "/auth/navigation");
+    return <Auth.Login />;
   })
-  .post("/logout", ({ setCookie, set }) => {
+  .get(
+    "/auth/navigation",
+    ({ JWTUser }) => <Auth.Navigation user={JWTUser} />,
+    {
+      beforeHandle: ({ JWTUser, set }) => {
+        if (!JWTUser) {
+          set.status = 401;
+          return "Unauthorized";
+        }
+      },
+    },
+  )
+  .post("/auth/logout", ({ setCookie, set }) => {
     // Remove cookie not working
     setCookie("auth", "");
     return (set.redirect = "/");

@@ -1,14 +1,7 @@
 import { siteConfig } from "@/config/site";
 import DarkMode from "./dark-mode-toggle";
-import Auth from "@/modules/auth";
 
-export function Layout({
-  isAuth = true,
-  children,
-}: {
-  isAuth?: boolean;
-  children?: any;
-}) {
+export function Layout({ children }: { children?: any }) {
   return (
     <>
       {`<!DOCTYPE html>`}
@@ -60,7 +53,7 @@ export function Layout({
           <div id="notification" />
           <div>
             <header class="border-b py-3 dark:border-gray-700">
-              <div class="container mx-auto flex items-center justify-between px-2 sm:px-6 lg:px-16">
+              <div class="container mx-auto flex h-11 items-center justify-between px-4 sm:px-6 lg:px-16">
                 <a
                   href="/"
                   class="font-heading font-black hover:text-black dark:hover:text-white"
@@ -68,17 +61,11 @@ export function Layout({
                 >
                   {siteConfig.name}
                 </a>
-
-                {isAuth ? (
-                  <i
-                    hx-get="/auth/navigation"
-                    hx-trigger="load"
-                    hx-swap="outerHTML"
-                    class="i-lucide-fingerprint h-8 w-8 overflow-hidden rounded-full text-gray-500"
-                  />
-                ) : (
-                  <Auth.Login />
-                )}
+                <div
+                  hx-get="/auth/status"
+                  hx-trigger="load"
+                  hx-swap="outerHTML"
+                />
               </div>
             </header>
             <main class="container mx-auto min-h-screen px-0 pb-8 sm:px-6 lg:px-16">

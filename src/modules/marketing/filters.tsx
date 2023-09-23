@@ -8,7 +8,7 @@ export const Filters = ({ tags }: { tags: SelectTag[] }) => {
       <div class="absolute inset-0 -z-10 mx-4 rounded bg-gray-50 ring-1 ring-inset ring-gray-500/5 dark:bg-gray-900/50 lg:ml-2" />
       <div
         class="mx-2 flex h-full items-center gap-3 overflow-auto"
-        _="on removeI tell <button /> in me remove .bg-orange-500 .bg-opacity-20 .ring-orange-500 .ring-opacity-20 .text-orange-600"
+        _="on removeI tell <button /> in me remove .tag-indicator"
       >
         <div class="-mr-3 h-full py-2">
           <div id="clear-filters" />
@@ -24,11 +24,12 @@ export const Filters = ({ tags }: { tags: SelectTag[] }) => {
                 "on intersection(intersecting) having threshold 0.9 if intersecting hide #left-chevron else show #left-chevron end",
               i === tags.length - 1 &&
                 "on intersection(intersecting) having threshold 0.9 if intersecting hide #right-chevron else show #right-chevron end",
-              "on click send removeI to closest <div /> wait then add .bg-orange-500 .bg-opacity-20 .ring-orange-500 .ring-opacity-20 .text-orange-600 on me end",
+              "on click send removeI to closest <div /> wait then add .tag-indicator on me end",
             )}
-            intent="outline"
+            intent="shadow"
+            class="transition duration-150 ease-in-out"
             size="sm"
-            preload="mouseover"
+            preload
           >
             {tag.name}
           </Button>

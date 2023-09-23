@@ -19,10 +19,10 @@ const Auth = () => null;
 Auth.Form = (props: { csrfToken: string }) => {
   return (
     <div class="mx-auto mt-20 max-w-xl space-y-8 rounded-lg bg-gray-50 p-6 dark:bg-gray-900/50">
-      <a href="/" class={buttonStyles({ size: "sm" })}>
+      <Button size="xs" _="on click go back">
         <i class="i-lucide-chevron-left" />
         {dict.get("back")}
-      </a>
+      </Button>
       <p class="text-xl">Volviste!</p>
       <p class="text-sm text-gray-700 dark:text-gray-300">
         Ingresá con Google o autenticate con tus credenciales.
@@ -44,6 +44,7 @@ Auth.Form = (props: { csrfToken: string }) => {
         hx-post="/auth/login"
         hx-target-4xx="#notification"
         hx-target="body"
+        hx-push-url="true"
       >
         <input
           type="text"
@@ -80,9 +81,10 @@ Auth.Form = (props: { csrfToken: string }) => {
 
 Auth.Login = () => (
   <Button
-    hx-get="/auth/form"
+    hx-get="/login"
     hx-target="main"
     hx-swap="innerHTML"
+    hx-push-url="true"
     intent="primary"
   >
     {dict.get("login")}

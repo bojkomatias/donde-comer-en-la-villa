@@ -16,16 +16,16 @@ const marketing = new Elysia({
     {
       // Cacheo todo para performance y preload
       beforeHandle: ({ set }) => {
-        set.headers["Cache-Control"] = "public, max-age=300, must-revalidate";
+        set.headers["Cache-Control"] = "public, max-age=900, must-revalidate";
       },
     },
     (app) =>
       app
-        .get("/", async ({ JWTUser }) => {
+        .get("/", async () => {
           const tags = await getTags();
           const initialB = await getInitialBusinesses();
           return (
-            <Layout isAuth={!!JWTUser}>
+            <Layout>
               <Marketing tags={tags} initialData={initialB} />
             </Layout>
           );

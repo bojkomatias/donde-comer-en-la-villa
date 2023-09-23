@@ -1,7 +1,7 @@
 import { cx } from "@/utils/cx";
 
 interface Props extends JSX.HtmlButtonTag {
-  intent?: "primary" | "secondary" | "outline" | "destructive";
+  intent?: "primary" | "secondary" | "shadow" | "destructive";
   size?: "xs" | "sm";
   children?: any;
 }
@@ -23,8 +23,8 @@ export const buttonStyles = (props: Props) => {
       "bg-gray-800 font-bold text-white hover:bg-black dark:bg-gray-300 dark:text-black dark:hover:bg-white",
     props.intent === "secondary" &&
       "bg-gray-100 font-semibold hover:bg-gray-200 dark:bg-gray-850",
-    props.intent === "outline" &&
-      "bg-white font-medium ring-1 ring-inset ring-gray-500/10 dark:bg-gray-950",
+    props.intent === "shadow" &&
+      "bg-transparent font-semibold shadow-inner shadow-gray-700/20 dark:shadow-gray-300/20",
     props.intent === "destructive" &&
       "bg-red-600 text-white saturate-[85%] hover:bg-red-600 hover:saturate-100 dark:hover:bg-red-600",
     props.size === "xs" && "px-2 py-1 text-xs",
