@@ -1,11 +1,11 @@
 import { cx } from "@/utils/cx";
 
-interface Props extends JSX.HtmlButtonTag {
-  intent?: "primary" | "secondary" | "shadow" | "destructive";
-  size?: "xs" | "sm";
+export interface ButtonProps extends JSX.HtmlButtonTag {
+  intent?: "primary" | "secondary" | "destructive" | "link";
+  size?: "xs" | "sm" | "lg" | "icon";
   children?: any;
 }
-export const Button = ({ intent, size, children, ...props }: Props) => {
+export const Button = ({ intent, size, children, ...props }: ButtonProps) => {
   return (
     <button
       {...props}
@@ -16,19 +16,21 @@ export const Button = ({ intent, size, children, ...props }: Props) => {
   );
 };
 
-export const buttonStyles = (props: Props) => {
+export const buttonStyles = (props: ButtonProps) => {
   return cx(
-    "group flex w-fit items-center justify-center gap-1 whitespace-nowrap rounded px-3.5 py-2 text-sm font-medium capitalize hover:bg-gray-100 active:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 disabled:saturate-50 dark:hover:bg-gray-900",
+    "group inline-flex h-9 items-center justify-center gap-2.5 whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium capitalize transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
     props.intent === "primary" &&
-      "bg-gray-800 font-bold text-white hover:bg-black dark:bg-gray-300 dark:text-black dark:hover:bg-white",
+      "bg-primary font-bold text-primary-foreground shadow hover:bg-primary/90 focus-visible:ring-offset-1",
     props.intent === "secondary" &&
-      "bg-gray-100 font-semibold hover:bg-gray-200 dark:bg-gray-850",
-    props.intent === "shadow" &&
-      "bg-transparent font-semibold shadow-inner shadow-gray-700/20 dark:shadow-gray-300/20",
+      "text-accent-foreground bg-accent shadow-sm hover:bg-muted",
     props.intent === "destructive" &&
-      "bg-red-600 text-white saturate-[85%] hover:bg-red-600 hover:saturate-100 dark:hover:bg-red-600",
-    props.size === "xs" && "px-2 py-1 text-xs",
-    props.size === "sm" && "px-2.5 py-1.5 text-xs",
+      "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+    props.intent === "link" &&
+      "text-primary underline-offset-4 hover:underline",
+    props.size === "lg" && "h-10 rounded-md px-8",
+    props.size === "sm" && "h-8 rounded-md px-3.5 text-xs",
+    props.size === "xs" && "h-6 rounded-md px-2.5 text-xs",
+    props.size === "icon" && "h-9 w-9 p-0",
     props.class,
   );
 };

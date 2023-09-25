@@ -1,5 +1,6 @@
 import { dashboardNav } from "@/config/dashboard";
 import { buttonStyles, Button } from "@/ui/button";
+import Dropdown from "@/ui/dropdown";
 import { Input } from "@/ui/input";
 import { cx } from "@/utils/cx";
 import { dict } from "@/utils/dictionary";
@@ -18,26 +19,27 @@ const Auth = () => null;
 
 Auth.Form = (props: { csrfToken: string }) => {
   return (
-    <div class="mx-auto mt-20 max-w-xl space-y-8 rounded-lg bg-gray-50 p-6 dark:bg-gray-900/50">
+    <div class="mx-auto mt-20 max-w-xl space-y-8 bg-card p-6 sm:rounded-xl">
       <Button size="xs" _="on click go back">
         <i class="i-lucide-chevron-left" />
         {dict.get("back")}
       </Button>
       <p class="text-xl">Volviste!</p>
-      <p class="text-sm text-gray-700 dark:text-gray-300">
+      <p class="text-sm">
         Ingresá con Google o autenticate con tus credenciales.
       </p>
       <a
         href={google.href}
         class={buttonStyles({
+          intent: "outline",
           class:
-            "w-full flex-grow bg-white font-medium text-black ring-1 ring-gray-400/20 transition hover:shadow dark:hover:bg-gray-200",
+            "w-full bg-foreground text-muted hover:bg-foreground hover:text-background",
         })}
       >
         <img
           src="/public/google-svg.svg"
           class="-ml-4 mr-4 h-5 w-5 rounded-full"
-        />{" "}
+        />
         Ingresar con Google
       </a>
       <form
@@ -52,20 +54,20 @@ Auth.Form = (props: { csrfToken: string }) => {
           value={props.csrfToken}
           class="hidden"
         />
-        <div class="isolate">
-          <Input
-            name="email"
-            placeholder="example@example.com"
-            type="email"
-            required="true"
-          />
-          <Input
-            name="password"
-            placeholder="***********"
-            type="password"
-            required="true"
-          />
-        </div>
+        <Input
+          name="email"
+          placeholder="example@example.com"
+          type="email"
+          required="true"
+          rt
+        />
+        <Input
+          name="password"
+          placeholder="***********"
+          type="password"
+          required="true"
+          rb
+        />
         <div class="mt-6 flex gap-6">
           <Button intent="primary" class="w-1/2">
             Login
@@ -104,22 +106,8 @@ type User =
 Auth.Navigation = ({ user }: { user: User }) => {
   if (!user) return <></>;
   return (
-    <div
-      id="menu"
-      class="relative inline-block text-left"
-      hx-target="body"
-      hx-swap="innerHTML"
-    >
-      <Button
-        _="on click halt 
-        on click send change to #dropdown end
-        on keyup
-         if the event's key is 'Escape'
-           add .hidden to #dropdown
-           trigger keyup
-        end"
-        class="rounded-full p-0"
-      >
+    <Dropdown hx-target="body" hx-swap="innerHTML">
+      <Dropdown.Trigger>
         {user.image ? (
           <img
             src={user.image}
@@ -129,53 +117,42 @@ Auth.Navigation = ({ user }: { user: User }) => {
         ) : (
           <i class="i-lucide-user-circle-2 h-8 w-8 overflow-hidden rounded-full opacity-80 hover:opacity-100" />
         )}
-      </Button>
+      </Dropdown.Trigger>
 
-      <div
-        id="dropdown"
-        role="menu"
-        class="dropdown absolute right-0 z-10 mt-1 hidden w-56 origin-top-right scale-95 divide-y divide-gray-100 rounded-md bg-white opacity-0 shadow-lg ring-1 ring-gray-200 transition duration-150 ease-in-out focus:outline-none dark:divide-gray-800 dark:bg-gray-950 dark:shadow-black dark:ring-gray-800"
-        _="on change 
-        if @class contains 'hidden' 
-          then toggle .hidden on me wait
-            then toggle .opacity-0 .scale-95 on me
-        else toggle .opacity-0 .scale-95 on me settle then add .hidden to me"
-      >
-        <div class="px-4 py-3" _="on click halt bubbling">
-          <div class="text-sm font-semibold leading-loose" safe>
+      <Dropdown.Content>
+        <Dropdown.Header>
+          <div class="text-sm font-semibold" safe>
             {user.name}
           </div>
-          <span class="text-xs font-light text-gray-500" safe>
+          <div class="text-xs font-light leading-5 text-muted-foreground" safe>
             {user.email}
-          </span>
-        </div>
-        <nav class="py-1">
-          {dashboardNav
-            .filter((link) => link.clearance?.includes(user.role))
-            .map((item) => (
-              <button
-                hx-get={item.href}
-                hx-push-url="true"
-                hx-target="main"
-                hx-swap="innerHTML"
-                class="flex w-full items-center gap-3 px-4 py-3 text-sm capitalize hover:bg-gray-400/10"
-              >
-                <i class={cx(item.icon, "h-4 w-4 text-gray-500")} />
-                {dict.get(item.name)}
-              </button>
-            ))}
-        </nav>
-        <button
+          </div>
+        </Dropdown.Header>
+        <Dropdown.Separator />
+        {dashboardNav
+          .filter((link) => link.clearance?.includes(user.role))
+          .map((item) => (
+            <Dropdown.Item
+              hx-get={item.href}
+              hx-push-url="true"
+              hx-target="main"
+              hx-swap="innerHTML"
+            >
+              <i class={cx(item.icon, "h-4 w-4 text-muted-foreground")} />
+              {dict.get(item.name)}
+            </Dropdown.Item>
+          ))}
+        <Dropdown.Separator />
+        <Dropdown.Item
           hx-post="/auth/logout"
           hx-push-url="true"
-          class="flex w-full items-center gap-3 px-4 py-3 text-sm font-semibold capitalize hover:bg-gray-400/10"
-          tabindex="-1"
+          class="font-semibold"
         >
-          <i class="i-lucide-log-out h-4 w-4 text-gray-500" />
+          <i class="i-lucide-log-out h-4 w-4 text-muted-foreground" />
           {dict.get("logout")}
-        </button>
-      </div>
-    </div>
+        </Dropdown.Item>
+      </Dropdown.Content>
+    </Dropdown>
   );
 };
 

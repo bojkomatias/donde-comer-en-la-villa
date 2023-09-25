@@ -43,20 +43,20 @@ export function Layout({ children }: { children?: any }) {
           <title>{siteConfig.name}</title>
         </head>
         <body
-          class="bg-white text-black/80 subpixel-antialiased dark:bg-gray-950 dark:text-white/80"
+          class="bg-background text-foreground antialiased"
           hx-boost="true"
           hx-ext="response-targets, preload"
-          _="on click add .hidden .opacity-0 .scale-95 to .dropdown end"
+          _="on click send closeImmediately to .dropdown end"
           // Handles click outside for all menus
         >
           {/* Notifications fall all here! */}
           <div id="notification" />
           <div>
-            <header class="border-b py-3 dark:border-gray-700">
-              <div class="container mx-auto flex h-11 items-center justify-between px-4 sm:px-6 lg:px-16">
+            <header class="border-b border-border py-3">
+              <div class="container mx-auto flex h-10 items-center justify-between px-4 sm:px-6 lg:px-16">
                 <a
                   href="/"
-                  class="font-heading font-black hover:text-black dark:hover:text-white"
+                  class="hover:text-accent-foreground font-heading font-black"
                   tabindex="-1"
                 >
                   {siteConfig.name}
@@ -72,10 +72,10 @@ export function Layout({ children }: { children?: any }) {
               {children}
             </main>
           </div>
-          <footer class="border-t dark:border-gray-700">
+          <footer class="border-t border-border bg-card">
             <div class="container mx-auto flex flex-col items-center gap-6 px-2 py-8 sm:flex-row sm:px-6 lg:px-16">
               <i class="i-lucide-activity h-8 w-8" />
-              <p class="flex-auto text-center text-sm leading-loose text-gray-600 dark:text-gray-400 sm:text-left">
+              <p class="flex-auto text-center text-sm leading-loose text-muted-foreground sm:text-left">
                 Built by{" "}
                 <a
                   href={siteConfig.links.twitter}

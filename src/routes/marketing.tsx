@@ -7,11 +7,42 @@ import Marketing from "@/modules/marketing/page";
 import { Results } from "@/modules/marketing/results";
 import { getBusinessesByTag } from "@/services/tag-to-business";
 import { cx } from "@/utils/cx";
+import { Button } from "@/ui/button";
+
+import Card from "@/ui/card";
+import { Input } from "@/ui/input";
+import Dropdown from "@/ui/dropdown";
+import Table from "@/ui/table";
 
 const marketing = new Elysia({
   name: "marketing",
 })
   .use(setup)
+  .get("/btn", () => (
+    <Layout>
+      <div class="my-12" />
+      <Table>
+        <Table.Head>
+          <Table.Row>
+            <Table.HCell class="transition">Name</Table.HCell>
+            <Table.HCell>Last name</Table.HCell>
+            <Table.HCell>Edit</Table.HCell>
+          </Table.Row>
+        </Table.Head>
+        <Table.Body>
+          <Table.Row>
+            <Table.Cell>Matías</Table.Cell>
+            <Table.Cell>Bojko</Table.Cell>
+            <Table.Cell>
+              <Button intent="secondary" size="xs">
+                Editar
+              </Button>
+            </Table.Cell>
+          </Table.Row>
+        </Table.Body>
+      </Table>
+    </Layout>
+  ))
   .guard(
     {
       // Cacheo todo para performance y preload

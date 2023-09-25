@@ -144,7 +144,7 @@ Business.New = ({
         autocomplete="off"
         class="mx-2 py-4 sm:mx-0"
       >
-        <Input name="name" required="true" placeholder="Burguesía" />
+        <Input name="name" required="true" placeholder="Burguesía" rt />
         <Input
           name="description"
           required="true"
@@ -187,7 +187,7 @@ Business.New = ({
           multiple="true"
           required="true"
           valueIsJson
-          class={asAdmin ? "" : "rounded-b"}
+          rb={!asAdmin}
         />
 
         <span class={cx("flex -space-x-px", asAdmin ? "" : "hidden")}>
@@ -196,14 +196,16 @@ Business.New = ({
             type="checkbox"
             // HTML if not set value string sets "on" by default
             value="true"
-            class="flex-grow first-of-type:rounded-t-none"
+            class="flex-grow"
+            rt
           />
           <Input
             name="enabled"
             type="checkbox"
             // HTML if not set value string sets "on" by default
             value="true"
-            class="flex-grow last-of-type:rounded-b-none"
+            class="flex-grow"
+            rb
           />
         </span>
         <Input
@@ -211,6 +213,7 @@ Business.New = ({
           options={users}
           values={ownerId ? [ownerId] : undefined}
           class={asAdmin ? "" : "hidden"}
+          rb
         />
 
         <span class="mt-2 flex justify-end">
@@ -256,6 +259,7 @@ Business.Edit = ({
           required="true"
           placeholder="Burguesía"
           value={business.name}
+          rt
         />
         <Input
           name="description"
@@ -311,7 +315,7 @@ Business.Edit = ({
           valueIsJson
           // @ts-ignore I know i'm passing the ids
           values={business.tags ? business.tags : undefined}
-          class={asAdmin ? "" : "rounded-b"}
+          rb={!asAdmin}
         />
         <span class={cx("flex -space-x-px", asAdmin ? "" : "hidden")}>
           <Input
@@ -320,7 +324,8 @@ Business.Edit = ({
             checked={business.featured ? "true" : undefined}
             // HTML if not set value string sets "on" by default
             value="true"
-            class="flex-grow first-of-type:rounded-t-none"
+            class="flex-grow"
+            rt
           />
           <Input
             name="enabled"
@@ -328,7 +333,8 @@ Business.Edit = ({
             checked={business.enabled ? "true" : undefined}
             // HTML if not set value string sets "on" by default
             value="true"
-            class="flex-grow last-of-type:rounded-b-none"
+            class="flex-grow"
+            rb
           />
         </span>
         <Input
@@ -336,6 +342,7 @@ Business.Edit = ({
           options={users}
           values={business.owner ? [business.owner] : undefined}
           class={asAdmin ? "" : "hidden"}
+          rb
         />
         <span class="mt-2 flex justify-end">
           <Button intent="primary">{dict.get("save")}</Button>
