@@ -39,10 +39,20 @@ export const UserNavigation = ({ user }: { user: User }) => {
           </div>
         </Dropdown.Header>
         <Dropdown.Separator />
-        <Dropdown.Item as="a" href="/d/business" hx-boost="true">
+        <Dropdown.Item
+          as="a"
+          href="/d/business"
+          hx-boost="true"
+          _="htmx:afterOnLoad if window.location.pathname === @href then set @disabled end"
+        >
           {dict.get("dashboard")}
         </Dropdown.Item>
-        <Dropdown.Item as="a" href="/d/settings" hx-boost="true">
+        <Dropdown.Item
+          as="a"
+          href="/d/settings"
+          hx-boost="true"
+          _="htmx:afterOnLoad if window.location.pathname === @href then set @disabled end"
+        >
           {dict.get("settings")}
           <i class="i-lucide-settings" />
         </Dropdown.Item>
