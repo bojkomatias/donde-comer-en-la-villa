@@ -3,7 +3,6 @@ import Profile from "@/modules/profile";
 import setup from "@/routes/(setup)";
 import { getUserById, updateUserAttribute } from "@/services/user";
 import { DashboardLayout } from "@/ui/dashboard/layout";
-import { Layout } from "@/ui/layout";
 import { Notification } from "@/ui/notification";
 import Elysia, { t } from "elysia";
 
@@ -12,19 +11,15 @@ const profile = new Elysia({
   prefix: "/d",
 })
   .use(setup)
-  .get("/", async ({ JWTUser, headers }) => {
+  .get("/", async ({ JWTUser, headers, set }) => {
     const user = await getUserById(parseInt(JWTUser!.id));
-
-    return headers["hx-request"] ? (
-      <DashboardLayout role={user.role} current="/d">
+    set.headers["hx-trigger"] = "myEvent";
+    return headers["hx-request"] && !headers["hx-boosted"] ? (
+      <Profile user={user} />
+    ) : (
+      <DashboardLayout role={JWTUser!.role}>
         <Profile user={user} />
       </DashboardLayout>
-    ) : (
-      <Layout>
-        <DashboardLayout role={user.role} current="/d">
-          <Profile user={user} />
-        </DashboardLayout>
-      </Layout>
     );
   })
   .get("/:id/:attr", ({ params: { id, attr }, query }) => (

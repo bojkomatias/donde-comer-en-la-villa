@@ -9,7 +9,7 @@ import {
   getUserByEmail,
   userMatchCredentials,
 } from "@/services/user";
-import { Layout } from "@/ui/layout";
+import { BaseLayout } from "@/ui/layout";
 
 const hasher = new Bun.CryptoHasher("sha256");
 
@@ -30,9 +30,9 @@ const auth = new Elysia({ name: "auth" })
     return headers["hx-request"] ? (
       <Auth.Form csrfToken={csrfToken} />
     ) : (
-      <Layout>
+      <BaseLayout>
         <Auth.Form csrfToken={csrfToken} />
-      </Layout>
+      </BaseLayout>
     );
   })
   .post(

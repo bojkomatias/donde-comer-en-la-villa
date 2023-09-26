@@ -6,6 +6,11 @@ export default {
   content: ["./src/**/*.{html,tsx}"],
   theme: {
     extend: {
+      fontSize: {
+        xs: '0.72rem',
+        sm: '0.83rem',
+        md: '0.90rem',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

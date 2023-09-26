@@ -15,7 +15,7 @@ const Profile = ({ user }: { user: SelectUser }) => (
 
       <dl class="mt-6 space-y-6 divide-y border-t-2 text-sm leading-6 dark:divide-gray-700 dark:border-gray-700">
         <div class="px-4 pt-6 sm:flex sm:px-0">
-          <dt class="font-medium capitalize sm:w-64 sm:flex-none sm:pr-6">
+          <dt class="font-medium sm:w-64 sm:flex-none sm:pr-6">
             {dict.get("id")}
           </dt>
           <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
@@ -23,13 +23,13 @@ const Profile = ({ user }: { user: SelectUser }) => (
           </dd>
         </div>
         <div class="px-4 pt-6 sm:flex sm:px-0">
-          <dt class="font-medium capitalize sm:w-64 sm:flex-none sm:pr-6">
+          <dt class="font-medium sm:w-64 sm:flex-none sm:pr-6">
             {dict.get("name")}
           </dt>
           <Profile.Attribute id={user.id} attribute="name" value={user.name} />
         </div>
         <div class="px-4 pt-6 sm:flex sm:px-0">
-          <dt class="font-medium capitalize sm:w-64 sm:flex-none sm:pr-6">
+          <dt class="font-medium sm:w-64 sm:flex-none sm:pr-6">
             {dict.get("email")}
           </dt>
           <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
@@ -37,10 +37,10 @@ const Profile = ({ user }: { user: SelectUser }) => (
           </dd>
         </div>
         <div class="px-4 pt-6 sm:flex sm:px-0">
-          <dt class="font-medium capitalize sm:w-64 sm:flex-none sm:pr-6">
+          <dt class="font-medium sm:w-64 sm:flex-none sm:pr-6">
             {dict.get("role")}
           </dt>
-          <dd class="mt-1 flex justify-between gap-x-6 capitalize sm:mt-0 sm:flex-auto">
+          <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
             {dict.get(user.role)}
           </dd>
         </div>

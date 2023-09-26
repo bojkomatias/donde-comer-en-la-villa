@@ -1,6 +1,5 @@
 import Elysia, { t } from "elysia";
 import setup from "./(setup)";
-import { Layout } from "@/ui/layout";
 import { getTags } from "@/services/tag";
 import { getBusinessesQuery, getInitialBusinesses } from "@/services/business";
 import Marketing from "@/modules/marketing/page";
@@ -9,17 +8,15 @@ import { getBusinessesByTag } from "@/services/tag-to-business";
 import { cx } from "@/utils/cx";
 import { Button } from "@/ui/button";
 
-import Card from "@/ui/card";
-import { Input } from "@/ui/input";
-import Dropdown from "@/ui/dropdown";
 import Table from "@/ui/table";
+import { MarketingLayout } from "@/ui/marketing/layout";
 
 const marketing = new Elysia({
   name: "marketing",
 })
   .use(setup)
   .get("/btn", () => (
-    <Layout>
+    <MarketingLayout>
       <div class="my-12" />
       <Table>
         <Table.Head>
@@ -41,7 +38,7 @@ const marketing = new Elysia({
           </Table.Row>
         </Table.Body>
       </Table>
-    </Layout>
+    </MarketingLayout>
   ))
   .guard(
     {
@@ -56,9 +53,9 @@ const marketing = new Elysia({
           const tags = await getTags();
           const initialB = await getInitialBusinesses();
           return (
-            <Layout>
+            <MarketingLayout>
               <Marketing tags={tags} initialData={initialB} />
-            </Layout>
+            </MarketingLayout>
           );
         })
         .get(

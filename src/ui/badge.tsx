@@ -10,7 +10,7 @@ export const Badge = ({
   return (
     <span
       class={cx(
-        "inline-flex items-center whitespace-nowrap rounded-lg border-border px-2.5 py-0.5 text-xs font-semibold capitalize transition-colors focus:outline-none",
+        "inline-flex items-center whitespace-nowrap rounded-lg border-border px-2.5 py-0.5 text-xs font-semibold transition-colors first-letter:capitalize focus:outline-none",
         "bg-accent text-accent-foreground hover:bg-accent/80",
         intent === "primary" &&
           "bg-primary text-primary-foreground shadow hover:bg-primary/80",

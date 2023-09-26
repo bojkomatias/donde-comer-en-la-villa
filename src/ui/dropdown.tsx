@@ -1,5 +1,5 @@
 import { cx } from "@/utils/cx";
-import { Button, ButtonProps } from "./button";
+import { Button, ButtonProps, buttonStyles } from "./button";
 
 type Props = JSX.HtmlTag;
 
@@ -28,7 +28,7 @@ Dropdown.Content = ({
   <div
     {...props}
     class={cx(
-      "dropdown absolute z-10 hidden w-56 rounded-lg bg-card p-1 shadow ring-1 ring-border",
+      "dropdown absolute z-10 hidden w-64 rounded-xl bg-card p-2 shadow ring-1 ring-border",
       "-translate-y-1 scale-95 opacity-0 transition ease-in",
       position === "top-left" && "mt-1 origin-top-left",
       position === "top-right" && "right-0 mt-1 origin-top-right",
@@ -45,26 +45,31 @@ Dropdown.Content = ({
 );
 
 Dropdown.Header = (props: Props) => (
-  <div {...props} class={cx("px-4 pb-1 pt-2", props.class)}>
+  <div {...props} class={cx("px-3 py-2", props.class)}>
     {props.children}
   </div>
 );
 
-Dropdown.Item = (props: ButtonProps) => (
-  <Button
+Dropdown.Item = ({
+  as: Component = "button",
+  ...props
+}: ButtonProps & { as?: "button" | "a"; href?: string }) => (
+  <Component
     {...props}
-    class={cx(
-      "text-accent-foreground w-full justify-start font-normal hover:bg-muted hover:text-foreground",
-      props.class,
-    )}
+    class={buttonStyles({
+      class: cx(
+        "w-full items-center justify-between px-4 font-normal text-accent-foreground hover:bg-muted hover:text-foreground",
+        props.class,
+      ),
+      intent: props.intent,
+      size: props.size,
+    })}
     _="on click send closeImmediately to closest .dropdown"
   >
     {props.children}
-  </Button>
+  </Component>
 );
 
-Dropdown.Separator = () => (
-  <div class="-mx-1 my-1 h-0 border-t border-border" />
-);
+Dropdown.Separator = () => <div class="my-1 h-0 border-t border-border" />;
 
 export default Dropdown;

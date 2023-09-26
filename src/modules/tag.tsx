@@ -19,7 +19,7 @@ const Tags = ({ tags }: { tags: SelectTag[] }) => (
             <tr>
               <th
                 scope="col"
-                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold capitalize sm:pl-0"
+                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-0"
               >
                 {dict.get("name")}
               </th>
@@ -51,7 +51,7 @@ Tags.Row = ({ tag }: { tag: SelectTag }) => {
   return (
     <tr class="border-t dark:border-gray-800">
       <td
-        class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium capitalize sm:pl-0"
+        class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-0"
         safe
       >
         {tag.name}

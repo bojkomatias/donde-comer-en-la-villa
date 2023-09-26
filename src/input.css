@@ -2,20 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-input:-webkit-autofill,
-input:-webkit-autofill:focus {
-  transition:
-    background-color 0s 600000s,
-    color 0s 600000s;
-}
-
-::-webkit-scrollbar {
-  height: 0px; /* height of horizontal scrollbar ← You're missing this */
-  width: 4px;
-  border: 2px solid #d5d5d5;
-}
-
 @layer base {
+  /* * {
+    @apply border-[0.5px];
+  } */
+  ::-webkit-scrollbar {
+    @apply h-0.5 w-0.5 border-0;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-lg bg-accent;
+  }
+
   :root {
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
@@ -66,4 +63,11 @@ input:-webkit-autofill:focus {
   .tag-indicator {
     @apply scale-105 font-bold shadow-none;
   }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition:
+    background-color 0s 600000s,
+    color 0s 600000s;
 }

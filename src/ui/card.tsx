@@ -6,7 +6,7 @@ const Card = (props: Props) => (
   <div
     class={cx(
       "rounded-xl border border-border bg-card text-card-foreground shadow-sm",
-      props.class || "w-80",
+      props.class,
     )}
   >
     {props.children}
@@ -20,13 +20,13 @@ Card.Header = (props: Props) => (
 );
 
 Card.Title = (props: Props) => (
-  <h2 class={cx("font-semibold leading-none tracking-tight", props.class)}>
+  <h2 class={cx("font-semibold leading-relaxed tracking-tight", props.class)}>
     {props.children}
   </h2>
 );
 
 Card.Description = (props: Props) => (
-  <p class={cx("text-sm text-muted-foreground", props.class)}>
+  <p class={cx("text-sm leading-5 text-muted-foreground", props.class)}>
     {props.children}
   </p>
 );

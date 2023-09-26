@@ -45,10 +45,10 @@ export async function getBusinessesAsOwner(id: number) {
 
 // ADMIN
 export async function getBusinessesAsAdmin() {
-  const columns = getTableColumns(business);
+  const { id, name, enabled, featured, phone } = getTableColumns(business);
 
   return await db
-    .select({ ...columns, owner: user })
+    .select({ id, name, enabled, featured, phone, owner: user.name })
     .from(business)
     .leftJoin(user, eq(business.owner, user.id));
 }

@@ -3,14 +3,14 @@ export default function DarkMode() {
     <>
       <div
         id="sun"
-        class="h-10 w-10 cursor-pointer rounded-full p-2.5 hover:bg-white/5 active:scale-95"
+        class="h-10 w-10 cursor-pointer rounded-full p-2.5 hover:bg-muted active:scale-95"
         _="on click window.localStorage.setItem('theme','light') take .dark from <html/> show #moon hide me"
       >
         <i class="i-lucide-sun h-5 w-5" />
       </div>
       <div
         id="moon"
-        class="h-10 w-10 cursor-pointer rounded-full p-2.5 hover:bg-black/5"
+        class="h-10 w-10 cursor-pointer rounded-full p-2.5 hover:bg-muted"
         _="on click window.localStorage.setItem('theme','dark') add .dark to <html/> show #sun hide me"
       >
         <i class="i-lucide-moon h-5 w-5" />

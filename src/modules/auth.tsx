@@ -31,7 +31,7 @@ Auth.Form = (props: { csrfToken: string }) => {
       <a
         href={google.href}
         class={buttonStyles({
-          intent: "outline",
+          intent: "primary",
           class:
             "w-full bg-foreground text-muted hover:bg-foreground hover:text-background",
         })}
@@ -107,7 +107,7 @@ Auth.Navigation = ({ user }: { user: User }) => {
   if (!user) return <></>;
   return (
     <Dropdown hx-target="body" hx-swap="innerHTML">
-      <Dropdown.Trigger>
+      <Dropdown.Trigger size="icon">
         {user.image ? (
           <img
             src={user.image}
@@ -129,28 +129,29 @@ Auth.Navigation = ({ user }: { user: User }) => {
           </div>
         </Dropdown.Header>
         <Dropdown.Separator />
-        {dashboardNav
-          .filter((link) => link.clearance?.includes(user.role))
-          .map((item) => (
-            <Dropdown.Item
-              hx-get={item.href}
-              hx-push-url="true"
-              hx-target="main"
-              hx-swap="innerHTML"
-            >
-              <i class={cx(item.icon, "h-4 w-4 text-muted-foreground")} />
-              {dict.get(item.name)}
-            </Dropdown.Item>
-          ))}
+        <Dropdown.Item as="a" href="/d" hx-boost="true">
+          {dict.get("dashboard")}
+        </Dropdown.Item>
+        <Dropdown.Item as="a" href="/d" hx-boost="true">
+          {dict.get("settings")}
+          <i class="i-lucide-settings" />
+        </Dropdown.Item>
         <Dropdown.Separator />
+        <Dropdown.Item as="a" href="/" hx-boost="true">
+          Página de inicio <i class="i-lucide-external-link" />
+        </Dropdown.Item>
         <Dropdown.Item
           hx-post="/auth/logout"
           hx-push-url="true"
           class="font-semibold"
         >
-          <i class="i-lucide-log-out h-4 w-4 text-muted-foreground" />
           {dict.get("logout")}
+          <i class="i-lucide-log-out" />
         </Dropdown.Item>
+        <Dropdown.Separator />
+        <Button intent="primary" size="sm" class="m-2 w-56">
+          Upgrade to Pro
+        </Button>
       </Dropdown.Content>
     </Dropdown>
   );
