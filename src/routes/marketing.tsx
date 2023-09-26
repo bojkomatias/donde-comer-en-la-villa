@@ -16,20 +16,30 @@ const marketing = new Elysia({
     {
       // Cacheo todo para performance y preload
       beforeHandle: ({ set }) => {
-        set.headers["Cache-Control"] = "public, max-age=900, must-revalidate";
+        set.headers["Cache-Control"] =
+          "public, max-age=900, must-revalidate, stale-while-revalidate=60";
       },
     },
     (app) =>
       app
-        .get("/", async () => {
-          const tags = await getTags();
-          const initialB = await getInitialBusinesses();
-          return (
-            <MarketingLayout>
-              <Marketing tags={tags} initialData={initialB} />
-            </MarketingLayout>
-          );
-        })
+        .get(
+          "/",
+          async ({ html }) => {
+            const tags = await getTags();
+            const initialB = await getInitialBusinesses();
+            return html(<Marketing tags={tags} initialData={initialB} />);
+          },
+          {
+            afterHandle: async ({ headers, html }, response) => {
+              console.log("affffterrr");
+              if (headers["hx-request"]) return response;
+              else
+                return html(
+                  <MarketingLayout>{await response.text()}</MarketingLayout>,
+                );
+            },
+          },
+        )
         .get(
           "/filter",
           async ({ query: { tag } }) => {

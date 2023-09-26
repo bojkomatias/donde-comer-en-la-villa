@@ -18,18 +18,16 @@
     "@elysiajs/static": "^0.6.0",
     "@elysiajs/swagger": "^0.6.2",
     "@iconify/json": "^2.2.116",
-    "@kitajs/html": "^2.2.2",
-    "@kitajs/ts-html-plugin": "^1.0.1",
     "@libsql/client": "^0.3.5-pre.1",
     "drizzle-orm": "^0.28.6",
     "drizzle-typebox": "^0.1.1",
-    "elysia": "^0.6.22"
+    "elysia": "^0.6.23"
   },
   "devDependencies": {
     "@egoist/tailwindcss-icons": "^1.1.0",
     "@tailwindcss/forms": "^0.5.6",
     "better-sqlite3": "^8.6.0",
-    "bun-types": "canary",
+    "bun-types": "latest",
     "clsx": "^2.0.0",
     "concurrently": "^8.2.0",
     "drizzle-kit": "^0.19.13",

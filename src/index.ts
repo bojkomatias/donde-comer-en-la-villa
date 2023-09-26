@@ -15,7 +15,7 @@ const app = new Elysia()
   .use(auth)
   /** Entry point, marketing as alias to '/' */
   .use(marketing)
-  /** Guard routes from plugins */
+  /** Guard routes from dashboard plugins */
   .guard(
     {
       beforeHandle: async ({ JWTUser, set, request, headers }) => {
@@ -23,13 +23,8 @@ const app = new Elysia()
           set.status = 401;
           return (set.redirect = "/");
         }
-        if (
-          request.method === "GET" &&
-          headers["hx-request"] &&
-          headers["hx-target"] === "dashboard-content"
-        )
-          set.headers["Cache-Control"] =
-            "public, max-age=60, must-revalidate, stale-while-revalidate=10";
+        if (request.method === "GET")
+          set.headers["Cache-Control"] = "public, max-age=300, must-revalidate";
       },
     },
     (app) =>

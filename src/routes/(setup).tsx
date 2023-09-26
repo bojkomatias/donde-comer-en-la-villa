@@ -43,7 +43,7 @@ const setup = new Elysia({ name: "setup" })
     }
   })
   .get("/styles.css", () => Bun.file("./src/output.css"))
-  .use(html())
+  .use(html({ autoDetect: false }))
   .use(bearer())
   .use(cookie())
   .use(
