@@ -2,60 +2,54 @@ import { dashboardNav } from "@/config/dashboard";
 import { Role } from "@/db/schema/user";
 import { cx } from "@/utils/cx";
 import { dict } from "@/utils/dictionary";
+import { BaseLayout } from "../layout";
 
 export const DashboardLayout = ({
   role,
-  current,
   children,
 }: {
   role: Role;
-  current: string;
   children?: any;
 }) => (
-  <div
-    id="dashboard"
-    class="lg:flex lg:gap-x-8"
-    hx-target="this"
-    hx-swap="outerHTML"
-  >
-    <aside class="absolute left-0 flex h-fit w-screen max-w-none overflow-x-auto border-b bg-white py-4 dark:border-gray-700 dark:bg-gray-950 lg:sticky lg:top-0 lg:block lg:w-64 lg:flex-none lg:border-0 lg:py-16">
-      <nav class="container mx-auto flex-none px-4 sm:px-6 lg:px-2">
-        <ul
-          role="list"
-          class="flex gap-x-3 gap-y-1 whitespace-nowrap lg:flex-col"
-        >
-          {dashboardNav
-            .filter((link) => link.clearance?.includes(role))
-            .map((item) => (
-              <li>
-                <button
-                  hx-get={item.href}
-                  hx-push-url="true"
-                  class={cx(
-                    "group flex w-full items-center gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm font-semibold capitalize leading-6",
-                    item.href === current
-                      ? "bg-gray-50 dark:bg-gray-900/50"
-                      : "text-gray-700 hover:bg-gray-50 hover:text-cyan-600 dark:text-gray-300 dark:hover:bg-gray-900",
-                  )}
-                >
-                  <i
-                    class={cx(
-                      item.icon,
-                      "h-5 w-5",
-                      item.href === current
-                        ? "text-cyan-600"
-                        : "text-gray-400 group-hover:text-cyan-600",
-                    )}
-                    aria-hidden="true"
-                  />
-                  {dict.get(item.name)}
-                </button>
-              </li>
-            ))}
-        </ul>
-      </nav>
-    </aside>
+  <BaseLayout>
+    <header class="flex h-16 items-center gap-2 border-b border-border px-4 sm:px-6 lg:px-16">
+      <Tabs role={role} />
+      <div class="h-0 flex-grow" />
+      <div hx-get="/auth/navigation" hx-swap="outerHTML" hx-trigger="load" />
+    </header>
 
-    <div class="pt-24 lg:flex-auto lg:pt-12">{children}</div>
-  </div>
+    <div id="dashboard-content" class="min-h-screen px-0 pb-8 sm:px-6 lg:px-16">
+      {children}
+    </div>
+  </BaseLayout>
+);
+
+const Tabs = ({ role }: { role: Role }) => (
+  <nav class="-mb-px self-end overflow-x-auto rounded-lg">
+    <ul
+      role="list"
+      class="flex gap-x-2 whitespace-nowrap text-muted-foreground"
+    >
+      {dashboardNav
+        .filter((link) => link.clearance?.includes(role))
+        .map((item) => (
+          <li>
+            <button
+              hx-get={item.href}
+              hx-push-url="true"
+              hx-target="#dashboard-content"
+              hx-swap="innerHTML"
+              class={cx(
+                "group relative flex w-full items-center justify-center gap-x-3 rounded-md px-3 py-1 text-sm font-semibold leading-6 before:absolute before:inset-0.5 before:-z-10 before:rounded-lg before:bg-muted before:opacity-0 hover:text-foreground hover:before:opacity-50",
+              )}
+              _="init if window.location.pathname === @hx-get then add .navigation-indicator end
+              on htmx:afterOnLoad tell the target take .navigation-indicator"
+            >
+              <i class={item.icon} aria-hidden="true" />
+              {dict.get(item.name)}
+            </button>
+          </li>
+        ))}
+    </ul>
+  </nav>
 );

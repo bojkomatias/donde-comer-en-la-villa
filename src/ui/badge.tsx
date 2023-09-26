@@ -1,6 +1,23 @@
-export const Badge = ({ children }: { children: any }) => {
+import { cx } from "@/utils/cx";
+
+export const Badge = ({
+  children,
+  intent,
+}: {
+  children: any;
+  intent?: "primary" | "destructive";
+}) => {
   return (
-    <span class="inline-flex items-center whitespace-nowrap rounded bg-white px-2 py-1 text-[0.65rem] font-medium capitalize text-gray-600 ring-1 ring-inset ring-gray-400/20 dark:bg-gray-950 dark:text-gray-300">
+    <span
+      class={cx(
+        "inline-flex items-center whitespace-nowrap rounded-lg border-border px-2.5 text-xs font-semibold capitalize leading-relaxed transition-colors focus:outline-none",
+        "bg-accent text-accent-foreground hover:bg-accent/80",
+        intent === "primary" &&
+          "bg-primary text-primary-foreground shadow hover:bg-primary/80",
+        intent === "destructive" &&
+          "bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
+      )}
+    >
       {children}
     </span>
   );

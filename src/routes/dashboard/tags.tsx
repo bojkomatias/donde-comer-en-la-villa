@@ -2,10 +2,9 @@ import Elysia from "elysia";
 import setup from "@/routes/(setup)";
 import { tagForm } from "@/db/schema/tag";
 import Tags from "@/modules/tag";
-import { DashboardLayout } from "@/ui/dashboard/layout";
-import { Layout } from "@/ui/layout";
 import { Notification } from "@/ui/notification";
 import { createTag, getTagById, getTags, updateTag } from "@/services/tag";
+import { DashboardLayout } from "@/ui/dashboard/layout";
 
 const tags = new Elysia({
   name: "tags",
@@ -16,15 +15,11 @@ const tags = new Elysia({
     const tags = await getTags();
 
     return headers["hx-request"] ? (
-      <DashboardLayout role={JWTUser!.role} current="/d/tag">
+      <Tags tags={tags} />
+    ) : (
+      <DashboardLayout role={JWTUser!.role}>
         <Tags tags={tags} />
       </DashboardLayout>
-    ) : (
-      <Layout>
-        <DashboardLayout role={JWTUser!.role} current="/d/tag">
-          <Tags tags={tags} />
-        </DashboardLayout>
-      </Layout>
     );
   })
   .get("/:id/form", async ({ params: { id } }) => {

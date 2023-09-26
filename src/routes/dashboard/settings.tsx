@@ -1,30 +1,27 @@
 import { InsertUser, userSchema } from "@/db/schema/user";
-import Profile from "@/modules/profile";
+import Settings from "@/modules/settings";
+import Profile from "@/modules/settings/profile";
 import setup from "@/routes/(setup)";
 import { getUserById, updateUserAttribute } from "@/services/user";
 import { DashboardLayout } from "@/ui/dashboard/layout";
-import { Layout } from "@/ui/layout";
 import { Notification } from "@/ui/notification";
 import Elysia, { t } from "elysia";
 
-const profile = new Elysia({
-  name: "profile",
-  prefix: "/d",
+const settings = new Elysia({
+  name: "settings",
+  prefix: "/d/settings",
 })
   .use(setup)
-  .get("/", async ({ JWTUser, headers }) => {
+  .get("/", async ({ JWTUser, headers, set }) => {
     const user = await getUserById(parseInt(JWTUser!.id));
 
-    return headers["hx-request"] ? (
-      <DashboardLayout role={user.role} current="/d">
-        <Profile user={user} />
-      </DashboardLayout>
+    return headers["hx-request"] &&
+      headers["hx-target"] === "dashboard-content" ? (
+      <Settings user={user} />
     ) : (
-      <Layout>
-        <DashboardLayout role={user.role} current="/d">
-          <Profile user={user} />
-        </DashboardLayout>
-      </Layout>
+      <DashboardLayout role={JWTUser!.role}>
+        <Settings user={user} />
+      </DashboardLayout>
     );
   })
   .get("/:id/:attr", ({ params: { id, attr }, query }) => (
@@ -90,4 +87,4 @@ const profile = new Elysia({
     },
   );
 
-export default profile;
+export default settings;

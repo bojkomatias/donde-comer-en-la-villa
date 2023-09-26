@@ -1,12 +1,12 @@
 import Elysia, { t } from "elysia";
 import setup from "./(setup)";
-import { Layout } from "@/ui/layout";
 import { getTags } from "@/services/tag";
 import { getBusinessesQuery, getInitialBusinesses } from "@/services/business";
 import Marketing from "@/modules/marketing/page";
 import { Results } from "@/modules/marketing/results";
 import { getBusinessesByTag } from "@/services/tag-to-business";
 import { cx } from "@/utils/cx";
+import { MarketingLayout } from "@/ui/marketing/layout";
 
 const marketing = new Elysia({
   name: "marketing",
@@ -25,9 +25,9 @@ const marketing = new Elysia({
           const tags = await getTags();
           const initialB = await getInitialBusinesses();
           return (
-            <Layout>
+            <MarketingLayout>
               <Marketing tags={tags} initialData={initialB} />
-            </Layout>
+            </MarketingLayout>
           );
         })
         .get(

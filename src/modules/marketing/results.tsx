@@ -1,5 +1,6 @@
 import { SelectBusiness } from "@/db/schema/business";
 import { Badge } from "@/ui/badge";
+import { buttonStyles } from "@/ui/button";
 import { cx } from "@/utils/cx";
 
 export const Results = ({ businesses }: { businesses: SelectBusiness[] }) => {
@@ -17,7 +18,7 @@ export const Results = ({ businesses }: { businesses: SelectBusiness[] }) => {
       ) : (
         <div
           id="results"
-          class="m-4 rounded bg-gray-50/50 py-20 text-center text-sm font-thin leading-loose ring-1 ring-inset ring-gray-500/5 dark:bg-gray-900/30"
+          class="m-4 rounded bg-card py-20 text-center text-sm font-thin leading-loose ring-1 ring-inset ring-ring"
         >
           No se encontraron datos.
           <br /> Pruebe modificar su búsqueda o limpiar los filtros.
@@ -44,7 +45,7 @@ const BusinessItem = ({ business }: { business: SelectBusiness }) => (
           <a
             href={`https://instagram.com/${business.instagram}`}
             target="_blank"
-            class="group flex items-center gap-1 text-xs underline-offset-2 opacity-80 hover:underline hover:opacity-100 hover:drop-shadow-sm"
+            class={buttonStyles({ intent: "link", size: "xs" })}
           >
             <i class="i-simple-icons-instagram group-hover:text-rose-600" />@
             {business.instagram}
@@ -52,7 +53,7 @@ const BusinessItem = ({ business }: { business: SelectBusiness }) => (
           <a
             href={`https://wa.me/${business.phone}`}
             target="_blank"
-            class="group flex items-center gap-1 text-xs underline-offset-2 opacity-80 hover:underline hover:opacity-100 hover:drop-shadow-sm"
+            class={buttonStyles({ intent: "link", size: "xs" })}
           >
             <i class="i-simple-icons-whatsapp group-hover:text-emerald-600" />
             {business.phone}
@@ -61,24 +62,10 @@ const BusinessItem = ({ business }: { business: SelectBusiness }) => (
             <a
               href={business.location ? business.location : undefined}
               target="_blank"
-              class={cx(
-                "group flex items-center gap-1 text-xs opacity-80",
-                business.location &&
-                  "underline underline-offset-1 hover:underline-offset-4 hover:opacity-100 hover:drop-shadow-sm",
-              )}
+              class={buttonStyles({ intent: "link", size: "xs" })}
             >
               <i class="i-lucide-map-pin" />
               {business.address}
-            </a>
-          )}
-          {business.webpage && (
-            <a
-              href={business.webpage}
-              target="_blank"
-              class="group flex items-center gap-1 text-xs underline-offset-2 opacity-80 hover:underline hover:opacity-100 hover:drop-shadow-sm"
-            >
-              <i class="i-lucide-external-link" />
-              {business.webpage.substring(8)}
             </a>
           )}
         </div>
