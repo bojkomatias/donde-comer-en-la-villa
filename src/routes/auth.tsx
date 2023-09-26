@@ -3,13 +3,16 @@ import setup from "@/routes/(setup)";
 import OAuth2 from "@/utils/oauth2";
 import Elysia from "elysia";
 import { Notification } from "@/ui/notification";
-import Auth from "@/modules/auth";
+
 import {
   createUser,
   getUserByEmail,
   userMatchCredentials,
 } from "@/services/user";
 import { BaseLayout } from "@/ui/layout";
+import { AuthForm } from "@/modules/auth/auth-form";
+import { UserNavigation } from "@/modules/auth/user-nav";
+import { LoginButton } from "@/modules/auth/login-button";
 
 const hasher = new Bun.CryptoHasher("sha256");
 
@@ -28,10 +31,10 @@ const auth = new Elysia({ name: "auth" })
     });
 
     return headers["hx-request"] ? (
-      <Auth.Form csrfToken={csrfToken} />
+      <AuthForm csrfToken={csrfToken} />
     ) : (
       <BaseLayout>
-        <Auth.Form csrfToken={csrfToken} />
+        <AuthForm csrfToken={csrfToken} />
       </BaseLayout>
     );
   })
@@ -102,24 +105,20 @@ const auth = new Elysia({ name: "auth" })
   })
   .get("/auth/status", ({ JWTUser, set }) => {
     if (JWTUser) return (set.redirect = "/auth/navigation");
-    return <Auth.Login />;
+    return <LoginButton />;
   })
-  .get(
-    "/auth/navigation",
-    ({ JWTUser }) => <Auth.Navigation user={JWTUser} />,
-    {
-      beforeHandle: ({ JWTUser, set }) => {
-        if (!JWTUser) {
-          set.status = 401;
-          return "Unauthorized";
-        }
-      },
+  .get("/auth/navigation", ({ JWTUser }) => <UserNavigation user={JWTUser} />, {
+    beforeHandle: ({ JWTUser, set }) => {
+      if (!JWTUser) {
+        set.status = 401;
+        return "Unauthorized";
+      }
     },
-  )
+  })
   .post("/auth/logout", ({ setCookie, set }) => {
     // Remove cookie not working
     setCookie("auth", "");
-    return (set.redirect = "/");
+    set.redirect = "/";
   });
 
 export default auth;

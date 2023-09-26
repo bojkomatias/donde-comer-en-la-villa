@@ -21,19 +21,19 @@ import { BusinessView } from "@/modules/business/business-view";
 import { BusinessNew } from "@/modules/business/business-new";
 import { BusinessEdit } from "@/modules/business/business-edit";
 
-const businessRouter = new Elysia({
+const business = new Elysia({
   name: "business",
-  prefix: "/d/business",
+  prefix: "/d",
 })
   .use(setup)
   .get("/", async ({ JWTUser, headers }) => {
     if (JWTUser?.role === "owner") {
       const [business] = await getBusinessesAsOwner(parseInt(JWTUser.id));
-
       return <BusinessView business={business} />;
     }
 
-    return headers["hx-request"] ? (
+    return headers["hx-request"] &&
+      headers["hx-target"] === "dashboard-content" ? (
       await BusinessTable()
     ) : (
       <DashboardLayout role={JWTUser!.role}>
@@ -204,4 +204,4 @@ const businessRouter = new Elysia({
     },
   );
 
-export default businessRouter;
+export default business;

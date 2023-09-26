@@ -8,21 +8,15 @@ type Navigation = {
 };
 export const dashboardNav: Navigation[] = [
   {
-    name: "profile",
-    href: "/d",
-    icon: "i-lucide-fingerprint",
-    clearance: ["customer", "owner", "admin"],
-  },
-  {
     name: "business",
-    href: "/d/business",
+    href: "/d",
     icon: "i-lucide-layout-dashboard",
     clearance: ["owner", "admin"],
   },
   {
     name: "tags",
     href: "/d/tag",
-    icon: "i-lucide-tag",
+    icon: "i-lucide-tags",
     clearance: ["admin"],
   },
   {
@@ -30,5 +24,11 @@ export const dashboardNav: Navigation[] = [
     href: "/d/user",
     icon: "i-lucide-users",
     clearance: ["admin"],
+  },
+  {
+    name: "settings",
+    href: "/d/settings",
+    icon: "i-lucide-settings",
+    clearance: ["customer", "owner", "admin"],
   },
 ];

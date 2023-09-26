@@ -63,6 +63,9 @@
   .tag-indicator {
     @apply scale-105 font-bold shadow-none;
   }
+  .navigation-indicator {
+    @apply pointer-events-none text-foreground after:absolute after:inset-x-1 after:bottom-0 after:h-0.5 after:rounded-lg after:bg-ring;
+  }
 }
 
 input:-webkit-autofill,

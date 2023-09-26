@@ -2,7 +2,7 @@ import { Elysia } from "elysia";
 import staticPlugin from "@elysiajs/static";
 import setup from "@/routes/(setup)";
 import auth from "@/routes/auth";
-import profile from "@/routes/dashboard/profile";
+import profile from "@/routes/dashboard/settings";
 import tags from "@/routes/dashboard/tags";
 import business from "@/routes/dashboard/business";
 import marketing from "./routes/marketing";

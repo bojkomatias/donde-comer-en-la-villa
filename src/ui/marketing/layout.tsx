@@ -4,7 +4,7 @@ import { BaseLayout } from "../layout";
 export function MarketingLayout({ children }: { children: any }) {
   return (
     <BaseLayout>
-      <header class="flex items-center justify-between border-b border-border px-4 py-2 sm:px-6 lg:px-16">
+      <header class="flex h-16 items-center justify-between border-b border-border px-4 sm:px-6 lg:px-16">
         <a
           href="/"
           class="font-heading font-black hover:text-accent-foreground"

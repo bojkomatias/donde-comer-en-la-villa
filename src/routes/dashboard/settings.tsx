@@ -1,24 +1,26 @@
 import { InsertUser, userSchema } from "@/db/schema/user";
-import Profile from "@/modules/profile";
+import Settings from "@/modules/settings";
+import Profile from "@/modules/settings/profile";
 import setup from "@/routes/(setup)";
 import { getUserById, updateUserAttribute } from "@/services/user";
 import { DashboardLayout } from "@/ui/dashboard/layout";
 import { Notification } from "@/ui/notification";
 import Elysia, { t } from "elysia";
 
-const profile = new Elysia({
-  name: "profile",
-  prefix: "/d",
+const settings = new Elysia({
+  name: "settings",
+  prefix: "/d/settings",
 })
   .use(setup)
   .get("/", async ({ JWTUser, headers, set }) => {
     const user = await getUserById(parseInt(JWTUser!.id));
-    set.headers["hx-trigger"] = "myEvent";
-    return headers["hx-request"] && !headers["hx-boosted"] ? (
-      <Profile user={user} />
+
+    return headers["hx-request"] &&
+      headers["hx-target"] === "dashboard-content" ? (
+      <Settings user={user} />
     ) : (
       <DashboardLayout role={JWTUser!.role}>
-        <Profile user={user} />
+        <Settings user={user} />
       </DashboardLayout>
     );
   })
@@ -85,4 +87,4 @@ const profile = new Elysia({
     },
   );
 
-export default profile;
+export default settings;

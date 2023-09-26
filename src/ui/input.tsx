@@ -47,9 +47,9 @@ export function Input({ options, ...props }: Props) {
           id={props.name}
           {...props}
           class={cx(
-            "peer block w-full border-0 bg-transparent p-0 text-sm placeholder:font-light placeholder:text-foreground/50 focus:ring-0 sm:leading-loose",
+            "peer block w-full border-0 bg-transparent p-0 text-sm text-foreground placeholder:font-light placeholder:text-muted-foreground focus:ring-0 sm:leading-loose",
             props.type == "checkbox" &&
-              "absolute left-3 top-2.5 w-4 rounded border checked:bg-cyan-600 hover:checked:bg-cyan-600 focus:ring-2 focus:ring-cyan-600 focus:checked:bg-cyan-600 dark:focus:ring-offset-gray-950",
+              "absolute left-3 top-2.5 w-4 rounded border checked:bg-primary hover:checked:bg-primary focus:ring-2 focus:ring-primary focus:checked:bg-primary",
           )}
           safe
         />
