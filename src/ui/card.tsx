@@ -43,7 +43,7 @@ Card.Content = (props: JSX.HtmlTag) => (
 );
 
 Card.Footer = (props: JSX.HtmlTag) => (
-  <div {...props} class={cx("flex items-center p-6 pt-0", props.class)}>
+  <div {...props} class={cx("flex items-center px-6 py-3", props.class)}>
     {props.children}
   </div>
 );

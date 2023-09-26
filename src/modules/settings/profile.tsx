@@ -35,7 +35,9 @@ const Profile = ({ user }: { user: SelectUser }) => (
         </Details.Detail>
         <Details.Detail>
           <Details.Term>{dict.get("role")}</Details.Term>
-          <Details.Description>{user.role}</Details.Description>
+          <Details.Description class="text-xs uppercase">
+            {user.role}
+          </Details.Description>
         </Details.Detail>
       </Details>
     </Card.Content>
@@ -55,7 +57,7 @@ Profile.Attribute = ({
     <>
       <span safe>{value}</span>
       <Button
-        hx-get={`/d/${id}/${attribute}/edit?value=${value}`}
+        hx-get={`/d/settings/${id}/${attribute}/edit?value=${value}`}
         hx-target="closest dd"
         hx-swap="innerHTML"
         intent="secondary"
@@ -78,7 +80,7 @@ Profile.AttributeEdit = ({
 }) => {
   return (
     <form
-      hx-patch={`/d/${id}`}
+      hx-patch={`/d/settings/${id}`}
       hx-target="this"
       hx-swap="outerHTML"
       class="mt-4 flex h-8 w-full items-center gap-x-4 sm:mt-0"
@@ -87,7 +89,7 @@ Profile.AttributeEdit = ({
         name={attribute}
         value={value?.toString()}
         type="text"
-        class="flex-grow"
+        class="flex-grow py-0"
         rt
         rb
       />
@@ -96,7 +98,7 @@ Profile.AttributeEdit = ({
           {dict.get("save")}
         </Button>
         <Button
-          hx-get={`/d/${id}/${attribute}?value=${value}`}
+          hx-get={`/d/settings/${id}/${attribute}?value=${value}`}
           size="xs"
           intent="secondary"
           type="reset"

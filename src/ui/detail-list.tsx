@@ -9,7 +9,7 @@ const Details = (props: JSX.HtmlTag) => (
 Details.Detail = (props: JSX.HtmlTag) => (
   <div
     {...props}
-    class={cx("px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6", props.class)}
+    class={cx("p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6", props.class)}
   >
     {props.children}
   </div>

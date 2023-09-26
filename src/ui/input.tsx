@@ -13,7 +13,7 @@ export function Input({ options, ...props }: Props) {
   return (
     <div
       class={cx(
-        "group relative -my-px flex flex-col-reverse bg-background px-3 pb-1.5 pt-2.5 ring-1 ring-inset ring-border focus-within:z-10 focus-within:ring-2 focus-within:ring-primary",
+        "group relative -my-px flex flex-col-reverse bg-background px-3 pb-1 pt-2 ring-1 ring-inset ring-border focus-within:z-10 focus-within:ring-2 focus-within:ring-primary",
         props.rt && "rounded-t-lg",
         props.rb && "rounded-b-lg",
         props.class,
@@ -23,7 +23,7 @@ export function Input({ options, ...props }: Props) {
         <select
           id={props.name}
           {...props}
-          class="peer block w-full border-0 bg-transparent p-0 text-sm placeholder:font-light placeholder:text-foreground/50 focus:ring-0 sm:leading-loose"
+          class="peer block w-full border-0 bg-transparent p-0 text-sm placeholder:font-light placeholder:text-foreground/50 focus:ring-0"
         >
           {options.map(({ id, name }) => (
             <option
@@ -62,7 +62,7 @@ export function Input({ options, ...props }: Props) {
         )}
       >
         {dict.get(props.name)}
-        <span class="float-right -mt-0.5 text-[0.6rem] text-muted">
+        <span class="float-right -mt-0.5 text-[0.6rem] text-muted-foreground">
           {options &&
             props.multiple &&
             "Shift o Ctrl para seleccionar multiples"}

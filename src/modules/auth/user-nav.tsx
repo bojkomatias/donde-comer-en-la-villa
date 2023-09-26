@@ -39,7 +39,7 @@ export const UserNavigation = ({ user }: { user: User }) => {
           </div>
         </Dropdown.Header>
         <Dropdown.Separator />
-        <Dropdown.Item as="a" href="/d" hx-boost="true">
+        <Dropdown.Item as="a" href="/d/business" hx-boost="true">
           {dict.get("dashboard")}
         </Dropdown.Item>
         <Dropdown.Item as="a" href="/d/settings" hx-boost="true">

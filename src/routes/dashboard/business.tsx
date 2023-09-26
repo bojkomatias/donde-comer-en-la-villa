@@ -23,7 +23,7 @@ import { BusinessEdit } from "@/modules/business/business-edit";
 
 const business = new Elysia({
   name: "business",
-  prefix: "/d",
+  prefix: "/d/business",
 })
   .use(setup)
   .get("/", async ({ JWTUser, headers }) => {

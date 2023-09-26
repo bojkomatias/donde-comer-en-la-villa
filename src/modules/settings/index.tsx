@@ -7,13 +7,12 @@ import Profile from "./profile";
 
 const Settings = ({ user }: { user: SelectUser }) => (
   <>
-    <div>
-      <DashboardHeading title={dict.get("settings")} />
-      <Profile user={user} />
-    </div>
+    <DashboardHeading title={dict.get("settings")} />
+    <Profile user={user} />
 
     <div
       class={cx(
+        "mt-20",
         user.password
           ? ""
           : "pointer-events-none select-none opacity-75 saturate-0",

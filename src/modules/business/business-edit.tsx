@@ -3,6 +3,7 @@ import { SelectTag } from "@/db/schema/tag";
 import { BackButton } from "@/ui/back-button";
 import { Button } from "@/ui/button";
 import Card from "@/ui/card";
+import { DashboardHeading } from "@/ui/dashboard/heading";
 import { Input } from "@/ui/input";
 import { cx } from "@/utils/cx";
 import { dict } from "@/utils/dictionary";
@@ -20,6 +21,7 @@ export const BusinessEdit = ({
 }) => {
   return (
     <div hx-target="this">
+      <DashboardHeading title={dict.get("edit") + " " + dict.get("business")} />
       <BackButton />
       <Card>
         <Card.Header>

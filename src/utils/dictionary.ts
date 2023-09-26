@@ -43,6 +43,7 @@ dict.set("save", "Guardar");
 dict.set("cancel", "Cancelar");
 dict.set("update", "Actualizar");
 dict.set("edit", "Editar");
+dict.set("create", "Crear");
 dict.set("view", "Ver");
 dict.set("back", "Volver");
 dict.set("login", "Login");

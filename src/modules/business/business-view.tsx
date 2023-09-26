@@ -1,8 +1,11 @@
 import { BusinessWithOwner } from "@/services/business";
 import { BackButton } from "@/ui/back-button";
+import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
 import Card from "@/ui/card";
 import { DashboardHeading } from "@/ui/dashboard/heading";
+import Details from "@/ui/detail-list";
+import { cx } from "@/utils/cx";
 import { dict } from "@/utils/dictionary";
 
 export const BusinessView = ({
@@ -15,7 +18,7 @@ export const BusinessView = ({
   return (
     <div hx-target="this">
       <DashboardHeading
-        title={"Tu " + dict.get("business")}
+        title={dict.get("business")}
         action={
           <Button
             hx-get={`/d/business/${business.id}/edit`}
@@ -58,99 +61,74 @@ export const BusinessView = ({
           </div>
         </Card.Header>
         <Card.Content>
-          {/* Tabular data */}
-          <div class="grid grid-cols-2 gap-x-6 gap-y-4 py-4 pr-8 text-sm">
-            <div class="font-medium first-letter:capitalize">
-              {dict.get("phone")}:
-            </div>
-            <div class="w-32 place-self-end overflow-hidden text-ellipsis whitespace-nowrap text-right sm:w-80">
-              {business.phone}
-            </div>
-
-            <div class="font-medium first-letter:capitalize">
-              {dict.get("instagram")}:
-            </div>
-            <div class="w-32 place-self-end overflow-hidden text-ellipsis whitespace-nowrap text-right sm:w-80">
-              {business.instagram}
-            </div>
-
-            <div class="font-medium first-letter:capitalize">
-              {dict.get("webpage")}:
-            </div>
-            <div
-              class="w-32 place-self-end overflow-hidden text-ellipsis whitespace-nowrap text-right sm:w-80"
-              title={business.webpage || undefined}
-            >
-              {business.webpage?.substring(8)}
-            </div>
-
-            <div class="font-medium first-letter:capitalize">
-              {dict.get("address")}:
-            </div>
-            <div
-              class="w-32 place-self-end overflow-hidden text-ellipsis whitespace-nowrap text-right sm:w-80"
-              title={business.address || undefined}
-            >
-              {business.address}
-            </div>
-
-            <div class="font-medium first-letter:capitalize">
-              {dict.get("location")}:
-            </div>
-            <div
-              class="w-32 place-self-end overflow-hidden text-ellipsis whitespace-nowrap text-right sm:w-80"
-              title={business.location || undefined}
-            >
-              {business.location?.substring(8)}
-            </div>
-          </div>
-          {/* Categories */}
-          <div>
-            <div class="text-sm font-medium first-letter:capitalize">
-              {dict.get("tags")}:
-            </div>
-            <div class="flex flex-wrap gap-4 pl-2 pt-1 text-sm font-light">
-              {typeof business.tags === "string" &&
-                business.tags.split(",").map((t) => <span>{t}</span>)}
-            </div>
-          </div>
-          {asAdmin ? (
-            <>
-              {/* Owner */}
-              <div class="py-4">
-                <div class="text-sm font-medium first-letter:capitalize">
-                  {dict.get("owner")}:
-                </div>
-                <div class="flex flex-wrap gap-4 pl-2 pt-1 text-sm font-light">
-                  <span>{business.owner?.id}</span>
-                  <span>{business.owner?.name}</span>
-                  <span>{business.owner?.email}</span>
-                  <span>{business.owner?.role}</span>
-                  <span>{business.owner?.createdAt}</span>
-                </div>
-              </div>
-
-              {/* Habilitado promocionado */}
-              <div class="flex space-x-6 text-sm">
-                <div class="flex items-center gap-3 font-medium">
-                  {dict.get("enabled")}:
-                  {business.enabled ? (
-                    <i class="i-lucide-check text-emerald-600" />
-                  ) : (
-                    <i class="i-lucide-x text-rose-600" />
-                  )}
-                </div>
-                <div class="flex items-center gap-3 font-medium">
-                  {dict.get("featured")}:
-                  {business.featured ? (
-                    <i class="i-lucide-check text-emerald-600" />
-                  ) : (
-                    <i class="i-lucide-x text-rose-600" />
-                  )}
-                </div>
-              </div>
-            </>
-          ) : null}
+          <Details>
+            <Details.Detail>
+              <Details.Term>{dict.get("phone")}</Details.Term>
+              <Details.Description>{business.phone}</Details.Description>
+            </Details.Detail>
+            <Details.Detail>
+              <Details.Term>{dict.get("address")}</Details.Term>
+              <Details.Description>{business.address}</Details.Description>
+            </Details.Detail>
+            <Details.Detail>
+              <Details.Term>{dict.get("location")}</Details.Term>
+              <Details.Description>{business.location}</Details.Description>
+            </Details.Detail>
+            <Details.Detail>
+              <Details.Term>{dict.get("instagram")}</Details.Term>
+              <Details.Description>{business.instagram}</Details.Description>
+            </Details.Detail>
+            <Details.Detail>
+              <Details.Term>{dict.get("tags")}</Details.Term>
+              <Details.Description class="gap-x-1 overflow-x-auto pb-px">
+                {typeof business.tags === "string" &&
+                  business.tags.split(",").map((t) => <Badge>{t}</Badge>)}
+              </Details.Description>
+            </Details.Detail>
+            {asAdmin && (
+              <>
+                <Details.Detail>
+                  <Details.Term>{dict.get("enabled")}</Details.Term>
+                  <Details.Description>
+                    <i
+                      class={cx(
+                        business.enabled ? "i-lucide-check" : "i-lucide-x",
+                      )}
+                    />
+                  </Details.Description>
+                </Details.Detail>
+                <Details.Detail>
+                  <Details.Term>{dict.get("featured")}</Details.Term>
+                  <Details.Description>
+                    <i
+                      class={cx(
+                        business.featured ? "i-lucide-check" : "i-lucide-x",
+                      )}
+                    />
+                  </Details.Description>
+                </Details.Detail>
+                <Details.Detail>
+                  <Details.Term>{dict.get("owner")}</Details.Term>
+                  <Details.Description>
+                    {business.owner?.name}
+                    <span>
+                      <span class="font-semibold">ID: </span>
+                      {business.owner?.id}
+                      {" | "}
+                      <span class="font-semibold">Email: </span>
+                      {business.owner?.email}
+                    </span>
+                  </Details.Description>
+                </Details.Detail>
+                <Details.Detail>
+                  <Details.Term>{dict.get("role")}</Details.Term>
+                  <Details.Description class="text-xs uppercase">
+                    {business.owner?.role}
+                  </Details.Description>
+                </Details.Detail>
+              </>
+            )}
+          </Details>
         </Card.Content>
       </Card>
     </div>

@@ -22,7 +22,7 @@ Table.Body = (props: JSX.HtmlTableSectionTag) => (
   <tbody
     {...props}
     class={cx(
-      "block max-h-96 divide-y divide-border overflow-y-auto",
+      "block max-h-[50svh] divide-y divide-border overflow-y-auto",
       props.class,
     )}
   >
