@@ -4,7 +4,7 @@ import { dict } from "@/utils/dictionary";
 export const LoginButton = () => (
   <Button
     hx-get="/login"
-    hx-target="main"
+    hx-target="#page-content"
     hx-swap="innerHTML"
     hx-push-url="true"
     intent="primary"

@@ -13,7 +13,7 @@ const Card = (props: JSX.HtmlTag) => (
 );
 
 Card.Header = (props: JSX.HtmlTag) => (
-  <div {...props} class={cx("flex flex-col space-y-1.5 p-6", props.class)}>
+  <div {...props} class={cx("flex flex-col p-6", props.class)}>
     {props.children}
   </div>
 );
@@ -21,7 +21,7 @@ Card.Header = (props: JSX.HtmlTag) => (
 Card.Title = (props: JSX.HtmlTag) => (
   <h2
     {...props}
-    class={cx("font-semibold leading-relaxed tracking-tight", props.class)}
+    class={cx("font-semibold leading-loose tracking-tight", props.class)}
   >
     {props.children}
   </h2>
@@ -43,7 +43,7 @@ Card.Content = (props: JSX.HtmlTag) => (
 );
 
 Card.Footer = (props: JSX.HtmlTag) => (
-  <div {...props} class={cx("flex items-center px-6 py-3", props.class)}>
+  <div {...props} class={cx("flex items-center p-6", props.class)}>
     {props.children}
   </div>
 );

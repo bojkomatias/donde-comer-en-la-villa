@@ -18,9 +18,12 @@ export const DashboardLayout = ({
       <div hx-get="/auth/navigation" hx-swap="outerHTML" hx-trigger="load" />
     </header>
 
-    <div id="dashboard-content" class="min-h-screen px-0 pb-8 sm:px-6 lg:px-16">
+    <main
+      id="dashboard-content"
+      class="min-h-screen px-0 pb-8 sm:px-6 lg:px-16"
+    >
       {children}
-    </div>
+    </main>
   </BaseLayout>
 );
 

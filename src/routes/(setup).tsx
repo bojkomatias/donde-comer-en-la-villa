@@ -1,8 +1,8 @@
 import { Elysia, t } from "elysia";
 import cookie from "@elysiajs/cookie";
 import jwt from "@elysiajs/jwt";
-import bearer from "@elysiajs/bearer";
 import { html } from "@elysiajs/html";
+import { helmet } from "elysia-helmet";
 
 if (Bun.env.JWT_SECRET === undefined)
   throw "Missing secret add JWT_SECRET to .env file";
@@ -26,9 +26,8 @@ if (Bun.env.GOOGLE_CLIENT_SECRET === undefined)
  */
 
 const setup = new Elysia({ name: "setup" })
-  .get("/styles.css", () => Bun.file("./src/output.css"))
   .use(html())
-  .use(bearer())
+  // .use(helmet()) // Revisit and configure later on
   .use(cookie())
   .use(
     jwt({
@@ -67,6 +66,7 @@ const setup = new Elysia({ name: "setup" })
   .derive(async ({ jwt, cookie }) => {
     const u = await jwt.verify(cookie.auth);
     return { JWTUser: u ? u : null };
-  });
+  })
+  .get("/styles.css", () => Bun.file("./src/output.css"));
 
 export default setup;

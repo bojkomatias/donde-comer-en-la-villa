@@ -14,10 +14,11 @@ const marketing = new Elysia({
   .use(setup)
   .guard(
     {
-      // Cacheo todo para performance y preload
       beforeHandle: ({ set }) => {
+        /** Uncomment the following if this plugins starts pushing-urls */
+        // set.headers['Vary'] = 'hx-request'
         set.headers["Cache-Control"] =
-          "public, max-age=900, must-revalidate, stale-while-revalidate=60";
+          "public, max-age=900, must-revalidate, stale-while-revalidate=120";
       },
     },
     (app) =>
@@ -25,7 +26,11 @@ const marketing = new Elysia({
         .get("/", async () => {
           const tags = await getTags();
           const initialB = await getInitialBusinesses();
-          return <Marketing tags={tags} initialData={initialB} />;
+          return (
+            <MarketingLayout>
+              <Marketing tags={tags} initialData={initialB} />
+            </MarketingLayout>
+          );
         })
         .get(
           "/filter",

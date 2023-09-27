@@ -48,7 +48,9 @@ export function BaseLayout({ children }: { children?: any }) {
       >
         {/* Notifications fall all here! */}
         <div id="notification" />
-        <div>{children}</div>
+        <div id="page-content" class="min-h-[100svh]">
+          {children}
+        </div>
         <footer class="border-t border-border bg-card">
           <div class="flex flex-col items-center gap-6 px-2 py-8 sm:flex-row sm:px-6 lg:px-16">
             <i class="i-lucide-activity h-8 w-8" />

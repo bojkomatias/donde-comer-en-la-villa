@@ -1,16 +1,16 @@
 import { Elysia } from "elysia";
-import staticPlugin from "@elysiajs/static";
 import setup from "@/routes/(setup)";
 import auth from "@/routes/auth";
 import profile from "@/routes/dashboard/settings";
 import tags from "@/routes/dashboard/tags";
 import business from "@/routes/dashboard/business";
 import marketing from "./routes/marketing";
-import { swagger } from "@elysiajs/swagger";
+import staticPlugin from "@elysiajs/static";
+import swagger from "@elysiajs/swagger";
 
 const app = new Elysia()
-  .use(swagger())
   .use(staticPlugin())
+  .use(swagger())
   .use(setup)
   .use(auth)
   /** Entry point, marketing as alias to '/' */
@@ -23,8 +23,10 @@ const app = new Elysia()
           set.status = 401;
           return (set.redirect = "/");
         }
-        if (request.method === "GET")
-          set.headers["Cache-Control"] = "public, max-age=300, must-revalidate";
+        if (request.method === "GET") {
+          set.headers["Vary"] = "hx-request";
+          set.headers["Cache-Control"] = "public, max-age=300";
+        }
       },
     },
     (app) =>
