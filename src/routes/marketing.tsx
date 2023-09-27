@@ -22,24 +22,11 @@ const marketing = new Elysia({
     },
     (app) =>
       app
-        .get(
-          "/",
-          async ({ html }) => {
-            const tags = await getTags();
-            const initialB = await getInitialBusinesses();
-            return html(<Marketing tags={tags} initialData={initialB} />);
-          },
-          {
-            afterHandle: async ({ headers, html }, response) => {
-              console.log("affffterrr");
-              if (headers["hx-request"]) return response;
-              else
-                return html(
-                  <MarketingLayout>{await response.text()}</MarketingLayout>,
-                );
-            },
-          },
-        )
+        .get("/", async () => {
+          const tags = await getTags();
+          const initialB = await getInitialBusinesses();
+          return <Marketing tags={tags} initialData={initialB} />;
+        })
         .get(
           "/filter",
           async ({ query: { tag } }) => {

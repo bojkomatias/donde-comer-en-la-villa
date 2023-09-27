@@ -3,7 +3,6 @@ import cookie from "@elysiajs/cookie";
 import jwt from "@elysiajs/jwt";
 import bearer from "@elysiajs/bearer";
 import { html } from "@elysiajs/html";
-import { Notification } from "@/ui/notification";
 
 if (Bun.env.JWT_SECRET === undefined)
   throw "Missing secret add JWT_SECRET to .env file";
@@ -25,25 +24,10 @@ if (Bun.env.GOOGLE_CLIENT_SECRET === undefined)
  * Elysia has plugin checksum allowing to de-duplicate plugins on runtime
  * Here is the stuff reusable throughout the app, JWT, Cookie, User decorator (pass user)
  */
+
 const setup = new Elysia({ name: "setup" })
-  .onError(({ code, error }) => {
-    if (code === "VALIDATION") {
-      return (
-        <Notification
-          isError
-          title={error.name}
-          description={
-            error.all
-              .filter((e) => e.schema.error)
-              .map((e) => e.schema.error)
-              .join("<br/>") || "Error en la validación del formulario"
-          }
-        />
-      );
-    }
-  })
   .get("/styles.css", () => Bun.file("./src/output.css"))
-  .use(html({ autoDetect: false }))
+  .use(html())
   .use(bearer())
   .use(cookie())
   .use(
