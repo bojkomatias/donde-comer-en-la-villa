@@ -21,7 +21,7 @@ export const dashboardNav: Navigation[] = [
   },
   {
     name: "users",
-    href: "/d/user",
+    href: "/d/users",
     icon: "i-lucide-users",
     clearance: ["admin"],
   },

@@ -7,6 +7,7 @@ import business from "@/routes/dashboard/business";
 import marketing from "./routes/marketing";
 import staticPlugin from "@elysiajs/static";
 import swagger from "@elysiajs/swagger";
+import users from "./routes/dashboard/users";
 
 const app = new Elysia()
   .use(staticPlugin())
@@ -52,7 +53,7 @@ const app = new Elysia()
               }
             },
           },
-          (app) => app.use(tags),
+          (app) => app.use(tags).use(users),
         ),
   )
   .listen(3000);

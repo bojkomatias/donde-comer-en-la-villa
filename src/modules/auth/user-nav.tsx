@@ -19,7 +19,7 @@ export const UserNavigation = ({ user }: { user: User }) => {
     <Dropdown class="mr-4">
       <Dropdown.Trigger
         size="icon"
-        class="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-accent text-lg font-semibold uppercase text-muted-foreground ring-1 ring-border hover:bg-muted hover:text-foreground hover:ring-offset-2 focus:ring-offset-2"
+        class="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-accent text-lg font-semibold uppercase text-muted-foreground ring-1 ring-border hover:bg-muted hover:text-foreground hover:ring-ring/50 hover:ring-offset-2 hover:ring-offset-background focus:ring-offset-2 focus:ring-offset-background"
       >
         {user.image ? (
           <img src={user.image} class="h-8 w-8" alt="User image" />
@@ -28,7 +28,7 @@ export const UserNavigation = ({ user }: { user: User }) => {
         )}
       </Dropdown.Trigger>
 
-      <Dropdown.Content>
+      <Dropdown.Content class="mt-2">
         <Dropdown.Header>
           <div class="text-sm font-semibold" safe>
             {user.name}
@@ -38,20 +38,10 @@ export const UserNavigation = ({ user }: { user: User }) => {
           </div>
         </Dropdown.Header>
         <Dropdown.Separator />
-        <Dropdown.Item
-          as="a"
-          href="/d/business"
-          hx-boost="true"
-          _="htmx:afterOnLoad if window.location.pathname === @href then set @disabled end"
-        >
+        <Dropdown.Item as="a" href="/d/business" hx-boost="true">
           {dict.get("dashboard")}
         </Dropdown.Item>
-        <Dropdown.Item
-          as="a"
-          href="/d/settings"
-          hx-boost="true"
-          _="htmx:afterOnLoad if window.location.pathname === @href then set @disabled end"
-        >
+        <Dropdown.Item as="a" href="/d/settings" hx-boost="true">
           {dict.get("settings")}
           <i class="i-lucide-settings" />
         </Dropdown.Item>

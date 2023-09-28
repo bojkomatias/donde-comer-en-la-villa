@@ -30,7 +30,7 @@ export const buttonStyles = (props: ButtonProps) => {
     props.intent === "secondary" &&
       "bg-accent text-accent-foreground hover:bg-muted",
     props.intent === "outline" &&
-      "bg-background text-accent-foreground ring-1 ring-inset ring-border hover:bg-accent hover:ring-ring",
+      "bg-background text-accent-foreground ring-1 ring-inset ring-border hover:bg-accent hover:ring-ring/30",
     props.intent === "ghost" &&
       "bg-background text-accent-foreground hover:bg-accent",
     props.intent === "destructive" &&

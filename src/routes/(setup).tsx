@@ -3,6 +3,9 @@ import cookie from "@elysiajs/cookie";
 import jwt from "@elysiajs/jwt";
 import { html } from "@elysiajs/html";
 import { helmet } from "elysia-helmet";
+import { BaseLayout } from "@/ui/layout";
+import { Action, Column, DataRows, DataTable } from "@/ui/data-table";
+import { SelectTag } from "@/db/schema/tag";
 
 if (Bun.env.JWT_SECRET === undefined)
   throw "Missing secret add JWT_SECRET to .env file";
@@ -27,6 +30,106 @@ if (Bun.env.GOOGLE_CLIENT_SECRET === undefined)
 
 const setup = new Elysia({ name: "setup" })
   .use(html())
+  .get(
+    "/data",
+    async ({ query: { page } }) => {
+      const columns: Column<SelectTag>[] = [
+        {
+          accessor: "id",
+          header: "UUID",
+          cell: ({ id }) => <div>xd{id}</div>,
+          hidden: "hidden",
+        },
+        { accessor: "name", header: "Name" },
+      ];
+      const data: SelectTag[] = [
+        { id: 1, name: "Hambur" },
+        { id: 2, name: "Hambur" },
+        { id: 2, name: "Hambur" },
+        { id: 3, name: "Hambur" },
+        { id: 4, name: "Hambur" },
+        { id: 5, name: "Hambur" },
+        { id: 1, name: "Hambur" },
+        { id: 6, name: "Chorizo" },
+        { id: 2, name: "Chorizo" },
+        { id: 21, name: "Chorizo" },
+        { id: 2, name: "Chorizo" },
+        { id: 123, name: "Chorizo" },
+        { id: 2, name: "Chorizo" },
+        { id: 12, name: "Chorizo" },
+        { id: 2, name: "Hambur" },
+        { id: 3, name: "Hambur" },
+        { id: 4, name: "Hambur" },
+        { id: 5, name: "Hambur" },
+        { id: 1, name: "Hambur" },
+        { id: 6, name: "Chorizo" },
+        { id: 2, name: "Chorizo" },
+        { id: 21, name: "Chorizo" },
+        { id: 2, name: "Chorizo" },
+        { id: 123, name: "Chorizo" },
+        { id: 2, name: "Chorizo" },
+        { id: 12, name: "Chorizo" },
+        { id: 2, name: "Hambur" },
+        { id: 3, name: "Hambur" },
+        { id: 4, name: "Hambur" },
+        { id: 5, name: "Hambur" },
+        { id: 1, name: "Hambur" },
+        { id: 6, name: "Chorizo" },
+        { id: 2, name: "Chorizo" },
+        { id: 21, name: "Chorizo" },
+        { id: 2, name: "Chorizo" },
+        { id: 123, name: "Chorizo" },
+        { id: 2, name: "Chorizo" },
+        { id: 12, name: "Chorizo" },
+        { id: 2, name: "Hambur" },
+        { id: 3, name: "Hambur" },
+        { id: 4, name: "Hambur" },
+        { id: 5, name: "Hambur" },
+        { id: 1, name: "Hambur" },
+        { id: 6, name: "Chorizo" },
+        { id: 2, name: "Chorizo" },
+        { id: 21, name: "Chorizo" },
+        { id: 2, name: "Chorizo" },
+        { id: 123, name: "Chorizo" },
+        { id: 2, name: "Chorizo" },
+        { id: 12, name: "Chorizo" },
+      ];
+      const actions: Action<SelectTag>[] = [
+        ({ id }) => ({
+          children: "Ver",
+        }),
+        ({ id }) => ({
+          class: "bg-destructive text-destructive-foreground",
+          children: "Eliminar",
+        }),
+      ];
+
+      if (page)
+        return (
+          <DataRows
+            columns={columns}
+            data={data.slice(page * 10, page * 10 + 10)}
+            actions={actions}
+            next={page * 10 >= data.length ? undefined : page + 1}
+          />
+        );
+      return (
+        <BaseLayout>
+          <div class="mx-auto max-w-5xl py-20">
+            <DataTable columns={columns}>
+              <DataRows
+                columns={columns}
+                data={data}
+                next={1}
+                actions={actions}
+              />
+            </DataTable>
+          </div>
+        </BaseLayout>
+      );
+    },
+    { query: t.Object({ page: t.Optional(t.Numeric()) }) },
+  )
   // .use(helmet()) // Revisit and configure later on
   .use(cookie())
   .use(

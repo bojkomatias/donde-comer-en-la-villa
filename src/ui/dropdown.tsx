@@ -10,11 +10,7 @@ const Dropdown = (props: Props) => (
 );
 
 Dropdown.Trigger = (props: ButtonProps) => (
-  <Button
-    {...props}
-    _="on click halt bubbling
-    on click send toggle to next .dropdown end"
-  >
+  <Button {...props} _="on click send toggle to next .dropdown end">
     {props.children}
   </Button>
 );
@@ -30,13 +26,13 @@ Dropdown.Content = ({
     class={cx(
       "dropdown absolute z-10 hidden w-64 rounded-xl bg-card p-2 shadow ring-1 ring-border",
       "-translate-y-1 scale-95 opacity-0 transition ease-in",
-      position === "top-left" && "mt-2 origin-top-left",
-      position === "top-right" && "right-0 mt-2 origin-top-right",
+      position === "top-left" && "mt-1 origin-top-left",
+      position === "top-right" && "right-0 mt-1 origin-top-right",
       props.class,
     )}
     _="on click halt bubbling end
     on toggle if @class contains 'hidden' send open to me else send close to me end
-    on open remove .hidden wait then remove .opacity-0 .scale-95 .-translate-y-1 end
+    on open send closeImmediately to .dropdown settle then remove .hidden wait then remove .opacity-0 .scale-95 .-translate-y-1 end
     on close add .opacity-0 .scale-95 .-translate-y-1 settle then add .hidden end
     on closeImmediately add .hidden .opacity-0 .scale-95 .-translate-y-1 to me end"
   >
@@ -55,6 +51,7 @@ Dropdown.Item = ({
   ...props
 }: ButtonProps & { as?: "button" | "a"; href?: string }) => (
   <Component
+    _="on click send closeImmediately to closest .dropdown"
     {...props}
     class={buttonStyles({
       class: cx(
@@ -64,7 +61,6 @@ Dropdown.Item = ({
       intent: props.intent,
       size: props.size,
     })}
-    _="on click send closeImmediately to closest .dropdown"
   >
     {props.children}
   </Component>

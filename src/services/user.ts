@@ -1,10 +1,14 @@
 import { db } from "@/db";
 import { InsertUser, user } from "@/db/schema/user";
-import { SelectedFields, and, eq } from "drizzle-orm";
-import { SQLiteColumn } from "drizzle-orm/sqlite-core";
+import { and, eq, getTableColumns } from "drizzle-orm";
 
 export async function getUsersForSelector() {
   return await db.select({ id: user.id, name: user.name }).from(user);
+}
+
+export async function getUsers() {
+  const { password, ...rest } = getTableColumns(user);
+  return await db.select(rest).from(user);
 }
 
 export async function getUserById(id: number) {
