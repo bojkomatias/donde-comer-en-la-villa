@@ -115,7 +115,7 @@ const setup = new Elysia({ name: "setup" })
         );
       return (
         <BaseLayout>
-          <div class="mx-auto max-w-5xl py-20">
+          <div class="max-w-8xl mx-auto py-20">
             <DataTable columns={columns}>
               <DataRows
                 columns={columns}

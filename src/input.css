@@ -69,8 +69,11 @@
   .navigation-indicator {
     @apply text-foreground after:absolute after:inset-x-2 after:-bottom-1.5 after:z-50 after:h-0.5 after:rounded-lg after:bg-ring;
   }
+  .dropdown {
+    @apply hidden;
+  }
   .dropdown-visible {
-    @apply block 
+    @apply !flex flex-col;
   }
 }
 

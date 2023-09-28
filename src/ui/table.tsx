@@ -1,7 +1,7 @@
 import { cx } from "@/utils/cx";
 
 const Table = (props: JSX.HtmlTableTag) => (
-  <div {...props} class={cx("flow-root overflow-x-auto", props.class)}>
+  <div {...props} class={cx("relative flow-root overflow-x-auto", props.class)}>
     <table class="min-w-full table-fixed overflow-hidden">
       {props.children}
     </table>

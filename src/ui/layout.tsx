@@ -43,7 +43,7 @@ export function BaseLayout({ children }: { children?: any }) {
         class="w-screen overflow-x-hidden bg-background text-foreground antialiased"
         hx-boost="true"
         hx-ext="response-targets, preload"
-        _="on click send closeImmediately to .dropdown end"
+        _="on click send close to .dropdown end"
         // Handles click outside for all menus
       >
         {/* Notifications fall all here! */}

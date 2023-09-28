@@ -12,10 +12,10 @@ export const Hover = ({
     "on move(x,y,w,h) set my.style.transform to 'translate(' + x + 'px,' + y + 'px)' set my.style.height to h set my.style.width to w";
 
   return (
-    <div class="relative h-fit w-fit">
+    <div class={cx("relative h-fit", props.class?.includes("flex") && "w-fit")}>
       <div
         class={cx(
-          "hover-indicator absolute -z-10 transform-gpu rounded-lg transition-all duration-200 ease-in-out",
+          "hover-indicator absolute -z-10 rounded-lg transition ease-in-out",
           props.class?.includes("flex") ? "inset-y-0" : "inset-x-0",
         )}
         _={script}

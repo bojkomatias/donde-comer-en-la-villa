@@ -115,10 +115,10 @@ export function DataRows<T>({
           ))}
           <Table.Cell class={"actions"}>
             <Dropdown>
-              <Dropdown.Trigger>
+              <Dropdown.Trigger intent="ghost" size="icon">
                 <i class="i-lucide-more-horizontal" />
               </Dropdown.Trigger>
-              <Dropdown.Content class="flex w-32 flex-col">
+              <Dropdown.Content position="right-top" class="w-28">
                 {actions.map((action) => (
                   <Dropdown.Item {...action(d)} />
                 ))}
