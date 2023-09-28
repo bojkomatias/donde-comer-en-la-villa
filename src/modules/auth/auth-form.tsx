@@ -1,4 +1,6 @@
+import { BackButton } from "@/ui/back-button";
 import { buttonStyles, Button } from "@/ui/button";
+import Card from "@/ui/card";
 import { Input } from "@/ui/input";
 import { dict } from "@/utils/dictionary";
 
@@ -13,64 +15,68 @@ google.searchParams.set("client_id", Bun.env.GOOGLE_CLIENT_ID!);
 
 export const AuthForm = (props: { csrfToken: string }) => {
   return (
-    <div class="mx-auto mt-20 max-w-xl space-y-8 bg-card p-6 sm:rounded-xl">
-      <Button size="xs" _="on click go back">
-        <i class="i-lucide-chevron-left" />
-        {dict.get("back")}
-      </Button>
-      <p class="text-xl">Volviste!</p>
-      <p class="text-sm">
-        Ingresá con Google o autenticate con tus credenciales.
-      </p>
-      <a
-        href={google.href}
-        class={buttonStyles({
-          intent: "primary",
-          class:
-            "w-full bg-foreground text-muted hover:bg-foreground hover:text-background",
-        })}
-      >
-        <img
-          src="/public/google-svg.svg"
-          class="-ml-4 mr-4 h-5 w-5 rounded-full"
-        />
-        Ingresar con Google
-      </a>
-      <form
-        hx-post="/auth/login"
-        hx-target-4xx="#notification"
-        hx-target="body"
-        hx-push-url="true"
-      >
-        <input
-          type="text"
-          name="csrfToken"
-          value={props.csrfToken}
-          class="hidden"
-        />
-        <Input
-          name="email"
-          placeholder="example@example.com"
-          type="email"
-          required="true"
-          rt
-        />
-        <Input
-          name="password"
-          placeholder="***********"
-          type="password"
-          required="true"
-          rb
-        />
-        <div class="mt-6 flex gap-6">
-          <Button intent="primary" class="w-1/2">
-            Login
-          </Button>
-          <Button type="reset" intent="secondary" class="w-1/2">
-            Crear cuenta
-          </Button>
-        </div>
-      </form>
+    <div class="mx-auto mt-48 max-w-xl">
+      <BackButton />
+      <Card>
+        <Card.Header>
+          <Card.Title>Volviste!</Card.Title>
+          <Card.Description>
+            Ingresá con Google o autenticate con tus credenciales.
+          </Card.Description>
+        </Card.Header>
+        <form
+          hx-post="/auth/login"
+          hx-target-4xx="#notification"
+          hx-target="body"
+          hx-push-url="true"
+        >
+          <Card.Content>
+            <a
+              href={google.href}
+              class={buttonStyles({
+                intent: "primary",
+                class:
+                  "w-full bg-foreground text-muted hover:bg-foreground hover:text-background",
+              })}
+            >
+              <img
+                src="/public/google-svg.svg"
+                class="-ml-4 mr-4 h-5 w-5 rounded-full"
+              />
+              Ingresar con Google
+            </a>
+            <div class="my-6 h-0 border-b border-border" />
+            <input
+              type="text"
+              name="csrfToken"
+              value={props.csrfToken}
+              class="hidden"
+            />
+            <Input
+              name="email"
+              placeholder="example@example.com"
+              type="email"
+              required="true"
+              rt
+            />
+            <Input
+              name="password"
+              placeholder="***********"
+              type="password"
+              required="true"
+              rb
+            />
+          </Card.Content>
+          <Card.Footer class="justify-evenly gap-3 pt-0">
+            <Button intent="primary" class="flex-grow">
+              Login
+            </Button>
+            <Button type="reset" intent="secondary" class="flex-grow">
+              Crear cuenta
+            </Button>
+          </Card.Footer>
+        </form>
+      </Card>
     </div>
   );
 };

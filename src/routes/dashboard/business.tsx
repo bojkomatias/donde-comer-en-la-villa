@@ -26,14 +26,18 @@ const business = new Elysia({
   prefix: "/d/business",
 })
   .use(setup)
-  .get("/", async ({ JWTUser, headers }) => {
+  .get("/", async ({ JWTUser, headers, set }) => {
     if (JWTUser?.role === "owner") {
       const [business] = await getBusinessesAsOwner(parseInt(JWTUser.id));
       return <BusinessView business={business} />;
     }
 
-    return headers["hx-request"] &&
-      headers["hx-target"] === "dashboard-content" ? (
+    /**
+     * For different hx-targets responses might be different,
+     * Ignore caching if this header/s vary
+     */
+    set.headers["Vary"] = "hx-target";
+    return headers["hx-target"] ? (
       await BusinessTable()
     ) : (
       <DashboardLayout role={JWTUser!.role}>

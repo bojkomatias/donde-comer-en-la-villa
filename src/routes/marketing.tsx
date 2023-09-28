@@ -14,9 +14,11 @@ const marketing = new Elysia({
   .use(setup)
   .guard(
     {
-      // Cacheo todo para performance y preload
       beforeHandle: ({ set }) => {
-        set.headers["Cache-Control"] = "public, max-age=900, must-revalidate";
+        /** Uncomment the following if this plugins starts pushing-urls */
+        // set.headers['Vary'] = 'hx-request'
+        set.headers["Cache-Control"] =
+          "public, max-age=900, must-revalidate, stale-while-revalidate=120";
       },
     },
     (app) =>

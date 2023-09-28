@@ -1,7 +1,8 @@
 import { SelectBusiness } from "@/db/schema/business";
 import { Badge } from "@/ui/badge";
 import { buttonStyles } from "@/ui/button";
-import { cx } from "@/utils/cx";
+import Card from "@/ui/card";
+import { EmptyState } from "@/ui/empty-state";
 
 export const Results = ({ businesses }: { businesses: SelectBusiness[] }) => {
   return (
@@ -16,65 +17,81 @@ export const Results = ({ businesses }: { businesses: SelectBusiness[] }) => {
           ))}
         </div>
       ) : (
-        <div
-          id="results"
-          class="m-4 rounded bg-card py-20 text-center text-sm font-thin leading-loose ring-1 ring-inset ring-ring"
-        >
-          No se encontraron datos.
-          <br /> Pruebe modificar su búsqueda o limpiar los filtros.
-        </div>
+        <EmptyState id="results">
+          No se encontraron resultados <br /> Pruebe modificar la búsqueda
+        </EmptyState>
       )}
     </>
   );
 };
 
 const BusinessItem = ({ business }: { business: SelectBusiness }) => (
-  <div class="flex flex-col rounded bg-gray-50 p-2 ring-1 ring-inset ring-gray-500/5 dark:bg-gray-900/50">
-    <div class="flex gap-3 pr-4">
+  <Card class="flex flex-col">
+    <Card.Header class="flex-row gap-6 p-3 pb-0">
       <img
         src={business.image}
         height="50"
         width="50"
-        class="h-20 w-20 rounded-full p-2"
-        alt="business image"
+        class="float-left h-20 w-20 rounded-full pb-1 pr-1"
       />
-      <div class="flex-grow">
-        <div class="font-bold leading-loose">{business.name}</div>
-        <div class="-mt-1 text-xs font-light">{business.description}</div>
-        <div class="flex flex-wrap gap-x-6 gap-y-2 pt-3">
-          <a
-            href={`https://instagram.com/${business.instagram}`}
-            target="_blank"
-            class={buttonStyles({ intent: "link", size: "xs" })}
-          >
-            <i class="i-simple-icons-instagram group-hover:text-rose-600" />@
-            {business.instagram}
-          </a>
-          <a
-            href={`https://wa.me/${business.phone}`}
-            target="_blank"
-            class={buttonStyles({ intent: "link", size: "xs" })}
-          >
-            <i class="i-simple-icons-whatsapp group-hover:text-emerald-600" />
-            {business.phone}
-          </a>
-          {business.address && (
-            <a
-              href={business.location ? business.location : undefined}
-              target="_blank"
-              class={buttonStyles({ intent: "link", size: "xs" })}
-            >
-              <i class="i-lucide-map-pin" />
-              {business.address}
-            </a>
-          )}
-        </div>
+      <div>
+        <Card.Title>{business.name}</Card.Title>
+        <Card.Description class="-mt-1 leading-4">
+          {business.description}
+        </Card.Description>
       </div>
-    </div>
-    <div class="mt-4 flex-grow" />
-    <div class="mx-2 flex gap-1 overflow-auto p-1">
-      {typeof business.tags === "string" &&
-        business.tags.split(",").map((e) => <Badge>{e}</Badge>)}
-    </div>
-  </div>
+    </Card.Header>
+    <Card.Content class="-mt-2 flex flex-grow flex-row-reverse flex-wrap-reverse gap-x-4 pb-3 pt-0">
+      {business.location && (
+        <a
+          href={business.location ? business.location : undefined}
+          target="_blank"
+          class={buttonStyles({ intent: "link" })}
+        >
+          Ubicación
+          <i class="i-lucide-map-pin" />
+        </a>
+      )}
+      {business.address && (
+        <span
+          class={buttonStyles({
+            intent: "link",
+            class: "hover:no-underline",
+          })}
+        >
+          <i class="i-lucide-map" />
+          {business.address}
+        </span>
+      )}
+      <a
+        href={`https://instagram.com/${business.instagram}`}
+        target="_blank"
+        class={buttonStyles({ intent: "link" })}
+      >
+        <i class="i-simple-icons-instagram group-hover:text-rose-600" />@
+        {business.instagram}
+      </a>
+      <a
+        href={`https://wa.me/${business.phone}`}
+        target="_blank"
+        class={buttonStyles({ intent: "link" })}
+      >
+        <i class="i-simple-icons-whatsapp group-hover:text-emerald-600" />
+        {business.phone}
+      </a>
+    </Card.Content>
+
+    <Card.Footer class="rounded-b-xl bg-muted p-1">
+      <div class="flex w-full items-center gap-x-1.5 gap-y-1.5 overflow-y-auto overflow-x-hidden pr-0.5">
+        {typeof business.tags === "string" &&
+          business.tags
+            .split(",")
+            .map((e) => (
+              <Badge class="cursor-default select-none bg-accent py-0.5 text-lg shadow-inner shadow-muted-foreground/50 saturate-[75%] hover:saturate-150 dark:shadow-black">
+                {e.substring(0, 2)}
+              </Badge>
+            ))}
+      </div>
+    </Card.Footer>
+  </Card>
 );

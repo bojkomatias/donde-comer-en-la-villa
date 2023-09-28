@@ -52,7 +52,7 @@ Table.Cell = (props: JSX.HtmlTableHeaderCellTag) => (
   <td
     {...props}
     class={cx(
-      "whitespace-nowrap px-3 py-2 text-sm text-muted-foreground first-of-type:pl-6 first-of-type:font-medium first-of-type:text-foreground last-of-type:text-right",
+      "whitespace-nowrap px-3 py-3 text-sm text-accent-foreground first-of-type:pl-6 first-of-type:font-medium first-of-type:text-foreground last-of-type:text-right",
       props.class,
     )}
   >

@@ -30,8 +30,8 @@ Dropdown.Content = ({
     class={cx(
       "dropdown absolute z-10 hidden w-64 rounded-xl bg-card p-2 shadow ring-1 ring-border",
       "-translate-y-1 scale-95 opacity-0 transition ease-in",
-      position === "top-left" && "mt-1 origin-top-left",
-      position === "top-right" && "right-0 mt-1 origin-top-right",
+      position === "top-left" && "mt-2 origin-top-left",
+      position === "top-right" && "right-0 mt-2 origin-top-right",
       props.class,
     )}
     _="on click halt bubbling end
