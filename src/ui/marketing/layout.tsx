@@ -4,17 +4,17 @@ import { BaseLayout } from "../layout";
 export function MarketingLayout({ children }: { children: any }) {
   return (
     <BaseLayout>
-      <header class="flex h-16 items-center justify-between border-b border-border px-4 sm:px-6 lg:px-16">
+      <header class="flex h-12 items-center justify-between pt-2">
         <a
           href="/"
-          class="font-heading font-black hover:text-accent-foreground"
+          class="ml-2 font-heading font-black hover:text-accent-foreground sm:ml-6"
           tabindex="-1"
         >
           {siteConfig.name}
         </a>
         <div hx-get="/auth/status" hx-trigger="load" hx-swap="outerHTML" />
       </header>
-      <main class="min-h-screen px-2 pb-8 sm:px-6 lg:px-16">{children}</main>
+      <main class="min-h-screen pb-8">{children}</main>
     </BaseLayout>
   );
 }

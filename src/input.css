@@ -10,7 +10,7 @@
     @apply h-0.5 w-0.5 border-0;
   }
   ::-webkit-scrollbar-thumb {
-    @apply rounded-lg bg-accent;
+    @apply rounded-lg bg-ring/20;
   }
   form {
     @apply m-0;
@@ -64,7 +64,7 @@
 
 @layer utilities {
   .tag-indicator {
-    @apply scale-105 font-bold shadow-none;
+    @apply bg-accent shadow-inner shadow-muted-foreground/50 ring-1 ring-inset ring-border dark:shadow-black;
   }
   .navigation-indicator {
     @apply text-foreground after:absolute after:inset-x-1 after:bottom-0 after:h-0.5 after:rounded-lg after:bg-ring;

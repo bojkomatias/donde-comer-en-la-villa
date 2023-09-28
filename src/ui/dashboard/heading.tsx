@@ -3,7 +3,7 @@ export const DashboardHeading = (props: {
   action?: JSX.Element;
 }) => {
   return (
-    <div class="-mx-2 mb-4 flex items-center border-b border-border bg-card px-6 py-6 sm:-mx-6 lg:-mx-16 lg:px-16">
+    <div class="mb-4 flex items-center border-b border-border bg-card px-4 py-6 sm:px-6 lg:px-12 xl:px-16">
       <h1
         class="flex-grow text-2xl font-black lowercase leading-loose first-letter:capitalize"
         safe

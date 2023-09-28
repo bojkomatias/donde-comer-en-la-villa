@@ -13,7 +13,7 @@ const Profile = ({ user }: { user: SelectUser }) => (
         Datos de tu perfil, tené en cuenta que algunos datos son públicos
       </Card.Description>
     </Card.Header>
-    <Card.Content class="-mx-4">
+    <Card.Content class="px-0">
       <Details>
         <Details.Detail>
           <Details.Term>{dict.get("id")}</Details.Term>
@@ -83,7 +83,7 @@ Profile.AttributeEdit = ({
       hx-patch={`/d/settings/${id}`}
       hx-target="this"
       hx-swap="outerHTML"
-      class="mt-4 flex h-8 w-full items-center gap-x-4 sm:mt-0"
+      class="mt-4 flex h-8 items-center gap-x-4 sm:mt-0"
     >
       <Input
         name={attribute}

@@ -8,6 +8,7 @@ export const LoginButton = () => (
     hx-swap="innerHTML"
     hx-push-url="true"
     intent="primary"
+    class="mr-4"
   >
     {dict.get("login")}
   </Button>

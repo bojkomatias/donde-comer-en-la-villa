@@ -2,6 +2,7 @@ import { InsertTag, SelectTag } from "@/db/schema/tag";
 import { Button } from "@/ui/button";
 import Card from "@/ui/card";
 import { DashboardHeading } from "@/ui/dashboard/heading";
+import { DashboardContent } from "@/ui/dashboard/wrapper";
 import { Input } from "@/ui/input";
 import Table from "@/ui/table";
 import { dict } from "@/utils/dictionary";
@@ -9,40 +10,41 @@ import { dict } from "@/utils/dictionary";
 const Tags = ({ tags }: { tags: SelectTag[] }) => (
   <>
     <DashboardHeading title={dict.get("tags")} />
-
-    <Tags.New />
-    <div class="mt-16">
-      {tags.length > 0 ? (
-        <Table>
-          <Table.Head>
-            <Table.Row>
-              <Table.HCell>{dict.get("id")}</Table.HCell>
-              <Table.HCell>{dict.get("name")}</Table.HCell>
-              <Table.HCell>
-                <span class="sr-only">Edit</span>
-              </Table.HCell>
-            </Table.Row>
-          </Table.Head>
-          <Table.Body>
-            {tags.map((tag) => (
-              <Tags.Row tag={tag} />
-            ))}
-          </Table.Body>
-          <Table.Footer>
-            <Table.Row>
-              <Table.HCell colspan={3}>
-                <span class="mr-1 font-light">Total de registros: </span>
-                {tags.length}
-              </Table.HCell>
-            </Table.Row>
-          </Table.Footer>
-        </Table>
-      ) : (
-        <div class="py-20 text-center text-sm font-light text-gray-400">
-          No se encontraron categorías
-        </div>
-      )}
-    </div>
+    <DashboardContent>
+      <Tags.New />
+      <div class="mt-16">
+        {tags.length > 0 ? (
+          <Table>
+            <Table.Head>
+              <Table.Row>
+                <Table.HCell>{dict.get("id")}</Table.HCell>
+                <Table.HCell>{dict.get("name")}</Table.HCell>
+                <Table.HCell>
+                  <span class="sr-only">Edit</span>
+                </Table.HCell>
+              </Table.Row>
+            </Table.Head>
+            <Table.Body>
+              {tags.map((tag) => (
+                <Tags.Row tag={tag} />
+              ))}
+            </Table.Body>
+            <Table.Footer>
+              <Table.Row>
+                <Table.HCell colspan={3}>
+                  <span class="mr-1 font-light">Total de registros: </span>
+                  {tags.length}
+                </Table.HCell>
+              </Table.Row>
+            </Table.Footer>
+          </Table>
+        ) : (
+          <div class="py-20 text-center text-sm font-light text-gray-400">
+            No se encontraron categorías
+          </div>
+        )}
+      </div>
+    </DashboardContent>
   </>
 );
 

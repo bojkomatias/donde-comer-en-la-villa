@@ -16,16 +16,15 @@ type User =
 export const UserNavigation = ({ user }: { user: User }) => {
   if (!user) return <></>;
   return (
-    <Dropdown>
-      <Dropdown.Trigger size="icon">
+    <Dropdown class="mr-4">
+      <Dropdown.Trigger
+        size="icon"
+        class="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-accent text-lg font-semibold uppercase text-muted-foreground ring-1 ring-border hover:bg-muted hover:text-foreground hover:ring-offset-2 focus:ring-offset-2"
+      >
         {user.image ? (
-          <img
-            src={user.image}
-            class="h-8 w-8 overflow-hidden rounded-full"
-            alt="User image"
-          />
+          <img src={user.image} class="h-8 w-8" alt="User image" />
         ) : (
-          <i class="i-lucide-user-circle-2 h-8 w-8 overflow-hidden rounded-full opacity-80 hover:opacity-100" />
+          <span>{user.name.substring(0, 1)}</span>
         )}
       </Dropdown.Trigger>
 
