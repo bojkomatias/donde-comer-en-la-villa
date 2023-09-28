@@ -36,7 +36,7 @@ export const buttonStyles = (props: ButtonProps) => {
     props.intent === "destructive" &&
       "bg-destructive text-destructive-foreground hover:bg-destructive/90",
     props.intent === "link" &&
-      "p-0 text-muted-foreground underline-offset-4 hover:text-primary hover:underline",
+      "p-0 text-accent-foreground underline-offset-4 hover:text-primary hover:underline",
     props.size === "lg" && "h-10 rounded-md px-8",
     props.size === "sm" && "h-8 rounded-md px-3.5 text-sm",
     props.size === "xs" && "h-6 rounded-md px-2.5 text-xs",

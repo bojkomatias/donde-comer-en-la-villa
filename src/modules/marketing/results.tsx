@@ -41,7 +41,7 @@ const BusinessItem = ({ business }: { business: SelectBusiness }) => (
         </Card.Description>
       </div>
     </Card.Header>
-    <Card.Content class="-mt-2 flex flex-grow flex-row-reverse flex-wrap-reverse gap-x-4 pb-3 pl-10 pt-0">
+    <Card.Content class="-mt-2 flex flex-grow flex-row-reverse flex-wrap-reverse gap-x-4 pb-3 pt-0">
       {business.location && (
         <a
           href={business.location ? business.location : undefined}
@@ -56,7 +56,6 @@ const BusinessItem = ({ business }: { business: SelectBusiness }) => (
         <span
           class={buttonStyles({
             intent: "link",
-
             class: "hover:no-underline",
           })}
         >
