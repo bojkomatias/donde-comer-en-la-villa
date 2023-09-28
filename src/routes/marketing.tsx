@@ -7,9 +7,6 @@ import { Results } from "@/modules/marketing/results";
 import { getBusinessesByTag } from "@/services/tag-to-business";
 import { cx } from "@/utils/cx";
 import { MarketingLayout } from "@/ui/marketing/layout";
-import { SearchBar } from "@/ui/search-bar";
-import { Button } from "@/ui/button";
-import { Hover } from "@/ui/hover-transition";
 
 const marketing = new Elysia({
   name: "marketing",
