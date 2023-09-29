@@ -6,22 +6,19 @@ import { EmptyState } from "@/ui/empty-state";
 
 export const Results = ({ businesses }: { businesses: SelectBusiness[] }) => {
   return (
-    <>
+    <div id="results">
       {businesses.length > 0 ? (
-        <div
-          id="results"
-          class="space-y-2 p-4 md:grid md:grid-cols-2 md:gap-2 md:space-y-0 xl:grid-cols-3"
-        >
+        <div class="space-y-2 p-4 md:grid md:grid-cols-2 md:gap-2 md:space-y-0 xl:grid-cols-3">
           {businesses.map((business) => (
             <BusinessItem business={business} />
           ))}
         </div>
       ) : (
-        <EmptyState id="results">
+        <EmptyState>
           No se encontraron resultados <br /> Pruebe modificar la búsqueda
         </EmptyState>
       )}
-    </>
+    </div>
   );
 };
 

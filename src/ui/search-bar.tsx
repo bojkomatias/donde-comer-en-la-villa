@@ -6,9 +6,9 @@ export const SearchBar = (props: JSX.HtmlInputTag & { key: string }) => {
       <input
         {...props}
         type="text"
-        class="block h-full w-full rounded-lg border-0 bg-card py-1.5 pl-10 pr-14 text-foreground ring-1 ring-inset ring-border placeholder:text-muted-foreground/60  hover:bg-accent/80 focus:bg-accent/80 focus:ring-muted focus:ring-offset-2 focus:ring-offset-background"
+        class="block h-full w-full rounded-lg border-0 bg-card py-1.5 pl-10 pr-14 text-foreground ring-1 ring-inset ring-border placeholder:text-muted-foreground/60 hover:bg-accent focus:bg-accent focus:ring-border focus:ring-offset-2 focus:ring-offset-background"
         _={`js document.addEventListener('keydown',function(e){
-          if((e.metaKey || e.altKey) && e.key === '${props.key}') 
+          if((e.metaKey || e.ctrlKey) && e.key === '${props.key}') 
             document.querySelector('#${props.id}').focus()
         })`}
       />

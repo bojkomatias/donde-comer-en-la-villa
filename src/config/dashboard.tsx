@@ -10,7 +10,7 @@ export const dashboardNav: Navigation[] = [
   {
     name: "business",
     href: "/d/business",
-    icon: "i-lucide-layout-dashboard",
+    icon: "i-lucide-store",
     clearance: ["owner", "admin"],
   },
   {
@@ -21,7 +21,7 @@ export const dashboardNav: Navigation[] = [
   },
   {
     name: "users",
-    href: "/d/user",
+    href: "/d/users",
     icon: "i-lucide-users",
     clearance: ["admin"],
   },

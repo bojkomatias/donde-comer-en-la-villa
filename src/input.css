@@ -27,16 +27,16 @@
     --primary-foreground: 0 0% 98%;
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 92.1%;
+    --muted: 0 0% 92%;
     --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
+    --accent: 0 0% 95%;
     --accent-foreground: 0 0% 30%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;
-    --radius: 0.3rem;
+    --radius: 0.5rem;
   }
 
   .dark {
@@ -50,9 +50,9 @@
     --primary-foreground: 0 0% 9%;
     --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 20.9%;
+    --muted: 0 0% 22%;
     --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
+    --accent: 0 0% 17%;
     --accent-foreground: 0 0% 80%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
@@ -67,7 +67,13 @@
     @apply bg-accent shadow-inner shadow-muted-foreground/50 ring-1 ring-inset ring-border dark:shadow-black;
   }
   .navigation-indicator {
-    @apply text-foreground after:absolute after:inset-x-1 after:bottom-0 after:h-0.5 after:rounded-lg after:bg-ring;
+    @apply text-foreground after:absolute after:inset-x-2 after:-bottom-1.5 after:z-50 after:h-0.5 after:rounded-lg after:bg-ring;
+  }
+  .dropdown {
+    @apply hidden;
+  }
+  .dropdown-visible {
+    @apply !flex flex-col;
   }
 }
 

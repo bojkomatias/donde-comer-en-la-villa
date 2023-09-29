@@ -6,9 +6,9 @@ import { cx } from "@/utils/cx";
 export const Filters = ({ tags }: { tags: SelectTag[] }) => {
   return (
     <div class="relative h-10 px-4 lg:col-span-2 lg:pl-2">
-      <div class="absolute inset-0 -z-10 mx-4 rounded bg-card ring-1 ring-inset ring-border lg:ml-2" />
+      <div class="absolute inset-0 -z-10 mx-4 rounded-lg bg-card ring-1 ring-inset ring-border lg:ml-2" />
       <div
-        class="flex h-full items-center gap-3 overflow-auto px-2"
+        class="mx-1 flex h-full items-center gap-3 overflow-auto px-1"
         _="on removeI tell <button /> in me remove .tag-indicator"
       >
         <div class="-mr-3 h-full py-2">
@@ -16,7 +16,7 @@ export const Filters = ({ tags }: { tags: SelectTag[] }) => {
         </div>
         <Hover class="flex gap-2">
           {tags.map((tag, i) => (
-            <Hover.Item>
+            <Hover.Item class="mt-0.5">
               <Button
                 hx-get={`/filter?tag=${tag.id}`}
                 hx-target="#results"

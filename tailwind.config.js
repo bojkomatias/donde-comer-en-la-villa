@@ -45,6 +45,9 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: { sans: ['Outfit', 'sans'], heading: ['Bespoke Stencil', 'sans'] },
+      maxWidth: {
+        '8xl': '88rem',
+      },
     },
   },
   plugins: [

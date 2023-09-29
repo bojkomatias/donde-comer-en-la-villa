@@ -1,8 +1,9 @@
 import { dashboardNav } from "@/config/dashboard";
 import { Role } from "@/db/schema/user";
-import { cx } from "@/utils/cx";
 import { dict } from "@/utils/dictionary";
 import { BaseLayout } from "../layout";
+import { Hover } from "../hover-transition";
+import { Button } from "../button";
 
 export const DashboardLayout = ({
   role,
@@ -13,7 +14,12 @@ export const DashboardLayout = ({
 }) => (
   <BaseLayout>
     <header class="flex flex-col items-end border-b border-border pt-2">
-      <div hx-get="/auth/navigation" hx-swap="outerHTML" hx-trigger="load" />
+      <div
+        hx-get="/auth/navigation"
+        hx-swap="outerHTML"
+        hx-trigger="load"
+        class="h-8"
+      />
       <Tabs role={role} />
     </header>
 
@@ -24,31 +30,26 @@ export const DashboardLayout = ({
 );
 
 const Tabs = ({ role }: { role: Role }) => (
-  <nav class="-mb-px w-full self-start overflow-x-auto rounded-lg lg:px-8">
-    <ul
-      role="list"
-      class="flex gap-x-2 whitespace-nowrap text-muted-foreground"
-    >
+  <nav class="w-full self-start overflow-x-auto rounded-lg px-1 lg:px-8">
+    <Hover class="flex gap-x-1 rounded-lg text-muted-foreground">
       {dashboardNav
         .filter((link) => link.clearance?.includes(role))
         .map((item) => (
-          <li>
-            <button
+          <Hover.Item class="relative mb-1.5 hover:text-accent-foreground">
+            <Button
               hx-get={item.href}
               hx-push-url="true"
               hx-target="#dashboard-content"
               hx-swap="innerHTML"
-              class={cx(
-                "group relative flex w-full items-center justify-center gap-x-3 rounded-md px-3 py-1 text-sm font-semibold leading-6 before:absolute before:inset-0.5 before:-z-10 before:rounded-lg before:bg-muted before:opacity-0 hover:text-foreground hover:before:opacity-50",
-              )}
+              size="sm"
               _="init if window.location.pathname === @hx-get then add .navigation-indicator end
               on htmx:afterOnLoad tell the target take .navigation-indicator"
             >
               <i class={item.icon} aria-hidden="true" />
               {dict.get(item.name)}
-            </button>
-          </li>
+            </Button>
+          </Hover.Item>
         ))}
-    </ul>
+    </Hover>
   </nav>
 );
