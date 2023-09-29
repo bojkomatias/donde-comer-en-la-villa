@@ -41,24 +41,38 @@ const columns: Column<Omit<SelectUser, "password">>[] = [
 ];
 const actions: Action<Omit<SelectUser, "password">>[] = [];
 
-export const UsersTable = ({
-  users,
-}: {
-  users: Omit<SelectUser, "password">[];
-}) => {
+export const UsersTable = ({ children }: { children: any }) => {
   return (
     <div hx-target="this">
       <DashboardHeading title={dict.get("users")} />
       <DashboardContent>
-        <DataTable columns={columns}>
-          <DataRows
-            columns={columns}
-            data={users}
-            // next={`/data?page=1`}
-            actions={actions}
-          />
+        <DataTable
+          columns={columns}
+          search={{
+            id: "search-users",
+            name: "search",
+            "hx-get": "/d/users/search",
+            key: "k",
+          }}
+        >
+          {children}
         </DataTable>
       </DashboardContent>
     </div>
   );
 };
+
+export const UserRows = ({
+  users,
+  next,
+}: {
+  users: Omit<SelectUser, "password">[];
+  next: string;
+}) => (
+  <DataRows
+    columns={columns}
+    data={users}
+    next={users.length < 10 ? undefined : next}
+    actions={actions}
+  />
+);

@@ -28,14 +28,31 @@ export type Action<T> = (r: T) => JSX.HtmlTag | false;
 export function DataTable<T>({
   children,
   columns,
+  search,
 }: {
   children: any;
   columns: Column<T>[];
+  search?: {
+    "hx-get": string;
+    id: string;
+    name: string;
+    placeholder?: string;
+    key: string;
+  };
 }) {
   return (
     <>
       <div class="mb-2 flex gap-1.5 px-px">
-        <SearchBar class="flex-grow" key="k" />
+        {search ? (
+          <SearchBar
+            {...search}
+            hx-trigger="keyup changed delay:500ms, search"
+            hx-target="next tbody"
+            hx-swap="innerHTML"
+            hx-include="this"
+            class="flex-grow"
+          />
+        ) : null}
         <Button intent="outline" size="icon">
           <i class="i-lucide-sliders" />
         </Button>

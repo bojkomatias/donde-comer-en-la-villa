@@ -1,14 +1,33 @@
 import { db } from "@/db";
 import { InsertUser, user } from "@/db/schema/user";
-import { and, eq, getTableColumns } from "drizzle-orm";
+import { and, eq, getTableColumns, like } from "drizzle-orm";
 
 export async function getUsersForSelector() {
   return await db.select({ id: user.id, name: user.name }).from(user);
 }
 
-export async function getUsers() {
+export async function getUsers({
+  page,
+  search,
+}: {
+  page?: number;
+  search?: string;
+}) {
   const { password, ...rest } = getTableColumns(user);
-  return await db.select(rest).from(user);
+
+  if (search)
+    return await db
+      .select(rest)
+      .from(user)
+      .where(like(user.name, `%${search}%`))
+      .limit(10)
+      .offset(page ? page * 10 : 0);
+
+  return await db
+    .select(rest)
+    .from(user)
+    .limit(10)
+    .offset(page ? page * 10 : 0);
 }
 
 export async function getUserById(id: number) {
