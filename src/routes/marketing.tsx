@@ -26,6 +26,8 @@ const marketing = new Elysia({
         .get("/", async () => {
           const tags = await getTags();
           const initialB = await getInitialBusinesses();
+
+          console.log(initialB);
           return (
             <MarketingLayout>
               <Marketing tags={tags} initialData={initialB} />

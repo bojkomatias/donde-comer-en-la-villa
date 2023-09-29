@@ -48,3 +48,6 @@ dict.set("view", "Ver");
 dict.set("back", "Volver");
 dict.set("login", "Login");
 dict.set("logout", "Salir");
+
+// Extra cols
+dict.set("ownerName", "Propietario");

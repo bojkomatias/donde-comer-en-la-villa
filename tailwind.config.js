@@ -46,7 +46,7 @@ export default {
       },
       fontFamily: { sans: ['Outfit', 'sans'], heading: ['Bespoke Stencil', 'sans'] },
       maxWidth: {
-        '8xl': '88rem',
+        '8xl': '100rem',
       },
     },
   },
@@ -54,7 +54,7 @@ export default {
     require('@tailwindcss/forms'),
     iconsPlugin({
       // Select the icon collections you want to use
-      collections: getIconCollections(["lucide", 'simple-icons']),
+      collections: getIconCollections(["lucide", 'simple-icons', 'ic']),
     }),
   ],
 };

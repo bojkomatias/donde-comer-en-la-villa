@@ -1,5 +1,5 @@
 import setup from "@/routes/(setup)";
-import { insertBusinessForm } from "@/db/schema/business";
+import { businessSchema, insertBusinessForm } from "@/db/schema/business";
 import Elysia from "elysia";
 import { Value } from "@sinclair/typebox/value";
 import { Static } from "@sinclair/typebox";
@@ -9,6 +9,7 @@ import {
   createBusiness,
   getBusinessById,
   getBusinessByIdWithOwner,
+  getBusinesses,
   getBusinessesAsOwner,
   updateBusiness,
 } from "@/services/business";
@@ -16,10 +17,11 @@ import { getUsersForSelector } from "@/services/user";
 
 import { getTags } from "@/services/tag";
 import { getTagsByBusinessId } from "@/services/tag-to-business";
-import { BusinessTable } from "@/modules/business/business-table";
+import { BusinessRows, BusinessTable } from "@/modules/business/business-table";
 import { BusinessView } from "@/modules/business/business-view";
 import { BusinessNew } from "@/modules/business/business-new";
 import { BusinessEdit } from "@/modules/business/business-edit";
+import { nextURL, querySearchParams } from "@/ui/data-table/utils";
 
 const business = new Elysia({
   name: "business",
@@ -32,19 +34,39 @@ const business = new Elysia({
       return <BusinessView business={business} />;
     }
 
+    const businesses = await getBusinesses({});
     /**
      * For different hx-targets responses might be different,
      * Ignore caching if this header/s vary
      */
     set.headers["Vary"] = "hx-target";
     return headers["hx-target"] ? (
-      await BusinessTable()
+      <BusinessTable>
+        <BusinessRows businesses={businesses} next="" />
+      </BusinessTable>
     ) : (
       <DashboardLayout role={JWTUser!.role}>
-        {await BusinessTable()}
+        <BusinessTable>
+          <BusinessRows businesses={businesses} next="" />
+        </BusinessTable>
       </DashboardLayout>
     );
   })
+  .get(
+    "/q",
+    async ({ query }) => {
+      const businesses = await getBusinesses(query);
+      return (
+        <BusinessRows
+          businesses={businesses}
+          next={nextURL("/d/business/q", query)}
+        />
+      );
+    },
+    {
+      query: querySearchParams(businessSchema),
+    },
+  )
   .get("/:id", async ({ JWTUser, headers, params: { id } }) => {
     const business = await getBusinessByIdWithOwner(parseInt(id));
 
@@ -180,14 +202,16 @@ const business = new Elysia({
           </>
         );
       }
-
+      const businesses = await getBusinesses({});
       return (
         <>
           <Notification
             title="Negocio creado"
             description="Nuevo negocio creado con éxito"
           />
-          {await BusinessTable()}
+          <BusinessTable>
+            <BusinessRows businesses={businesses} next="" />
+          </BusinessTable>
         </>
       );
     },

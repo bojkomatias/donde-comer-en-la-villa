@@ -5,8 +5,8 @@ import { cx } from "@/utils/cx";
 
 export const Filters = ({ tags }: { tags: SelectTag[] }) => {
   return (
-    <div class="relative h-10 px-4 lg:col-span-2 lg:pl-2">
-      <div class="absolute inset-0 -z-10 mx-4 rounded-lg bg-card ring-1 ring-inset ring-border lg:ml-2" />
+    <div class="relative h-10 px-1 sm:px-4 lg:col-span-2 lg:pl-2">
+      <div class="absolute inset-0 -z-10 mx-1 rounded-lg bg-card ring-1 ring-inset ring-border sm:mx-4 lg:ml-2" />
       <div
         class="mx-1 flex h-full items-center gap-3 overflow-auto px-1"
         _="on removeI tell <button /> in me remove .tag-indicator"
@@ -49,7 +49,7 @@ export const Filters = ({ tags }: { tags: SelectTag[] }) => {
       <Button
         id="left-chevron"
         size="icon"
-        class="absolute inset-y-0 left-4 flex h-10 w-12 items-center justify-center rounded-l bg-gradient-to-r from-background from-50% to-transparent lg:left-2"
+        class="absolute inset-y-0 left-1 flex h-10 w-12 items-center justify-center rounded-lg rounded-r-none border-y border-l bg-gradient-to-r from-background from-50% to-transparent sm:left-4 lg:left-2"
         _="on click go to middle left of #first-tag smoothly"
       >
         <i class="i-lucide-chevron-left h-5 w-5" />
@@ -58,7 +58,7 @@ export const Filters = ({ tags }: { tags: SelectTag[] }) => {
       <Button
         id="right-chevron"
         size="icon"
-        class="absolute inset-y-0 right-4 flex h-10 w-12 items-center justify-center rounded-r bg-gradient-to-l from-background from-50% to-transparent"
+        class="absolute inset-y-0 right-1 flex h-10 w-12 items-center justify-center rounded-lg rounded-l-none border-y border-r bg-gradient-to-l from-background from-50% to-transparent sm:right-4"
         _="on click go to middle right of #last-tag smoothly"
       >
         <i class="i-lucide-chevron-right h-5 w-5" />

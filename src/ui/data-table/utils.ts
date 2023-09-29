@@ -8,7 +8,7 @@ import { t } from "elysia";
  */
 export type Column<T> = {
   accessor: keyof T /** Accessor for retrieving the data of the cell */;
-  header: JSX.Element /** Header to display, and sort the column */;
+  header?: JSX.Element /** Custom headers to display, if not default to dict.get(accessor) */;
   cell?: (
     r: T,
   ) => JSX.Element /** Custom cell handler, pass the row and operate. */;
@@ -29,7 +29,7 @@ export type Action<T> = (r: T) => JSX.HtmlTag | false;
  * Validator and Types for paginated, sorted searchable queries to use.
  * In order to be generic, is a function.
  */
-export const querySearchParams = (schema: TSchema) =>
+export const querySearchParams = <T extends TSchema>(schema: T) =>
   t.Object({
     page: t.Optional(t.Numeric()),
     search: t.Optional(t.String()),

@@ -1,22 +1,45 @@
 import { db } from "@/db";
-import { business, insertBusinessForm } from "@/db/schema/business";
+import {
+  SelectBusiness,
+  business,
+  insertBusinessForm,
+} from "@/db/schema/business";
 import { tagToBusiness } from "@/db/schema/tag";
 import { user } from "@/db/schema/user";
-import { and, eq, getTableColumns, like, or, sql } from "drizzle-orm";
+import {
+  and,
+  asc,
+  desc,
+  eq,
+  getTableColumns,
+  like,
+  or,
+  sql,
+} from "drizzle-orm";
 import { Static } from "@sinclair/typebox";
+import { review } from "@/db/schema/review";
+import { QuerySearchParams, pageLimit } from "@/ui/data-table/utils";
 
 // MARKETING
 export async function getInitialBusinesses() {
+  const columns = getTableColumns(business);
   return await db
-    .select()
+    .select({
+      ...columns,
+      reviews: sql<number | null>`avg(${review.qualification})`,
+    })
     .from(business)
+    .where(eq(business.enabled, true))
+    .leftJoin(review, eq(review.business, business.id))
     .orderBy(business.featured)
-    .where(eq(business.enabled, true));
+    .groupBy(business.id);
 }
 
 export async function getBusinessesQuery(q: string) {
+  const columns = getTableColumns(business);
+
   return await db
-    .select()
+    .select({ ...columns, reviews: sql<number>`avg(${review.qualification})` })
     .from(business)
     .where(
       and(
@@ -27,7 +50,9 @@ export async function getBusinessesQuery(q: string) {
         ),
         eq(business.enabled, true),
       ),
-    );
+    )
+    .leftJoin(review, eq(review.business, business.id))
+    .groupBy(business.id);
 }
 
 // OWNER
@@ -44,13 +69,32 @@ export async function getBusinessesAsOwner(id: number) {
 }
 
 // ADMIN
-export async function getBusinessesAsAdmin() {
-  const { id, name, enabled, featured, phone } = getTableColumns(business);
+export async function getBusinesses(q: QuerySearchParams<SelectBusiness>) {
+  const columns = getTableColumns(business);
 
   return await db
-    .select({ id, name, enabled, featured, phone, owner: user.name })
+    .select({ ...columns, ownerName: user.name })
     .from(business)
-    .leftJoin(user, eq(business.owner, user.id));
+    .leftJoin(user, eq(business.owner, user.id))
+    .where(
+      q.search
+        ? or(
+            like(business.name, `%${q.search}%`),
+            like(business.instagram, `%${q.search}%`),
+            like(business.address, `%${q.search}%`),
+            like(user.name, `%${q.search}%`),
+          )
+        : undefined,
+    )
+    .orderBy(
+      q.orderBy
+        ? q.sort === "asc"
+          ? asc(business[q.orderBy])
+          : desc(business[q.orderBy])
+        : desc(business.createdAt),
+    )
+    .limit(pageLimit)
+    .offset(q.page ? q.page * pageLimit : 0);
 }
 
 export async function getBusinessByIdWithOwner(id: number) {
