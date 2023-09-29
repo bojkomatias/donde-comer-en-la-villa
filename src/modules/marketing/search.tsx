@@ -12,7 +12,7 @@ export const Search = () => {
       hx-swap="outerHTML"
       hx-include="this"
       key="k"
-      class="mx-4 lg:mr-0"
+      class="mx-1 sm:mx-4 lg:mr-0"
     />
   );
 };

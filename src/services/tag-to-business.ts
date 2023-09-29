@@ -14,10 +14,14 @@ export async function getTagsByBusinessId(id: number) {
 export async function getBusinessesByTag(id: number) {
   const columns = getTableColumns(business);
   return await db
-    .select({ ...columns, reviews: sql<number>`avg(${review.qualification})` })
+    .select({
+      ...columns,
+      reviews: sql<number | null>`avg(${review.qualification})`,
+    })
     .from(tagToBusiness)
     .where(and(eq(tagToBusiness.tagId, id), eq(business.enabled, true)))
     .rightJoin(business, eq(tagToBusiness.businessId, business.id))
     .leftJoin(review, eq(review.business, business.id))
-    .orderBy(business.featured);
+    .orderBy(business.featured)
+    .groupBy(business.id);
 }

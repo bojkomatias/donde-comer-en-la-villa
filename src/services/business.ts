@@ -10,11 +10,15 @@ import { review } from "@/db/schema/review";
 export async function getInitialBusinesses() {
   const columns = getTableColumns(business);
   return await db
-    .select({ ...columns, reviews: sql<number>`avg(${review.qualification})` })
+    .select({
+      ...columns,
+      reviews: sql<number | null>`avg(${review.qualification})`,
+    })
     .from(business)
-    .orderBy(business.featured)
     .where(eq(business.enabled, true))
-    .leftJoin(review, eq(review.business, business.id));
+    .leftJoin(review, eq(review.business, business.id))
+    .orderBy(business.featured)
+    .groupBy(business.id);
 }
 
 export async function getBusinessesQuery(q: string) {
@@ -33,7 +37,8 @@ export async function getBusinessesQuery(q: string) {
         eq(business.enabled, true),
       ),
     )
-    .leftJoin(review, eq(review.business, business.id));
+    .leftJoin(review, eq(review.business, business.id))
+    .groupBy(business.id);
 }
 
 // OWNER

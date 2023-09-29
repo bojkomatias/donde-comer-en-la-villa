@@ -8,12 +8,12 @@ import { Review } from "./reviews";
 export const Results = ({
   businesses,
 }: {
-  businesses: (SelectBusiness & { reviews: number })[];
+  businesses: (SelectBusiness & { reviews: number | null })[];
 }) => {
   return (
     <div id="results">
       {businesses.length > 0 ? (
-        <div class="space-y-2 px-2 py-4 sm:py-4 md:grid md:grid-cols-2 md:gap-2 md:space-y-0 xl:grid-cols-3">
+        <div class="space-y-2 px-1 py-4 sm:px-4 md:grid md:grid-cols-2 md:gap-2 md:space-y-0 xl:grid-cols-3">
           {businesses.map((business) => (
             <BusinessItem business={business} />
           ))}
@@ -30,7 +30,7 @@ export const Results = ({
 const BusinessItem = ({
   business,
 }: {
-  business: SelectBusiness & { reviews: number };
+  business: SelectBusiness & { reviews: number | null };
 }) => (
   <Card class="flex flex-col">
     <Card.Header class="flex-row gap-6 p-3 pb-0">
