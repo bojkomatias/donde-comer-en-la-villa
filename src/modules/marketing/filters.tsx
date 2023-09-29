@@ -16,7 +16,7 @@ export const Filters = ({ tags }: { tags: SelectTag[] }) => {
         </div>
         <Hover class="flex gap-2">
           {tags.map((tag, i) => (
-            <Hover.Item>
+            <Hover.Item class="mt-0.5">
               <Button
                 hx-get={`/filter?tag=${tag.id}`}
                 hx-target="#results"

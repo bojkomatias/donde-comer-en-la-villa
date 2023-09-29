@@ -2,7 +2,7 @@ import { SelectUser } from "@/db/schema/user";
 import { Badge } from "@/ui/badge";
 import { DashboardHeading } from "@/ui/dashboard/heading";
 import { DashboardContent } from "@/ui/dashboard/wrapper";
-import { Column, DataTable } from "@/ui/data-table";
+import { Action, Column, DataRows, DataTable } from "@/ui/data-table";
 import { dict } from "@/utils/dictionary";
 
 const columns: Column<Omit<SelectUser, "password">>[] = [
@@ -14,7 +14,7 @@ const columns: Column<Omit<SelectUser, "password">>[] = [
   {
     accessor: "createdAt",
     header: dict.get("createdAt"),
-    initialHidden: true,
+    hidden: true,
   },
   {
     accessor: "name",
@@ -36,9 +36,10 @@ const columns: Column<Omit<SelectUser, "password">>[] = [
   {
     accessor: "image",
     header: dict.get("image"),
-    initialHidden: true,
+    hidden: true,
   },
 ];
+const actions: Action<Omit<SelectUser, "password">>[] = [];
 
 export const UsersTable = ({
   users,
@@ -49,7 +50,14 @@ export const UsersTable = ({
     <div hx-target="this">
       <DashboardHeading title={dict.get("users")} />
       <DashboardContent>
-        <DataTable columns={columns} data={users} />
+        <DataTable columns={columns}>
+          <DataRows
+            columns={columns}
+            data={users}
+            // next={`/data?page=1`}
+            actions={actions}
+          />
+        </DataTable>
       </DashboardContent>
     </div>
   );

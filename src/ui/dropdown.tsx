@@ -59,7 +59,7 @@ Dropdown.Item = ({
     {...props}
     class={buttonStyles({
       class: cx(
-        "w-full items-center justify-between px-4 font-normal text-accent-foreground hover:bg-muted hover:text-foreground",
+        "w-full justify-between font-normal text-accent-foreground hover:text-foreground",
         props.class,
       ),
       intent: props.intent,

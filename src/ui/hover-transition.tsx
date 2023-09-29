@@ -5,7 +5,7 @@ import { cx } from "@/utils/cx";
  * @default .bg-muted
  */
 export const Hover = ({
-  indicator = ".bg-muted",
+  indicator = ".bg-accent",
   ...props
 }: JSX.HtmlTag & { indicator?: string }) => {
   let script =
@@ -15,7 +15,7 @@ export const Hover = ({
     <div class={cx("relative h-fit", props.class?.includes("flex") && "w-fit")}>
       <div
         class={cx(
-          "hover-indicator absolute -z-10 rounded-lg transition ease-in-out",
+          "hover-indicator absolute -z-10 rounded-md transition ease-in-out",
           props.class?.includes("flex") ? "inset-y-0" : "inset-x-0",
         )}
         _={script}

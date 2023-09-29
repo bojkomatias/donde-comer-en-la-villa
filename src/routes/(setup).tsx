@@ -38,7 +38,7 @@ const setup = new Elysia({ name: "setup" })
           accessor: "id",
           header: "UUID",
           cell: ({ id }) => <div>xd{id}</div>,
-          hidden: "hidden",
+          hidden: true,
         },
         { accessor: "name", header: "Name" },
       ];
@@ -98,10 +98,7 @@ const setup = new Elysia({ name: "setup" })
         ({ id }) => ({
           children: "Ver",
         }),
-        ({ id }) => ({
-          class: "bg-destructive text-destructive-foreground",
-          children: "Eliminar",
-        }),
+        ({ id }) => id === 2 && { children: "Delete" },
       ];
 
       if (page)
@@ -110,7 +107,9 @@ const setup = new Elysia({ name: "setup" })
             columns={columns}
             data={data.slice(page * 10, page * 10 + 10)}
             actions={actions}
-            next={page * 10 >= data.length ? undefined : page + 1}
+            next={
+              page * 10 >= data.length ? undefined : `/data?page=${page + 1}`
+            }
           />
         );
       return (
@@ -120,7 +119,7 @@ const setup = new Elysia({ name: "setup" })
               <DataRows
                 columns={columns}
                 data={data}
-                next={1}
+                next={`/data?page=1`}
                 actions={actions}
               />
             </DataTable>

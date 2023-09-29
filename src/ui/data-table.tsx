@@ -1,6 +1,9 @@
 import { cx } from "@/utils/cx";
 import Table from "./table";
 import Dropdown from "./dropdown";
+import { Button } from "./button";
+import { SearchBar } from "./search-bar";
+import { Hover } from "./hover-transition";
 
 /**
  * Used to define the columns on your module component
@@ -12,7 +15,7 @@ export type Column<T> = {
   header: string;
   cell?: (r: T) => JSX.Element;
   disableHiding?: true;
-  hidden?: string;
+  hidden?: true;
   col?: string;
 };
 
@@ -20,7 +23,7 @@ export type Column<T> = {
  * Used to pass the allowed actions through props only  (injected in component)
  * @T Generic type (equivalent to row.original)
  */
-export type Action<T> = (r: T) => JSX.HtmlTag;
+export type Action<T> = (r: T) => JSX.HtmlTag | false;
 
 export function DataTable<T>({
   children,
@@ -30,37 +33,45 @@ export function DataTable<T>({
   columns: Column<T>[];
 }) {
   return (
-    <div>
-      <div class="mb-2 flex justify-end">
+    <>
+      <div class="mb-2 flex gap-1.5 px-px">
+        <SearchBar class="flex-grow" key="k" />
+        <Button intent="outline" size="icon">
+          <i class="i-lucide-sliders" />
+        </Button>
         <Dropdown>
           <Dropdown.Trigger intent="outline" size="icon">
             <i class="i-lucide-table-properties" />
           </Dropdown.Trigger>
           <Dropdown.Content class="w-40">
-            {columns
-              .filter((e) => !e.disableHiding)
-              .map(({ accessor, header, hidden }) => (
-                <Dropdown.Item
-                  _={`on click tell #${String(
-                    accessor,
-                  )} in next <colgroup/> toggle .hidden end
+            <Hover>
+              {columns
+                .filter((e) => !e.disableHiding)
+                .map(({ accessor, header, hidden }) => (
+                  <Hover.Item>
+                    <Dropdown.Item
+                      _={`on click tell #${String(
+                        accessor,
+                      )} in next <colgroup/> toggle .hidden end
                   on click tell .${String(
                     accessor,
                   )} in next <table/> toggle .hidden end
                     on click toggle .hidden on <i/> in me`}
-                  class="text-xs"
-                >
-                  <span>{header}</span>
-                  <i class={cx("i-lucide-check", hidden)} />
-                </Dropdown.Item>
-              ))}
+                      size="sm"
+                    >
+                      <span>{header}</span>
+                      <i class={cx("i-lucide-check", hidden && "hidden")} />
+                    </Dropdown.Item>
+                  </Hover.Item>
+                ))}
+            </Hover>
           </Dropdown.Content>
         </Dropdown>
       </div>
       <Table>
         <colgroup>
           {columns.map(({ col, accessor, hidden }) => (
-            <col id={String(accessor)} class={cx(col, hidden)} />
+            <col id={String(accessor)} class={cx(col, hidden && "hidden")} />
           ))}
           <col class={"w-10"} />
         </colgroup>
@@ -84,7 +95,7 @@ export function DataTable<T>({
         </Table.Head>
         <Table.Body>{children}</Table.Body>
       </Table>
-    </div>
+    </>
   );
 }
 
@@ -97,7 +108,7 @@ export function DataRows<T>({
   data: T[];
   columns: Column<T>[];
   actions: Action<T>[];
-  next?: number;
+  next?: string;
 }) {
   return (
     <>
@@ -114,22 +125,35 @@ export function DataRows<T>({
             </Table.Cell>
           ))}
           <Table.Cell class={"actions"}>
-            <Dropdown>
-              <Dropdown.Trigger intent="ghost" size="icon">
-                <i class="i-lucide-more-horizontal" />
-              </Dropdown.Trigger>
-              <Dropdown.Content position="right-top" class="w-28">
-                {actions.map((action) => (
-                  <Dropdown.Item {...action(d)} />
-                ))}
-              </Dropdown.Content>
-            </Dropdown>
+            {actions.length > 0 ? (
+              actions.length > 1 ? (
+                <Dropdown>
+                  <Dropdown.Trigger intent="ghost" size="icon">
+                    <i class="i-lucide-more-horizontal" />
+                  </Dropdown.Trigger>
+                  <Dropdown.Content position="right-top" class="w-28">
+                    {actions.map(
+                      (action) =>
+                        action(d) && (
+                          <Dropdown.Item
+                            intent="ghost"
+                            size="sm"
+                            {...action(d)}
+                          />
+                        ),
+                    )}
+                  </Dropdown.Content>
+                </Dropdown>
+              ) : (
+                <Button intent="secondary" size="xs" {...actions[0](d)} />
+              )
+            ) : null}
           </Table.Cell>
         </Table.Row>
       ))}
       {next ? (
         <Table.Row
-          hx-get={`/data?page=${next}`}
+          hx-get={next}
           hx-swap="outerHTML"
           hx-target="this"
           hx-trigger="revealed"
