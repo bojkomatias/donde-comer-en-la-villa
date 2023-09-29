@@ -12,7 +12,7 @@ Table.Head = (props: JSX.HtmlTableSectionTag) => (
   <thead
     {...props}
     class={cx(
-      "relative after:absolute after:inset-0.5 after:-z-10 after:rounded-lg after:bg-accent/40 after:ring-1 after:ring-border",
+      "relative after:absolute after:inset-x-px after:inset-y-1 after:-z-10 after:rounded-lg after:bg-accent/40 after:ring-1 after:ring-border",
       props.class,
     )}
   >
@@ -60,7 +60,7 @@ Table.Footer = (props: JSX.HtmlTableSectionTag) => (
   <tfoot
     {...props}
     class={cx(
-      "relative after:absolute after:inset-0.5 after:-z-10 after:rounded-lg after:bg-accent/40 after:ring-1 after:ring-border",
+      "relative after:absolute after:inset-x-px after:inset-y-1 after:-z-10 after:rounded-lg after:bg-accent/40 after:ring-1 after:ring-border",
       props.class,
     )}
   >

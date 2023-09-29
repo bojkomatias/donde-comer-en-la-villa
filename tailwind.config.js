@@ -46,7 +46,7 @@ export default {
       },
       fontFamily: { sans: ['Outfit', 'sans'], heading: ['Bespoke Stencil', 'sans'] },
       maxWidth: {
-        '8xl': '88rem',
+        '8xl': '100rem',
       },
     },
   },

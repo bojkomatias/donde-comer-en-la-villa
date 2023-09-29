@@ -6,7 +6,6 @@ import { DataRows, DataTable } from "@/ui/data-table/data-table";
 import { Action, Column, pageLimit } from "@/ui/data-table/utils";
 import { dict } from "@/utils/dictionary";
 
-
 const columns: Column<Omit<SelectUser, "password">>[] = [
   {
     accessor: "id",
