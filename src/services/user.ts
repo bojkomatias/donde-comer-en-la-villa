@@ -1,33 +1,38 @@
 import { db } from "@/db";
-import { InsertUser, user } from "@/db/schema/user";
-import { and, eq, getTableColumns, like } from "drizzle-orm";
+import { InsertUser, SelectUser, user } from "@/db/schema/user";
+import { QuerySearchParams, pageLimit } from "@/ui/data-table/utils";
+import { and, asc, desc, eq, getTableColumns, like, or } from "drizzle-orm";
 
 export async function getUsersForSelector() {
   return await db.select({ id: user.id, name: user.name }).from(user);
 }
 
+/** Paginated, Search, Filtered user query  */
 export async function getUsers({
   page,
   search,
-}: {
-  page?: number;
-  search?: string;
-}) {
+  orderBy,
+  sort,
+}: QuerySearchParams<SelectUser>) {
   const { password, ...rest } = getTableColumns(user);
-
-  if (search)
-    return await db
-      .select(rest)
-      .from(user)
-      .where(like(user.name, `%${search}%`))
-      .limit(10)
-      .offset(page ? page * 10 : 0);
 
   return await db
     .select(rest)
     .from(user)
-    .limit(10)
-    .offset(page ? page * 10 : 0);
+    .where(
+      search
+        ? or(like(user.name, `%${search}%`), like(user.email, `%${search}%`))
+        : undefined,
+    )
+    .orderBy(
+      orderBy
+        ? sort === "asc"
+          ? asc(user[orderBy])
+          : desc(user[orderBy])
+        : desc(user.createdAt),
+    )
+    .limit(pageLimit)
+    .offset(page ? page * pageLimit : 0);
 }
 
 export async function getUserById(id: number) {

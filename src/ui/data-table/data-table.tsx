@@ -1,29 +1,11 @@
 import { cx } from "@/utils/cx";
-import Table from "./table";
-import Dropdown from "./dropdown";
-import { Button } from "./button";
-import { SearchBar } from "./search-bar";
-import { Hover } from "./hover-transition";
-
-/**
- * Used to define the columns on your module component
- * (eg: BusinessTable T will be SelectBusiness)
- * @T Generic type
- */
-export type Column<T> = {
-  accessor: keyof T;
-  header: string;
-  cell?: (r: T) => JSX.Element;
-  disableHiding?: true;
-  hidden?: true;
-  col?: string;
-};
-
-/**
- * Used to pass the allowed actions through props only  (injected in component)
- * @T Generic type (equivalent to row.original)
- */
-export type Action<T> = (r: T) => JSX.HtmlTag | false;
+import Table from "../table";
+import Dropdown from "../dropdown";
+import { Button } from "../button";
+import { SearchBar } from "../search-bar";
+import { Hover } from "../hover-transition";
+import { Action, Column } from "./utils";
+import { dict } from "@/utils/dictionary";
 
 export function DataTable<T>({
   children,
@@ -40,6 +22,7 @@ export function DataTable<T>({
     key: string;
   };
 }) {
+  let sort = "asc";
   return (
     <>
       <div class="mb-2 flex gap-1.5 px-px">
@@ -56,15 +39,20 @@ export function DataTable<T>({
         <Button intent="outline" size="icon">
           <i class="i-lucide-sliders" />
         </Button>
+        {/* Column Visibility */}
         <Dropdown>
           <Dropdown.Trigger intent="outline" size="icon">
             <i class="i-lucide-table-properties" />
           </Dropdown.Trigger>
-          <Dropdown.Content class="w-40">
+          <Dropdown.Content class="w-48">
+            <Dropdown.Header class="text-sm font-semibold">
+              Columnas
+            </Dropdown.Header>
+            <Dropdown.Separator />
             <Hover>
               {columns
                 .filter((e) => !e.disableHiding)
-                .map(({ accessor, header, hidden }) => (
+                .map(({ accessor, hidden }) => (
                   <Hover.Item>
                     <Dropdown.Item
                       _={`on click tell #${String(
@@ -76,7 +64,7 @@ export function DataTable<T>({
                     on click toggle .hidden on <i/> in me`}
                       size="sm"
                     >
-                      <span>{header}</span>
+                      <span>{dict.get(accessor)}</span>
                       <i class={cx("i-lucide-check", hidden && "hidden")} />
                     </Dropdown.Item>
                   </Hover.Item>
@@ -94,14 +82,38 @@ export function DataTable<T>({
         </colgroup>
         <Table.Head>
           <Table.Row>
-            {columns.map(({ accessor, header }) => (
+            {columns.map(({ accessor, header, sortable }) => (
               <Table.HCell
                 _={`init if #${String(
                   accessor,
                 )} @class contains 'hidden' then add .hidden end`}
                 class={cx(String(accessor))}
               >
-                {header}
+                {sortable ? (
+                  <Button
+                    hx-get="/d/users/q"
+                    hx-vals={`{ "orderBy": "${String(
+                      accessor,
+                    )}", "sort": "asc" }`}
+                    hx-target="next tbody"
+                    hx-swap="innerHTML"
+                    intent="ghost"
+                    size="xs"
+                    class="font-semibold text-accent-foreground hover:text-foreground"
+                    _={`on click if @hx-vals contains 'asc' 
+                        then set @hx-vals to '{ "orderBy": "${String(
+                          accessor,
+                        )}", "sort": "desc" }'
+                        else @hx-vals contains 'desc' then set @hx-vals to '{ "orderBy": "${String(
+                          accessor,
+                        )}", "sort": "asc" }'`}
+                  >
+                    {header}
+                    <i class="i-lucide-chevrons-up-down" />
+                  </Button>
+                ) : (
+                  header
+                )}
               </Table.HCell>
             ))}
             {/* Extra action column */}

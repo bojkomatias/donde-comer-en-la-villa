@@ -1,9 +1,13 @@
 import { SelectUser } from "@/db/schema/user";
 import { Badge } from "@/ui/badge";
+import { Button } from "@/ui/button";
 import { DashboardHeading } from "@/ui/dashboard/heading";
 import { DashboardContent } from "@/ui/dashboard/wrapper";
-import { Action, Column, DataRows, DataTable } from "@/ui/data-table";
+import { DataRows, DataTable } from "@/ui/data-table/data-table";
+import { Action, Column, pageLimit } from "@/ui/data-table/utils";
 import { dict } from "@/utils/dictionary";
+
+const qURL = "/d/users/q";
 
 const columns: Column<Omit<SelectUser, "password">>[] = [
   {
@@ -21,6 +25,7 @@ const columns: Column<Omit<SelectUser, "password">>[] = [
     header: dict.get("name"),
     col: "w-1/3",
     disableHiding: true,
+    sortable: true,
   },
   {
     accessor: "email",
@@ -72,7 +77,7 @@ export const UserRows = ({
   <DataRows
     columns={columns}
     data={users}
-    next={users.length < 10 ? undefined : next}
+    next={users.length < pageLimit ? undefined : next}
     actions={actions}
   />
 );
