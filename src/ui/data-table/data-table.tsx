@@ -22,7 +22,6 @@ export function DataTable<T>({
     key: string;
   };
 }) {
-
   return (
     <>
       <div class="mb-2 flex gap-1.5 px-px">
@@ -52,7 +51,7 @@ export function DataTable<T>({
             <Hover>
               {columns
                 .filter((e) => !e.disableHiding)
-                .map(({ accessor, hidden }) => (
+                .map(({ accessor, header, hidden }) => (
                   <Hover.Item>
                     <Dropdown.Item
                       _={`on click tell #${String(
@@ -64,7 +63,7 @@ export function DataTable<T>({
                     on click toggle .hidden on <i/> in me`}
                       size="sm"
                     >
-                      <span>{dict.get(accessor)}</span>
+                      <span> {header ? header : dict.get(accessor)}</span>
                       <i class={cx("i-lucide-check", hidden && "hidden")} />
                     </Dropdown.Item>
                   </Hover.Item>
@@ -99,7 +98,7 @@ export function DataTable<T>({
                     hx-swap="innerHTML"
                     intent="ghost"
                     size="xs"
-                    class="font-semibold text-accent-foreground hover:text-foreground -ml-2.5"
+                    class="-ml-2.5 font-semibold text-accent-foreground hover:text-foreground"
                     _={`on click if @hx-vals contains 'asc' 
                         then set @hx-vals to '{ "orderBy": "${String(
                           accessor,
@@ -108,11 +107,13 @@ export function DataTable<T>({
                           accessor,
                         )}", "sort": "asc" }'`}
                   >
-                    {header}
+                    {header ? header : dict.get(accessor)}
                     <i class="i-lucide-chevrons-up-down" />
                   </Button>
                 ) : (
-                  <span class="text-accent-foreground">{header}</span>
+                  <span class="text-accent-foreground">
+                    {header ? header : dict.get(accessor)}
+                  </span>
                 )}
               </Table.HCell>
             ))}
@@ -157,7 +158,7 @@ export function DataRows<T>({
             {actions.length > 0 ? (
               actions.length > 1 ? (
                 <Dropdown>
-                  <Dropdown.Trigger intent="ghost" size="icon">
+                  <Dropdown.Trigger intent="ghost" size="icon-sm">
                     <i class="i-lucide-more-horizontal" />
                   </Dropdown.Trigger>
                   <Dropdown.Content position="right-top" class="w-28">

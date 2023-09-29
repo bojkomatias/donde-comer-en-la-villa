@@ -8,7 +8,7 @@ export interface ButtonProps extends JSX.HtmlButtonTag {
     | "ghost"
     | "destructive"
     | "link";
-  size?: "xs" | "sm" | "lg" | "icon";
+  size?: "xs" | "sm" | "lg" | "icon" | "icon-sm";
   children?: any;
 }
 export const Button = ({ intent, size, children, ...props }: ButtonProps) => {
@@ -41,6 +41,7 @@ export const buttonStyles = (props: ButtonProps) => {
     props.size === "sm" && "h-8 rounded-md px-3.5 text-sm",
     props.size === "xs" && "h-6 rounded-md px-2.5 text-xs",
     props.size === "icon" && "h-10 w-10 p-0",
+    props.size === "icon-sm" && "h-6 w-6 p-0",
     props.class,
   );
 };

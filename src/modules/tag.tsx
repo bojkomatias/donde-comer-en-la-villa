@@ -52,7 +52,7 @@ Tags.Row = ({ tag }: { tag: SelectTag }) => {
   return (
     <Table.Row>
       <Table.Cell safe>{tag.id}</Table.Cell>
-      <Table.Cell safe class="capitalize tracking-wide">
+      <Table.Cell safe class="font-semibold capitalize">
         {tag.name}
       </Table.Cell>
       <Table.Cell>
