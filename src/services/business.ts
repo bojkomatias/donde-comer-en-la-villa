@@ -4,19 +4,24 @@ import { tagToBusiness } from "@/db/schema/tag";
 import { user } from "@/db/schema/user";
 import { and, eq, getTableColumns, like, or, sql } from "drizzle-orm";
 import { Static } from "@sinclair/typebox";
+import { review } from "@/db/schema/review";
 
 // MARKETING
 export async function getInitialBusinesses() {
+  const columns = getTableColumns(business);
   return await db
-    .select()
+    .select({ ...columns, reviews: sql<number>`avg(${review.qualification})` })
     .from(business)
     .orderBy(business.featured)
-    .where(eq(business.enabled, true));
+    .where(eq(business.enabled, true))
+    .leftJoin(review, eq(review.business, business.id));
 }
 
 export async function getBusinessesQuery(q: string) {
+  const columns = getTableColumns(business);
+
   return await db
-    .select()
+    .select({ ...columns, reviews: sql<number>`avg(${review.qualification})` })
     .from(business)
     .where(
       and(
@@ -27,7 +32,8 @@ export async function getBusinessesQuery(q: string) {
         ),
         eq(business.enabled, true),
       ),
-    );
+    )
+    .leftJoin(review, eq(review.business, business.id));
 }
 
 // OWNER

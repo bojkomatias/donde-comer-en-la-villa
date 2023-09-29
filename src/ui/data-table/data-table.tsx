@@ -22,7 +22,7 @@ export function DataTable<T>({
     key: string;
   };
 }) {
-  let sort = "asc";
+
   return (
     <>
       <div class="mb-2 flex gap-1.5 px-px">
@@ -91,7 +91,7 @@ export function DataTable<T>({
               >
                 {sortable ? (
                   <Button
-                    hx-get="/d/users/q"
+                    hx-get={search?.["hx-get"]}
                     hx-vals={`{ "orderBy": "${String(
                       accessor,
                     )}", "sort": "asc" }`}
@@ -99,12 +99,12 @@ export function DataTable<T>({
                     hx-swap="innerHTML"
                     intent="ghost"
                     size="xs"
-                    class="font-semibold text-accent-foreground hover:text-foreground"
+                    class="font-semibold text-accent-foreground hover:text-foreground -ml-2.5"
                     _={`on click if @hx-vals contains 'asc' 
                         then set @hx-vals to '{ "orderBy": "${String(
                           accessor,
                         )}", "sort": "desc" }'
-                        else @hx-vals contains 'desc' then set @hx-vals to '{ "orderBy": "${String(
+                        else set @hx-vals to '{ "orderBy": "${String(
                           accessor,
                         )}", "sort": "asc" }'`}
                   >
@@ -112,7 +112,7 @@ export function DataTable<T>({
                     <i class="i-lucide-chevrons-up-down" />
                   </Button>
                 ) : (
-                  header
+                  <span class="text-accent-foreground">{header}</span>
                 )}
               </Table.HCell>
             ))}

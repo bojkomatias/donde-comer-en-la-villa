@@ -3,12 +3,17 @@ import { Badge } from "@/ui/badge";
 import { buttonStyles } from "@/ui/button";
 import Card from "@/ui/card";
 import { EmptyState } from "@/ui/empty-state";
+import { Review } from "./reviews";
 
-export const Results = ({ businesses }: { businesses: SelectBusiness[] }) => {
+export const Results = ({
+  businesses,
+}: {
+  businesses: (SelectBusiness & { reviews: number })[];
+}) => {
   return (
     <div id="results">
       {businesses.length > 0 ? (
-        <div class="space-y-2 p-4 md:grid md:grid-cols-2 md:gap-2 md:space-y-0 xl:grid-cols-3">
+        <div class="space-y-2 px-2 py-4 sm:py-4 md:grid md:grid-cols-2 md:gap-2 md:space-y-0 xl:grid-cols-3">
           {businesses.map((business) => (
             <BusinessItem business={business} />
           ))}
@@ -22,7 +27,11 @@ export const Results = ({ businesses }: { businesses: SelectBusiness[] }) => {
   );
 };
 
-const BusinessItem = ({ business }: { business: SelectBusiness }) => (
+const BusinessItem = ({
+  business,
+}: {
+  business: SelectBusiness & { reviews: number };
+}) => (
   <Card class="flex flex-col">
     <Card.Header class="flex-row gap-6 p-3 pb-0">
       <img
@@ -31,8 +40,11 @@ const BusinessItem = ({ business }: { business: SelectBusiness }) => (
         width="50"
         class="float-left h-20 w-20 rounded-full pb-1 pr-1"
       />
-      <div>
-        <Card.Title>{business.name}</Card.Title>
+      <div class="flex-grow">
+        <div class="flex">
+          <Card.Title class="flex-grow">{business.name}</Card.Title>
+          <Review avgReviews={business.reviews} />
+        </div>
         <Card.Description class="-mt-1 leading-4">
           {business.description}
         </Card.Description>
@@ -78,7 +90,7 @@ const BusinessItem = ({ business }: { business: SelectBusiness }) => (
       </a>
     </Card.Content>
 
-    <Card.Footer class="rounded-b-xl bg-muted p-1">
+    <Card.Footer class="bg-muted/50 p-1">
       <div class="flex w-full items-center gap-x-1.5 gap-y-1.5 overflow-y-auto overflow-x-hidden pr-0.5">
         {typeof business.tags === "string" &&
           business.tags

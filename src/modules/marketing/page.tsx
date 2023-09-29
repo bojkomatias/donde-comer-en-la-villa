@@ -10,7 +10,7 @@ const Marketing = ({
   initialData,
 }: {
   tags: SelectTag[];
-  initialData: SelectBusiness[];
+  initialData: (SelectBusiness & { reviews: number })[];
 }) => (
   <>
     <h1 class="mx-auto mt-12 max-w-xl select-none text-center font-heading text-2xl font-black leading-relaxed sm:text-4xl">
