@@ -3,9 +3,6 @@ import cookie from "@elysiajs/cookie";
 import jwt from "@elysiajs/jwt";
 import { html } from "@elysiajs/html";
 import { helmet } from "elysia-helmet";
-import { BaseLayout } from "@/ui/layout";
-import { Action, Column, DataRows, DataTable } from "@/ui/data-table";
-import { SelectTag } from "@/db/schema/tag";
 
 if (Bun.env.JWT_SECRET === undefined)
   throw "Missing secret add JWT_SECRET to .env file";
