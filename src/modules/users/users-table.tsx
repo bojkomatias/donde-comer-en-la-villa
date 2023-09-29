@@ -51,7 +51,7 @@ export const UsersTable = ({ children }: { children: any }) => {
           search={{
             id: "search-users",
             name: "search",
-            "hx-get": "/d/users/search",
+            "hx-get": "/d/users/q",
             key: "k",
           }}
         >
