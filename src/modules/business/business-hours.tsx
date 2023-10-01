@@ -41,8 +41,9 @@ export const BusinessHours = ({
         </Card.Header>
 
         <form
-          hx-post="/d/business/hours"
-          hx-swap="none"
+          hx-post={`/d/business/${id}`}
+          hx-swap="outerHTML"
+          hx-push-url="true"
           hx-target-4xx="#notification"
         >
           <input type="hidden" name="business" value={id.toString()} />

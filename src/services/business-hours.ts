@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { InsertBusinessHours, businessHours } from "@/db/schema/business-hours";
-import { eq, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 export async function getBusinessHoursByBusiness(id: number) {
   return await db
@@ -10,20 +10,13 @@ export async function getBusinessHoursByBusiness(id: number) {
 }
 
 export async function upsertBusinessHours(bhs: InsertBusinessHours[]) {
-  const r = await db
-    .insert(businessHours)
-    .values(bhs)
-    .onConflictDoUpdate({
-      target: [businessHours.business, businessHours.day],
-      set: {
-        business: sql`excluded.business_id`,
-        day: sql`excluded.day`,
-        opens: sql`excluded.opens`,
-        closes: sql`excluded.closes`,
-        updatedAt: sql`(CURRENT_TIMESTAMP)`,
-      },
-    })
-    .returning({ id: businessHours.day });
-
-  return r;
+  return await db.transaction(async (tx) => {
+    await tx
+      .delete(businessHours)
+      .where(eq(businessHours.business, bhs[0].business));
+    return await tx
+      .insert(businessHours)
+      .values(bhs)
+      .returning({ id: businessHours.business });
+  });
 }

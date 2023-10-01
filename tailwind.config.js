@@ -52,9 +52,9 @@ export default {
   },
   plugins: [
     require('@tailwindcss/forms'),
-    // iconsPlugin({
-    //   // Select the icon collections you want to use
-    //   collections: getIconCollections(["lucide", 'simple-icons', 'ic']),
-    // }),
+    iconsPlugin({
+      // Select the icon collections you want to use
+      collections: getIconCollections(["lucide", 'simple-icons', 'ic']),
+    }),
   ],
 };

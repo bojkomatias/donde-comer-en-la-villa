@@ -19,6 +19,7 @@ import {
 import { Static } from "@sinclair/typebox";
 import { review } from "@/db/schema/review";
 import { QuerySearchParams, pageLimit } from "@/ui/data-table/utils";
+import { SelectBusinessHours, businessHours } from "@/db/schema/business-hours";
 
 // MARKETING
 export async function getInitialBusinesses() {
@@ -55,20 +56,7 @@ export async function getBusinessesQuery(q: string) {
     .groupBy(business.id);
 }
 
-// OWNER
-export async function getBusinessesAsOwner(id: number) {
-  const columns = getTableColumns(business);
-  const result = await db
-    .select({ ...columns, owner: user })
-    .from(business)
-    .where(eq(business.owner, id))
-    .leftJoin(user, eq(business.owner, user.id));
-
-  // In the future. they may handle many
-  return result;
-}
-
-// ADMIN
+// DASHBOARD
 export async function getBusinesses(q: QuerySearchParams<SelectBusiness>) {
   const columns = getTableColumns(business);
 
@@ -97,20 +85,33 @@ export async function getBusinesses(q: QuerySearchParams<SelectBusiness>) {
     .offset(q.page ? q.page * pageLimit : 0);
 }
 
-export async function getBusinessByIdWithOwner(id: number) {
+export async function getBusinessWithRelations(id: number) {
   const columns = getTableColumns(business);
 
   const result = await db
-    .select({ ...columns, owner: user })
+    .select({ ...columns, owner: user, bhs: businessHours })
     .from(business)
     .where(eq(business.id, id))
-    .leftJoin(user, eq(business.owner, user.id));
+    .leftJoin(user, eq(business.owner, user.id))
+    .leftJoin(businessHours, eq(business.id, businessHours.business));
 
-  return result[0];
+  const BHs: SelectBusinessHours[] = [];
+  result.forEach((e) => {
+    if (e.bhs) BHs.push(e.bhs);
+  });
+
+  // @ts-ignore
+  delete result[0].bhs;
+
+  return { ...result[0], businessHours: BHs };
 }
-export type BusinessWithOwner = Awaited<
-  ReturnType<typeof getBusinessByIdWithOwner>
+export type BusinessWithRelations = Awaited<
+  ReturnType<typeof getBusinessWithRelations>
 >;
+// export type BusinessWithRelations = Omit<SelectBusiness, "owner"> & {
+//   owner: SelectUser | null;
+//   businessHours: SelectBusinessHours[] | null;
+// };
 
 export async function getBusinessById(id: number) {
   const result = await db.select().from(business).where(eq(business.id, id));
