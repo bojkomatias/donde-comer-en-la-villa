@@ -9,7 +9,7 @@ export const product = sqliteTable("product", {
   basePrice: real("base_price"),
   images: text("images"),
   featured: integer("featured", { mode: "boolean" }).default(false),
-  businessId: integer("business_id")
+  business: integer("business_id")
     .notNull()
     .references(() => business.id),
   createdAt: integer("created_at").default(sql`(CURRENT_TIMESTAMP)`),

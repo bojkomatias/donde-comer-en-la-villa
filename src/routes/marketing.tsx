@@ -7,11 +7,19 @@ import { Results } from "@/modules/marketing/results";
 import { getBusinessesByTag } from "@/services/tag-to-business";
 import { cx } from "@/utils/cx";
 import { MarketingLayout } from "@/ui/marketing/layout";
+import { BusinessHours } from "@/modules/business/business-hours";
 
 const marketing = new Elysia({
   name: "marketing",
 })
   .use(setup)
+  .get("/data", () => (
+    <MarketingLayout>
+      <div class="mx-auto mt-20 max-w-5xl">
+        <BusinessHours businessId={1} />
+      </div>
+    </MarketingLayout>
+  ))
   .guard(
     {
       beforeHandle: ({ set }) => {

@@ -19,13 +19,14 @@ export const business = sqliteTable(
     instagram: text("instagram").notNull(),
     address: text("address"),
     location: text("location"),
-    webpage: text("webpage"),
     image: text("image").notNull(),
     // Tags are virtual, but we can still store them here as a helper
     tags: text("tags").$type<number[] | string[] | string>().notNull(),
     featured: integer("featured", { mode: "boolean" }).default(false),
     enabled: integer("enabled", { mode: "boolean" }).default(false),
-    owner: integer("user_id").references(() => user.id),
+    owner: integer("user_id")
+      .references(() => user.id)
+      .notNull(),
     createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
     updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
   },

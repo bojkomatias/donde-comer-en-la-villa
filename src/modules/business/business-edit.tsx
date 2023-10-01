@@ -109,7 +109,6 @@ export const BusinessEdit = ({
                   // HTML if not set value string sets "on" by default
                   value="true"
                   class="flex-grow"
-                  rt
                 />
                 <Input
                   name="enabled"
@@ -118,7 +117,6 @@ export const BusinessEdit = ({
                   // HTML if not set value string sets "on" by default
                   value="true"
                   class="flex-grow"
-                  rb
                 />
               </span>
               <Input

@@ -1,6 +1,6 @@
 import setup from "@/routes/(setup)";
 import { businessSchema, insertBusinessForm } from "@/db/schema/business";
-import Elysia from "elysia";
+import Elysia, { t } from "elysia";
 import { Value } from "@sinclair/typebox/value";
 import { Static } from "@sinclair/typebox";
 import { DashboardLayout } from "@/ui/dashboard/layout";
@@ -22,6 +22,7 @@ import { BusinessView } from "@/modules/business/business-view";
 import { BusinessNew } from "@/modules/business/business-new";
 import { BusinessEdit } from "@/modules/business/business-edit";
 import { nextURL, querySearchParams } from "@/ui/data-table/utils";
+import { insertBusinessHours } from "@/db/schema/business-hours";
 
 const business = new Elysia({
   name: "business",
@@ -229,6 +230,38 @@ const business = new Elysia({
         body.tags = [body.tags].flat().map((e: any) => JSON.parse(e));
       },
       body: insertBusinessForm,
+    },
+  )
+  .post(
+    "/hours",
+    async ({ body: { businessHours } }) => {
+      console.log(businessHours);
+      // DB Insert now!
+    },
+    {
+      transform: ({ body }) => {
+        const bodyEntries = Object.entries(body!);
+        const businessHours: any = [];
+        const days = [0, 1, 2, 3, 4, 5, 6];
+        days.forEach((day) => {
+          const [a, b, c, open, d, close] = bodyEntries
+            .filter(([a, _]) => a.includes(day.toString()))
+            .flat();
+
+          if (open)
+            businessHours.push({
+              business: parseInt(body.business),
+              day,
+              open,
+              close,
+            });
+        });
+        for (const key in body) {
+          delete body[key];
+        }
+        Object.assign(body, { businessHours });
+      },
+      body: t.Object({ businessHours: t.Array(insertBusinessHours) }),
     },
   );
 
