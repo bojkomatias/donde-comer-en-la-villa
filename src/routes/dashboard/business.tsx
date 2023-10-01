@@ -24,6 +24,10 @@ import { BusinessEdit } from "@/modules/business/business-edit";
 import { nextURL, querySearchParams } from "@/ui/data-table/utils";
 import { insertBusinessHours } from "@/db/schema/business-hours";
 import { BusinessHours } from "@/modules/business/business-hours";
+import {
+  getBusinessHoursByBusiness,
+  upsertBusinessHours,
+} from "@/services/business-hours";
 
 const business = new Elysia({
   name: "business",
@@ -177,11 +181,19 @@ const business = new Elysia({
     );
   })
   .get("/:id/hours", async ({ JWTUser, headers, params: { id } }) => {
+    const bhs = await getBusinessHoursByBusiness(parseInt(id));
+    console.log(bhs);
     return headers["hx-request"] ? (
-      <BusinessHours id={parseInt(id)} />
+      <BusinessHours
+        id={parseInt(id)}
+        businessHours={bhs.length > 0 ? bhs : undefined}
+      />
     ) : (
       <DashboardLayout role={JWTUser!.role}>
-        <BusinessHours id={parseInt(id)} />
+        <BusinessHours
+          id={parseInt(id)}
+          businessHours={bhs.length > 0 ? bhs : undefined}
+        />
       </DashboardLayout>
     );
   })
@@ -244,9 +256,27 @@ const business = new Elysia({
   )
   .post(
     "/hours",
-    async ({ body: { businessHours } }) => {
+    async ({ body: { businessHours }, set }) => {
       console.log(businessHours);
       // DB Insert now!
+      const ra = await upsertBusinessHours(businessHours);
+      if (!ra) {
+        set.status = 403;
+        return (
+          <Notification
+            isError
+            title="Error"
+            description="Ocurrió un error al actualizar tus horarios de atención"
+          />
+        );
+      }
+
+      return (
+        <Notification
+          title="Horarios configurados"
+          description="Se actualizaron tus horarios de atención"
+        />
+      );
     },
     {
       transform: ({ body }) => {
@@ -255,17 +285,17 @@ const business = new Elysia({
         const days = [0, 1, 2, 3, 4, 5, 6];
         days.forEach((day) => {
           // @ts-ignore
-          const [a, b, c, open, d, close] = bodyEntries
+          const [a, b, c, opens, d, closes] = bodyEntries
             .filter(([a, _]) => a.includes(day.toString()))
             .flat();
 
-          if (open)
+          if (opens)
             businessHours.push({
               // @ts-ignore I know what the form returns, mapping it here
               business: parseInt(body.business),
               day,
-              open,
-              close,
+              opens,
+              closes,
             });
         });
         for (const key in body) {

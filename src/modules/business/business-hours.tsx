@@ -1,4 +1,5 @@
 import { SelectBusinessHours } from "@/db/schema/business-hours";
+import { BackButton } from "@/ui/back-button";
 import { Button } from "@/ui/button";
 import Card from "@/ui/card";
 import { DashboardHeading } from "@/ui/dashboard/heading";
@@ -30,6 +31,7 @@ export const BusinessHours = ({
   <div hx-target="this">
     <DashboardHeading title={dict.get("yourBusiness")} />
     <DashboardContent>
+      <BackButton />
       <Card>
         <Card.Header>
           <Card.Title>{dict.get("businessHours")}</Card.Title>
@@ -38,7 +40,11 @@ export const BusinessHours = ({
           </Card.Description>
         </Card.Header>
 
-        <form hx-post="/d/business/hours" hx-swap="none">
+        <form
+          hx-post="/d/business/hours"
+          hx-swap="none"
+          hx-target-4xx="#notification"
+        >
           <input type="hidden" name="business" value={id.toString()} />
           <Card.Content>
             {days.map(({ day, label }) => (
@@ -47,6 +53,7 @@ export const BusinessHours = ({
                   type="checkbox"
                   name={`${day}`}
                   label={label}
+                  checked={!!businessHours?.find((e) => e.day === day)}
                   value="true"
                   inputClass="top-5"
                   labelClass="mb-3.5"
@@ -55,7 +62,7 @@ export const BusinessHours = ({
                     day === 0 && "rounded-tl-lg",
                     day === 6 && "rounded-bl-lg",
                   )}
-                  _={`on change toggle @disabled='true' on <input/> in next <fieldset/> `}
+                  _={`on change toggle @disabled='true' on <input/> in next <fieldset/>`}
                 />
                 <fieldset class="flex flex-grow -space-x-px">
                   <Input
@@ -63,8 +70,9 @@ export const BusinessHours = ({
                     label="Hora de apertura"
                     type="time"
                     class="flex-grow"
-                    disabled={true}
+                    disabled={!businessHours?.find((e) => e.day === day)}
                     required="true"
+                    value={businessHours?.find((e) => e.day === day)?.opens}
                   />
                   <Input
                     name={`close-${day}`}
@@ -75,15 +83,16 @@ export const BusinessHours = ({
                       day === 0 && "rounded-tr-lg",
                       day === 6 && "rounded-br-lg",
                     )}
-                    disabled={true}
+                    disabled={!businessHours?.find((e) => e.day === day)}
                     required="true"
+                    value={businessHours?.find((e) => e.day === day)?.closes}
                   />
                 </fieldset>
               </div>
             ))}
           </Card.Content>
-          <Card.Footer>
-            <Button intent="primary">Save</Button>
+          <Card.Footer class="flex justify-end">
+            <Button intent="primary">{dict.get("save")}</Button>
           </Card.Footer>
         </form>
       </Card>

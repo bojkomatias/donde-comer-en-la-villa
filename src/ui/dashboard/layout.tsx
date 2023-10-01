@@ -42,7 +42,7 @@ const Tabs = ({ role }: { role: Role }) => (
               hx-target="#dashboard-content"
               hx-swap="innerHTML"
               size="sm"
-              _="init if window.location.pathname === @hx-get then add .navigation-indicator end
+              _="init if window.location.pathname contains @hx-get then add .navigation-indicator end
               on htmx:afterOnLoad tell the target take .navigation-indicator"
             >
               <i class={item.icon} aria-hidden="true" />
