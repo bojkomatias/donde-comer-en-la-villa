@@ -19,17 +19,28 @@ export const BusinessView = ({
   return (
     <div hx-target="this">
       <DashboardHeading
-        title={dict.get("business")}
+        title={dict.get("yourBusiness")}
         action={
-          <Button
-            hx-get={`/d/business/${business.id}/edit`}
-            hx-push-url="true"
-            intent="primary"
-            size="sm"
-            preload
-          >
-            Editar
-          </Button>
+          <span class="space-x-1.5">
+            <Button
+              hx-get={`/d/business/${business.id}/hours`}
+              hx-push-url="true"
+              intent="primary"
+              size="sm"
+              preload
+            >
+              {dict.get("businessHours")}
+            </Button>
+            <Button
+              hx-get={`/d/business/${business.id}/edit`}
+              hx-push-url="true"
+              intent="primary"
+              size="sm"
+              preload
+            >
+              {dict.get("edit")}
+            </Button>
+          </span>
         }
       />
       <DashboardContent>

@@ -32,8 +32,8 @@ dict.set("user", "Usuario");
 dict.set("users", "Usuarios");
 dict.set("profile", "Perfil");
 dict.set("settings", "Configuración");
-dict.set("business", "Negocio");
-dict.set("businesses", "Negocios");
+dict.set("business", "Local");
+dict.set("businesses", "Locales");
 dict.set("tag", "Categoría");
 dict.set("tags", "Categorías");
 dict.set("dashboard", "Panel");
@@ -51,3 +51,8 @@ dict.set("logout", "Salir");
 
 // Extra cols
 dict.set("ownerName", "Propietario");
+dict.set("yourBusiness", "Tu local");
+dict.set("businessHours", "Horarios de atención");
+dict.set("bHours", "Horarios");
+dict.set("opens", "Abre");
+dict.set("closes", "Cierra");

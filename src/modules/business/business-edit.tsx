@@ -86,12 +86,6 @@ export const BusinessEdit = ({
                 value={business.instagram || ""}
               />
               <Input
-                name="webpage"
-                type="url"
-                placeholder="https://www.matiasbojko.com"
-                value={business.webpage || ""}
-              />
-              <Input
                 name="tags"
                 required="true"
                 options={tags}

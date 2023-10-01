@@ -161,7 +161,7 @@ export function DataRows<T>({
                   <Dropdown.Trigger intent="ghost" size="icon-sm">
                     <i class="i-lucide-more-horizontal" />
                   </Dropdown.Trigger>
-                  <Dropdown.Content position="right-top" class="w-28">
+                  <Dropdown.Content position="right-top" class="w-fit">
                     {actions.map(
                       (action) =>
                         action(d) && (

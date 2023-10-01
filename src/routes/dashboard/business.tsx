@@ -23,6 +23,7 @@ import { BusinessNew } from "@/modules/business/business-new";
 import { BusinessEdit } from "@/modules/business/business-edit";
 import { nextURL, querySearchParams } from "@/ui/data-table/utils";
 import { insertBusinessHours } from "@/db/schema/business-hours";
+import { BusinessHours } from "@/modules/business/business-hours";
 
 const business = new Elysia({
   name: "business",
@@ -175,6 +176,15 @@ const business = new Elysia({
       </DashboardLayout>
     );
   })
+  .get("/:id/hours", async ({ JWTUser, headers, params: { id } }) => {
+    return headers["hx-request"] ? (
+      <BusinessHours id={parseInt(id)} />
+    ) : (
+      <DashboardLayout role={JWTUser!.role}>
+        <BusinessHours id={parseInt(id)} />
+      </DashboardLayout>
+    );
+  })
   .post(
     "/",
     async ({ body, set, JWTUser }) => {
@@ -244,12 +254,14 @@ const business = new Elysia({
         const businessHours: any = [];
         const days = [0, 1, 2, 3, 4, 5, 6];
         days.forEach((day) => {
+          // @ts-ignore
           const [a, b, c, open, d, close] = bodyEntries
             .filter(([a, _]) => a.includes(day.toString()))
             .flat();
 
           if (open)
             businessHours.push({
+              // @ts-ignore I know what the form returns, mapping it here
               business: parseInt(body.business),
               day,
               open,
@@ -257,6 +269,7 @@ const business = new Elysia({
             });
         });
         for (const key in body) {
+          // @ts-ignore Need to use same body obj ...
           delete body[key];
         }
         Object.assign(body, { businessHours });
