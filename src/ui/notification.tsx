@@ -13,7 +13,7 @@ export const Notification = ({
     <div
       id="notification"
       hx-swap-oob="true"
-      class="fixed right-8 top-16 z-50 w-full max-w-sm translate-x-full overflow-hidden rounded-lg bg-white opacity-0 shadow-lg ring-1 ring-gray-200 dark:bg-gray-950 dark:shadow-black dark:ring-gray-800"
+      class="fixed right-8 top-16 z-30 w-full max-w-sm translate-x-full overflow-hidden rounded-lg bg-white opacity-0 shadow-lg ring-1 ring-gray-200 dark:bg-gray-950 dark:shadow-black dark:ring-gray-800"
       _="init toggle .transition on me wait then toggle .opacity-0 .translate-x-full on me end
       init wait 4s then toggle .opacity-0 .translate-x-full on me settle then hide me end
       on close toggle .opacity-0 .translate-x-full on me settle then hide me end"

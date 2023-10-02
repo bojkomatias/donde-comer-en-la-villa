@@ -1,4 +1,4 @@
-import { BusinessWithOwner } from "@/services/business";
+import { BusinessWithRelations } from "@/services/business";
 import { BackButton } from "@/ui/back-button";
 import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
@@ -7,29 +7,41 @@ import { DashboardHeading } from "@/ui/dashboard/heading";
 import { DashboardContent } from "@/ui/dashboard/wrapper";
 import Details from "@/ui/detail-list";
 import { cx } from "@/utils/cx";
+import { dayNumberToText } from "@/utils/date-helpers";
 import { dict } from "@/utils/dictionary";
 
 export const BusinessView = ({
   business,
   asAdmin,
 }: {
-  business: BusinessWithOwner;
+  business: BusinessWithRelations;
   asAdmin?: boolean;
 }) => {
   return (
     <div hx-target="this">
       <DashboardHeading
-        title={dict.get("business")}
+        title={dict.get("yourBusiness")}
         action={
-          <Button
-            hx-get={`/d/business/${business.id}/edit`}
-            hx-push-url="true"
-            intent="primary"
-            size="sm"
-            preload
-          >
-            Editar
-          </Button>
+          <span class="space-x-1.5">
+            <Button
+              hx-get={`/d/business/${business.id}/hours`}
+              hx-push-url="true"
+              intent="primary"
+              size="sm"
+              preload
+            >
+              {dict.get("businessHours")}
+            </Button>
+            <Button
+              hx-get={`/d/business/${business.id}/edit`}
+              hx-push-url="true"
+              intent="primary"
+              size="sm"
+              preload
+            >
+              {dict.get("edit")}
+            </Button>
+          </span>
         }
       />
       <DashboardContent>
@@ -85,6 +97,26 @@ export const BusinessView = ({
                 <Details.Description class="gap-x-1 overflow-x-auto pb-px">
                   {typeof business.tags === "string" &&
                     business.tags.split(",").map((t) => <Badge>{t}</Badge>)}
+                </Details.Description>
+              </Details.Detail>
+              <Details.Detail>
+                <Details.Term>{dict.get("bHours")}</Details.Term>
+                <Details.Description class="flex-col items-start">
+                  {business.businessHours.map((e) => (
+                    <div class="flex gap-1.5">
+                      <span class="text-accent-foreground">
+                        {dayNumberToText[e.day]}
+                      </span>
+                      de
+                      <span class="font-medium text-accent-foreground">
+                        {e.opens}
+                      </span>
+                      a
+                      <span class="font-medium text-accent-foreground">
+                        {e.closes}
+                      </span>
+                    </div>
+                  ))}
                 </Details.Description>
               </Details.Detail>
               {asAdmin && (

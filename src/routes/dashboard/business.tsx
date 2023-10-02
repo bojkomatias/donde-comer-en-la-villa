@@ -1,6 +1,6 @@
 import setup from "@/routes/(setup)";
 import { businessSchema, insertBusinessForm } from "@/db/schema/business";
-import Elysia from "elysia";
+import Elysia, { t } from "elysia";
 import { Value } from "@sinclair/typebox/value";
 import { Static } from "@sinclair/typebox";
 import { DashboardLayout } from "@/ui/dashboard/layout";
@@ -8,9 +8,8 @@ import { Notification } from "@/ui/notification";
 import {
   createBusiness,
   getBusinessById,
-  getBusinessByIdWithOwner,
+  getBusinessWithRelations,
   getBusinesses,
-  getBusinessesAsOwner,
   updateBusiness,
 } from "@/services/business";
 import { getUsersForSelector } from "@/services/user";
@@ -22,6 +21,12 @@ import { BusinessView } from "@/modules/business/business-view";
 import { BusinessNew } from "@/modules/business/business-new";
 import { BusinessEdit } from "@/modules/business/business-edit";
 import { nextURL, querySearchParams } from "@/ui/data-table/utils";
+import { insertBusinessHours } from "@/db/schema/business-hours";
+import { BusinessHours } from "@/modules/business/business-hours";
+import {
+  getBusinessHoursByBusiness,
+  upsertBusinessHours,
+} from "@/services/business-hours";
 
 const business = new Elysia({
   name: "business",
@@ -29,11 +34,6 @@ const business = new Elysia({
 })
   .use(setup)
   .get("/", async ({ JWTUser, headers, set }) => {
-    if (JWTUser?.role === "owner") {
-      const [business] = await getBusinessesAsOwner(parseInt(JWTUser.id));
-      return <BusinessView business={business} />;
-    }
-
     const businesses = await getBusinesses({});
     /**
      * For different hx-targets responses might be different,
@@ -68,7 +68,7 @@ const business = new Elysia({
     },
   )
   .get("/:id", async ({ JWTUser, headers, params: { id } }) => {
-    const business = await getBusinessByIdWithOwner(parseInt(id));
+    const business = await getBusinessWithRelations(parseInt(id));
 
     return headers["hx-request"] ? (
       <BusinessView business={business} asAdmin={JWTUser?.role === "admin"} />
@@ -94,7 +94,7 @@ const business = new Elysia({
         );
       }
 
-      const business = await getBusinessByIdWithOwner(parseInt(id));
+      const business = await getBusinessWithRelations(parseInt(id));
 
       return (
         <>
@@ -174,6 +174,22 @@ const business = new Elysia({
       </DashboardLayout>
     );
   })
+  .get("/:id/hours", async ({ JWTUser, headers, params: { id } }) => {
+    const bhs = await getBusinessHoursByBusiness(parseInt(id));
+    return headers["hx-request"] ? (
+      <BusinessHours
+        id={parseInt(id)}
+        businessHours={bhs.length > 0 ? bhs : undefined}
+      />
+    ) : (
+      <DashboardLayout role={JWTUser!.role}>
+        <BusinessHours
+          id={parseInt(id)}
+          businessHours={bhs.length > 0 ? bhs : undefined}
+        />
+      </DashboardLayout>
+    );
+  })
   .post(
     "/",
     async ({ body, set, JWTUser }) => {
@@ -190,18 +206,6 @@ const business = new Elysia({
         );
       }
 
-      if (JWTUser!.role !== "admin") {
-        const [business] = await getBusinessesAsOwner(parseInt(JWTUser!.id));
-        return (
-          <>
-            <Notification
-              title="Negocio creado"
-              description="Se le notificará a los administradores para que lo habiliten pronto"
-            />
-            <BusinessView business={business} />
-          </>
-        );
-      }
       const businesses = await getBusinesses({});
       return (
         <>
@@ -229,6 +233,67 @@ const business = new Elysia({
         body.tags = [body.tags].flat().map((e: any) => JSON.parse(e));
       },
       body: insertBusinessForm,
+    },
+  )
+  // Post the business hours!
+  .post(
+    "/:id",
+    async ({ JWTUser, body: { businessHours }, set }) => {
+      const ra = await upsertBusinessHours(businessHours);
+      if (!ra[0]) {
+        set.status = 403;
+        return (
+          <Notification
+            isError
+            title="Error"
+            description="Ocurrió un error al actualizar tus horarios de atención"
+          />
+        );
+      }
+
+      const business = await getBusinessWithRelations(ra[0].id);
+
+      set.redirect = `/d/business/${ra[0].id}`;
+      return (
+        <>
+          <Notification
+            title="Horarios configurados"
+            description="Se actualizaron tus horarios de atención"
+          />
+          <BusinessView
+            business={business}
+            asAdmin={JWTUser?.role === "admin"}
+          />
+        </>
+      );
+    },
+    {
+      transform: ({ body }) => {
+        const bodyEntries = Object.entries(body!);
+        const businessHours: any = [];
+        const days = [0, 1, 2, 3, 4, 5, 6];
+        days.forEach((day) => {
+          // @ts-ignore
+          const [a, b, c, opens, d, closes] = bodyEntries
+            .filter(([a, _]) => a.includes(day.toString()))
+            .flat();
+
+          if (opens)
+            businessHours.push({
+              // @ts-ignore I know what the form returns, mapping it here
+              business: parseInt(body.business),
+              day,
+              opens,
+              closes,
+            });
+        });
+        for (const key in body) {
+          // @ts-ignore Need to use same body obj ...
+          delete body[key];
+        }
+        Object.assign(body, { businessHours });
+      },
+      body: t.Object({ businessHours: t.Array(insertBusinessHours) }),
     },
   );
 

@@ -67,7 +67,7 @@
     @apply bg-accent shadow-inner shadow-muted-foreground/50 ring-1 ring-inset ring-border dark:shadow-black;
   }
   .navigation-indicator {
-    @apply text-foreground after:absolute after:inset-x-2 after:-bottom-1.5 after:z-50 after:h-0.5 after:rounded-lg after:bg-ring;
+    @apply text-foreground after:absolute after:inset-x-2 after:-bottom-1.5 after:z-10 after:h-0.5 after:rounded-lg after:bg-ring;
   }
   .dropdown {
     @apply hidden;

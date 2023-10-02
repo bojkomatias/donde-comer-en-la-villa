@@ -29,12 +29,15 @@ const columns: Column<DataType>[] = [
   },
   {
     accessor: "phone",
+    hidden: true,
   },
   {
     accessor: "address",
+    hidden: true,
   },
   {
     accessor: "instagram",
+    hidden: true,
   },
   {
     accessor: "ownerName",
@@ -63,6 +66,11 @@ const actions: Action<DataType>[] = [
   ({ id }) => ({
     children: dict.get("view"),
     "hx-get": `/d/business/${id}`,
+    "hx-push-url": "true",
+  }),
+  ({ id }) => ({
+    children: dict.get("bHours"),
+    "hx-get": `/d/business/${id}/hours`,
     "hx-push-url": "true",
   }),
   ({ id }) => ({

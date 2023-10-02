@@ -6,13 +6,15 @@ export const Search = () => {
       id="search"
       name="search"
       placeholder="Busca locales, comidas ..."
-      hx-get="/search"
+      hx-get="/q"
+      hx-vals='{"today":"true"}'
       hx-trigger="keyup changed delay:500ms, search"
       hx-target="#results"
       hx-swap="outerHTML"
       hx-include="this"
       key="k"
-      class="mx-1 sm:mx-4 lg:mr-0"
+      // class to listen to changes on business hours change
+      class="query-listener flex-grow"
     />
   );
 };

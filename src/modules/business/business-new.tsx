@@ -71,11 +71,7 @@ export const BusinessNew = ({
                 placeholder="matibojko"
                 class="flex-grow first-of-type:rounded-t-none"
               />
-              <Input
-                name="webpage"
-                type="url"
-                placeholder="https://www.janedoe.com"
-              />
+
               <Input
                 name="tags"
                 options={tags}
@@ -92,7 +88,6 @@ export const BusinessNew = ({
                   // HTML if not set value string sets "on" by default
                   value="true"
                   class="flex-grow"
-                  rt
                 />
                 <Input
                   name="enabled"
@@ -100,7 +95,6 @@ export const BusinessNew = ({
                   // HTML if not set value string sets "on" by default
                   value="true"
                   class="flex-grow"
-                  rb
                 />
               </span>
               <Input
