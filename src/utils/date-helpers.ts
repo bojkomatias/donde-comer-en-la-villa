@@ -1,3 +1,7 @@
+export const relativeTime = new Intl.RelativeTimeFormat("es", {
+  style: "short",
+});
+
 export const dayNumberToText = {
   0: "Domingo",
   1: "Lunes",

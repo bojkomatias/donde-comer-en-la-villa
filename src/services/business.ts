@@ -12,7 +12,9 @@ import {
   desc,
   eq,
   getTableColumns,
+  gt,
   like,
+  lte,
   or,
   sql,
 } from "drizzle-orm";
@@ -22,37 +24,46 @@ import { QuerySearchParams, pageLimit } from "@/ui/data-table/utils";
 import { SelectBusinessHours, businessHours } from "@/db/schema/business-hours";
 
 // MARKETING
-export async function getInitialBusinesses() {
+type Query = { search?: string; tag?: number; open?: "true"; today?: "true" };
+export async function getBusinessesQuery(q?: Query) {
   const columns = getTableColumns(business);
+
+  const today = new Date().getDay();
+  const now = `${new Date().getHours()}:${new Date().getMinutes()}:00`;
+
   return await db
     .select({
       ...columns,
-      reviews: sql<number | null>`avg(${review.qualification})`,
+      reviews: sql<number>`avg(${review.qualification})`,
+      // Gets only the one with today
+      businessHours,
     })
-    .from(business)
-    .where(eq(business.enabled, true))
-    .leftJoin(review, eq(review.business, business.id))
-    .orderBy(business.featured)
-    .groupBy(business.id);
-}
-
-export async function getBusinessesQuery(q: string) {
-  const columns = getTableColumns(business);
-
-  return await db
-    .select({ ...columns, reviews: sql<number>`avg(${review.qualification})` })
     .from(business)
     .where(
       and(
-        or(
-          like(business.name, `%${q}%`),
-          like(business.instagram, `%${q}%`),
-          like(business.tags, `%${q}%`),
-        ),
+        q?.search
+          ? or(
+              like(business.name, `%${q.search}%`),
+              like(business.instagram, `%${q.search}%`),
+              like(business.tags, `%${q.search}%`),
+            )
+          : undefined,
+        q?.tag ? eq(tagToBusiness.tagId, q.tag) : undefined,
+        q?.open
+          ? and(
+              eq(businessHours.day, today),
+              lte(businessHours.opens, now),
+              gt(businessHours.closes, now),
+            )
+          : undefined,
+        q?.today ? eq(businessHours.day, today) : undefined,
         eq(business.enabled, true),
       ),
     )
+    .leftJoin(tagToBusiness, eq(tagToBusiness.businessId, business.id))
+    .leftJoin(businessHours, eq(businessHours.business, business.id))
     .leftJoin(review, eq(review.business, business.id))
+    .orderBy(business.featured)
     .groupBy(business.id);
 }
 

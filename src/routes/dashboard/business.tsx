@@ -176,7 +176,6 @@ const business = new Elysia({
   })
   .get("/:id/hours", async ({ JWTUser, headers, params: { id } }) => {
     const bhs = await getBusinessHoursByBusiness(parseInt(id));
-    console.log(bhs);
     return headers["hx-request"] ? (
       <BusinessHours
         id={parseInt(id)}

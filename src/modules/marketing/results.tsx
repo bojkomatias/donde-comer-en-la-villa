@@ -4,11 +4,16 @@ import { buttonStyles } from "@/ui/button";
 import Card from "@/ui/card";
 import { EmptyState } from "@/ui/empty-state";
 import { Review } from "./reviews";
+import { SelectBusinessHours } from "@/db/schema/business-hours";
+import { OpensIn } from "./opens-in";
 
 export const Results = ({
   businesses,
 }: {
-  businesses: (SelectBusiness & { reviews: number | null })[];
+  businesses: (SelectBusiness & {
+    reviews: number | null;
+    businessHours: SelectBusinessHours | null;
+  })[];
 }) => {
   return (
     <div id="results">
@@ -30,7 +35,10 @@ export const Results = ({
 const BusinessItem = ({
   business,
 }: {
-  business: SelectBusiness & { reviews: number | null };
+  business: SelectBusiness & {
+    reviews: number | null;
+    businessHours: SelectBusinessHours | null;
+  };
 }) => (
   <Card class="flex flex-col">
     <Card.Header class="flex-row gap-6 p-3 pb-0">
@@ -41,8 +49,9 @@ const BusinessItem = ({
         class="float-left h-20 w-20 rounded-full pb-1 pr-1"
       />
       <div class="flex-grow">
-        <div class="flex">
+        <div class="flex items-center">
           <Card.Title class="flex-grow">{business.name}</Card.Title>
+          <OpensIn businessHours={business.businessHours} />
           <Review avgReviews={business.reviews} />
         </div>
         <Card.Description class="-mt-1 leading-4">

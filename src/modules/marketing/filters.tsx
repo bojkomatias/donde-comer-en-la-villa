@@ -5,8 +5,8 @@ import { cx } from "@/utils/cx";
 
 export const Filters = ({ tags }: { tags: SelectTag[] }) => {
   return (
-    <div class="relative h-10 px-1 sm:px-4 lg:col-span-2 lg:pl-2">
-      <div class="absolute inset-0 -z-10 mx-1 rounded-lg bg-card ring-1 ring-inset ring-border sm:mx-4 lg:ml-2" />
+    <div class="relative h-10 px-1 sm:px-4">
+      <div class="absolute inset-0 -z-10 mx-1 rounded-lg bg-card ring-1 ring-inset ring-border sm:mx-4" />
       <div
         class="mx-1 flex h-full items-center gap-3 overflow-auto px-1"
         _="on removeI tell <button /> in me remove .tag-indicator"
@@ -18,7 +18,8 @@ export const Filters = ({ tags }: { tags: SelectTag[] }) => {
           {tags.map((tag, i) => (
             <Hover.Item class="mt-0.5">
               <Button
-                hx-get={`/filter?tag=${tag.id}`}
+                hx-get={`/q?tag=${tag.id}`}
+                hx-vals='{"today":"true"}'
                 hx-target="#results"
                 hx-swap="outerHTML"
                 id={
@@ -36,7 +37,8 @@ export const Filters = ({ tags }: { tags: SelectTag[] }) => {
                   "on click send removeI to closest <div /> wait then add .tag-indicator on me end",
                 )}
                 size="sm"
-                class="capitalize"
+                // class to listen to changes on business hours change
+                class="query-listener capitalize"
                 preload
               >
                 {tag.name}
@@ -49,7 +51,7 @@ export const Filters = ({ tags }: { tags: SelectTag[] }) => {
       <Button
         id="left-chevron"
         size="icon"
-        class="absolute inset-y-0 left-1 flex h-10 w-12 items-center justify-center rounded-lg rounded-r-none border-y border-l bg-gradient-to-r from-background from-50% to-transparent sm:left-4 lg:left-2"
+        class="absolute inset-y-0 left-1 flex h-10 w-12 items-center justify-center rounded-lg rounded-r-none border-y border-l border-border bg-gradient-to-r from-background from-50% to-transparent sm:left-4"
         _="on click go to middle left of #first-tag smoothly"
       >
         <i class="i-lucide-chevron-left h-5 w-5" />
@@ -58,11 +60,34 @@ export const Filters = ({ tags }: { tags: SelectTag[] }) => {
       <Button
         id="right-chevron"
         size="icon"
-        class="absolute inset-y-0 right-1 flex h-10 w-12 items-center justify-center rounded-lg rounded-l-none border-y border-r bg-gradient-to-l from-background from-50% to-transparent sm:right-4"
+        class="absolute inset-y-0 right-1 flex h-10 w-12 items-center justify-center rounded-lg rounded-l-none border-y border-r border-border bg-gradient-to-l from-background from-50% to-transparent sm:right-4"
         _="on click go to middle right of #last-tag smoothly"
       >
         <i class="i-lucide-chevron-right h-5 w-5" />
       </Button>
+    </div>
+  );
+};
+
+export const ClearFilters = ({ tag }: { tag?: number }) => {
+  if (!tag) return <div id="clear-filters" hx-swap-oob="true" />;
+
+  return (
+    <div
+      id="clear-filters"
+      hx-get="/q"
+      hx-target="#results"
+      hx-swap="outerHTML"
+      hx-swap-oob="true"
+      class={cx(
+        "mr-1 flex h-full cursor-pointer items-center justify-center rounded p-1.5 font-light text-muted-foreground hover:bg-muted",
+        !tag && "hidden",
+        "query-listener",
+      )}
+      _="on click send removeI to closest <div />"
+      title="Limpiar filtros"
+    >
+      <i class="i-lucide-x h-3.5 w-3.5" />
     </div>
   );
 };

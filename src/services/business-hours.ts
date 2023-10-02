@@ -1,7 +1,37 @@
 import { db } from "@/db";
 import { InsertBusinessHours, businessHours } from "@/db/schema/business-hours";
-import { eq } from "drizzle-orm";
+import { and, between, eq, gt, gte, lte, sql } from "drizzle-orm";
 
+// MARKETING
+export async function getBusinessesOpenToday() {
+  const today = new Date().getDay();
+  const r = await db
+    .select()
+    .from(businessHours)
+    .where(eq(businessHours.day, today));
+
+  return r;
+}
+
+export async function getBusinessesOpenNow() {
+  const today = new Date().getDay();
+  const now = `${new Date().getHours()}:${new Date().getMinutes()}:00`;
+
+  const r = await db
+    .select()
+    .from(businessHours)
+    .where(
+      and(
+        eq(businessHours.day, today),
+        lte(businessHours.opens, now),
+        gt(businessHours.closes, now),
+      ),
+    );
+
+  return r;
+}
+
+// DASHBOARD
 export async function getBusinessHoursByBusiness(id: number) {
   return await db
     .select()

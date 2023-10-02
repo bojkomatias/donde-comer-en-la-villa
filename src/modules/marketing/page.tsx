@@ -3,6 +3,8 @@ import { Search } from "./search";
 import { Filters } from "./filters";
 import { Results } from "./results";
 import { SelectBusiness } from "@/db/schema/business";
+import { SelectBusinessHours } from "@/db/schema/business-hours";
+import { OpenFilter } from "./open-filter";
 
 /** Refers to Landing page as in '/' app entry point */
 const Marketing = ({
@@ -10,7 +12,10 @@ const Marketing = ({
   initialData,
 }: {
   tags: SelectTag[];
-  initialData: (SelectBusiness & { reviews: number | null })[];
+  initialData: (SelectBusiness & {
+    reviews: number | null;
+    businessHours: SelectBusinessHours | null;
+  })[];
 }) => (
   <>
     <h1 class="mx-auto mt-12 max-w-xl select-none text-center font-heading text-2xl font-black leading-relaxed sm:text-4xl">
@@ -20,12 +25,16 @@ const Marketing = ({
       Caíste al lugar correcto. ¿Qué querés comer?
     </h2>
 
-    <div class="mt-4 space-y-2 lg:grid lg:grid-cols-3 lg:space-y-0">
+    {/* <div class="mt-4 space-y-2 lg:grid lg:grid-cols-3 lg:space-y-0"> */}
+    <div class="mx-1 mb-2 flex gap-2 sm:mx-4">
       {/* Search bar */}
       <Search />
-      {/* Tag filters */}
-      <Filters tags={tags} />
+      {/* Open filter */}
+      <OpenFilter />
     </div>
+    {/* Tag filters */}
+    <Filters tags={tags} />
+    {/* </div> */}
 
     {/* List of businesses */}
     <Results businesses={initialData} />
