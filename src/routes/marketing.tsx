@@ -41,7 +41,7 @@ const marketing = new Elysia({
 
             return (
               <>
-                <ClearFilters tag={query.tag} /> 
+                <ClearFilters tag={query.tag} />
                 <Results businesses={businesses} />
               </>
             );
