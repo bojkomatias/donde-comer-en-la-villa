@@ -1,7 +1,5 @@
 import { SelectBusinessHours } from "@/db/schema/business-hours";
 import { Badge } from "@/ui/badge";
-import { relativeTime } from "@/utils/date-helpers";
-import { open } from "fs";
 
 export const OpensIn = ({
   businessHours,
@@ -33,5 +31,8 @@ export const OpensIn = ({
       <Badge class="text-accent-foreground">Abre {businessHours.opens} </Badge>
     );
 
-  return <Badge class="text-muted-foreground">Hoy cerrado</Badge>;
+  if (businessHours.day !== today)
+    return <Badge class="text-muted-foreground">Hoy cerrado</Badge>;
+
+  return <></>;
 };
