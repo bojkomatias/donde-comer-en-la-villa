@@ -27,7 +27,7 @@ if (Bun.env.GOOGLE_CLIENT_SECRET === undefined)
 
 const setup = new Elysia({ name: "setup" })
   .use(html())
-  // .use(helmet()) // Revisit and configure later on
+  .use(helmet({ contentSecurityPolicy: false }))
   .use(cookie())
   .use(
     jwt({
