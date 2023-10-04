@@ -52,7 +52,7 @@ export function Input({ options, ...props }: Props) {
           class={cx(
             "peer block w-full border-0 bg-transparent p-0 text-sm text-foreground placeholder:font-light placeholder:text-muted-foreground focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50 sm:leading-loose",
             props.type == "checkbox" &&
-              "absolute left-3 top-2 h-5 w-5 rounded-sm !border-none !bg-transparent !bg-none after:i-ic-round-check-box-outline-blank checked:after:i-ic-round-check-box after:!h-5 after:!w-5 focus:ring-[1.6px] focus:ring-inset focus:ring-ring focus:ring-offset-0",
+              "absolute left-3 top-2.5 mt-px h-3.5 w-3.5 rounded-sm border border-border text-foreground focus:ring-2 focus:ring-border focus:ring-offset-background dark:text-muted",
             props.inputClass,
           )}
           safe
