@@ -64,17 +64,29 @@ const columns: Column<DataType>[] = [
 
 const actions: Action<DataType>[] = [
   ({ id }) => ({
-    children: dict.get("view"),
+    children: (
+      <>
+        {dict.get("view")} <i class="i-lucide-file-text" />
+      </>
+    ),
     "hx-get": `/d/business/${id}`,
     "hx-push-url": "true",
   }),
   ({ id }) => ({
-    children: dict.get("bHours"),
+    children: (
+      <>
+        {dict.get("bHours")} <i class="i-lucide-file-clock" />
+      </>
+    ),
     "hx-get": `/d/business/${id}/hours`,
     "hx-push-url": "true",
   }),
   ({ id }) => ({
-    children: dict.get("edit"),
+    children: (
+      <>
+        {dict.get("edit")} <i class="i-lucide-file-edit" />
+      </>
+    ),
     "hx-get": `/d/business/${id}/edit`,
     "hx-push-url": "true",
   }),
