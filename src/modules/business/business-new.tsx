@@ -43,7 +43,8 @@ export const BusinessNew = ({
             hx-encoding='multipart/form-data'
           >
             <Card.Content>
-              {/* <Input name="name" required="true" placeholder="Burguesía" rt /> */}
+              <Input name="name" // required="true" 
+              placeholder="Burguesía" rt />
               <Input
                 name="description"
                 // required="true"
