@@ -1,5 +1,12 @@
 {
   "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext",
+      "es5",
+      "es6"
+   ],
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
     /* Projects */

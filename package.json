@@ -20,10 +20,12 @@
     "@kitajs/html": "^2.2.2",
     "@kitajs/ts-html-plugin": "^1.0.2",
     "@libsql/client": "^0.3.5-pre.1",
+    "canvas": "^2.11.2",
     "drizzle-orm": "^0.28.6",
     "drizzle-typebox": "^0.1.1",
     "elysia": "^0.6.23",
     "elysia-helmet": "^1.0.1",
+    "filereader": "^0.10.3",
     "image-js": "^0.35.4"
   },
   "devDependencies": {

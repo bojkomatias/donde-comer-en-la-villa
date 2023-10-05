@@ -27,6 +27,7 @@ import {
   getBusinessHoursByBusiness,
   upsertBusinessHours,
 } from "@/services/business-hours";
+import imageResizer from "@/utils/image-resize";
 
 const business = new Elysia({
   name: "business",
@@ -193,31 +194,33 @@ const business = new Elysia({
   .post(
     "/",
     async ({ body, set, JWTUser }) => {
-      const created = await createBusiness(body);
+      // const created = await createBusiness(body);
 
-      if (!created) {
-        set.status = 403;
-        return (
-          <Notification
-            isError
-            title="Error"
-            description="Ocurrió un error al crear el negocio"
-          />
-        );
-      }
+      // if (!created) {
+      //   set.status = 403;
+      //   return (
+      //     <Notification
+      //       isError
+      //       title="Error"
+      //       description="Ocurrió un error al crear el negocio"
+      //     />
+      //   );
+      // }
 
-      const businesses = await getBusinesses({});
-      return (
-        <>
-          <Notification
-            title="Negocio creado"
-            description="Nuevo negocio creado con éxito"
-          />
-          <BusinessTable>
-            <BusinessRows businesses={businesses} next="" />
-          </BusinessTable>
-        </>
-      );
+      // const businesses = await getBusinesses({});
+      // return (
+      //   <>
+      //     <Notification
+      //       title="Negocio creado"
+      //       description="Nuevo negocio creado con éxito"
+      //     />
+      //     <BusinessTable>
+      //       <BusinessRows businesses={businesses} next="" />
+      //     </BusinessTable>
+      //   </>
+      // );
+
+      console.log(body.image)
     },
     {
       transform: ({ body }) => {
@@ -225,6 +228,7 @@ const business = new Elysia({
          * Mostly HTML returns string,
          * Here we convert types with typebox
          */
+        console.log(imageResizer(body.image))
         const c = Value.Convert(insertBusinessForm, body) as Static<
           typeof insertBusinessForm
         >;

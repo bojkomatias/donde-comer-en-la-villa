@@ -23,6 +23,7 @@ export function Input({ options, ...props }: Props) {
         props.class, props.type=="file" && "hover:bg-yellow-50 transition duration-300"
       )}
     >
+      
       {options ? (
         <select
         

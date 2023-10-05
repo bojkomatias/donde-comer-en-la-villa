@@ -40,19 +40,22 @@ export const BusinessNew = ({
             hx-push-url="true"
             hx-target-4xx="#notification"
             autocomplete="off"
+            hx-encoding='multipart/form-data'
           >
             <Card.Content>
-              <Input name="name" required="true" placeholder="Burguesía" rt />
+              {/* <Input name="name" required="true" placeholder="Burguesía" rt /> */}
               <Input
                 name="description"
-                required="true"
+                // required="true"
                 placeholder="Las burgers más burgueses de toda la burguesía"
               />
               <Input
-                _="on change set global imgName to my files[0].name then put my files[0].name into #imageName.innerHTML then remove .hidden from #imageName then remove .hidden from #imageContainer"
+                _="on change put my files[0].name into #imageName.innerHTML then remove .hidden from #imageName then remove .hidden from #imageContainer then log my files end 
+                on change js  document.getElementById('imageContainer').src = URL.createObjectURL(
+                  document.getElementById('image').files[0],
+                );
+                end"
                 name="image"
-                onchange=""
-                required="true"
                 type="file"
                 id="image"
                 accept="image/*"
@@ -60,7 +63,7 @@ export const BusinessNew = ({
               />
               <Input
                 name="phone"
-                required="true"
+                // required="true"
                 type="tel"
                 pattern="[+549]{4}[0-9]{10}"
                 title="Formato de numero como Whatsapp"
@@ -84,7 +87,7 @@ export const BusinessNew = ({
                 name="tags"
                 options={tags}
                 multiple="true"
-                required="true"
+                // required="true"
                 valueIsJson
                 rb={!asAdmin}
               />
