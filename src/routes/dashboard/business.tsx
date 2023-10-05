@@ -33,13 +33,30 @@ const business = new Elysia({
   prefix: "/d/business",
 })
   .use(setup)
+  .onBeforeHandle(({ request, set }) => {
+    if (request.method === "GET") {
+      // Change to false, indicating data is refreshed
+      set.headers["business"] = "false";
+      // Set that the request varies if the headers has changed (on post / put)
+      set.headers["Vary"] = "business, hx-request";
+      // Add cache control
+      set.headers["Cache-Control"] = "public, max-age=300, must-revalidate";
+    }
+    if (request.method === "PUT" || request.method === "POST") {
+      // Change to true, indicating resource is modified
+      set.headers["business"] = "true";
+    }
+  })
   .get("/", async ({ JWTUser, headers, set }) => {
     const businesses = await getBusinesses({});
     /**
      * For different hx-targets responses might be different,
      * Ignore caching if this header/s vary
      */
-    set.headers["Vary"] = "hx-target";
+
+    // Extra varies on TARGET cause navigation is accesible from Dropdown AND from Navbar
+    set.headers["Vary"] = "hx-target, business";
+
     return headers["hx-target"] ? (
       <BusinessTable>
         <BusinessRows businesses={businesses} next="" />
@@ -54,8 +71,9 @@ const business = new Elysia({
   })
   .get(
     "/q",
-    async ({ query }) => {
+    async ({ query, set }) => {
       const businesses = await getBusinesses(query);
+
       return (
         <BusinessRows
           businesses={businesses}
@@ -67,7 +85,7 @@ const business = new Elysia({
       query: querySearchParams(businessSchema),
     },
   )
-  .get("/:id", async ({ JWTUser, headers, params: { id } }) => {
+  .get("/:id", async ({ JWTUser, headers, params: { id }, set }) => {
     const business = await getBusinessWithRelations(parseInt(id));
 
     return headers["hx-request"] ? (
@@ -95,7 +113,6 @@ const business = new Elysia({
       }
 
       const business = await getBusinessWithRelations(parseInt(id));
-
       return (
         <>
           <Notification

@@ -11,6 +11,7 @@
     "db:studio": "bunx drizzle-kit studio"
   },
   "dependencies": {
+    "@bogeychan/elysia-etag": "^0.0.3",
     "@elysiajs/cookie": "^0.7.0",
     "@elysiajs/html": "^0.7.0",
     "@elysiajs/jwt": "^0.7.0",

@@ -11,6 +11,20 @@ const tags = new Elysia({
   prefix: "/d/tag",
 })
   .use(setup)
+  .onBeforeHandle(({ request, set }) => {
+    if (request.method === "GET") {
+      // Change to false, indicating data is refreshed
+      set.headers["tags"] = "false";
+      // Set that the request varies if the headers has changed (on post / put)
+      set.headers["Vary"] = "tags, hx-request";
+      // Add cache control
+      set.headers["Cache-Control"] = "public, max-age=300, must-revalidate";
+    }
+    if (request.method === "PUT" || request.method === "POST") {
+      // Change to true, indicating resource is modified
+      set.headers["tags"] = "true";
+    }
+  })
   .get("/", async ({ JWTUser, headers }) => {
     const tags = await getTags();
 

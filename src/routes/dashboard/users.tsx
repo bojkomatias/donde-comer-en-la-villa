@@ -11,6 +11,20 @@ const users = new Elysia({
   prefix: "/d/users",
 })
   .use(setup)
+  .onBeforeHandle(({ request, set }) => {
+    if (request.method === "GET") {
+      // Change to false, indicating data is refreshed
+      set.headers["users"] = "false";
+      // Set that the request varies if the headers has changed (on post / put)
+      set.headers["Vary"] = "users, hx-request";
+      // Add cache control
+      set.headers["Cache-Control"] = "public, max-age=300, must-revalidate";
+    }
+    if (request.method === "PUT" || request.method === "POST") {
+      // Change to true, indicating resource is modified
+      set.headers["users"] = "true";
+    }
+  })
   .get("/", async ({ headers, set, JWTUser }) => {
     /**
      * For different hx-targets responses might be different,
