@@ -14,15 +14,19 @@ export default async function imageResizer(file: Blob) {
     console.log("Image size:", fileSize * 0.0009765625 + "KB")
     console.log("Factor: ", factor)
 
-    const resizedImage = Image.load(image).then((image) =>
+    const resizedImage = await Image.load(image).then((image) =>
       image.resize({ factor: factor })
     )
-    return (await resizedImage).toBlob()
+
+    console.log("asdkjaslkjdasd")
+    console.log(new Blob([resizedImage.toBuffer()]))
+
+    return new Blob([resizedImage.toBuffer()])
+
+
   }
   else {
-    return Image.load(image).then(image => {
-      return image.toBlob()
-    })
+    return new Blob([image])
   }
 
 }

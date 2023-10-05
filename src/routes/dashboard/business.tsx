@@ -111,7 +111,7 @@ const business = new Elysia({
       );
     },
     {
-      transform: ({ body }) => {
+      transform: async ({ body }) => {
         /** Transformation to match HTML to Insert
          * Mostly HTML returns string,
          * Here we convert types with typebox
@@ -122,6 +122,8 @@ const business = new Elysia({
         // Object assign replaces object content body = c does not
         Object.assign(body, c);
         body.tags = [body.tags].flat().map((e: any) => JSON.parse(e));
+        //Resizes the image to make it lighter
+        body.image = await imageResizer(body.image);
       },
       body: insertBusinessForm,
     },
@@ -130,6 +132,7 @@ const business = new Elysia({
     const tags = await getTags();
     const users = await getUsersForSelector();
     const business = await getBusinessById(parseInt(id));
+   
     // Add tags from relation
     business.tags = (await getTagsByBusinessId(business.id)).map(
       (e) => e.tagId,
@@ -194,47 +197,49 @@ const business = new Elysia({
   .post(
     "/",
     async ({ body, set, JWTUser }) => {
-      // const created = await createBusiness(body);
+      const created = await createBusiness(body);
 
-      // if (!created) {
-      //   set.status = 403;
-      //   return (
-      //     <Notification
-      //       isError
-      //       title="Error"
-      //       description="Ocurrió un error al crear el negocio"
-      //     />
-      //   );
-      // }
+      if (!created) {
+        set.status = 403;
+        return (
+          <Notification
+            isError
+            title="Error"
+            description="Ocurrió un error al crear el negocio"
+          />
+        );
+      }
 
-      // const businesses = await getBusinesses({});
-      // return (
-      //   <>
-      //     <Notification
-      //       title="Negocio creado"
-      //       description="Nuevo negocio creado con éxito"
-      //     />
-      //     <BusinessTable>
-      //       <BusinessRows businesses={businesses} next="" />
-      //     </BusinessTable>
-      //   </>
-      // );
+      const businesses = await getBusinesses({});
+      return (
+        <>
+          <Notification
+            title="Negocio creado"
+            description="Nuevo negocio creado con éxito"
+          />
+          <BusinessTable>
+            <BusinessRows businesses={businesses} next="" />
+          </BusinessTable>
+        </>
+      );
 
-      console.log(body.image)
+    
     },
     {
-      transform: ({ body }) => {
+      transform: async ({ body }) => {
         /** Transformation to match HTML to Insert
          * Mostly HTML returns string,
          * Here we convert types with typebox
          */
-        console.log(imageResizer(body.image))
+
         const c = Value.Convert(insertBusinessForm, body) as Static<
           typeof insertBusinessForm
         >;
         // Object assign replaces object content body = c does not
         Object.assign(body, c);
         body.tags = [body.tags].flat().map((e: any) => JSON.parse(e));
+        //Resizes the image to make it lighter
+        body.image = await imageResizer(body.image);
       },
       body: insertBusinessForm,
     },

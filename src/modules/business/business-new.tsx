@@ -43,11 +43,11 @@ export const BusinessNew = ({
             hx-encoding='multipart/form-data'
           >
             <Card.Content>
-              <Input name="name" // required="true" 
+              <Input name="name" required="true" 
               placeholder="Burguesía" rt />
               <Input
                 name="description"
-                // required="true"
+                required="true"
                 placeholder="Las burgers más burgueses de toda la burguesía"
               />
               <Input
@@ -64,7 +64,7 @@ export const BusinessNew = ({
               />
               <Input
                 name="phone"
-                // required="true"
+                required="true"
                 type="tel"
                 pattern="[+549]{4}[0-9]{10}"
                 title="Formato de numero como Whatsapp"
@@ -88,7 +88,7 @@ export const BusinessNew = ({
                 name="tags"
                 options={tags}
                 multiple="true"
-                // required="true"
+                required="true"
                 valueIsJson
                 rb={!asAdmin}
               />
