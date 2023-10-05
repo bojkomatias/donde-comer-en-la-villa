@@ -137,6 +137,7 @@ export async function createBusiness(
 
   // Transaction to handle rollback if needed
   const result = await db.transaction(async (tx) => {
+    /** r = response */
     const r = await tx
       .insert(business)
       .values({
