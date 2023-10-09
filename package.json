@@ -26,7 +26,8 @@
     "elysia": "^0.6.23",
     "elysia-helmet": "^1.0.1",
     "filereader": "^0.10.3",
-    "image-js": "^0.35.4"
+    "image-js": "^0.35.4",
+    "tailwind-variants": "^0.1.14"
   },
   "devDependencies": {
     "@iconify/json": "^2.2.116",

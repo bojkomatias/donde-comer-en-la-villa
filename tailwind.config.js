@@ -6,24 +6,22 @@ export default {
   content: ["./src/**/*.{html,tsx}"],
   theme: {
     extend: {
-      fontSize: {
-        xs: '0.72rem',
-        sm: '0.83rem',
-        md: '0.90rem',
-      },
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
+        border: "hsl(var(--border) / 0.1)",
+        ring: "hsl(var(--ring)/0.2)",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
         },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
         destructive: {
-          DEFAULT: "hsl(var(--destructive) / <alpha-value>)",
-          foreground: "hsl(var(--destructive-foreground) / <alpha-value>)",
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
@@ -39,9 +37,9 @@ export default {
         },
       },
       borderRadius: {
-        xl: `calc(var(--radius) + 4px)`,
-        lg: `var(--radius)`,
-        md: `calc(var(--radius) - 2px)`,
+        xl: "calc(var(--radius) + 4px)",
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: { sans: ['Outfit', 'sans'], heading: ['Bespoke Stencil', 'sans'] },
@@ -52,9 +50,9 @@ export default {
   },
   plugins: [
     require('@tailwindcss/forms'),
-    iconsPlugin({
-      // Select the icon collections you want to use
-      collections: getIconCollections(["lucide", 'simple-icons', 'ic']),
-    }),
+    // iconsPlugin({
+    //   // Select the icon collections you want to use
+    //   collections: getIconCollections(["lucide", 'simple-icons', 'ic']),
+    // }),
   ],
 };

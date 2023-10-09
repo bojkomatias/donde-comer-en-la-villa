@@ -1,47 +1,33 @@
-import { cx } from "@/utils/cx";
+import { tv } from "tailwind-variants";
 
-export interface ButtonProps extends JSX.HtmlButtonTag {
-  intent?:
-    | "primary"
-    | "secondary"
-    | "outline"
-    | "ghost"
-    | "destructive"
-    | "link";
-  size?: "xs" | "sm" | "lg" | "icon" | "icon-sm";
-  children?: any;
-}
-export const Button = ({ intent, size, children, ...props }: ButtonProps) => {
-  return (
-    <button
-      {...props}
-      class={buttonStyles({ intent, size, class: props.class })}
-    >
-      {children}
-    </button>
-  );
-};
-
-export const buttonStyles = (props: ButtonProps) => {
-  return cx(
-    "group inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-md px-4 py-2 text-md font-medium transition-colors first-letter:capitalize focus-visible:outline focus-visible:outline-offset-1 focus-visible:outline-border disabled:pointer-events-none disabled:opacity-50",
-    props.intent === "primary" &&
-      "bg-primary font-semibold text-primary-foreground shadow hover:bg-primary/90 focus-visible:ring-offset-1",
-    props.intent === "secondary" &&
-      "bg-accent font-medium text-accent-foreground hover:bg-muted",
-    props.intent === "outline" &&
-      "bg-background text-accent-foreground ring-1 ring-inset ring-border hover:bg-accent hover:ring-ring/30",
-    props.intent === "ghost" &&
-      "bg-transparent text-accent-foreground hover:bg-accent",
-    props.intent === "destructive" &&
-      "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-    props.intent === "link" &&
-      "p-0 text-accent-foreground underline-offset-4 hover:text-primary hover:underline",
-    props.size === "lg" && "h-11 rounded-md px-6",
-    props.size === "sm" && "h-8 rounded-md px-3.5 text-sm",
-    props.size === "xs" && "h-6 rounded-md px-2.5 text-xs",
-    props.size === "icon" && "h-10 w-10 p-0",
-    props.size === "icon-sm" && "h-6 w-6 p-0",
-    props.class,
-  );
-};
+export const button = tv(
+  {
+    base: "group inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-semibold text-card-foreground transition-colors first-letter:capitalize focus-visible:outline focus-visible:outline-offset-1 focus-visible:outline-border active:opacity-80 disabled:pointer-events-none disabled:opacity-50",
+    variants: {
+      intent: {
+        primary: "bg-primary text-primary-foreground hover:bg-primary/90",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-secondary/90",
+        accent: "bg-accent text-accent-foreground hover:bg-accent/90",
+        outline:
+          "bg-transparent ring-1 ring-inset ring-border hover:bg-muted/50 hover:ring-ring",
+        ghost: "bg-transparent hover:bg-muted/50",
+        link: "!p-0 font-medium underline decoration-2 underline-offset-2 hover:decoration-accent hover:underline-offset-4",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+      },
+      size: {
+        xs: "h-6 px-2 text-xs",
+        sm: "h-8 px-2.5 text-xs",
+        base: "h-9 px-4 text-sm",
+        lg: "h-11 rounded-lg px-5 text-base",
+        icon: "h-9 w-9 p-0",
+        "icon-xs": "h-6 w-6 p-0",
+      },
+    },
+    defaultVariants: { intent: "ghost", size: "base" },
+  },
+  {
+    responsiveVariants: ["sm", "md", "lg"],
+  },
+);
