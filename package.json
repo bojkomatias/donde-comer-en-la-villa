@@ -13,11 +13,11 @@
   "dependencies": {
     "@bogeychan/elysia-etag": "^0.0.3",
     "@elysiajs/cookie": "^0.7.0",
-    "@elysiajs/html": "^0.7.0",
+    "@elysiajs/html": "^0.7.3",
     "@elysiajs/jwt": "^0.7.0",
     "@elysiajs/static": "^0.7.1",
     "@elysiajs/swagger": "^0.7.3",
-    "@kitajs/html": "^3.0.0",
+    "@kitajs/html": "^3.0.2",
     "@kitajs/ts-html-plugin": "^1.2.0",
     "@libsql/client": "^0.3.5",
     "drizzle-orm": "^0.28.6",
