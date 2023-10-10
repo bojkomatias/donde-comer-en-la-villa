@@ -10,7 +10,7 @@ export const button = tv(
           "bg-secondary text-secondary-foreground hover:bg-secondary/90",
         accent: "bg-accent text-accent-foreground hover:bg-accent/90",
         outline:
-          "bg-transparent ring-1 ring-inset ring-border hover:bg-accent hover:ring-ring",
+          "bg-transparent ring-1 ring-inset ring-border hover:bg-muted/50 hover:ring-ring",
         ghost: "bg-transparent hover:bg-muted/50",
         link: "!p-0 font-medium underline decoration-2 underline-offset-2 hover:decoration-accent hover:underline-offset-4",
         destructive:
