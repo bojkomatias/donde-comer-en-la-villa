@@ -32,9 +32,9 @@ export const AuthForm = (props: { csrfToken: string }) => {
             <a
               href={google.href}
               class={button({
-                intent: "primary",
+                intent: "outline",
                 class:
-                  "w-full bg-foreground text-muted hover:bg-foreground hover:text-background",
+                  "w-full bg-white text-black/80 hover:bg-white hover:ring-foreground",
               })}
             >
               <img
@@ -69,7 +69,10 @@ export const AuthForm = (props: { csrfToken: string }) => {
             <button class={button({ intent: "primary", class: "flex-grow" })}>
               Login
             </button>
-            <button class={button({ class: "flex-grow" })} type="reset">
+            <button
+              class={button({ intent: "outline", class: "flex-grow" })}
+              type="reset"
+            >
               Crear cuenta
             </button>
           </div>

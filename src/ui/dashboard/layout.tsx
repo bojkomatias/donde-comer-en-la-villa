@@ -35,7 +35,7 @@ const Tabs = ({ role }: { role: Role }) => (
       {dashboardNav
         .filter((link) => link.clearance?.includes(role))
         .map((item) => (
-          <Hover.Item class="relative mb-1.5 hover:text-accent-foreground">
+          <Hover.Item class="relative mb-1.5 hover:text-foreground">
             <button
               class={button({ size: "sm" })}
               hx-get={item.href}

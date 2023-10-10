@@ -5,7 +5,7 @@ import { cx } from "@/utils/cx";
 
 export const Filters = ({ tags }: { tags: SelectTag[] }) => {
   return (
-    <div class="relative h-10 px-1 sm:px-4">
+    <div class="relative h-11 px-1 sm:px-4">
       <div class="absolute inset-0 -z-10 mx-1 rounded-lg bg-card ring-1 ring-inset ring-border sm:mx-4" />
       <div
         class="mx-1 flex h-full items-center gap-3 overflow-auto px-1"
@@ -54,7 +54,7 @@ export const Filters = ({ tags }: { tags: SelectTag[] }) => {
         class={button({
           size: "icon",
           class:
-            "absolute inset-y-0 left-1 flex h-10 w-12 items-center justify-center rounded-lg rounded-r-none border-y border-l border-border bg-gradient-to-r from-background from-50% to-transparent sm:left-4",
+            "absolute inset-y-0 left-1 flex h-11 w-12 items-center justify-center rounded-lg rounded-r-none border-y border-l border-border bg-gradient-to-r from-background from-50% to-transparent sm:left-4",
         })}
         id="left-chevron"
         _="on click go to middle left of #first-tag smoothly"
@@ -66,7 +66,7 @@ export const Filters = ({ tags }: { tags: SelectTag[] }) => {
         class={button({
           size: "icon",
           class:
-            "absolute inset-y-0 right-1 flex h-10 w-12 items-center justify-center rounded-lg rounded-l-none border-y border-r border-border bg-gradient-to-l from-background from-50% to-transparent sm:right-4",
+            "absolute inset-y-0 right-1 flex h-11 w-12 items-center justify-center rounded-lg rounded-l-none border-y border-r border-border bg-gradient-to-l from-background from-50% to-transparent sm:right-4",
         })}
         id="right-chevron"
         _="on click go to middle right of #last-tag smoothly"

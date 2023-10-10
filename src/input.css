@@ -21,7 +21,7 @@
     --foreground: 206 14% 9%;
     --card: 50 30% 96%;
     --card-foreground: 203 14% 11%;
-    --muted: 0 0% 88%;
+    --muted: 0 0% 92%;
     --muted-foreground: 205 15% 16%;
 
     --primary: 0 100% 38%;
@@ -62,10 +62,10 @@
 
 @layer utilities {
   .tag-indicator {
-    @apply bg-accent shadow-inner shadow-muted-foreground/50 ring-1 ring-inset ring-border dark:shadow-black;
+    @apply bg-secondary/10 ring-1 ring-inset ring-secondary;
   }
   .navigation-indicator {
-    @apply text-foreground after:absolute after:inset-x-2 after:-bottom-1.5 after:z-10 after:h-0.5 after:rounded-lg after:bg-ring;
+    @apply text-foreground after:absolute after:inset-x-2 after:-bottom-1.5 after:z-10 after:h-0.5 after:rounded-lg after:bg-primary;
   }
   .dropdown {
     @apply hidden transition duration-75 ease-in;

@@ -99,7 +99,7 @@ export const BusinessTable = ({ children }: { children: any }) => {
         title={dict.get("businesses")}
         action={
           <button
-            class={button({ intent: "primary", size: "sm" })}
+            class={button({ intent: "primary" })}
             hx-get="/d/business/new"
             hx-swap="outerHTML"
             hx-push-url="true"

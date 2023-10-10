@@ -7,7 +7,6 @@ import { dict } from "@/utils/dictionary";
 import { _content, _trigger, dropdown } from "../dropdown";
 import { table } from "../table";
 
-
 export function DataTable<T>({
   children,
   columns,
@@ -114,7 +113,7 @@ export function DataTable<T>({
                       <i class="i-lucide-chevrons-up-down" />
                     </button>
                   ) : (
-                    <span class="text-accent-foreground">
+                    <span class="text-card-foreground">
                       {header ? header : dict.get(accessor)}
                     </span>
                   )}
@@ -174,8 +173,11 @@ export function DataRows<T>({
                   >
                     {actions.map(
                       (action) =>
+                        // Can be conditional
                         action(d) && (
-                          <button class={dropdown().item({})} {...action(d)} />
+                          <button {...action(d)} class={dropdown().item()}>
+                            {action(d).children}
+                          </button>
                         ),
                     )}
                   </div>

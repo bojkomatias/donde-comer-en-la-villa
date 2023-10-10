@@ -45,31 +45,23 @@ export const UserNavigation = ({ user }: { user: User }) => {
 
         <Hover>
           <Hover.Item>
-            <button
-              class={dropdown().item()}
-              hx-get="/d/business"
-              hx-push-url="true"
-            >
+            <a class={dropdown().item()} href="/d/business" hx-boost="true">
               {dict.get("dashboard")}
-            </button>
+            </a>
           </Hover.Item>
           <Hover.Item>
-            <button
-              class={dropdown().item()}
-              hx-get="/d/settings"
-              hx-push-url="true"
-            >
+            <a class={dropdown().item()} href="/d/settings" hx-boost="true">
               {dict.get("settings")}
               <i class="i-lucide-settings" />
-            </button>
+            </a>
           </Hover.Item>
 
           <div class={dropdown().separator()} />
 
           <Hover.Item>
-            <button class={dropdown().item()} hx-get="/" hx-push-url="true">
+            <a class={dropdown().item()} href="/" hx-boost="true">
               Página de inicio <i class="i-lucide-external-link" />
-            </button>
+            </a>
           </Hover.Item>
           <Hover.Item>
             <button

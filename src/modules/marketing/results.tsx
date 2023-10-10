@@ -108,7 +108,11 @@ const BusinessItem = ({
         {typeof business.tags === "string" &&
           business.tags
             .split(",")
-            .map((e) => <span class={badge()}>{e.substring(0, 2)}</span>)}
+            .map((e) => (
+              <span class={badge({ class: "text-xl" })}>
+                {e.substring(0, 2)}
+              </span>
+            ))}
       </div>
     </div>
   </div>

@@ -10,5 +10,5 @@ export const badge = tv({
         "bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
     },
   },
-  defaultVariants: { intent: "primary" },
+  defaultVariants: { intent: "muted" },
 });

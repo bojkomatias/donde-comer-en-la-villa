@@ -2,12 +2,12 @@ import { cx } from "@/utils/cx";
 
 export const SearchBar = (props: JSX.HtmlInputTag & { key: string }) => {
   return (
-    <div class={cx("group relative h-10", props.class)}>
+    <div class={cx("group relative h-9", props.class)}>
       <input
         {...props}
         type="text"
         class={cx(
-          "block h-full w-full rounded-lg border-0 bg-card py-1.5 pl-10 pr-14 text-foreground ring-1 ring-inset ring-border placeholder:text-muted-foreground/60 hover:bg-accent focus:bg-accent focus:ring-border focus:ring-offset-2 focus:ring-offset-background",
+          "block h-full w-full rounded-lg border-0 bg-card py-1.5 pl-10 pr-14 text-foreground ring-1 ring-inset ring-border placeholder:text-muted-foreground/60 hover:bg-muted focus:bg-muted focus:ring-border focus:ring-offset-2 focus:ring-offset-background",
           props.class,
         )}
         _={`js document.addEventListener('keydown',function(e){

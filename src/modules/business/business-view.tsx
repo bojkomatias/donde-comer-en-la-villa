@@ -108,15 +108,13 @@ export const BusinessView = ({
                 <dd class={details().dd({ class: "flex-col items-start" })}>
                   {business.businessHours.map((e) => (
                     <div class="flex gap-1.5">
-                      <span class="text-accent-foreground">
+                      <span class="text-foreground">
                         {dayNumberToText[e.day]}
                       </span>
                       de
-                      <span class="font-medium text-accent-foreground">
-                        {e.opens}
-                      </span>
+                      <span class="font-medium text-foreground">{e.opens}</span>
                       a
-                      <span class="font-medium text-accent-foreground">
+                      <span class="font-medium text-foreground">
                         {e.closes}
                       </span>
                     </div>
