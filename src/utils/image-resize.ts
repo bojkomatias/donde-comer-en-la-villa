@@ -1,32 +1,42 @@
 import { Image } from 'image-js';
+//Supabase client already initialized with its credentials.
+import { supabase as supabaseClient } from "utils/supabase"
 
-
-export default async function imageResizer(file: Blob) {
+/**This function returns an object with two keys: 
+ * @result returned by the Supabase upload function. This object returns among other things, an error, so to check for error, simply use result.error.
+ * @image_url a string that points to the image resource stored in the Supabase bucket*/
+export default async function imageResizer(file: Blob, file_name: String) {
 
   const fileSize = file.size;
   const factor = 100000 / fileSize;
+  let image = await file!.arrayBuffer()
+  console.log("Image size:", fileSize * 0.0009765625 + "KB")
+  console.log("Factor: ", factor)
 
-  let image = await file.arrayBuffer()
+  const resizedImage = await Image.load(image).then((image) =>
+    //If the image is bigger than 100KB, the image gets resized by a factor. If not, the image stays the same. I did it this way to use the same variable "resizedImage".
+    image.resize({ factor: file.size > 100000 ? factor : 1 })
+  )
 
+  //I convert the resizedImage to a Blob, and I'm explicitly telling that the type of that Blob is an image, otherwise, Supabase wouldn't recognize it as an image and the URL provided didn't work.
+  const imageToUpload = new Blob([resizedImage.toBuffer()]).slice(0, resizedImage.size, "image/jpg")
 
-  if (fileSize > 100000) {
+  //Before uploading the image I make sure to remove every space and replace it with an underscore and then normalize it too to remove accent marks to reduce the chance of having trouble with the URL.
+  return supabaseClient.storage
+    .from("dondecomerenlavilla_images")
+    .upload(
+      `business_images/${file_name.replaceAll(" ", "_").normalize()}.jpg`,
+      imageToUpload,
+      {
 
-    console.log("Image size:", fileSize * 0.0009765625 + "KB")
-    console.log("Factor: ", factor)
-
-    const resizedImage = await Image.load(image).then((image) =>
-      image.resize({ factor: factor })
+        cacheControl: "3600",
+        upsert: false,
+      }
     )
+    .then((result) => {
+      const image_url = process.env.SUPABASE_IMAGE_PREFIX_URL! + file_name.replaceAll(" ", "_").normalize() + ".jpg"
+      return { result, image_url };
+    });
 
-    console.log("asdkjaslkjdasd")
-    console.log(new Blob([resizedImage.toBuffer()]))
-
-    return new Blob([resizedImage.toBuffer()])
-
-
-  }
-  else {
-    return new Blob([image])
-  }
 
 }

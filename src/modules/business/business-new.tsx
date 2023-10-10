@@ -127,5 +127,3 @@ export const BusinessNew = ({
   );
 };
 
-
-// "on change set global imgName to my files[0].name then put my files[0].name into #imageName.innerHTML then remove .hidden from #imageName then add @src=$imgName to #imageContainer"

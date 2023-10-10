@@ -3,7 +3,7 @@ import {
   text,
   integer,
   uniqueIndex,
-  blob,
+  blob
 } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-typebox";
 import { user } from "./user";
@@ -20,7 +20,7 @@ export const business = sqliteTable(
     instagram: text("instagram").notNull(),
     address: text("address"),
     location: text("location"),
-    image: blob("image").notNull(),
+    image: text("image").notNull(),
     // Tags are virtual, but we can still store them here as a helper
     tags: text("tags").$type<number[] | string[] | string>().notNull(),
     featured: integer("featured", { mode: "boolean" }).default(false),
