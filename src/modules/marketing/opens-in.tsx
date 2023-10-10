@@ -1,5 +1,5 @@
 import { SelectBusinessHours } from "@/db/schema/business-hours";
-import { Badge } from "@/ui/badge";
+import { badge } from "@/ui/badge";
 
 export const OpensIn = ({
   businessHours,
@@ -21,18 +21,16 @@ export const OpensIn = ({
     (opensHour < hour || (opensHour === hour && opensMinute < minute)) &&
     (closesHour > hour || (closesHour === hour && closesMinute > minute))
   )
-    return <Badge class="text-emerald-500">Abierto</Badge>;
+    return <span class={badge()}>Abierto</span>;
 
   if (
     businessHours.day === today &&
     (opensHour > hour || (opensHour === hour && opensMinute > minute))
   )
-    return (
-      <Badge class="text-accent-foreground">Abre {businessHours.opens} </Badge>
-    );
+    return <span class={badge()}>Abre {businessHours.opens} </span>;
 
   if (businessHours.day !== today)
-    return <Badge class="text-muted-foreground">Hoy cerrado</Badge>;
+    return <span class={badge()}>Hoy cerrado</span>;
 
   return <></>;
 };

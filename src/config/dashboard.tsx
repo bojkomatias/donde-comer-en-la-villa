@@ -2,7 +2,7 @@ import { Role } from "@/db/schema/user";
 
 type Navigation = {
   name: string;
-  href: string;
+  href: GetRoutes;
   icon: string;
   clearance: Role[];
 };

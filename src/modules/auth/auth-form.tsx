@@ -1,6 +1,6 @@
 import { BackButton } from "@/ui/back-button";
-import { buttonStyles, Button } from "@/ui/button";
-import Card from "@/ui/card";
+import { button } from "@/ui/button";
+import { card } from "@/ui/card";
 import { Input } from "@/ui/input";
 import { dict } from "@/utils/dictionary";
 
@@ -17,23 +17,21 @@ export const AuthForm = (props: { csrfToken: string }) => {
   return (
     <div class="mx-auto mt-48 max-w-xl">
       <BackButton />
-      <Card>
-        <Card.Header>
-          <Card.Title>Volviste!</Card.Title>
-          <Card.Description>
-            Ingresá con Google o autenticate con tus credenciales.
-          </Card.Description>
-        </Card.Header>
+      <div class={card().base()}>
+        <h2 class={card().title()}>Volviste!</h2>
+        <p class={card().description()}>
+          Ingresá con Google o autenticate con tus credenciales.
+        </p>
         <form
           hx-post="/auth/login"
           hx-target-4xx="#notification"
           hx-target="body"
           hx-push-url="true"
         >
-          <Card.Content>
+          <div class={card().content()}>
             <a
               href={google.href}
-              class={buttonStyles({
+              class={button({
                 intent: "primary",
                 class:
                   "w-full bg-foreground text-muted hover:bg-foreground hover:text-background",
@@ -66,17 +64,17 @@ export const AuthForm = (props: { csrfToken: string }) => {
               required="true"
               rb
             />
-          </Card.Content>
-          <Card.Footer class="justify-evenly gap-3 pt-0">
-            <Button intent="primary" class="flex-grow">
+          </div>
+          <div class={card().footer({ class: "justify-evenly gap-3 pt-0" })}>
+            <button class={button({ intent: "primary", class: "flex-grow" })}>
               Login
-            </Button>
-            <Button type="reset" intent="secondary" class="flex-grow">
+            </button>
+            <button class={button({ class: "flex-grow" })} type="reset">
               Crear cuenta
-            </Button>
-          </Card.Footer>
+            </button>
+          </div>
         </form>
-      </Card>
+      </div>
     </div>
   );
 };

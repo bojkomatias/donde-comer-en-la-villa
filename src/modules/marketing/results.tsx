@@ -1,7 +1,7 @@
 import { SelectBusiness } from "@/db/schema/business";
-import { Badge } from "@/ui/badge";
-import { buttonStyles } from "@/ui/button";
-import Card from "@/ui/card";
+import { badge } from "@/ui/badge";
+import { button } from "@/ui/button";
+import { card } from "@/ui/card";
 import { EmptyState } from "@/ui/empty-state";
 import { Review } from "./reviews";
 import { SelectBusinessHours } from "@/db/schema/business-hours";
@@ -40,8 +40,8 @@ const BusinessItem = ({
     businessHours: SelectBusinessHours | null;
   };
 }) => (
-  <Card class="flex flex-col">
-    <Card.Header class="flex-row gap-6 p-3 pb-0">
+  <div class={card().base({ class: "flex flex-col" })}>
+    <div class="flex-row gap-6 p-3 pb-0">
       <img
         src={business.image}
         height="50"
@@ -50,21 +50,26 @@ const BusinessItem = ({
       />
       <div class="flex-grow">
         <div class="flex items-center">
-          <Card.Title class="flex-grow">{business.name}</Card.Title>
+          <h2 class={card().title({ class: "flex-grow" })}>{business.name}</h2>
           <OpensIn businessHours={business.businessHours} />
           <Review avgReviews={business.reviews} />
         </div>
-        <Card.Description class="-mt-1 leading-4">
+        <p class={card().description({ class: "-mt-1 leading-4" })}>
           {business.description}
-        </Card.Description>
+        </p>
       </div>
-    </Card.Header>
-    <Card.Content class="-mt-2 flex flex-grow flex-row-reverse flex-wrap-reverse gap-x-4 pb-3 pt-0">
+    </div>
+    <div
+      class={card().content({
+        class:
+          "-mt-2 flex flex-grow flex-row-reverse flex-wrap-reverse gap-x-4 pb-3 pt-0",
+      })}
+    >
       {business.location && (
         <a
           href={business.location ? business.location : undefined}
           target="_blank"
-          class={buttonStyles({ intent: "link" })}
+          class={button({ intent: "link" })}
         >
           Ubicación
           <i class="i-lucide-map-pin" />
@@ -72,7 +77,7 @@ const BusinessItem = ({
       )}
       {business.address && (
         <span
-          class={buttonStyles({
+          class={button({
             intent: "link",
             class: "hover:no-underline",
           })}
@@ -84,7 +89,7 @@ const BusinessItem = ({
       <a
         href={`https://instagram.com/${business.instagram}`}
         target="_blank"
-        class={buttonStyles({ intent: "link" })}
+        class={button({ intent: "link" })}
       >
         <i class="i-simple-icons-instagram group-hover:text-rose-600" />@
         {business.instagram}
@@ -92,24 +97,19 @@ const BusinessItem = ({
       <a
         href={`https://wa.me/${business.phone}`}
         target="_blank"
-        class={buttonStyles({ intent: "link" })}
+        class={button({ intent: "link" })}
       >
         <i class="i-simple-icons-whatsapp group-hover:text-emerald-600" />
         {business.phone}
       </a>
-    </Card.Content>
-
-    <Card.Footer class="bg-muted/50 p-1">
+    </div>
+    <div class={card().footer({ class: "bg-muted/50 p-1" })}>
       <div class="flex w-full items-center gap-x-1.5 gap-y-1.5 overflow-y-auto overflow-x-hidden pr-0.5">
         {typeof business.tags === "string" &&
           business.tags
             .split(",")
-            .map((e) => (
-              <Badge class="cursor-default select-none bg-accent py-0.5 text-lg shadow-inner shadow-muted-foreground/50 saturate-[75%] hover:saturate-150 dark:shadow-black">
-                {e.substring(0, 2)}
-              </Badge>
-            ))}
+            .map((e) => <span class={badge()}>{e.substring(0, 2)}</span>)}
       </div>
-    </Card.Footer>
-  </Card>
+    </div>
+  </div>
 );

@@ -1,15 +1,14 @@
-import { Button } from "@/ui/button";
+import { button } from "@/ui/button";
 import { dict } from "@/utils/dictionary";
 
 export const LoginButton = () => (
-  <Button
+  <button
+    class={button({ intent: "primary", class: "mr-4" })}
     hx-get="/login"
     hx-target="#page-content"
     hx-swap="innerHTML"
     hx-push-url="true"
-    intent="primary"
-    class="mr-4"
   >
     {dict.get("login")}
-  </Button>
+  </button>
 );

@@ -1,21 +1,23 @@
-import Dropdown from "@/ui/dropdown";
+import { button } from "@/ui/button";
+import { _trigger, _content, dropdown } from "@/ui/dropdown";
 import { Hover } from "@/ui/hover-transition";
 import { dict } from "@/utils/dictionary";
 
 export const OpenFilter = () => (
-  <Dropdown>
-    <Dropdown.Trigger intent="outline">
+  <div class={dropdown().base()}>
+    <button _={_trigger} class={button({ intent: "outline" })}>
       <span id="open-label">Abierto hoy</span>
       <i class="i-lucide-calendar-clock" />
-    </Dropdown.Trigger>
-    <Dropdown.Content class="w-48">
-      <Dropdown.Header class="text-sm font-semibold">
+    </button>
+    <div class={dropdown().content({ class: "w-48" })} _={_content}>
+      <div class={dropdown().header({ class: "text-sm font-semibold" })}>
         {dict.get("businessHours")}
-      </Dropdown.Header>
-      <Dropdown.Separator />
+      </div>
+      <div class={dropdown().separator()} />
       <Hover>
         <Hover.Item>
-          <Dropdown.Item
+          <button
+            class={dropdown().item()}
             hx-get="/q?open=true"
             hx-target="#results"
             hx-swap="outerHTML"
@@ -23,10 +25,11 @@ export const OpenFilter = () => (
             on click tell .query-listener set @hx-vals to '{"open":"true"}' send removeI to .tag-indicator`}
           >
             Abierto ahora <i />
-          </Dropdown.Item>
+          </button>
         </Hover.Item>
         <Hover.Item>
-          <Dropdown.Item
+          <button
+            class={dropdown().item()}
             hx-get="/q?today=true"
             hx-target="#results"
             hx-swap="outerHTML"
@@ -35,10 +38,11 @@ export const OpenFilter = () => (
           on click tell .query-listener set @hx-vals to '{"today":"true"}' send removeI to .tag-indicator`}
           >
             Abierto hoy <i class="i-lucide-check" />
-          </Dropdown.Item>
+          </button>
         </Hover.Item>
         <Hover.Item>
-          <Dropdown.Item
+          <button
+            class={dropdown().item()}
             hx-get="/q"
             hx-target="#results"
             hx-swap="outerHTML"
@@ -46,9 +50,9 @@ export const OpenFilter = () => (
             on click tell .query-listener set @hx-vals to '{}' send removeI to .tag-indicator`}
           >
             Todos <i />
-          </Dropdown.Item>
+          </button>
         </Hover.Item>
       </Hover>
-    </Dropdown.Content>
-  </Dropdown>
+    </div>
+  </div>
 );

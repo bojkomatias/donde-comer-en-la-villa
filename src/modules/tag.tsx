@@ -1,10 +1,10 @@
 import { InsertTag, SelectTag } from "@/db/schema/tag";
-import { Button } from "@/ui/button";
-import Card from "@/ui/card";
+import { button } from "@/ui/button";
+import { card } from "@/ui/card";
 import { DashboardHeading } from "@/ui/dashboard/heading";
 import { DashboardContent } from "@/ui/dashboard/wrapper";
 import { Input } from "@/ui/input";
-import Table from "@/ui/table";
+
 import { dict } from "@/utils/dictionary";
 
 const Tags = ({ tags }: { tags: SelectTag[] }) => (
@@ -56,14 +56,14 @@ Tags.Row = ({ tag }: { tag: SelectTag }) => {
         {tag.name}
       </Table.Cell>
       <Table.Cell>
-        <Button
+        <button
+          class={button({ size: "sm" })}
           hx-get={`/d/tag/${tag.id}/form`}
           hx-target="closest tr"
           hx-swap="outerHTML"
-          size="xs"
         >
           {dict.get("edit")}
-        </Button>
+        </button>
       </Table.Cell>
     </Table.Row>
   );
@@ -85,25 +85,23 @@ Tags.Edit = ({ tag }: { tag: InsertTag }) => {
         />
       </Table.Cell>
       <Table.Cell class="space-x-2">
-        <Button
-          intent="primary"
-          size="xs"
+        <button
+          class={button({ intent: "primary", size: "xs" })}
           hx-put={`/d/tag/${tag.id}`}
           hx-include="closest tr"
           hx-swap="outerHTML"
           hx-target-403="#row-error"
         >
           {dict.get("save")}
-        </Button>
-        <Button
+        </button>
+        <button
+          class={button({ size: "xs" })}
           type="button"
-          intent="secondary"
-          size="xs"
           hx-get={`/d/tag/${tag.id}/row`}
           hx-swap="outerHTML"
         >
           {dict.get("cancel")}
-        </Button>
+        </button>
       </Table.Cell>
     </Table.Row>
   );
@@ -111,13 +109,10 @@ Tags.Edit = ({ tag }: { tag: InsertTag }) => {
 
 Tags.New = () => {
   return (
-    <Card>
-      <Card.Header>
-        <Card.Title>{"Nueva " + dict.get("tag")}</Card.Title>
-        <Card.Description>
-          Agrega más categorías a la colección
-        </Card.Description>
-      </Card.Header>
+    <div class={card().base()}>
+      <h2 class={card().title()}>{"Nueva " + dict.get("tag")}</h2>
+      <p class={card().description()}>Agrega más categorías a la colección</p>
+
       <form
         hx-post="/d/tag"
         hx-target="#tag-results"
@@ -125,7 +120,7 @@ Tags.New = () => {
         hx-target-4xx="#notification"
         _="on htmx:afterRequest reset() me"
       >
-        <Card.Content>
+        <div class={card().content()}>
           <Input
             type="text"
             name="name"
@@ -134,14 +129,14 @@ Tags.New = () => {
             rt
             rb
           />
-        </Card.Content>
-        <Card.Footer class="justify-end">
-          <Button intent="primary" size="sm">
+        </div>
+        <div class={card().footer({ class: "justify-end" })}>
+          <button class={button({ intent: "primary", size: "sm" })}>
             {dict.get("save")}
-          </Button>
-        </Card.Footer>
+          </button>
+        </div>
       </form>
-    </Card>
+    </div>
   );
 };
 

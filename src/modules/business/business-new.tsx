@@ -1,13 +1,12 @@
 import { SelectTag } from "@/db/schema/tag";
 import { BackButton } from "@/ui/back-button";
-import { Button } from "@/ui/button";
-import Card from "@/ui/card";
+import { button } from "@/ui/button";
+import { card } from "@/ui/card";
 import { DashboardHeading } from "@/ui/dashboard/heading";
 import { DashboardContent } from "@/ui/dashboard/wrapper";
 import { Input } from "@/ui/input";
 import { cx } from "@/utils/cx";
 import { dict } from "@/utils/dictionary";
-
 
 export const BusinessNew = ({
   tags,
@@ -20,31 +19,28 @@ export const BusinessNew = ({
   asAdmin?: boolean;
   ownerId?: number;
 }) => {
-
   return (
     <div hx-target="this">
       <DashboardHeading
         title={dict.get("create") + " " + dict.get("business")}
       />
-     
+
       <DashboardContent>
         <BackButton />
-        <Card>
-          <Card.Header>
-            <Card.Title>{"Nuevo " + dict.get("business")}</Card.Title>
-            <Card.Description>Crea tu negocio</Card.Description>
-          </Card.Header>
+        <div class={card().base()}>
+          <h2 class={card().title()}>{"Nuevo " + dict.get("business")}</h2>
+          <p class={card().description()}>Crea tu negocio</p>
+
           <form
             hx-post="/d/business"
             hx-swap="outerHTML"
             hx-push-url="true"
             hx-target-4xx="#notification"
             autocomplete="off"
-            hx-encoding='multipart/form-data'
+            hx-encoding="multipart/form-data"
           >
-            <Card.Content>
-              <Input name="name" required="true" 
-              placeholder="Burguesía" rt />
+            <div class={card().content()}>
+              <Input name="name" required="true" placeholder="Burguesía" rt />
               <Input
                 name="description"
                 required="true"
@@ -70,7 +66,7 @@ export const BusinessNew = ({
                 title="Formato de numero como Whatsapp"
                 placeholder="+54 9 343 5111111"
               />
-             
+
               <Input name="address" placeholder="25 de Mayo y Sarmiento" />
               <Input
                 name="location"
@@ -116,16 +112,17 @@ export const BusinessNew = ({
                 class={asAdmin ? "" : "hidden"}
                 rb
               />
-            </Card.Content>
-            <Card.Footer class="flex justify-end">
-              <Button intent="primary">{dict.get("save")}</Button>
-            </Card.Footer>
+            </div>
+            <div class={card().footer({ class: "justify-end" })}>
+              <button class={button({ intent: "primary" })}>
+                {dict.get("save")}
+              </button>
+            </div>
           </form>
-        </Card>
+        </div>
       </DashboardContent>
     </div>
   );
 };
-
 
 // "on change set global imgName to my files[0].name then put my files[0].name into #imageName.innerHTML then remove .hidden from #imageName then add @src=$imgName to #imageContainer"

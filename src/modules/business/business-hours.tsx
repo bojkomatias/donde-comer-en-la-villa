@@ -1,7 +1,7 @@
 import { SelectBusinessHours } from "@/db/schema/business-hours";
 import { BackButton } from "@/ui/back-button";
-import { Button } from "@/ui/button";
-import Card from "@/ui/card";
+import { button } from "@/ui/button";
+import { card } from "@/ui/card";
 import { DashboardHeading } from "@/ui/dashboard/heading";
 import { DashboardContent } from "@/ui/dashboard/wrapper";
 import { Input } from "@/ui/input";
@@ -32,13 +32,9 @@ export const BusinessHours = ({
     <DashboardHeading title={dict.get("yourBusiness")} />
     <DashboardContent>
       <BackButton />
-      <Card>
-        <Card.Header>
-          <Card.Title>{dict.get("businessHours")}</Card.Title>
-          <Card.Description>
-            Configura tus horarios de atención
-          </Card.Description>
-        </Card.Header>
+      <div class={card().base()}>
+        <h2 class={card().title()}>{dict.get("businessHours")}</h2>
+        <p class={card().description()}>Configura tus horarios de atención</p>
 
         <form
           hx-post={`/d/business/${id}`}
@@ -47,7 +43,7 @@ export const BusinessHours = ({
           hx-target-4xx="#notification"
         >
           <input type="hidden" name="business" value={id.toString()} />
-          <Card.Content>
+          <div class={card().content()}>
             {days.map(({ day, label }) => (
               <div class="flex -space-x-px">
                 <Input
@@ -91,12 +87,14 @@ export const BusinessHours = ({
                 </fieldset>
               </div>
             ))}
-          </Card.Content>
-          <Card.Footer class="flex justify-end">
-            <Button intent="primary">{dict.get("save")}</Button>
-          </Card.Footer>
+          </div>
+          <div class={card().footer({ class: "flex justify-end" })}>
+            <button class={button({ intent: "primary" })}>
+              {dict.get("save")}
+            </button>
+          </div>
         </form>
-      </Card>
+      </div>
     </DashboardContent>
   </div>
 );

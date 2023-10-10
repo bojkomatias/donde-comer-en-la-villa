@@ -1,8 +1,8 @@
 import { SelectBusiness } from "@/db/schema/business";
 import { SelectTag } from "@/db/schema/tag";
 import { BackButton } from "@/ui/back-button";
-import { Button } from "@/ui/button";
-import Card from "@/ui/card";
+import { button } from "@/ui/button";
+import { card } from "@/ui/card";
 import { DashboardHeading } from "@/ui/dashboard/heading";
 import { DashboardContent } from "@/ui/dashboard/wrapper";
 import { Input } from "@/ui/input";
@@ -25,11 +25,10 @@ export const BusinessEdit = ({
       <DashboardHeading title={dict.get("edit") + " " + dict.get("business")} />
       <DashboardContent>
         <BackButton />
-        <Card>
-          <Card.Header>
-            <Card.Title>{"Editar " + dict.get("business")}</Card.Title>
-            <Card.Description>Edita tu negocio</Card.Description>
-          </Card.Header>
+        <div class={card().base()}>
+          <h2 class={card().title()}>{"Editar " + dict.get("business")}</h2>
+          <p class={card().description()}>Edita tu negocio</p>
+
           <form
             hx-put={`/d/business/${business.id}`}
             hx-swap="outerHTML"
@@ -37,7 +36,7 @@ export const BusinessEdit = ({
             hx-target-4xx="#notification"
             autocomplete="off"
           >
-            <Card.Content>
+            <div class={card().content()}>
               <Input
                 name="name"
                 required="true"
@@ -52,12 +51,12 @@ export const BusinessEdit = ({
                 value={business.description || ""}
               />
               <Input
-               _="on change put my files[0].name into #imageName.innerHTML then remove .hidden from #imageName then remove .hidden from #imageContainer then log my files end 
+                _="on change put my files[0].name into #imageName.innerHTML then remove .hidden from #imageName then remove .hidden from #imageContainer then log my files end 
                on change js  document.getElementById('imageContainer').src = URL.createObjectURL(
                  document.getElementById('image').files[0],
                );
                end"
-               accept="image/*"
+                accept="image/*"
                 name="image"
                 required="true"
                 placeholder="https://scontent.cdninstagram.com/v/"
@@ -127,12 +126,14 @@ export const BusinessEdit = ({
                 class={asAdmin ? "" : "hidden"}
                 rb
               />
-            </Card.Content>
-            <Card.Footer class="flex justify-end">
-              <Button intent="primary">{dict.get("save")}</Button>
-            </Card.Footer>
+            </div>
+            <div class={card().footer({ class: "flex justify-end" })}>
+              <button class={button({ intent: "primary" })}>
+                {dict.get("save")}
+              </button>
+            </div>
           </form>
-        </Card>
+        </div>
       </DashboardContent>
     </div>
   );
