@@ -29,7 +29,6 @@
     "filereader": "^0.10.3",
     "image-js": "^0.35.4",
     "supabase": "^1.100.1"
-
   },
   "devDependencies": {
     "@iconify/json": "^2.2.123",

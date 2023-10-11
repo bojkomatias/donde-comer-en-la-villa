@@ -54,9 +54,6 @@ const BusinessItem = ({
           <OpensIn businessHours={business.businessHours} />
           <Review avgReviews={business.reviews} />
         </div>
-        <p class={card().description({ class: "-mt-1 leading-4" })}>
-          {business.description}
-        </p>
       </div>
     </div>
     <div

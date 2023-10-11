@@ -2,7 +2,6 @@ import { BackButton } from "@/ui/back-button";
 import { button } from "@/ui/button";
 import { card } from "@/ui/card";
 import { Input } from "@/ui/input";
-import { dict } from "@/utils/dictionary";
 
 const google = new URL("auth", "https://accounts.google.com/o/oauth2/v2/");
 google.searchParams.set(
@@ -34,7 +33,7 @@ export const AuthForm = (props: { csrfToken: string }) => {
               class={button({
                 intent: "outline",
                 class:
-                  "w-full bg-white text-black/80 hover:bg-white hover:ring-foreground",
+                  "w-full bg-white text-black/80 hover:bg-white hover:ring-ring",
               })}
             >
               <img

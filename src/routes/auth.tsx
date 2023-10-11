@@ -41,6 +41,7 @@ const auth = new Elysia({ name: "auth" })
   .post(
     "/auth/login",
     async ({ jwt, cookie, setCookie, body, set }) => {
+      console.log(body, cookie);
       // Catch CSRF attack
       if (cookie.csrfToken !== body.csrfToken) return (set.status = 403);
 
