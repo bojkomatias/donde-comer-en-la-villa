@@ -27,6 +27,7 @@ import {
   getBusinessHoursByBusiness,
   upsertBusinessHours,
 } from "@/services/business-hours";
+import imageResizer from "@/utils/image-resize";
 
 const business = new Elysia({
   name: "business",
@@ -127,7 +128,7 @@ const business = new Elysia({
       );
     },
     {
-      transform: ({ body }) => {
+      transform: async ({ body }) => {
         /** Transformation to match HTML to Insert
          * Mostly HTML returns string,
          * Here we convert types with typebox
@@ -138,6 +139,10 @@ const business = new Elysia({
         // Object assign replaces object content body = c does not
         Object.assign(body, c);
         body.tags = [body.tags].flat().map((e: any) => JSON.parse(e));
+        //Resizes the image to make it lighter
+        body.image = await imageResizer(body.image, body.name).then((res) => {
+          return res.image_url; 
+        });
       },
       body: insertBusinessForm,
     },
@@ -146,6 +151,7 @@ const business = new Elysia({
     const tags = await getTags();
     const users = await getUsersForSelector();
     const business = await getBusinessById(parseInt(id));
+   
     // Add tags from relation
     business.tags = (await getTagsByBusinessId(business.id)).map(
       (e) => e.tagId,
@@ -235,19 +241,26 @@ const business = new Elysia({
           </BusinessTable>
         </>
       );
+
+    
     },
     {
-      transform: ({ body }) => {
+      transform: async ({ body }) => {
         /** Transformation to match HTML to Insert
          * Mostly HTML returns string,
          * Here we convert types with typebox
          */
+
         const c = Value.Convert(insertBusinessForm, body) as Static<
           typeof insertBusinessForm
         >;
         // Object assign replaces object content body = c does not
         Object.assign(body, c);
         body.tags = [body.tags].flat().map((e: any) => JSON.parse(e));
+        //Resizes the image to make it lighter
+        body.image = await imageResizer(body.image, body.name).then((res) => {
+          return res.image_url; 
+        });
       },
       body: insertBusinessForm,
     },

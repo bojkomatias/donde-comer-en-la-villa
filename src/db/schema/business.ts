@@ -3,6 +3,7 @@ import {
   text,
   integer,
   uniqueIndex,
+  blob
 } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-typebox";
 import { user } from "./user";
@@ -47,6 +48,7 @@ export const insertBusinessForm = createInsertSchema(business, {
   owner: t.Number(),
   // Override the inserted type (real model type, an array of ids referencing to tags through middle table)
   tags: t.Array(t.Object({ id: t.Number(), name: t.String() })),
+  image: t.Any()
 });
 
 export const businessSchema = createSelectSchema(business, {

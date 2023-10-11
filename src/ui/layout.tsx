@@ -27,6 +27,7 @@ export function BaseLayout({ children }: { children?: any }) {
 
         {/* Hyperscript */}
         <script src="https://unpkg.com/hyperscript.org@0.9.11"></script>
+      <script type="module" src="../../public/index.js"></script>
         {/* TailwindCSS */}
         <link href="/styles.css" rel="preload stylesheet" />
         {/* Fonts */}
@@ -39,6 +40,7 @@ export function BaseLayout({ children }: { children?: any }) {
         <link rel="icon" href="/public/vercel.svg" />
         <title>{siteConfig.name}</title>
       </head>
+   
       <body
         class="w-screen overflow-x-hidden bg-background text-foreground antialiased"
         hx-boost="true"

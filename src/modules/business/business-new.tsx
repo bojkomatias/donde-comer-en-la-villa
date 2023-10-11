@@ -8,6 +8,7 @@ import { Input } from "@/ui/input";
 import { cx } from "@/utils/cx";
 import { dict } from "@/utils/dictionary";
 
+
 export const BusinessNew = ({
   tags,
   users,
@@ -19,11 +20,13 @@ export const BusinessNew = ({
   asAdmin?: boolean;
   ownerId?: number;
 }) => {
+
   return (
     <div hx-target="this">
       <DashboardHeading
         title={dict.get("create") + " " + dict.get("business")}
       />
+     
       <DashboardContent>
         <BackButton />
         <Card>
@@ -37,19 +40,27 @@ export const BusinessNew = ({
             hx-push-url="true"
             hx-target-4xx="#notification"
             autocomplete="off"
+            hx-encoding='multipart/form-data'
           >
             <Card.Content>
-              <Input name="name" required="true" placeholder="Burguesía" rt />
+              <Input name="name" required="true" 
+              placeholder="Burguesía" rt />
               <Input
                 name="description"
                 required="true"
                 placeholder="Las burgers más burgueses de toda la burguesía"
               />
               <Input
+                _="on change put my files[0].name into #imageName.innerHTML then remove .hidden from #imageName then remove .hidden from #imageContainer then log my files end 
+                on change js  document.getElementById('imageContainer').src = URL.createObjectURL(
+                  document.getElementById('image').files[0],
+                );
+                end"
                 name="image"
-                required="true"
-                placeholder="https://scontent.cdninstagram.com/v/"
-                title="Podes copiar tu imagen de Instagram"
+                type="file"
+                id="image"
+                accept="image/*"
+                title="Subí el logo o una imagen de tu negocio"
               />
               <Input
                 name="phone"
@@ -57,8 +68,9 @@ export const BusinessNew = ({
                 type="tel"
                 pattern="[+549]{4}[0-9]{10}"
                 title="Formato de numero como Whatsapp"
-                placeholder="+5493435111111"
+                placeholder="+54 9 343 5111111"
               />
+             
               <Input name="address" placeholder="25 de Mayo y Sarmiento" />
               <Input
                 name="location"
@@ -114,3 +126,4 @@ export const BusinessNew = ({
     </div>
   );
 };
+

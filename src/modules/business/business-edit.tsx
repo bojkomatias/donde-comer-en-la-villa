@@ -36,6 +36,7 @@ export const BusinessEdit = ({
             hx-push-url="true"
             hx-target-4xx="#notification"
             autocomplete="off"
+            hx-encoding='multipart/form-data'
           >
             <Card.Content>
               <Input
@@ -52,10 +53,17 @@ export const BusinessEdit = ({
                 value={business.description || ""}
               />
               <Input
+               _="on change put my files[0].name into #imageName.innerHTML then remove .hidden from #imageName then remove .hidden from #imageContainer then log my files end 
+               on change js  document.getElementById('imageContainer').src = URL.createObjectURL(
+                 document.getElementById('image').files[0],
+               );
+               end"
+               accept="image/*"
                 name="image"
                 required="true"
                 placeholder="https://scontent.cdninstagram.com/v/"
                 value={business.image || ""}
+                type="file"
                 title="Podes copiar tu imagen de Instagram"
               />
               <Input
