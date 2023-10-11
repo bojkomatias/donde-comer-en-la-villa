@@ -8,7 +8,7 @@ export default {
     extend: {
       colors: {
         border: "hsl(var(--border) / 0.1)",
-        ring: "hsl(var(--ring)/0.2)",
+        ring: "hsl(var(--ring)/0.3)",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
