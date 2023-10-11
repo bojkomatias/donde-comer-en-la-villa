@@ -10,6 +10,10 @@ export default async function imageResizer(file: Blob, file_name: String) {
   const fileSize = file.size;
   const factor = 100000 / fileSize;
   let image = await file!.arrayBuffer()
+  //Before uploading the image I make sure to remove every space and replace it with an underscore and then normalize it too to remove accent marks to reduce the chance of having trouble with the URL.
+  console.log(file_name)
+  file_name.normalize("NFKC").replaceAll(" ", "_").replace(/[^\w]/g, '')
+  console.log(file_name.replaceAll(" ", "_").normalize())
   console.log("Image size:", fileSize * 0.0009765625 + "KB")
   console.log("Factor: ", factor)
 
@@ -21,11 +25,11 @@ export default async function imageResizer(file: Blob, file_name: String) {
   //I convert the resizedImage to a Blob, and I'm explicitly telling that the type of that Blob is an image, otherwise, Supabase wouldn't recognize it as an image and the URL provided didn't work.
   const imageToUpload = new Blob([resizedImage.toBuffer()]).slice(0, resizedImage.size, "image/jpg")
 
-  //Before uploading the image I make sure to remove every space and replace it with an underscore and then normalize it too to remove accent marks to reduce the chance of having trouble with the URL.
+
   return supabaseClient.storage
     .from("dondecomerenlavilla_images")
     .upload(
-      `business_images/${file_name.replaceAll(" ", "_").normalize()}.jpg`,
+      `business_images/${file_name}.jpg`,
       imageToUpload,
       {
 
@@ -34,9 +38,11 @@ export default async function imageResizer(file: Blob, file_name: String) {
       }
     )
     .then((result) => {
-      const image_url = process.env.SUPABASE_IMAGE_PREFIX_URL! + file_name.replaceAll(" ", "_").normalize() + ".jpg"
+      const image_url = process.env.SUPABASE_IMAGE_PREFIX_URL! + file_name + ".jpg"
+      if (result.error) console.log(result.error)
       return { result, image_url };
     });
 
 
 }
+

@@ -36,6 +36,7 @@ export const BusinessEdit = ({
             hx-push-url="true"
             hx-target-4xx="#notification"
             autocomplete="off"
+            hx-encoding='multipart/form-data'
           >
             <Card.Content>
               <Input
