@@ -1,5 +1,5 @@
 import { SelectBusiness } from "@/db/schema/business";
-import { Button } from "@/ui/button";
+import { button } from "@/ui/button";
 import { DashboardHeading } from "@/ui/dashboard/heading";
 import { DashboardContent } from "@/ui/dashboard/wrapper";
 import { DataRows, DataTable } from "@/ui/data-table/data-table";
@@ -98,15 +98,14 @@ export const BusinessTable = ({ children }: { children: any }) => {
       <DashboardHeading
         title={dict.get("businesses")}
         action={
-          <Button
+          <button
+            class={button({ intent: "primary" })}
             hx-get="/d/business/new"
             hx-swap="outerHTML"
             hx-push-url="true"
-            intent="primary"
-            size="sm"
           >
             Nuevo negocio
-          </Button>
+          </button>
         }
       />
       <DashboardContent>
@@ -131,7 +130,7 @@ export const BusinessRows = ({
   next,
 }: {
   businesses: DataType[];
-  next: string;
+  next: GetRoutes;
 }) => (
   <DataRows
     columns={columns}

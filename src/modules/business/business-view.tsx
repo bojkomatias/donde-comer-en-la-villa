@@ -1,11 +1,11 @@
 import { BusinessWithRelations } from "@/services/business";
 import { BackButton } from "@/ui/back-button";
-import { Badge } from "@/ui/badge";
-import { Button } from "@/ui/button";
-import Card from "@/ui/card";
+import { badge } from "@/ui/badge";
+import { button } from "@/ui/button";
+import { card } from "@/ui/card";
 import { DashboardHeading } from "@/ui/dashboard/heading";
 import { DashboardContent } from "@/ui/dashboard/wrapper";
-import Details from "@/ui/detail-list";
+import { details } from "@/ui/detail-list";
 import { cx } from "@/utils/cx";
 import { dayNumberToText } from "@/utils/date-helpers";
 import { dict } from "@/utils/dictionary";
@@ -23,31 +23,29 @@ export const BusinessView = ({
         title={dict.get("yourBusiness")}
         action={
           <span class="space-x-1.5">
-            <Button
+            <button
+              class={button({ intent: "primary", size: "sm" })}
               hx-get={`/d/business/${business.id}/hours`}
               hx-push-url="true"
-              intent="primary"
-              size="sm"
               preload
             >
               {dict.get("businessHours")}
-            </Button>
-            <Button
+            </button>
+            <button
+              class={button({ intent: "primary", size: "sm" })}
               hx-get={`/d/business/${business.id}/edit`}
               hx-push-url="true"
-              intent="primary"
-              size="sm"
               preload
             >
               {dict.get("edit")}
-            </Button>
+            </button>
           </span>
         }
       />
       <DashboardContent>
         {asAdmin && <BackButton />}
-        <Card>
-          <Card.Header class="flex-row gap-3">
+        <div class={card().base()}>
+          <div class="flex-row gap-3">
             <div class="flex-grow space-y-2 sm:flex sm:gap-6">
               <img
                 src={business.image ? business.image : undefined}
@@ -57,8 +55,8 @@ export const BusinessView = ({
                 class="h-20 w-20 rounded-full p-1"
               />
               <div>
-                <Card.Title>{business.name}</Card.Title>
-                <Card.Description>
+                <h2 class={card().title()}>{business.name}</h2>
+                <p class={card().description()}>
                   {business.description}
                   <div class="mt-3 text-xs font-light text-gray-500">
                     <div class="first-letter:capitalize">
@@ -70,80 +68,84 @@ export const BusinessView = ({
                       {business.updatedAt}
                     </div>
                   </div>
-                </Card.Description>
+                </p>
               </div>
             </div>
-          </Card.Header>
-          <Card.Content>
-            <Details>
-              <Details.Detail>
-                <Details.Term>{dict.get("phone")}</Details.Term>
-                <Details.Description>{business.phone}</Details.Description>
-              </Details.Detail>
-              <Details.Detail>
-                <Details.Term>{dict.get("address")}</Details.Term>
-                <Details.Description>{business.address}</Details.Description>
-              </Details.Detail>
-              <Details.Detail>
-                <Details.Term>{dict.get("location")}</Details.Term>
-                <Details.Description>{business.location}</Details.Description>
-              </Details.Detail>
-              <Details.Detail>
-                <Details.Term>{dict.get("instagram")}</Details.Term>
-                <Details.Description>{business.instagram}</Details.Description>
-              </Details.Detail>
-              <Details.Detail>
-                <Details.Term>{dict.get("tags")}</Details.Term>
-                <Details.Description class="gap-x-1 overflow-x-auto pb-px">
+          </div>
+          <div class={card().content()}>
+            <dl class={details().dl()}>
+              <div class={details().item()}>
+                <dt class={details().dt()}>{dict.get("phone")}</dt>
+                <dd class={details().dd()}>{business.phone}</dd>
+              </div>
+              <div class={details().item()}>
+                <dt class={details().dt()}>{dict.get("address")}</dt>
+                <dd class={details().dd()}>{business.address}</dd>
+              </div>
+              <div class={details().item()}>
+                <dt class={details().dt()}>{dict.get("location")}</dt>
+                <dd class={details().dd()}>{business.location}</dd>
+              </div>
+              <div class={details().item()}>
+                <dt class={details().dt()}>{dict.get("instagram")}</dt>
+                <dd class={details().dd()}>{business.instagram}</dd>
+              </div>
+              <div class={details().item()}>
+                <dt class={details().dt()}>{dict.get("tags")}</dt>
+                <dd
+                  class={details().dd({
+                    class: "gap-x-1 overflow-x-auto pb-px",
+                  })}
+                >
                   {typeof business.tags === "string" &&
-                    business.tags.split(",").map((t) => <Badge>{t}</Badge>)}
-                </Details.Description>
-              </Details.Detail>
-              <Details.Detail>
-                <Details.Term>{dict.get("bHours")}</Details.Term>
-                <Details.Description class="flex-col items-start">
+                    business.tags
+                      .split(",")
+                      .map((t) => <span class={badge()}>{t}</span>)}
+                </dd>
+              </div>
+              <div class={details().item()}>
+                <dt class={details().dt()}>{dict.get("bHours")}</dt>
+                <dd class={details().dd({ class: "flex-col items-start" })}>
                   {business.businessHours.map((e) => (
                     <div class="flex gap-1.5">
-                      <span class="text-accent-foreground">
+                      <span class="text-foreground">
                         {dayNumberToText[e.day]}
                       </span>
                       de
-                      <span class="font-medium text-accent-foreground">
-                        {e.opens}
-                      </span>
+                      <span class="font-medium text-foreground">{e.opens}</span>
                       a
-                      <span class="font-medium text-accent-foreground">
+                      <span class="font-medium text-foreground">
                         {e.closes}
                       </span>
                     </div>
                   ))}
-                </Details.Description>
-              </Details.Detail>
+                </dd>
+              </div>
               {asAdmin && (
                 <>
-                  <Details.Detail>
-                    <Details.Term>{dict.get("enabled")}</Details.Term>
-                    <Details.Description>
+                  <div class={details().item()}>
+                    <dt class={details().dt()}>{dict.get("enabled")}</dt>
+                    <dd class={details().dd()}>
                       <i
                         class={cx(
                           business.enabled ? "i-lucide-check" : "i-lucide-x",
                         )}
                       />
-                    </Details.Description>
-                  </Details.Detail>
-                  <Details.Detail>
-                    <Details.Term>{dict.get("featured")}</Details.Term>
-                    <Details.Description>
+                    </dd>
+                  </div>
+                  <div class={details().item()}>
+                    <dt class={details().dt()}>{dict.get("featured")}</dt>
+                    <dd class={details().dd()}>
                       <i
                         class={cx(
                           business.featured ? "i-lucide-check" : "i-lucide-x",
                         )}
                       />
-                    </Details.Description>
-                  </Details.Detail>
-                  <Details.Detail>
-                    <Details.Term>{dict.get("owner")}</Details.Term>
-                    <Details.Description>
+                    </dd>
+                  </div>
+                  <div class={details().item()}>
+                    <dt class={details().dt()}>{dict.get("owner")}</dt>
+                    <dd class={details().dd()}>
                       {business.owner?.name}
                       <span>
                         <span class="font-semibold">ID: </span>
@@ -152,19 +154,19 @@ export const BusinessView = ({
                         <span class="font-semibold">Email: </span>
                         {business.owner?.email}
                       </span>
-                    </Details.Description>
-                  </Details.Detail>
-                  <Details.Detail>
-                    <Details.Term>{dict.get("role")}</Details.Term>
-                    <Details.Description class="text-xs uppercase">
+                    </dd>
+                  </div>
+                  <div class={details().item()}>
+                    <dt class={details().dt()}>{dict.get("role")}</dt>
+                    <dd class={details().dd({ class: "text-xs uppercase" })}>
                       {business.owner?.role}
-                    </Details.Description>
-                  </Details.Detail>
+                    </dd>
+                  </div>
                 </>
               )}
-            </Details>
-          </Card.Content>
-        </Card>
+            </dl>
+          </div>
+        </div>
       </DashboardContent>
     </div>
   );

@@ -141,7 +141,7 @@ const business = new Elysia({
         body.tags = [body.tags].flat().map((e: any) => JSON.parse(e));
         //Resizes the image to make it lighter
         body.image = await imageResizer(body.image, body.name).then((res) => {
-          return res.image_url; 
+          return res.image_url;
         });
       },
       body: insertBusinessForm,
@@ -151,7 +151,7 @@ const business = new Elysia({
     const tags = await getTags();
     const users = await getUsersForSelector();
     const business = await getBusinessById(parseInt(id));
-   
+
     // Add tags from relation
     business.tags = (await getTagsByBusinessId(business.id)).map(
       (e) => e.tagId,
@@ -241,8 +241,6 @@ const business = new Elysia({
           </BusinessTable>
         </>
       );
-
-    
     },
     {
       transform: async ({ body }) => {
@@ -259,7 +257,7 @@ const business = new Elysia({
         body.tags = [body.tags].flat().map((e: any) => JSON.parse(e));
         //Resizes the image to make it lighter
         body.image = await imageResizer(body.image, body.name).then((res) => {
-          return res.image_url; 
+          return res.image_url;
         });
       },
       body: insertBusinessForm,

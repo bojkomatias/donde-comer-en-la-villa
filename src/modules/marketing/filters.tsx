@@ -1,11 +1,11 @@
 import { SelectTag } from "@/db/schema/tag";
-import { Button } from "@/ui/button";
+import { button } from "@/ui/button";
 import { Hover } from "@/ui/hover-transition";
 import { cx } from "@/utils/cx";
 
 export const Filters = ({ tags }: { tags: SelectTag[] }) => {
   return (
-    <div class="relative h-10 px-1 sm:px-4">
+    <div class="relative h-11 px-1 sm:px-4">
       <div class="absolute inset-0 -z-10 mx-1 rounded-lg bg-card ring-1 ring-inset ring-border sm:mx-4" />
       <div
         class="mx-1 flex h-full items-center gap-3 overflow-auto px-1"
@@ -17,7 +17,12 @@ export const Filters = ({ tags }: { tags: SelectTag[] }) => {
         <Hover class="flex gap-2">
           {tags.map((tag, i) => (
             <Hover.Item class="mt-0.5">
-              <Button
+              {/*  @ts-ignore */}
+              <button
+                class={button({
+                  size: "sm",
+                  class: "query-listener capitalize",
+                })}
                 hx-get={`/q?tag=${tag.id}`}
                 hx-vals='{"today":"true"}'
                 hx-target="#results"
@@ -36,35 +41,38 @@ export const Filters = ({ tags }: { tags: SelectTag[] }) => {
                     "on intersection(intersecting) having threshold 0.9 if intersecting hide #right-chevron else show #right-chevron end",
                   "on click send removeI to closest <div /> wait then add .tag-indicator on me end",
                 )}
-                size="sm"
-                // class to listen to changes on business hours change
-                class="query-listener capitalize"
                 preload
               >
                 {tag.name}
-              </Button>
+              </button>
             </Hover.Item>
           ))}
         </Hover>
       </div>
       {/* Chevrons to scroll */}
-      <Button
+      <button
+        class={button({
+          size: "icon",
+          class:
+            "absolute inset-y-0 left-1 flex h-11 w-12 items-center justify-center rounded-lg rounded-r-none border-y border-l border-border bg-gradient-to-r from-background from-50% to-transparent sm:left-4",
+        })}
         id="left-chevron"
-        size="icon"
-        class="absolute inset-y-0 left-1 flex h-10 w-12 items-center justify-center rounded-lg rounded-r-none border-y border-l border-border bg-gradient-to-r from-background from-50% to-transparent sm:left-4"
         _="on click go to middle left of #first-tag smoothly"
       >
         <i class="i-lucide-chevron-left h-5 w-5" />
-      </Button>
+      </button>
 
-      <Button
+      <button
+        class={button({
+          size: "icon",
+          class:
+            "absolute inset-y-0 right-1 flex h-11 w-12 items-center justify-center rounded-lg rounded-l-none border-y border-r border-border bg-gradient-to-l from-background from-50% to-transparent sm:right-4",
+        })}
         id="right-chevron"
-        size="icon"
-        class="absolute inset-y-0 right-1 flex h-10 w-12 items-center justify-center rounded-lg rounded-l-none border-y border-r border-border bg-gradient-to-l from-background from-50% to-transparent sm:right-4"
         _="on click go to middle right of #last-tag smoothly"
       >
         <i class="i-lucide-chevron-right h-5 w-5" />
-      </Button>
+      </button>
     </div>
   );
 };

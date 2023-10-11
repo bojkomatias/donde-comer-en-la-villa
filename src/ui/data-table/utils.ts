@@ -23,7 +23,8 @@ export type Column<T> = {
  * @T Generic type (equivalent to row.original)
  * Can return false (purged in table) if the action is condition based
  */
-export type Action<T> = (r: T) => JSX.HtmlTag | false;
+
+export type Action<T> = (r: T) => JSX.HtmlTag;
 
 /**
  * Validator and Types for paginated, sorted searchable queries to use.

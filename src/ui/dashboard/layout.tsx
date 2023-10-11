@@ -3,7 +3,7 @@ import { Role } from "@/db/schema/user";
 import { dict } from "@/utils/dictionary";
 import { BaseLayout } from "../layout";
 import { Hover } from "../hover-transition";
-import { Button } from "../button";
+import { button } from "../button";
 
 export const DashboardLayout = ({
   role,
@@ -35,19 +35,19 @@ const Tabs = ({ role }: { role: Role }) => (
       {dashboardNav
         .filter((link) => link.clearance?.includes(role))
         .map((item) => (
-          <Hover.Item class="relative mb-1.5 hover:text-accent-foreground">
-            <Button
+          <Hover.Item class="relative mb-1.5 hover:text-foreground">
+            <button
+              class={button({ size: "sm" })}
               hx-get={item.href}
               hx-push-url="true"
               hx-target="#dashboard-content"
               hx-swap="innerHTML"
-              size="sm"
               _="init if window.location.pathname contains @hx-get then add .navigation-indicator end
               on htmx:afterOnLoad tell the target take .navigation-indicator"
             >
               <i class={item.icon} aria-hidden="true" />
               {dict.get(item.name)}
-            </Button>
+            </button>
           </Hover.Item>
         ))}
     </Hover>

@@ -5,7 +5,7 @@ import { cx } from "@/utils/cx";
  * @default .bg-muted
  */
 export const Hover = ({
-  indicator = ".bg-accent",
+  indicator = "bg-secondary",
   ...props
 }: JSX.HtmlTag & { indicator?: string }) => {
   let script =
@@ -15,15 +15,15 @@ export const Hover = ({
     <div class={cx("relative h-fit", props.class?.includes("flex") && "w-fit")}>
       <div
         class={cx(
-          "hover-indicator absolute -z-10 rounded-md transition ease-in-out",
+          "hover-indicator absolute -z-10 rounded-md opacity-10 saturate-200 transition ease-in-out",
           props.class?.includes("flex") ? "inset-y-0" : "inset-x-0",
         )}
         _={script}
       />
       <ul
         {...props}
-        _={`on mouseenter wait 0.1s then tell previous .hover-indicator add ${indicator} end
-         on mouseleave tell previous .hover-indicator remove ${indicator} end`}
+        _={`on mouseenter wait 0.1s then tell previous .hover-indicator add .${indicator} end
+         on mouseleave tell previous .hover-indicator remove .${indicator} end`}
       >
         {props.children}
       </ul>

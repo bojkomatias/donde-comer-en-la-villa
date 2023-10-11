@@ -1,6 +1,6 @@
 import { siteConfig } from "@/config/site";
 import DarkMode from "./dark-mode-toggle";
-import { buttonStyles } from "./button";
+import { button } from "./button";
 
 /** Used to inject into other layouts */
 export function BaseLayout({ children }: { children?: any }) {
@@ -27,7 +27,7 @@ export function BaseLayout({ children }: { children?: any }) {
 
         {/* Hyperscript */}
         <script src="https://unpkg.com/hyperscript.org@0.9.11"></script>
-      <script type="module" src="../../public/index.js"></script>
+
         {/* TailwindCSS */}
         <link href="/styles.css" rel="preload stylesheet" />
         {/* Fonts */}
@@ -40,7 +40,7 @@ export function BaseLayout({ children }: { children?: any }) {
         <link rel="icon" href="/public/vercel.svg" />
         <title>{siteConfig.name}</title>
       </head>
-   
+
       <body
         class="w-screen overflow-x-hidden bg-background text-foreground antialiased"
         hx-boost="true"
@@ -60,14 +60,14 @@ export function BaseLayout({ children }: { children?: any }) {
               Built by{" "}
               <a
                 href={siteConfig.links.twitter}
-                class={buttonStyles({ intent: "link", class: "lowercase" })}
+                class={button({ intent: "link", class: "lowercase" })}
               >
                 bojkomatias
               </a>
               .<br class="block sm:hidden" /> Source code available on{" "}
               <a
                 href={siteConfig.links.github}
-                class={buttonStyles({ intent: "link" })}
+                class={button({ intent: "link" })}
               >
                 Github
               </a>

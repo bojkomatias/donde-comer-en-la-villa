@@ -1,9 +1,12 @@
 import { dict } from "@/utils/dictionary";
-import { Button } from "./button";
+import { button } from "./button";
 
 export const BackButton = () => (
-  <Button intent="ghost" size="xs" _="on click go back" class="mb-2 w-fit">
+  <button
+    class={button({ intent: "ghost", size: "xs", class: "mb-2 w-fit" })}
+    _="on click go back"
+  >
     <i class="i-lucide-chevron-left" />
     {dict.get("back")}
-  </Button>
+  </button>
 );

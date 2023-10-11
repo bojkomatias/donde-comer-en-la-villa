@@ -27,7 +27,7 @@ const columns: Column<Omit<SelectUser, "password">>[] = [
   },
   {
     accessor: "role",
-    cell: ({ role }) => <Badge>{dict.get(role)}</Badge>,
+    cell: ({ role }) => <span class={badge()}>{dict.get(role)}</span>,
     disableHiding: true,
     sortable: true,
   },

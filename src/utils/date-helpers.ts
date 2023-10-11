@@ -2,7 +2,7 @@ export const relativeTime = new Intl.RelativeTimeFormat("es", {
   style: "short",
 });
 
-export const dayNumberToText = {
+export const dayNumberToText: { [key: number]: string } = {
   0: "Domingo",
   1: "Lunes",
   2: "Martes",
