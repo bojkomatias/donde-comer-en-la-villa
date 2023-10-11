@@ -24,7 +24,6 @@ export const BusinessNew = ({
       <DashboardHeading
         title={dict.get("create") + " " + dict.get("business")}
       />
-
       <DashboardContent>
         <BackButton />
         <div class={card().base()}>
@@ -124,5 +123,3 @@ export const BusinessNew = ({
     </div>
   );
 };
-
-// "on change set global imgName to my files[0].name then put my files[0].name into #imageName.innerHTML then remove .hidden from #imageName then add @src=$imgName to #imageContainer"

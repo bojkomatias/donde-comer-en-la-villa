@@ -48,7 +48,7 @@ export const insertBusinessForm = createInsertSchema(business, {
   owner: t.Number(),
   // Override the inserted type (real model type, an array of ids referencing to tags through middle table)
   tags: t.Array(t.Object({ id: t.Number(), name: t.String() })),
-  image: t.Any()
+  image: t.Any(),
 });
 
 export const businessSchema = createSelectSchema(business, {

@@ -55,6 +55,7 @@ export function Input({ options, ...props }: Props) {
               "peer block w-full border-0 bg-transparent p-0 text-sm text-foreground placeholder:font-light placeholder:text-muted-foreground focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50 sm:leading-loose",
               props.type == "checkbox" &&
                 "absolute left-3 top-2.5 mt-px h-3.5 w-3.5 rounded-sm border border-border text-foreground focus:ring-2 focus:ring-border focus:ring-offset-background dark:text-muted",
+              props.type == "file" && "hidden",
               props.inputClass,
             )}
             safe

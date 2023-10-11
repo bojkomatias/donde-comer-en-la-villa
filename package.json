@@ -20,11 +20,16 @@
     "@kitajs/html": "^3.0.2",
     "@kitajs/ts-html-plugin": "^1.2.0",
     "@libsql/client": "^0.3.5",
+    "@supabase/supabase-js": "^2.38.0",
     "drizzle-orm": "^0.28.6",
     "drizzle-typebox": "^0.1.1",
     "elysia": "latest",
     "elysia-helmet": "^1.0.1",
-    "tailwind-variants": "^0.1.14"
+    "tailwind-variants": "^0.1.14",
+    "filereader": "^0.10.3",
+    "image-js": "^0.35.4",
+    "supabase": "^1.100.1"
+
   },
   "devDependencies": {
     "@iconify/json": "^2.2.123",
