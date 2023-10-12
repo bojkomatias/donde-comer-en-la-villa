@@ -20,7 +20,7 @@ export const business = sqliteTable(
     instagram: text("instagram").notNull(),
     address: text("address"),
     location: text("location"),
-    image: blob("image").notNull(),
+    image: text("image").notNull(),
     // Tags are virtual, but we can still store them here as a helper
     tags: text("tags").$type<number[] | string[] | string>().notNull(),
     featured: integer("featured", { mode: "boolean" }).default(false),
@@ -48,7 +48,6 @@ export const insertBusinessForm = createInsertSchema(business, {
   owner: t.Number(),
   // Override the inserted type (real model type, an array of ids referencing to tags through middle table)
   tags: t.Array(t.Object({ id: t.Number(), name: t.String() })),
-  image: t.Any(),
 });
 
 export const businessSchema = createSelectSchema(business, {

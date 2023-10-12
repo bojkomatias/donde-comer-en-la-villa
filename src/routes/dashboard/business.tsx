@@ -140,6 +140,7 @@ const business = new Elysia({
         Object.assign(body, c);
         body.tags = [body.tags].flat().map((e: any) => JSON.parse(e));
         //Resizes the image to make it lighter
+        // @ts-ignore cause this is blob, upload occurs and then handler recibes de URI
         body.image = await imageResizer(body.image, body.name).then((res) => {
           return res.image_url;
         });
@@ -256,6 +257,7 @@ const business = new Elysia({
         Object.assign(body, c);
         body.tags = [body.tags].flat().map((e: any) => JSON.parse(e));
         //Resizes the image to make it lighter
+        // @ts-ignore cause this is blob, upload occurs and then handler recibes de URI
         body.image = await imageResizer(body.image, body.name).then((res) => {
           return res.image_url;
         });
