@@ -1,16 +1,13 @@
 import Elysia from "elysia";
-import setup from "../(setup)";
 import { getUsers } from "@/services/user";
 import { UserRows, UsersTable } from "@/modules/users/users-table";
-import { DashboardLayout } from "@/ui/dashboard/layout";
-import { nextURL, querySearchParams } from "@/ui/data-table/utils";
-import { userSchema } from "@/db/schema/user";
+import DashboardLayout from "@/app/dashboard/layout";
+import usersRoute from "./route";
 
-const users = new Elysia({
-  name: "users",
+export default new Elysia({
+  name: "users-page",
   prefix: "/d/users",
 })
-  .use(setup)
   .onBeforeHandle(({ request, set }) => {
     if (request.method === "GET") {
       // Change to false, indicating data is refreshed
@@ -25,6 +22,7 @@ const users = new Elysia({
       set.headers["users"] = "true";
     }
   })
+  .use(usersRoute)
   .get("/", async ({ headers, set, JWTUser }) => {
     /**
      * For different hx-targets responses might be different,
@@ -45,16 +43,4 @@ const users = new Elysia({
         </UsersTable>
       </DashboardLayout>
     );
-  })
-  .get(
-    "/q",
-    async ({ query }) => {
-      const users = await getUsers(query);
-      return <UserRows users={users} next={nextURL("/d/users/q", query)} />;
-    },
-    {
-      query: querySearchParams(userSchema),
-    },
-  );
-
-export default users;
+  });

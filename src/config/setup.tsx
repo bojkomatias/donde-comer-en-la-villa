@@ -27,7 +27,6 @@ if (Bun.env.GOOGLE_CLIENT_SECRET === undefined)
  */
 
 const setup = new Elysia({ name: "setup" })
-  .use(html())
   .use(helmet({ contentSecurityPolicy: false }))
   .use(etag())
   .use(cookie())
