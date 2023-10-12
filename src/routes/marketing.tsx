@@ -6,11 +6,15 @@ import Marketing from "@/modules/marketing/page";
 import { Results } from "@/modules/marketing/results";
 import { MarketingLayout } from "@/ui/marketing/layout";
 import { ClearFilters } from "@/modules/marketing/filters";
+import { Notification } from "@/ui/notification";
 
 const marketing = new Elysia({
   name: "marketing",
 })
   .use(setup)
+  .get("/n", () => (
+    <Notification title="SAPE" description="Lorem sape sape sape sape sape" />
+  ))
   .guard(
     {
       beforeHandle: ({ set }) => {
@@ -29,6 +33,10 @@ const marketing = new Elysia({
           return (
             <MarketingLayout>
               <Marketing tags={tags} initialData={initialB} />
+              <button hx-get="/n" hx-swap="none">
+                Nofify me
+              </button>{" "}
+              <button _="on click log window.location">Log</button>
             </MarketingLayout>
           );
         })

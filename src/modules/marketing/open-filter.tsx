@@ -20,6 +20,7 @@ export const OpenFilter = () => (
             class={dropdown().item()}
             hx-get="/q?open=true"
             hx-target="#results"
+            hx-push-url="true"
             hx-swap="outerHTML"
             _={`on click take .text-foreground tell <i/> in me take .i-lucide-check put 'Abierto ahora' into #open-label end
             on click tell .query-listener set @hx-vals to '{"open":"true"}' send removeI to .tag-indicator`}
@@ -32,6 +33,7 @@ export const OpenFilter = () => (
             class={dropdown().item()}
             hx-get="/q?today=true"
             hx-target="#results"
+            hx-push-url="true"
             hx-swap="outerHTML"
             _={`init add .text-foreground end
           on click take .text-foreground tell <i/> in me take .i-lucide-check put 'Abierto hoy' into #open-label end
@@ -44,6 +46,7 @@ export const OpenFilter = () => (
           <button
             class={dropdown().item()}
             hx-get="/q"
+            hx-push-url="true"
             hx-target="#results"
             hx-swap="outerHTML"
             _={`on click take .text-foreground tell <i/> in me take .i-lucide-check put 'Todos' into #open-label end
