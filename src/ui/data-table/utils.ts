@@ -58,7 +58,7 @@ export const pageLimit = 15;
  * @returns string
  */
 export const nextURL = <T>(
-  baseURL: string,
+  baseURL: GetRoutes,
   { search, orderBy, sort, page }: QuerySearchParams<T>,
 ) => {
   // Needs http,... but it's ignored anyways
@@ -68,5 +68,5 @@ export const nextURL = <T>(
   if (sort) n.searchParams.set("sort", sort);
   n.searchParams.set("page", (page ? page + 1 : 1).toString());
 
-  return n.pathname + n.search;
+  return (n.pathname + n.search) as GetRoutes;
 };

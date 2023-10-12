@@ -60,12 +60,12 @@ const business = new Elysia({
 
     return headers["hx-target"] ? (
       <BusinessTable>
-        <BusinessRows businesses={businesses} next="" />
+        <BusinessRows businesses={businesses} next="/d/business/q?page=1" />
       </BusinessTable>
     ) : (
       <DashboardLayout role={JWTUser!.role}>
         <BusinessTable>
-          <BusinessRows businesses={businesses} next="" />
+          <BusinessRows businesses={businesses} next="/d/business/q?page=1" />
         </BusinessTable>
       </DashboardLayout>
     );
@@ -237,7 +237,7 @@ const business = new Elysia({
             description="Nuevo negocio creado con éxito"
           />
           <BusinessTable>
-            <BusinessRows businesses={businesses} next="" />
+            <BusinessRows businesses={businesses} next="/d/business/q?page=1" />
           </BusinessTable>
         </>
       );
