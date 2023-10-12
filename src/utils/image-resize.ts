@@ -5,15 +5,15 @@ import { supabase as supabaseClient } from "utils/supabase"
 /**This function returns an object with two keys: 
  * @result returned by the Supabase upload function. This object returns among other things, an error, so to check for error, simply use result.error.
  * @image_url a string that points to the image resource stored in the Supabase bucket*/
-export default async function imageResizer(file: Blob, file_name: String) {
+export default async function imageResizer(file: Blob, business_name: String) {
 
   const fileSize = file.size;
   const factor = 100000 / fileSize;
   let image = await file!.arrayBuffer()
   //Before uploading the image I make sure to remove every space and replace it with an underscore and then normalize it too to remove accent marks to reduce the chance of having trouble with the URL.
-  console.log(file_name)
-  file_name.normalize("NFKC").replaceAll(" ", "_").replace(/[^\w]/g, '')
-  console.log(file_name.replaceAll(" ", "_").normalize())
+
+  business_name.normalize("NFD").replace(/[\u0300-\u036f]/g, '').replaceAll(" ", "_").toLowerCase();
+  const file_name = business_name.normalize("NFD").replace(/[\u0300-\u036f]/g, '').replaceAll(" ", "_").toLowerCase();
   console.log("Image size:", fileSize * 0.0009765625 + "KB")
   console.log("Factor: ", factor)
 

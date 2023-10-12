@@ -61,7 +61,7 @@ export const BusinessEdit = ({
                 name="image"
                 required="true"
                 placeholder="https://scontent.cdninstagram.com/v/"
-                value={business.image || ""}
+                value={business.image}
                 type="file"
                 title="Podes copiar tu imagen de Instagram"
               />
