@@ -7,7 +7,7 @@ import Elysia, { Static } from "elysia";
 import { Value } from "@sinclair/typebox/value";
 import setup from "@/config/setup";
 
-export default new Elysia({ name: "business-route" })
+const BusinessRoute = new Elysia({ name: "business-route" })
   .use(setup)
   .get(
     "/q",
@@ -76,3 +76,5 @@ export default new Elysia({ name: "business-route" })
       body: insertBusinessForm,
     },
   );
+
+export default BusinessRoute;

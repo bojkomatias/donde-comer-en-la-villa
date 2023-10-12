@@ -2,11 +2,11 @@ import DashboardLayout from "@/app/dashboard/layout";
 import Settings from "@/modules/settings";
 import { getUserById } from "@/services/user";
 import Elysia from "elysia";
-import settingsRoute from "./route";
+import SettingsRoute from "./route";
 
-export default new Elysia({
+const SettingsPage = new Elysia({
   name: "settings-page",
-  prefix: "/d/settings",
+  prefix: "/settings",
 })
   .onBeforeHandle(({ request, set }) => {
     if (request.method === "GET") {
@@ -22,7 +22,7 @@ export default new Elysia({
       set.headers["settings"] = "true";
     }
   })
-  .use(settingsRoute)
+  .use(SettingsRoute)
   .get("/", async ({ JWTUser, headers, set }) => {
     const user = await getUserById(parseInt(JWTUser!.id));
 
@@ -36,3 +36,5 @@ export default new Elysia({
       </DashboardLayout>
     );
   });
+
+export default SettingsPage;

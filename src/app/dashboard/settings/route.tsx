@@ -4,7 +4,7 @@ import setup from "@/config/setup";
 import { updateUserAttribute } from "@/services/user";
 import Elysia, { t } from "elysia";
 
-export default new Elysia({
+const SettingsRoute = new Elysia({
   name: "settings-route",
 })
   .use(setup)
@@ -34,3 +34,5 @@ export default new Elysia({
     },
     { body: t.Partial(userSchema) },
   );
+
+export default SettingsRoute;

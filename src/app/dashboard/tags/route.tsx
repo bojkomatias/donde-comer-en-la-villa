@@ -5,7 +5,7 @@ import Tags from "@/modules/tag";
 import { Notification } from "@/ui/notification";
 import { createTag, getTagById, updateTag } from "@/services/tag";
 
-export default new Elysia({
+const TagsRoute = new Elysia({
   name: "tags-route",
 })
   .use(setup)
@@ -64,3 +64,5 @@ export default new Elysia({
     },
     { body: tagForm },
   );
+
+export default TagsRoute;

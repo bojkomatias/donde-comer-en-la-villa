@@ -3,24 +3,13 @@ import staticPlugin from "@elysiajs/static";
 import swagger from "@elysiajs/swagger";
 import { html } from "@elysiajs/html";
 
-import auth from "./app/auth/route";
-
-import marketing from "@/app/page";
-import businessPage from "@/app/dashboard/business/page";
-import settingsPage from "@/app/dashboard/settings/page";
-import tagsPage from "@/app/dashboard/tags/page";
-import usersPage from "@/app/dashboard/users/page";
+import index from "@/app/page";
 
 const app = new Elysia()
   .use(swagger())
   .use(html())
   .use(staticPlugin())
-  .use(auth)
-  .use(marketing)
-  .use(businessPage)
-  .use(settingsPage)
-  .use(tagsPage)
-  .use(usersPage)
+  .use(index)
   .get("/styles.css", () => Bun.file("./src/output.css"))
   .listen(3000);
 

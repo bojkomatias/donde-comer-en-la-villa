@@ -5,7 +5,7 @@ import { nextURL, querySearchParams } from "@/ui/data-table/utils";
 import { userSchema } from "@/db/schema/user";
 import setup from "@/config/setup";
 
-export default new Elysia({
+const UsersRoute = new Elysia({
   name: "users-route",
 })
   .use(setup)
@@ -19,3 +19,5 @@ export default new Elysia({
       query: querySearchParams(userSchema),
     },
   );
+
+export default UsersRoute;

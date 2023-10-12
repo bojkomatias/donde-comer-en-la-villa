@@ -2,11 +2,14 @@ import Elysia from "elysia";
 import DashboardLayout from "../layout";
 import { BusinessRows, BusinessTable } from "@/modules/business/business-table";
 import { getBusinesses } from "@/services/business";
-import businessRoute from "./route";
-import businessIdPage from "./[id]/page";
-import businessNewPage from "./new/page";
+import BusinessIdPage from "./[id]/page";
+import BusinessNewPage from "./new/page";
+import BusinessRoute from "./route";
 
-export default new Elysia({ name: "business-page", prefix: "/d/business" })
+const BusinessPage = new Elysia({
+  name: "business-page",
+  prefix: "/business",
+})
   .onBeforeHandle(({ request, set }) => {
     if (request.method === "GET") {
       // Change to false, indicating data is refreshed
@@ -21,9 +24,9 @@ export default new Elysia({ name: "business-page", prefix: "/d/business" })
       set.headers["business"] = "true";
     }
   })
-  .use(businessRoute)
-  .use(businessIdPage)
-  .use(businessNewPage)
+  .use(BusinessRoute)
+  .use(BusinessIdPage)
+  .use(BusinessNewPage)
   .get("/", async ({ JWTUser, headers, set }) => {
     const businesses = await getBusinesses({});
     /**
@@ -46,3 +49,5 @@ export default new Elysia({ name: "business-page", prefix: "/d/business" })
       </DashboardLayout>
     );
   });
+
+export default BusinessPage;

@@ -1,15 +1,16 @@
 import Elysia from "elysia";
-import businessIdRoute from "./route";
 import { BusinessView } from "@/modules/business/business-view";
 import { getBusinessWithRelations } from "@/services/business";
 import DashboardLayout from "../../layout";
-import hoursPage from "./hours/page";
-import editPage from "./edit/page";
 
-export default new Elysia({ name: "business-id-page" })
-  .use(businessIdRoute)
-  .use(editPage)
-  .use(hoursPage)
+import BusinessIdRoute from "./route";
+import BusinessEditPage from "./edit/page";
+import BusinessHoursPage from "./hours/page";
+
+const BusinessIdPage = new Elysia({ name: "business-id-page" })
+  .use(BusinessIdRoute)
+  .use(BusinessEditPage)
+  .use(BusinessHoursPage)
   .get("/:id", async ({ JWTUser, headers, params: { id }, set }) => {
     const business = await getBusinessWithRelations(parseInt(id));
 
@@ -21,3 +22,5 @@ export default new Elysia({ name: "business-id-page" })
       </DashboardLayout>
     );
   });
+
+export default BusinessIdPage;

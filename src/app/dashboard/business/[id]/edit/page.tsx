@@ -8,7 +8,7 @@ import { getUsersForSelector } from "@/services/user";
 
 import Elysia from "elysia";
 
-export default new Elysia({ name: "business-edit-page" })
+const BusinessEditPage = new Elysia({ name: "business-edit-page" })
   .use(setup)
   .get("/:id/edit", async ({ JWTUser, headers, params: { id } }) => {
     const tags = await getTags();
@@ -38,3 +38,5 @@ export default new Elysia({ name: "business-edit-page" })
       </DashboardLayout>
     );
   });
+
+export default BusinessEditPage;

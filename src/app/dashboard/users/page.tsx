@@ -2,11 +2,12 @@ import Elysia from "elysia";
 import { getUsers } from "@/services/user";
 import { UserRows, UsersTable } from "@/modules/users/users-table";
 import DashboardLayout from "@/app/dashboard/layout";
-import usersRoute from "./route";
+import UsersRoute from "./route";
+import { nextURL } from "@/ui/data-table/utils";
 
-export default new Elysia({
+const UsersPage = new Elysia({
   name: "users-page",
-  prefix: "/d/users",
+  prefix: "/users",
 })
   .onBeforeHandle(({ request, set }) => {
     if (request.method === "GET") {
@@ -22,7 +23,7 @@ export default new Elysia({
       set.headers["users"] = "true";
     }
   })
-  .use(usersRoute)
+  .use(UsersRoute)
   .get("/", async ({ headers, set, JWTUser }) => {
     /**
      * For different hx-targets responses might be different,
@@ -34,13 +35,15 @@ export default new Elysia({
 
     return headers["hx-target"] ? (
       <UsersTable>
-        <UserRows users={users} next="/d/users/q?page=1" />
+        <UserRows users={users} next={nextURL("/d/users/q", {})} />
       </UsersTable>
     ) : (
       <DashboardLayout role={JWTUser!.role}>
         <UsersTable>
-          <UserRows users={users} next="/d/users/q?page=1" />
+          <UserRows users={users} next={nextURL("/d/users/q", {})} />
         </UsersTable>
       </DashboardLayout>
     );
   });
+
+export default UsersPage;

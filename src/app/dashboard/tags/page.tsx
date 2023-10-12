@@ -2,11 +2,11 @@ import Elysia from "elysia";
 import Tags from "@/modules/tag";
 import { getTags } from "@/services/tag";
 import DashboardLayout from "@/app/dashboard/layout";
-import tagsRoute from "./route";
+import TagsRoute from "./route";
 
-export default new Elysia({
+const TagsPage = new Elysia({
   name: "tags-page",
-  prefix: "/d/tag",
+  prefix: "/tag",
 })
   .onBeforeHandle(({ request, set }) => {
     if (request.method === "GET") {
@@ -22,7 +22,7 @@ export default new Elysia({
       set.headers["tags"] = "true";
     }
   })
-  .use(tagsRoute)
+  .use(TagsRoute)
   .get("/", async ({ JWTUser, headers }) => {
     const tags = await getTags();
 
@@ -34,3 +34,5 @@ export default new Elysia({
       </DashboardLayout>
     );
   });
+
+export default TagsPage;

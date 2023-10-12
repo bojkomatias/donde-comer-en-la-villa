@@ -10,8 +10,12 @@ import { ClearFilters, Filters } from "@/modules/marketing/filters";
 import { OpenFilter } from "@/modules/marketing/open-filter";
 import { Results } from "@/modules/marketing/results";
 import { Search } from "@/modules/marketing/search";
+import dashboard from "./dashboard/page";
+import auth from "./auth/route";
 
-export default new Elysia({ name: "marketing-page" })
+const index = new Elysia({ name: "index-page" })
+  .use(auth)
+  .use(dashboard)
   .get(
     "/n",
     () => (
@@ -40,7 +44,7 @@ export default new Elysia({ name: "marketing-page" })
 
             return (
               <MarketingTemplate>
-                <Marketing tags={tags} initialData={businesses} />
+                <Page tags={tags} initialData={businesses} />
                 <button hx-get="/n" hx-swap="none">
                   Nofify me
                 </button>{" "}
@@ -79,7 +83,7 @@ export default new Elysia({ name: "marketing-page" })
   );
 
 // The page itself
-const Marketing = ({
+const Page = ({
   tags,
   initialData,
 }: {
@@ -112,3 +116,5 @@ const Marketing = ({
     <Results businesses={initialData} />
   </>
 );
+
+export default index;
