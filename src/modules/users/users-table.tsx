@@ -1,12 +1,12 @@
 import { SelectUser } from "@/db/schema/user";
-import { Badge } from "@/ui/badge";
+import { badge } from "@/ui/badge";
 import { DashboardHeading } from "@/ui/dashboard/heading";
 import { DashboardContent } from "@/ui/dashboard/wrapper";
 import { DataRows, DataTable } from "@/ui/data-table/data-table";
 import { Action, Column, pageLimit } from "@/ui/data-table/utils";
 import { dict } from "@/utils/dictionary";
 
-const columns: Column<Omit<SelectUser, "password">>[] = [
+const columns: Column<SelectUser>[] = [
   {
     accessor: "id",
     col: "w-12",
@@ -36,7 +36,7 @@ const columns: Column<Omit<SelectUser, "password">>[] = [
     hidden: true,
   },
 ];
-const actions: Action<Omit<SelectUser, "password">>[] = [];
+const actions: Action<SelectUser>[] = [];
 
 export const UsersTable = ({ children }: { children: any }) => {
   return (
@@ -63,8 +63,8 @@ export const UserRows = ({
   users,
   next,
 }: {
-  users: Omit<SelectUser, "password">[];
-  next: string;
+  users: SelectUser[];
+  next: GetRoutes;
 }) => (
   <DataRows
     columns={columns}

@@ -21,6 +21,7 @@ const app = new Elysia()
   .use(settingsPage)
   .use(tagsPage)
   .use(usersPage)
+  .get("/styles.css", () => Bun.file("./src/output.css"))
   .listen(3000);
 
 export type App = typeof app;

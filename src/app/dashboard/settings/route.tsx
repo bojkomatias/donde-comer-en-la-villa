@@ -1,8 +1,7 @@
 import { InsertUser, userSchema } from "@/db/schema/user";
 import Profile from "@/modules/settings/profile";
 import setup from "@/config/setup";
-import { getUserById, updateUserAttribute } from "@/services/user";
-import { Notification } from "@/ui/notification";
+import { updateUserAttribute } from "@/services/user";
 import Elysia, { t } from "elysia";
 
 export default new Elysia({
@@ -34,40 +33,4 @@ export default new Elysia({
       return <Profile.Attribute id={id} attribute={attr} value={r} />;
     },
     { body: t.Partial(userSchema) },
-  )
-  .patch(
-    "/password",
-    async ({ JWTUser, body, set }) => {
-      const { password } = await getUserById(parseInt(JWTUser!.id));
-
-      if (password !== body.currentPassword) {
-        set.status = 403;
-        return (
-          <Notification
-            isError
-            title="Error"
-            description="Las contraseñas no coinciden"
-          />
-        );
-      }
-
-      await updateUserAttribute(
-        parseInt(JWTUser!.id),
-        "password",
-        body.password,
-      );
-
-      return (
-        <Notification
-          title="Actualizado"
-          description="La contraseña fue actualizada"
-        />
-      );
-    },
-    {
-      body: t.Object({
-        currentPassword: t.String(),
-        password: t.String(),
-      }),
-    },
   );
