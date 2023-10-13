@@ -1,13 +1,11 @@
 import { Elysia } from "elysia";
-import staticPlugin from "@elysiajs/static";
 import swagger from "@elysiajs/swagger";
-import { html } from "@elysiajs/html";
+import staticPlugin from "@elysiajs/static";
 
 import index from "@/app/page";
 
 const app = new Elysia()
   .use(swagger())
-  .use(html())
   .use(staticPlugin())
   .use(index)
   .get("/styles.css", () => Bun.file("./src/output.css"))
