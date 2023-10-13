@@ -2,7 +2,6 @@ import { Elysia, t } from "elysia";
 import cookie from "@elysiajs/cookie";
 import jwt from "@elysiajs/jwt";
 import { helmet } from "elysia-helmet";
-import { etag } from "@bogeychan/elysia-etag";
 
 if (Bun.env.JWT_SECRET === undefined)
   throw "Missing secret add JWT_SECRET to .env file";
@@ -27,7 +26,6 @@ if (Bun.env.GOOGLE_CLIENT_SECRET === undefined)
 
 const setup = new Elysia({ name: "setup" })
   .use(helmet({ contentSecurityPolicy: false }))
-  .use(etag())
   .use(cookie())
   .use(
     jwt({
