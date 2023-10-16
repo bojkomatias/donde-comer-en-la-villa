@@ -1,6 +1,5 @@
 import { getBusinessesQuery } from "@/services/business";
 import { getTags } from "@/services/tag";
-import { Notification } from "@/ui/notification";
 import Elysia, { t } from "elysia";
 import MarketingTemplate from "./template";
 import { SelectBusiness } from "@/db/schema/business";
@@ -23,13 +22,6 @@ const index = new Elysia({ name: "index-page" })
     },
     (app) => app.use(dashboard),
   )
-  .get(
-    "/n",
-    () => (
-      <Notification title="SAPE" description="Lorem sape sape sape sape sape" />
-    ),
-    { afterHandle: () => console.log("======> ADSASDS?") },
-  )
   .guard(
     {
       beforeHandle: ({ set }) => {
@@ -41,34 +33,25 @@ const index = new Elysia({ name: "index-page" })
     },
     (app) =>
       app
-        .get(
-          "/",
-          async () => {
-            const tags = await getTags();
-            const businesses = await getBusinessesQuery({
-              today: "true",
-            });
+        .get("/", async () => {
+          const tags = await getTags();
+          const businesses = await getBusinessesQuery({
+            today: "true",
+          });
 
-            return (
-              <MarketingTemplate>
-                <Page tags={tags} initialData={businesses} />
-                <button hx-get="/n" hx-swap="none">
-                  Nofify me
-                </button>{" "}
-                <button _="on click log window.location">Log</button>
-              </MarketingTemplate>
-            );
-          },
-          {
-            afterHandle: () => {
-              console.log("=======> AFTER");
-            },
-          },
-        )
+          return (
+            <MarketingTemplate>
+              <Page tags={tags} initialData={businesses} />
+              <button hx-get="/n" hx-swap="none">
+                Nofify me
+              </button>{" "}
+              <button _="on click log window.location">Log</button>
+            </MarketingTemplate>
+          );
+        })
         .get(
           "/q",
           async ({ query }) => {
-            console.log(query);
             const businesses = await getBusinessesQuery(query);
 
             return (
