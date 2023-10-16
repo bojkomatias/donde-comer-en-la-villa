@@ -2,7 +2,7 @@ import { Elysia, t } from "elysia";
 import cookie from "@elysiajs/cookie";
 import jwt from "@elysiajs/jwt";
 import { helmet } from "elysia-helmet";
-import { html, isHtml } from "@elysiajs/html";
+import { html } from "@elysiajs/html";
 
 if (Bun.env.JWT_SECRET === undefined)
   throw "Missing secret add JWT_SECRET to .env file";
@@ -26,10 +26,7 @@ if (Bun.env.GOOGLE_CLIENT_SECRET === undefined)
  */
 
 const setup = new Elysia({ name: "setup" })
-  .use(html({ autoDetect: false, autoDoctype: "full" }))
-  .onAfterHandle(({ html, response }) => {
-    if (isHtml(response)) return html(response as JSX.Element);
-  })
+  .use(html())
   .use(helmet({ contentSecurityPolicy: false }))
   .use(cookie())
   .use(
