@@ -22,8 +22,9 @@ export const OpenFilter = () => (
             hx-target="#results"
             hx-push-url="true"
             hx-swap="outerHTML"
-            _={`on click take .text-foreground tell <i/> in me take .i-lucide-check put 'Abierto ahora' into #open-label end
-            on click tell .query-listener set @hx-vals to '{"open":"true"}' send removeI to .tag-indicator`}
+            _={`init if window.location.search is '?open=true' then send changeFilter to me end
+            on click send changeFilter to me end
+            on changeFilter take .text-foreground tell <i/> in me take .i-lucide-check put 'Abierto ahora' into #open-label tell .query-listener set @hx-vals to '{"open":"true"}' send removeI to .tag-indicator`}
           >
             Abierto ahora <i />
           </button>
@@ -35,11 +36,11 @@ export const OpenFilter = () => (
             hx-target="#results"
             hx-push-url="true"
             hx-swap="outerHTML"
-            _={`init add .text-foreground end
-          on click take .text-foreground tell <i/> in me take .i-lucide-check put 'Abierto hoy' into #open-label end
-          on click tell .query-listener set @hx-vals to '{"today":"true"}' send removeI to .tag-indicator`}
+            _={`init if window.location.search is '?today=true' then send changeFilter to me end
+            on click send changeFilter to me end
+            on changeFilter take .text-foreground tell <i/> in me take .i-lucide-check put 'Abierto hoy' into #open-label tell .query-listener set @hx-vals to '{"today":"true"}' send removeI to .tag-indicator`}
           >
-            Abierto hoy <i class="i-lucide-check" />
+            Abierto hoy <i />
           </button>
         </Hover.Item>
         <Hover.Item>
@@ -49,8 +50,9 @@ export const OpenFilter = () => (
             hx-push-url="true"
             hx-target="#results"
             hx-swap="outerHTML"
-            _={`on click take .text-foreground tell <i/> in me take .i-lucide-check put 'Todos' into #open-label end
-            on click tell .query-listener set @hx-vals to '{}' send removeI to .tag-indicator`}
+            _={`init if window.location.search is '' then send changeFilter to me end
+            on click send changeFilter to me end
+            on changeFilter take .text-foreground tell <i/> in me take .i-lucide-check put 'Todos' into #open-label tell .query-listener set @hx-vals to '{}' send removeI to .tag-indicator`}
           >
             Todos <i />
           </button>

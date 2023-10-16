@@ -5,7 +5,7 @@ import Layout from "./layout";
 export default function MarketingTemplate({
   children,
 }: {
-  children: JSX.Element[];
+  children: JSX.Element | JSX.Element[];
 }) {
   return (
     <Layout>

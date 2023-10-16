@@ -42,22 +42,26 @@ const index = new Elysia({ name: "index-page" })
           return (
             <MarketingTemplate>
               <Page tags={tags} initialData={businesses} />
-              <button hx-get="/n" hx-swap="none">
-                Nofify me
-              </button>{" "}
-              <button _="on click log window.location">Log</button>
             </MarketingTemplate>
           );
         })
         .get(
           "/q",
-          async ({ query }) => {
+          async ({ query, headers }) => {
+            const tags = await getTags();
             const businesses = await getBusinessesQuery(query);
 
-            return (
+            return headers["hx-target"] ? (
               <>
                 <ClearFilters tag={query.tag} />
                 <Results businesses={businesses} />
+              </>
+            ) : (
+              <>
+                <MarketingTemplate>
+                  {/* <ClearFilters tag={query.tag} /> */}
+                  <Page tags={tags} initialData={businesses} />
+                </MarketingTemplate>
               </>
             );
           },
