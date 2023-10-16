@@ -34,17 +34,10 @@ const auth = new Elysia({ name: "auth" })
 
     set.redirect = "/";
   })
-  .get("/auth/status", ({ JWTUser, set }) => {
-    if (JWTUser) return (set.redirect = "/auth/navigation");
+  // This function returns auth navigation, or login button according to xd
+  .get("/auth/status", ({ token, set }) => {
+    if (token) return <UserNavigation user={token} />;
     return <LoginButton />;
-  })
-  .get("/auth/navigation", ({ JWTUser }) => <UserNavigation user={JWTUser} />, {
-    beforeHandle: ({ JWTUser, set }) => {
-      if (!JWTUser) {
-        set.status = 401;
-        return "Unauthorized";
-      }
-    },
   })
   .post("/auth/logout", ({ setCookie, set }) => {
     // Remove cookie not working

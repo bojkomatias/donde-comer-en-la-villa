@@ -6,7 +6,7 @@ import BusinessHoursRoute from "./route";
 
 const BusinessHoursPage = new Elysia({ name: "business-hours-page" })
   .use(BusinessHoursRoute)
-  .get("/:id/hours", async ({ JWTUser, headers, params: { id } }) => {
+  .get("/:id/hours", async ({ token, headers, params: { id } }) => {
     const bhs = await getBusinessHoursByBusiness(parseInt(id));
     return headers["hx-request"] ? (
       <BusinessHours
@@ -14,7 +14,7 @@ const BusinessHoursPage = new Elysia({ name: "business-hours-page" })
         businessHours={bhs.length > 0 ? bhs : undefined}
       />
     ) : (
-      <DashboardLayout role={JWTUser!.role}>
+      <DashboardLayout token={token}>
         <BusinessHours
           id={parseInt(id)}
           businessHours={bhs.length > 0 ? bhs : undefined}

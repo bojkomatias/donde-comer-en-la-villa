@@ -10,7 +10,7 @@ const BusinessIdRoute = new Elysia({ name: "business-id-route" })
   .use(setup)
   .put(
     "/:id",
-    async ({ body, set, params: { id }, JWTUser }) => {
+    async ({ body, set, params: { id }, token }) => {
       const updated = await updateBusiness(parseInt(id), body);
 
       if (!updated) {
@@ -31,10 +31,7 @@ const BusinessIdRoute = new Elysia({ name: "business-id-route" })
             title="Actualizado"
             description="Negocio actualizado con éxito"
           />
-          <BusinessView
-            business={business}
-            asAdmin={JWTUser?.role === "admin"}
-          />
+          <BusinessView business={business} asAdmin={token?.role === "admin"} />
         </>
       );
     },

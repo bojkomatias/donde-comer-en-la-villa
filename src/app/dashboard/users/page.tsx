@@ -24,7 +24,7 @@ const UsersPage = new Elysia({
     }
   })
   .use(UsersRoute)
-  .get("/", async ({ headers, set, JWTUser }) => {
+  .get("/", async ({ headers, set, token }) => {
     /**
      * For different hx-targets responses might be different,
      * Ignore caching if this header/s vary
@@ -38,7 +38,7 @@ const UsersPage = new Elysia({
         <UserRows users={users} next={nextURL("/d/users/q", {})} />
       </UsersTable>
     ) : (
-      <DashboardLayout role={JWTUser!.role}>
+      <DashboardLayout token={token}>
         <UsersTable>
           <UserRows users={users} next={nextURL("/d/users/q", {})} />
         </UsersTable>

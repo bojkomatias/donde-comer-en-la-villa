@@ -27,7 +27,7 @@ const BusinessPage = new Elysia({
   .use(BusinessRoute)
   .use(BusinessIdPage)
   .use(BusinessNewPage)
-  .get("/", async ({ JWTUser, headers, set }) => {
+  .get("/", async ({ token, headers, set }) => {
     const businesses = await getBusinesses({});
     /**
      * For different hx-targets responses might be different,
@@ -42,7 +42,7 @@ const BusinessPage = new Elysia({
         <BusinessRows businesses={businesses} next="/d/business/q?page=1" />
       </BusinessTable>
     ) : (
-      <DashboardLayout role={JWTUser!.role}>
+      <DashboardLayout token={token}>
         <BusinessTable>
           <BusinessRows businesses={businesses} next="/d/business/q?page=1" />
         </BusinessTable>

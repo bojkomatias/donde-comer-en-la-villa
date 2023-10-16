@@ -27,7 +27,7 @@ const BusinessRoute = new Elysia({ name: "business-route" })
   )
   .post(
     "/",
-    async ({ body, set, JWTUser }) => {
+    async ({ body, set, token }) => {
       const created = await createBusiness(body);
 
       if (!created) {

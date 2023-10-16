@@ -15,7 +15,14 @@ import auth from "./auth/route";
 
 const index = new Elysia({ name: "index-page" })
   .use(auth)
-  .use(dashboard)
+  .guard(
+    {
+      beforeHandle: ({ token, set }) => {
+        if (!token) return (set.redirect = "/");
+      },
+    },
+    (app) => app.use(dashboard),
+  )
   .get(
     "/n",
     () => (

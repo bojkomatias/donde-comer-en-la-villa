@@ -11,14 +11,14 @@ const BusinessIdPage = new Elysia({ name: "business-id-page" })
   .use(BusinessIdRoute)
   .use(BusinessEditPage)
   .use(BusinessHoursPage)
-  .get("/:id", async ({ JWTUser, headers, params: { id }, set }) => {
+  .get("/:id", async ({ token, headers, params: { id }, set }) => {
     const business = await getBusinessWithRelations(parseInt(id));
 
     return headers["hx-request"] ? (
-      <BusinessView business={business} asAdmin={JWTUser?.role === "admin"} />
+      <BusinessView business={business} asAdmin={token?.role === "admin"} />
     ) : (
-      <DashboardLayout role={JWTUser!.role}>
-        <BusinessView business={business} asAdmin={JWTUser?.role === "admin"} />
+      <DashboardLayout token={token}>
+        <BusinessView business={business} asAdmin={token?.role === "admin"} />
       </DashboardLayout>
     );
   });

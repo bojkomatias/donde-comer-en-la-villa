@@ -7,7 +7,7 @@ import DashboardLayout from "../../layout";
 
 const BusinessNewPage = new Elysia({ name: "business-new-page" })
   .use(setup)
-  .get("/new", async ({ JWTUser, headers }) => {
+  .get("/new", async ({ token, headers }) => {
     const tags = await getTags();
     const users = await getUsersForSelector();
 
@@ -15,16 +15,16 @@ const BusinessNewPage = new Elysia({ name: "business-new-page" })
       <BusinessNew
         tags={tags}
         users={users}
-        asAdmin={JWTUser?.role === "admin"}
-        ownerId={JWTUser?.role === "owner" ? parseInt(JWTUser.id) : undefined}
+        asAdmin={token?.role === "admin"}
+        ownerId={token?.role === "owner" ? parseInt(token.id) : undefined}
       />
     ) : (
-      <DashboardLayout role={JWTUser!.role}>
+      <DashboardLayout token={token}>
         <BusinessNew
           tags={tags}
           users={users}
-          asAdmin={JWTUser?.role === "admin"}
-          ownerId={JWTUser?.role === "owner" ? parseInt(JWTUser.id) : undefined}
+          asAdmin={token?.role === "admin"}
+          ownerId={token?.role === "owner" ? parseInt(token.id) : undefined}
         />
       </DashboardLayout>
     );

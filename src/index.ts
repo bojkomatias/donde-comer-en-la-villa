@@ -7,8 +7,8 @@ import index from "@/app/page";
 const app = new Elysia()
   .use(swagger())
   .use(staticPlugin())
-  .use(index)
   .get("/styles.css", () => Bun.file("./src/output.css"))
+  .use(index)
   .listen(3000);
 
 export type App = typeof app;

@@ -10,7 +10,7 @@ import Elysia from "elysia";
 
 const BusinessEditPage = new Elysia({ name: "business-edit-page" })
   .use(setup)
-  .get("/:id/edit", async ({ JWTUser, headers, params: { id } }) => {
+  .get("/:id/edit", async ({ token, headers, params: { id } }) => {
     const tags = await getTags();
     const users = await getUsersForSelector();
     const business = await getBusinessById(parseInt(id));
@@ -25,15 +25,15 @@ const BusinessEditPage = new Elysia({ name: "business-edit-page" })
         tags={tags}
         users={users}
         business={business}
-        asAdmin={JWTUser?.role === "admin"}
+        asAdmin={token?.role === "admin"}
       />
     ) : (
-      <DashboardLayout role={JWTUser!.role}>
+      <DashboardLayout token={token}>
         <BusinessEdit
           tags={tags}
           users={users}
           business={business}
-          asAdmin={JWTUser?.role === "admin"}
+          asAdmin={token?.role === "admin"}
         />
       </DashboardLayout>
     );

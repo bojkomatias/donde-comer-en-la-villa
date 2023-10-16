@@ -23,13 +23,13 @@ const TagsPage = new Elysia({
     }
   })
   .use(TagsRoute)
-  .get("/", async ({ JWTUser, headers }) => {
+  .get("/", async ({ token, headers }) => {
     const tags = await getTags();
 
     return headers["hx-request"] ? (
       <Tags tags={tags} />
     ) : (
-      <DashboardLayout role={JWTUser!.role}>
+      <DashboardLayout token={token}>
         <Tags tags={tags} />
       </DashboardLayout>
     );

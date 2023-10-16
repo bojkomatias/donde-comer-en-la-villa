@@ -10,7 +10,7 @@ const BusinessHoursRoute = new Elysia({ name: "business-hours-route" })
   .use(setup)
   .post(
     "/:id",
-    async ({ JWTUser, body: { businessHours }, set }) => {
+    async ({ token, body: { businessHours }, set }) => {
       const ra = await upsertBusinessHours(businessHours);
       if (!ra[0]) {
         set.status = 403;
@@ -32,10 +32,7 @@ const BusinessHoursRoute = new Elysia({ name: "business-hours-route" })
             title="Horarios configurados"
             description="Se actualizaron tus horarios de atención"
           />
-          <BusinessView
-            business={business}
-            asAdmin={JWTUser?.role === "admin"}
-          />
+          <BusinessView business={business} asAdmin={token?.role === "admin"} />
         </>
       );
     },

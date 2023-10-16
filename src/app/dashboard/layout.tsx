@@ -1,30 +1,26 @@
 import { dashboardNav } from "@/config/dashboard";
-import { Role } from "@/db/schema/user";
 import { dict } from "@/utils/dictionary";
 import Layout from "../layout";
 import { Hover } from "@/ui/hover-transition";
 import { button } from "@/ui/button";
+import { UserNavigation } from "@/modules/auth/user-nav";
 
 export default function DashboardLayout({
-  role,
+  token,
   children,
 }: {
-  role: Role;
-  children?: any;
+  token: Token;
+  children: JSX.Element | JSX.Element[];
 }) {
   return (
     <Layout>
       <header class="flex flex-col items-end border-b border-border pt-2">
-        <div
-          hx-get="/auth/navigation"
-          hx-swap="outerHTML"
-          hx-trigger="load"
-          class="h-8"
-        />
+        <UserNavigation user={token} />
+
         <nav class="w-full self-start overflow-x-auto rounded-lg px-1 lg:px-8">
           <Hover class="flex gap-x-1 rounded-lg text-muted-foreground">
             {dashboardNav
-              .filter((link) => link.clearance?.includes(role))
+              .filter((link) => link.clearance?.includes(token!.role))
               .map((item) => (
                 <Hover.Item class="relative mb-1.5 hover:text-foreground">
                   <button

@@ -1,5 +1,7 @@
 /// <reference types="@kitajs/html/htmx.d.ts" />
 
+import { JWTPayloadSpec } from "@elysiajs/jwt";
+
 type Schema = import("./index").App["schema"];
 
 type PostRoutes = RoutesByType<Schema, "post">;
@@ -25,6 +27,18 @@ declare namespace JSX {
      */
     ["preload"]?: true | string;
   }
+}
+
+declare global {
+  type Token =
+    | ({
+        id: string;
+        name: string;
+        image: string | null;
+        email: string;
+        role: "customer" | "owner" | "admin";
+      } & JWTPayloadSpec)
+    | null;
 }
 
 type RoutesByType<
