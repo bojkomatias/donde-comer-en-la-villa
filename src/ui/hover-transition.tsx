@@ -5,25 +5,27 @@ import { cx } from "@/utils/cx";
  * @default .bg-muted
  */
 export const Hover = ({
-  indicator = "bg-secondary",
+  indicator = ".bg-transparent .backdrop-contrast-75",
   ...props
 }: JSX.HtmlTag & { indicator?: string }) => {
   let script =
-    "on move(x,y,w,h) set my.style.transform to 'translate(' + x + 'px,' + y + 'px)' set my.style.height to h set my.style.width to w";
+    "on move(x,y,w,h) set my.style.transform to 'translate(' + x + 'px,' + y + 'px)' set my.style.height to (h + 'px') set my.style.width to (w+'px')";
 
   return (
-    <div class={cx("relative h-fit", props.class?.includes("flex") && "w-fit")}>
+    <div
+      class={cx("relative", props.class?.includes("flex") ? "w-fit" : "h-fit")}
+    >
       <div
         class={cx(
-          "hover-indicator absolute -z-10 rounded-md opacity-10 saturate-200 transition ease-in-out",
+          "hover-indicator pointer-events-none absolute -z-10 rounded-lg opacity-50 transition ease-in-out",
           props.class?.includes("flex") ? "inset-y-0" : "inset-x-0",
         )}
         _={script}
       />
       <ul
         {...props}
-        _={`on mouseenter wait 0.1s then tell previous .hover-indicator add .${indicator} end
-         on mouseleave tell previous .hover-indicator remove .${indicator} end`}
+        _={`on mouseenter wait 0.1s then tell previous .hover-indicator add ${indicator} end
+         on mouseleave tell previous .hover-indicator remove ${indicator} end`}
       >
         {props.children}
       </ul>

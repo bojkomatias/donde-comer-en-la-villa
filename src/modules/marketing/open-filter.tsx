@@ -10,7 +10,11 @@ export const OpenFilter = () => (
       <i class="i-lucide-calendar-clock" />
     </button>
     <div class={dropdown().content({ class: "w-48" })} _={_content}>
-      <div class={dropdown().header({ class: "text-sm font-semibold" })}>
+      <div
+        class={dropdown().header({
+          class: "text-sm font-semibold text-card-foreground",
+        })}
+      >
         {dict.get("businessHours")}
       </div>
       <div class={dropdown().separator()} />

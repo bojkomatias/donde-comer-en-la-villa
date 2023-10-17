@@ -113,7 +113,7 @@ export function DataTable<T>({
                       <i class="i-lucide-chevrons-up-down" />
                     </button>
                   ) : (
-                    <span class="text-card-foreground">
+                    <span class="ml-2 text-card-foreground">
                       {header ? header : dict.get(accessor)}
                     </span>
                   )}
