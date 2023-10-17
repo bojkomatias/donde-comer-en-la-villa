@@ -1,4 +1,3 @@
-
 import { button } from "@/ui/button";
 import { _content, _trigger, dropdown } from "@/ui/dropdown";
 import { Hover } from "@/ui/hover-transition";
@@ -24,7 +23,7 @@ export const UserNavigation = ({ user }: { user: Token }) => {
 
       <div class={dropdown().content()} _={_content}>
         <div class={dropdown().header()}>
-          <div class="text-sm font-semibold" safe>
+          <div class="text-sm font-semibold text-card-foreground" safe>
             {user.name}
           </div>
           <div class="text-xs font-light leading-5 text-muted-foreground" safe>

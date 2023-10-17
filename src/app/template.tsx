@@ -12,7 +12,7 @@ export default function MarketingTemplate({
       <header class="flex h-12 items-center justify-between pt-2">
         <a
           href="/"
-          class="ml-3 font-heading font-black hover:text-foreground sm:ml-6"
+          class="ml-3 font-heading font-black text-muted-foreground hover:text-foreground sm:ml-6"
           tabindex="-1"
         >
           {siteConfig.name}
