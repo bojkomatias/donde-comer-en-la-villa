@@ -13,10 +13,10 @@ export const Notification = ({
     <div
       id="notification"
       hx-swap-oob="true"
-      class="fixed right-8 top-16 z-30 w-full max-w-sm translate-x-full overflow-hidden rounded-lg bg-white opacity-0 shadow-lg ring-1 ring-gray-200 dark:bg-gray-950 dark:shadow-black dark:ring-gray-800"
-      _="init toggle .transition on me wait then toggle .opacity-0 .translate-x-full on me end
-      init wait 4s then toggle .opacity-0 .translate-x-full on me settle then hide me end
-      on close toggle .opacity-0 .translate-x-full on me settle then hide me end"
+      class="animate-in slide-in-from-bottom fade-in fixed bottom-2 left-2 right-2 z-30 overflow-hidden rounded-lg bg-card shadow ring-1 ring-border duration-200 sm:bottom-8 sm:left-auto sm:right-4 sm:w-96"
+      _="init end
+      init wait 4s then send close to me end
+      on close add .animate-out .slide-out-to-right .fade-out wait 0.19s hide me end"
     >
       <div class="p-4">
         <div class="flex items-start">

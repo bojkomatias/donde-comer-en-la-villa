@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { InsertUser, SelectUser, user } from "@/db/schema/user";
 import { QuerySearchParams, pageLimit } from "@/ui/data-table/utils";
-import { and, asc, desc, eq, getTableColumns, like, or } from "drizzle-orm";
+import { asc, desc, eq, getTableColumns, like, or } from "drizzle-orm";
 
 export async function getUsersForSelector() {
   return await db.select({ id: user.id, name: user.name }).from(user);
@@ -14,10 +14,10 @@ export async function getUsers({
   orderBy,
   sort,
 }: QuerySearchParams<SelectUser>) {
-  const { password, ...rest } = getTableColumns(user);
+  const columns = getTableColumns(user);
 
   return await db
-    .select(rest)
+    .select(columns)
     .from(user)
     .where(
       search
@@ -61,20 +61,4 @@ export async function updateUserAttribute(
     .where(eq(user.id, id))
     .returning({ [attribute]: user[attribute] });
   return result[0][attribute];
-}
-
-export async function userMatchCredentials(email: string, password: string) {
-  // Check if credentials match
-  const result = await db
-    .select({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      image: user.image,
-      role: user.role,
-    })
-    .from(user)
-    .where(and(eq(user.email, email), eq(user.password, password)));
-
-  return result[0];
 }

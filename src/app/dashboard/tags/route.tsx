@@ -1,41 +1,15 @@
 import Elysia from "elysia";
-import setup from "@/routes/(setup)";
+import setup from "@/config/setup";
 import { tagForm } from "@/db/schema/tag";
 import Tags from "@/modules/tag";
 import { Notification } from "@/ui/notification";
-import { createTag, getTagById, getTags, updateTag } from "@/services/tag";
-import { DashboardLayout } from "@/ui/dashboard/layout";
+import { createTag, getTagById, updateTag } from "@/services/tag";
 
-const tags = new Elysia({
-  name: "tags",
-  prefix: "/d/tag",
+const TagsRoute = new Elysia({
+  name: "tags-route",
 })
   .use(setup)
-  .onBeforeHandle(({ request, set }) => {
-    if (request.method === "GET") {
-      // Change to false, indicating data is refreshed
-      set.headers["tags"] = "false";
-      // Set that the request varies if the headers has changed (on post / put)
-      set.headers["Vary"] = "tags, hx-request";
-      // Add cache control
-      set.headers["Cache-Control"] = "public, max-age=300, must-revalidate";
-    }
-    if (request.method === "PUT" || request.method === "POST") {
-      // Change to true, indicating resource is modified
-      set.headers["tags"] = "true";
-    }
-  })
-  .get("/", async ({ JWTUser, headers }) => {
-    const tags = await getTags();
 
-    return headers["hx-request"] ? (
-      <Tags tags={tags} />
-    ) : (
-      <DashboardLayout role={JWTUser!.role}>
-        <Tags tags={tags} />
-      </DashboardLayout>
-    );
-  })
   .get("/:id/form", async ({ params: { id } }) => {
     const tag = await getTagById(parseInt(id));
 
@@ -91,4 +65,4 @@ const tags = new Elysia({
     { body: tagForm },
   );
 
-export default tags;
+export default TagsRoute;

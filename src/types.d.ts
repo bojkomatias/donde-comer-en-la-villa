@@ -1,13 +1,24 @@
 /// <reference types="@kitajs/html/htmx.d.ts" />
 
-type Schema = import("./index").App["schema"];
+import { JWTPayloadSpec } from "@elysiajs/jwt";
 
-type PostRoutes = RoutesByType<Schema, "post">;
-type GetRoutes = RoutesByType<Schema, "get">;
-type PutRoutes = RoutesByType<Schema, "put">;
-type DeleteRoutes = RoutesByType<Schema, "delete">;
-type PatchRoutes = RoutesByType<Schema, "patch">;
+declare global {
+  type Token =
+    | ({
+        id: string;
+        name: string;
+        image: string | null;
+        email: string;
+        role: "customer" | "owner" | "admin";
+      } & JWTPayloadSpec)
+    | null;
 
+  type PostRoutes = RoutesByType<Schema, "post">;
+  type GetRoutes = RoutesByType<Schema, "get">;
+  type PutRoutes = RoutesByType<Schema, "put">;
+  type DeleteRoutes = RoutesByType<Schema, "delete">;
+  type PatchRoutes = RoutesByType<Schema, "patch">;
+}
 declare namespace JSX {
   interface HtmlTag {
     // Get without starts with api, because it can be used as href
@@ -26,6 +37,9 @@ declare namespace JSX {
     ["preload"]?: true | string;
   }
 }
+
+// Types for the top level derived types
+type Schema = import("./index").App["schema"];
 
 type RoutesByType<
   Schema extends Record<string, any>, // Ensure keys are strings

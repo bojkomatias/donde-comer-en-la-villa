@@ -1,9 +1,8 @@
 import { Elysia, t } from "elysia";
 import cookie from "@elysiajs/cookie";
 import jwt from "@elysiajs/jwt";
-import { html } from "@elysiajs/html";
 import { helmet } from "elysia-helmet";
-import { etag } from "@bogeychan/elysia-etag";
+import { html } from "@elysiajs/html";
 
 if (Bun.env.JWT_SECRET === undefined)
   throw "Missing secret add JWT_SECRET to .env file";
@@ -29,7 +28,6 @@ if (Bun.env.GOOGLE_CLIENT_SECRET === undefined)
 const setup = new Elysia({ name: "setup" })
   .use(html())
   .use(helmet({ contentSecurityPolicy: false }))
-  .use(etag())
   .use(cookie())
   .use(
     jwt({
@@ -51,24 +49,10 @@ const setup = new Elysia({ name: "setup" })
       exp: "7d",
     }),
   )
-  .model({
-    auth: t.Object({
-      email: t.String({
-        minLength: 6,
-        error: "Email has to be at least 6 characters long",
-      }),
-      password: t.String({
-        minLength: 4,
-        error: "Password has to be al least 4 characters long",
-      }),
-      csrfToken: t.String(),
-    }),
-  })
   // Derive user verification
   .derive(async ({ jwt, cookie }) => {
     const u = await jwt.verify(cookie.auth);
-    return { JWTUser: u ? u : null };
-  })
-  .get("/styles.css", () => Bun.file("./src/output.css"));
+    return { token: u ? u : null };
+  });
 
 export default setup;

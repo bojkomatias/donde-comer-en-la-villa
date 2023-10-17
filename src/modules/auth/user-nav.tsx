@@ -2,19 +2,8 @@ import { button } from "@/ui/button";
 import { _content, _trigger, dropdown } from "@/ui/dropdown";
 import { Hover } from "@/ui/hover-transition";
 import { dict } from "@/utils/dictionary";
-import { JWTPayloadSpec } from "@elysiajs/jwt";
 
-type User =
-  | ({
-      id: string;
-      name: string;
-      image: string | null;
-      email: string;
-      role: "customer" | "owner" | "admin";
-    } & JWTPayloadSpec)
-  | null;
-
-export const UserNavigation = ({ user }: { user: User }) => {
+export const UserNavigation = ({ user }: { user: Token }) => {
   if (!user) return <></>;
   return (
     <div class={dropdown().base({ class: "mr-4" })}>
@@ -34,7 +23,7 @@ export const UserNavigation = ({ user }: { user: User }) => {
 
       <div class={dropdown().content()} _={_content}>
         <div class={dropdown().header()}>
-          <div class="text-sm font-semibold" safe>
+          <div class="text-sm font-semibold text-card-foreground" safe>
             {user.name}
           </div>
           <div class="text-xs font-light leading-5 text-muted-foreground" safe>

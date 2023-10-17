@@ -25,7 +25,7 @@ export default function DarkMode() {
 
       {/* Script initializes local storage for theme based on match user media */}
       <div
-        _="init 
+        _="init
         if window.localStorage.getItem('theme') === 'light' then remove .dark from <html/> add .bg-muted .text-foreground to #sun else
         if window.localStorage.getItem('theme') === 'dark' then add .dark to <html/> add .bg-muted .text-foreground to #moon else 
         if window.matchMedia('(prefers-color-scheme: dark)').matches then add .dark to <html/> add .bg-muted .text-foreground to #system 
