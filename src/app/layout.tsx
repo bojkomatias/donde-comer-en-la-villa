@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: JSX.Element[] }) {
     <html lang="en">
       <Head />
       <body
-        class="w-screen overflow-x-hidden bg-background text-foreground antialiased"
+        class=" overflow-x-hidden bg-background text-foreground antialiased xl:mx-44 my-5"
         hx-boost="true"
         hx-ext="response-targets, preload"
         // Handles click outside for all menus

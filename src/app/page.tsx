@@ -89,10 +89,10 @@ const Page = ({
 }) => (
   <>
     <h1 class="mx-auto mt-12 max-w-xl select-none text-center font-heading text-2xl font-black leading-relaxed text-card-foreground sm:text-4xl">
-      ¿Estás c*gado de hambre?
+      ¿Dónde comer en la villa?
     </h1>
     <h2 class="mx-auto max-w-xl py-4 text-center text-base font-light text-muted-foreground sm:text-lg">
-      Caíste al lugar correcto. ¿Qué querés comer?
+      ¿Qué te gustaría comer?
     </h2>
 
     {/* <div class="mt-4 space-y-2 lg:grid lg:grid-cols-3 lg:space-y-0"> */}
