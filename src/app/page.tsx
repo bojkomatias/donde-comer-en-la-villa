@@ -89,27 +89,6 @@ const Page = ({
   })[];
 }) => (
   <>
-    <img
-      src="/public/burger.png"
-      alt="burger"
-      width={500}
-      height={500}
-      class="top-30 fixed left-[5%] -z-10"
-    />
-    <img
-      src="/public/pizza.png"
-      alt="burger"
-      width={500}
-      height={500}
-      class="fixed bottom-0 right-[25%] -z-10"
-    />
-    <img
-      src="/public/burrito.png"
-      alt="burger"
-      width={500}
-      height={500}
-      class="fixed right-[5%] top-10 -z-20"
-    />
     <h1 class="mx-auto mt-12 max-w-xl select-none bg-gradient-to-r from-accent to-primary bg-clip-text text-center font-heading text-2xl font-black leading-relaxed text-transparent sm:text-4xl">
       ¿Estás c*gado de hambre?
     </h1>

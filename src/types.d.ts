@@ -34,7 +34,7 @@ declare namespace JSX {
      * string indicates a strategy ('mousedown','mouseover')
      * default (true) is 'mousedown'
      */
-    ["preload"]?: true | string;
+    preload?: true | string;
   }
 }
 

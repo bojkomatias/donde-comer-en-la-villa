@@ -6,7 +6,7 @@ import { cx } from "@/utils/cx";
 export const Filters = ({ tags }: { tags: SelectTag[] }) => {
   return (
     <div class="relative h-11 px-1 sm:px-4">
-      <div class="absolute inset-0 -z-10 mx-1 rounded-lg bg-card/20 ring-1 ring-inset ring-border backdrop-blur sm:mx-4" />
+      <div class="absolute inset-0 -z-10 mx-1 rounded-lg bg-card ring-1 ring-inset ring-border sm:mx-4" />
       <div
         class="mx-1 flex h-full items-center gap-3 overflow-auto px-1"
         _="on removeI tell <button /> in me remove .tag-indicator"
@@ -41,7 +41,7 @@ export const Filters = ({ tags }: { tags: SelectTag[] }) => {
                     "on intersection(intersecting) having threshold 0.9 if intersecting hide #right-chevron else show #right-chevron end",
                   "on click send removeI to closest <div /> wait then add .tag-indicator on me end",
                 )}
-                preload="mouseover"
+                preload
               >
                 {tag.name}
               </button>
