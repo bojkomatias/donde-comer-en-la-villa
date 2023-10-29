@@ -5,11 +5,17 @@ import { dict } from "@/utils/dictionary";
 
 export const OpenFilter = () => (
   <div class={dropdown().base()}>
-    <button _={_trigger} class={button({ intent: "outline" })}>
+    <button
+      _={_trigger}
+      class={button({ intent: "outline", class: "bg-card/20 backdrop-blur" })}
+    >
       <span id="open-label">Abierto hoy</span>
       <i class="i-lucide-calendar-clock" />
     </button>
-    <div class={dropdown().content({ class: "w-48" })} _={_content}>
+    <div
+      class={dropdown().content({ class: "w-48 bg-card/20 backdrop-blur" })}
+      _={_content}
+    >
       <div
         class={dropdown().header({
           class: "text-sm font-semibold text-card-foreground",

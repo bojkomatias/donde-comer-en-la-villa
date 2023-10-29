@@ -73,9 +73,6 @@
   .dropdown-visible {
     @apply !flex flex-col duration-200 ease-out;
   }
-  .magical-border {
-    @apply relative before:absolute before:inset-[0.3px] before:-z-10 before:rounded-md before:bg-card after:absolute after:inset-0 after:-z-20 after:rounded-md after:bg-gradient-to-br after:from-ring after:to-border after:to-50% before:hover:bg-card/95;
-  }
 }
 
 input:-webkit-autofill,

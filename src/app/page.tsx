@@ -11,6 +11,7 @@ import { Results } from "@/modules/marketing/results";
 import { Search } from "@/modules/marketing/search";
 import dashboard from "./dashboard/page";
 import auth from "./auth/route";
+import { button } from "@/ui/button";
 
 const index = new Elysia({ name: "index-page" })
   .use(auth)
@@ -88,15 +89,42 @@ const Page = ({
   })[];
 }) => (
   <>
-    <h1 class="mx-auto mt-12 max-w-xl select-none text-center font-heading text-2xl font-black leading-relaxed text-card-foreground sm:text-4xl">
+    <img
+      src="/public/burger.png"
+      alt="burger"
+      width={500}
+      height={500}
+      class="top-30 fixed left-[5%] -z-10"
+    />
+    <img
+      src="/public/pizza.png"
+      alt="burger"
+      width={500}
+      height={500}
+      class="fixed bottom-0 right-[25%] -z-10"
+    />
+    <img
+      src="/public/burrito.png"
+      alt="burger"
+      width={500}
+      height={500}
+      class="fixed right-[5%] top-10 -z-20"
+    />
+    <h1 class="mx-auto mt-12 max-w-xl select-none bg-gradient-to-r from-accent to-primary bg-clip-text text-center font-heading text-2xl font-black leading-relaxed text-transparent sm:text-4xl">
       ¿Estás c*gado de hambre?
     </h1>
-    <h2 class="mx-auto max-w-xl py-4 text-center text-base font-light text-muted-foreground sm:text-lg">
+    <h2 class="mx-auto max-w-xl pt-3 text-center text-base font-light text-muted-foreground sm:text-lg">
       Caíste al lugar correcto. ¿Qué querés comer?
     </h2>
-
+    <p class="mx-auto max-w-xl text-center text-sm font-light">
+      ¿Sos dueño o querés abrir tu local?
+      <button class={button({ size: "sm", intent: "ghost", class: "ml-2" })}>
+        Empezá ahora
+        <i class="i-lucide-arrow-right" />
+      </button>
+    </p>
     {/* <div class="mt-4 space-y-2 lg:grid lg:grid-cols-3 lg:space-y-0"> */}
-    <div class="mx-1 mb-2 flex gap-2 sm:mx-4">
+    <div class="mx-1 mb-2 flex gap-2 pt-4 sm:mx-4">
       {/* Search bar */}
       <Search />
       {/* Open filter */}
@@ -105,7 +133,6 @@ const Page = ({
     {/* Tag filters */}
     <Filters tags={tags} />
     {/* </div> */}
-
     {/* List of businesses */}
     <Results businesses={initialData} />
   </>
