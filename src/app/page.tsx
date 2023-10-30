@@ -91,11 +91,12 @@ const Page = ({
   })[];
 }) => (
   <>
-    <h1 class="mx-auto mt-12 max-w-xl select-none text-center font-heading text-2xl font-black leading-relaxed text-card-foreground drop-shadow sm:text-4xl">
-      ¿Estás c*gado de hambre?
+    <h1 class="mx-auto mt-12 max-w-xl select-none text-center font-heading text-2xl font-black leading-relaxed text-card-foreground sm:text-4xl">
+      ¿Dónde comer en la villa?
     </h1>
-    <h2 class="mx-auto max-w-xl pt-3 text-center text-base font-light text-muted-foreground sm:text-lg">
-      Caíste al lugar correcto. ¿Qué querés comer?
+    <h2 class="mx-auto max-w-xl py-4 text-center text-base font-light text-muted-foreground sm:text-lg">
+      ¿Qué te gustaría comer?
+
     </h2>
     <div
       // _="init if cookies.ownerBadge is not equal to 'true' then add .flex remove .hidden end"
