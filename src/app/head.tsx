@@ -8,6 +8,15 @@ export default function Head() {
       <meta name="keywords" content={siteConfig.keywords} />
       <meta name="author" content={siteConfig.author} />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      {/* <!-- Google tag (gtag.js) --> */}
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-EMR1XQ70DL"></script>
+      <script>
+       {` window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-EMR1XQ70DL');`}
+      </script>
       {/* HTMX */}
       <script
         src="https://unpkg.com/htmx.org@1.9.5"
