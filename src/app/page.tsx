@@ -12,7 +12,6 @@ import { Search } from "@/modules/marketing/search";
 import dashboard from "./dashboard/page";
 import auth from "./auth/route";
 import { button } from "@/ui/button";
-import { card } from "@/ui/card";
 
 const index = new Elysia({ name: "index-page" })
   .use(auth)
