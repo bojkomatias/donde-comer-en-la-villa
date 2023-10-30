@@ -1,7 +1,7 @@
 # syntax = docker/dockerfile:1
 
 # Adjust BUN_VERSION as desired
-ARG BUN_VERSION=1.0.2
+ARG BUN_VERSION=1.0.7
 FROM oven/bun:${BUN_VERSION} as base
 
 LABEL fly_launch_runtime="Bun"
@@ -10,7 +10,7 @@ LABEL fly_launch_runtime="Bun"
 WORKDIR /app
 
 # Set production environment
-ENV NODE_ENV=production
+ENV ENV=production
 
 
 # Throw-away build stage to reduce size of final image
