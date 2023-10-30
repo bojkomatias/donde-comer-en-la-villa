@@ -42,7 +42,7 @@ export default function Head() {
       />
 
       {/* Favicon + Title */}
-      <link rel="icon" href="/public/vercel.svg" />
+      <link rel="icon" href="/public/utensils-solid.svg" />
       <title>{siteConfig.name}</title>
     </head>
   );
