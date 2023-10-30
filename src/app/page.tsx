@@ -96,7 +96,6 @@ const Page = ({
     </h1>
     <h2 class="mx-auto max-w-xl py-4 text-center text-base font-light text-muted-foreground sm:text-lg">
       ¿Qué te gustaría comer?
-
     </h2>
     <div
       // _="init if cookies.ownerBadge is not equal to 'true' then add .flex remove .hidden end"

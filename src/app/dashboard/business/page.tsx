@@ -10,7 +10,11 @@ const BusinessPage = new Elysia({
   name: "business-page",
   prefix: "/business",
 })
-  .onBeforeHandle(({ request, set }) => {
+
+  .use(BusinessRoute)
+  .use(BusinessIdPage)
+  .use(BusinessNewPage)
+  .onBeforeHandle(({ request, set, token }) => {
     if (request.method === "GET") {
       // Change to false, indicating data is refreshed
       set.headers["business"] = "false";
@@ -24,9 +28,6 @@ const BusinessPage = new Elysia({
       set.headers["business"] = "true";
     }
   })
-  .use(BusinessRoute)
-  .use(BusinessIdPage)
-  .use(BusinessNewPage)
   .get("/", async ({ token, headers, set }) => {
     const businesses = await getBusinesses({});
     /**
