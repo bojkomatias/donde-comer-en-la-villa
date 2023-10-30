@@ -12,6 +12,7 @@ import { Search } from "@/modules/marketing/search";
 import dashboard from "./dashboard/page";
 import auth from "./auth/route";
 import { button } from "@/ui/button";
+import docs from "./docs/page";
 
 const index = new Elysia({ name: "index-page" })
   .use(auth)
@@ -34,6 +35,7 @@ const index = new Elysia({ name: "index-page" })
     },
     (app) =>
       app
+        .use(docs)
         .get("/", async () => {
           const tags = await getTags();
           const businesses = await getBusinessesQuery({
@@ -96,16 +98,20 @@ const Page = ({
       Caíste al lugar correcto. ¿Qué querés comer?
     </h2>
     <div
-      _="init if cookies.ownerBadge is not equal to 'true' then add .flex remove .hidden end"
-      class="mx-auto my-1 hidden w-fit items-center gap-2 rounded-lg bg-card p-3 text-center text-sm font-light text-card-foreground"
+      // _="init if cookies.ownerBadge is not equal to 'true' then add .flex remove .hidden end"
+      class="mx-auto mt-2 flex w-fit items-center gap-2 rounded-lg bg-card p-3 text-center text-sm font-light text-card-foreground"
     >
       ¿Sos dueño o querés abrir tu local?
-      <button class={button({ size: "sm", intent: "outline" })}>
+      <a
+        href="/docs"
+        hx-boost="true"
+        class={button({ size: "sm", intent: "outline" })}
+      >
         Empezá ahora
         <i class="i-lucide-arrow-right" />
-      </button>
+      </a>
       <button
-        _="on click set cookies.ownerBadge to 'true' on click hide my parentElement"
+        _="on click hide my parentElement"
         class={button({
           size: "icon-xs",
           intent: "ghost",

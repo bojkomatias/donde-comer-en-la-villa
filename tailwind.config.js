@@ -50,6 +50,7 @@ export default {
   },
   plugins: [
     require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
     require('tailwindcss-animate'),
     iconsPlugin({
       // Select the icon collections you want to use
