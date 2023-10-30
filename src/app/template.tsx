@@ -19,7 +19,7 @@ export default function MarketingTemplate({
         </a>
         <div hx-get="/auth/status" hx-trigger="load" hx-swap="outerHTML" />
       </header>
-      <main class="min-h-screen pb-8">{children}</main>
+      <main class="min-h-screen pb-8 xl:mx-44">{children}</main>
     </Layout>
   );
 }
