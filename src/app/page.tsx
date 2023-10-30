@@ -12,6 +12,7 @@ import { Search } from "@/modules/marketing/search";
 import dashboard from "./dashboard/page";
 import auth from "./auth/route";
 import { button } from "@/ui/button";
+import { card } from "@/ui/card";
 
 const index = new Elysia({ name: "index-page" })
   .use(auth)
@@ -89,19 +90,31 @@ const Page = ({
   })[];
 }) => (
   <>
-    <h1 class="mx-auto mt-12 max-w-xl select-none bg-gradient-to-r from-accent to-primary bg-clip-text text-center font-heading text-2xl font-black leading-relaxed text-transparent sm:text-4xl">
+    <h1 class="mx-auto mt-12 max-w-xl select-none text-center font-heading text-2xl font-black leading-relaxed text-card-foreground drop-shadow sm:text-4xl">
       ¿Estás c*gado de hambre?
     </h1>
     <h2 class="mx-auto max-w-xl pt-3 text-center text-base font-light text-muted-foreground sm:text-lg">
       Caíste al lugar correcto. ¿Qué querés comer?
     </h2>
-    <p class="mx-auto max-w-xl text-center text-sm font-light">
+    <div
+      _="init if cookies.ownerBadge is not equal to 'true' then add .flex remove .hidden end"
+      class="mx-auto my-1 hidden w-fit items-center gap-2 rounded-lg bg-card p-3 text-center text-sm font-light text-card-foreground"
+    >
       ¿Sos dueño o querés abrir tu local?
-      <button class={button({ size: "sm", intent: "ghost", class: "ml-2" })}>
+      <button class={button({ size: "sm", intent: "outline" })}>
         Empezá ahora
         <i class="i-lucide-arrow-right" />
       </button>
-    </p>
+      <button
+        _="on click set cookies.ownerBadge to 'true' on click hide my parentElement"
+        class={button({
+          size: "icon-xs",
+          intent: "ghost",
+        })}
+      >
+        <i class="i-lucide-x" />
+      </button>
+    </div>
     {/* <div class="mt-4 space-y-2 lg:grid lg:grid-cols-3 lg:space-y-0"> */}
     <div class="mx-1 mb-2 flex gap-2 pt-4 sm:mx-4">
       {/* Search bar */}
