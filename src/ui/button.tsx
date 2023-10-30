@@ -12,7 +12,7 @@ export const button = tv(
         outline:
           "bg-transparent ring-1 ring-inset ring-border hover:bg-muted/50 hover:ring-ring",
         ghost: "bg-transparent hover:bg-muted/50",
-        link: "!p-0 font-medium underline decoration-2 underline-offset-2 hover:decoration-primary hover:underline-offset-4",
+        link: "!p-0 text-inherit font-medium underline decoration-1 underline-offset-2 hover:decoration-primary hover:underline-offset-4",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
       },
