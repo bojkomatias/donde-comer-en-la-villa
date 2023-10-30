@@ -4,44 +4,53 @@
 export const dict = new Map();
 // Input fields
 dict.set("id", "UUID");
-dict.set("name", "nombre");
-dict.set("email", "email");
-dict.set("password", "constraseña");
-dict.set("currentPassword", "constraseña actual");
-dict.set("role", "rol");
-dict.set("phone", "teléfono");
-dict.set("address", "dirección");
-dict.set("location", "ubicación");
-dict.set("instagram", "instagram");
-dict.set("twitter", "twitter");
-dict.set("webpage", "página web");
-dict.set("featured", "promocionado");
-dict.set("enabled", "habilitado");
-dict.set("description", "descripción");
-dict.set("image", "imagen");
-dict.set("createdAt", "fecha de creación");
-dict.set("updatedAt", "última edición");
+dict.set("name", "Nombre");
+dict.set("email", "Email");
+dict.set("role", "Rol");
+dict.set("phone", "Teléfono");
+dict.set("address", "Dirección");
+dict.set("location", "Ubicación");
+dict.set("instagram", "Instagram");
+dict.set("twitter", "Twitter");
+dict.set("webpage", "Página web");
+dict.set("featured", "Promocionado");
+dict.set("enabled", "Habilitado");
+dict.set("description", "Descripción");
+dict.set("image", "Imagen");
+dict.set("createdAt", "Fecha de creación");
+dict.set("updatedAt", "Última edición");
 
 // Roles
-dict.set("customer", "cliente");
-dict.set("owner", "propietario");
-dict.set("admin", "administrador");
+dict.set("customer", "Cliente");
+dict.set("owner", "Propietario");
+dict.set("admin", "Administrador");
 
 // Colecciones
-dict.set("user", "usuario");
-dict.set("users", "usuarios");
-dict.set("profile", "perfil");
-dict.set("business", "negocio");
-dict.set("businesses", "negocios");
-dict.set("tag", "categoría");
-dict.set("tags", "categorías");
+dict.set("user", "Usuario");
+dict.set("users", "Usuarios");
+dict.set("profile", "Perfil");
+dict.set("settings", "Configuración");
+dict.set("business", "Local");
+dict.set("businesses", "Locales");
+dict.set("tag", "Categoría");
+dict.set("tags", "Categorías");
+dict.set("dashboard", "Panel");
 
 // Acciones
-dict.set("save", "guardar");
-dict.set("cancel", "cancelar");
-dict.set("update", "actualizar");
-dict.set("edit", "editar");
-dict.set("view", "ver");
-dict.set("back", "volver");
-dict.set("login", "login");
-dict.set("logout", "salir");
+dict.set("save", "Guardar");
+dict.set("cancel", "Cancelar");
+dict.set("update", "Actualizar");
+dict.set("edit", "Editar");
+dict.set("create", "Crear");
+dict.set("view", "Ver");
+dict.set("back", "Volver");
+dict.set("login", "Login");
+dict.set("logout", "Salir");
+
+// Extra cols
+dict.set("ownerName", "Propietario");
+dict.set("yourBusiness", "Tu local");
+dict.set("businessHours", "Horarios de atención");
+dict.set("bHours", "Horarios");
+dict.set("opens", "Abre");
+dict.set("closes", "Cierra");

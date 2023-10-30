@@ -2,25 +2,82 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  /* * {
+    @apply border-[0.5px];
+  } */
+  ::-webkit-scrollbar {
+    @apply h-0.5 w-0.5 border-0;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-lg bg-ring/20;
+  }
+  form {
+    @apply m-0;
+  }
+
+  :root {
+    --background: 45 80% 98%;
+    --foreground: 206 14% 9%;
+    --card: 50 30% 96%;
+    --card-foreground: 203 14% 14%;
+    --muted: 0 0% 86%;
+    --muted-foreground: 205 15% 28%;
+
+    --primary: 0 100% 38%;
+    --primary-foreground: 0 0% 99%;
+    --secondary: 17 100% 53%;
+    --secondary-foreground: 0 0% 0%;
+    --accent: 58 85% 55%;
+    --accent-foreground: 0 0% 0%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: var(--muted-foreground);
+    --ring: var(--foreground);
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 206 14% 9%;
+    --foreground: 45 80% 98%;
+    --card: 203 14% 11%;
+    --card-foreground: 50 30% 93%;
+    --muted: 205 15% 20%;
+    --muted-foreground: 0 0% 72%;
+
+    --primary: 0 100% 38%;
+    --primary-foreground: 0 0% 99%;
+    --secondary: 17 100% 53%;
+    --secondary-foreground: 0 0% 0%;
+    --accent: 58 85% 55%;
+    --accent-foreground: 0 0% 0%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: var(--muted-foreground);
+    --ring: var(--foreground);
+  }
+}
+
+@layer utilities {
+  .tag-indicator {
+    @apply bg-secondary/10 ring-1 ring-inset ring-secondary;
+  }
+  .navigation-indicator {
+    @apply text-foreground after:absolute after:inset-x-2 after:-bottom-1.5 after:z-10 after:h-0.5 after:rounded-lg after:bg-primary;
+  }
+  .dropdown {
+    @apply hidden transition duration-75 ease-in;
+  }
+  .dropdown-visible {
+    @apply !flex flex-col duration-200 ease-out;
+  }
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
   transition:
     background-color 0s 600000s,
     color 0s 600000s;
-}
-
-::-webkit-scrollbar {
-  height: 0px; /* height of horizontal scrollbar ← You're missing this */
-  width: 4px;
-  border: 2px solid #d5d5d5;
-}
-
-@layer base {
-  a:focus-visible,
-  button:focus-visible {
-    @apply border-0 outline outline-2 outline-offset-2 outline-cyan-600 ring-0;
-  }
-  /* * {
-    @apply border-[0.4px] dark:border-gray-800;
-  } */
 }

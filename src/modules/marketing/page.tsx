@@ -3,6 +3,8 @@ import { Search } from "./search";
 import { Filters } from "./filters";
 import { Results } from "./results";
 import { SelectBusiness } from "@/db/schema/business";
+import { SelectBusinessHours } from "@/db/schema/business-hours";
+import { OpenFilter } from "./open-filter";
 
 /** Refers to Landing page as in '/' app entry point */
 const Marketing = ({
@@ -10,28 +12,29 @@ const Marketing = ({
   initialData,
 }: {
   tags: SelectTag[];
-  initialData: SelectBusiness[];
+  initialData: (SelectBusiness & {
+    reviews: number | null;
+    businessHours: SelectBusinessHours | null;
+  })[];
 }) => (
   <>
     <h1 class="mx-auto mt-12 max-w-xl select-none text-center font-heading text-2xl font-black leading-relaxed sm:text-4xl">
-      ¿Estás{" "}
-      <span class="relative inline-block line-through decoration-8 after:absolute after:inset-0 after:-top-4 after:text-2xl after:content-['*muerto'] sm:after:text-3xl">
-        <div class="translate-y-2 text-2xl text-gray-500/20 sm:text-4xl ">
-          cagado
-        </div>
-      </span>
-      de hambre?
+      ¿Estás c*gado de hambre?
     </h1>
-    <h2 class="mx-auto max-w-xl py-4 text-center text-lg font-thin">
-      Si es así, caíste al lugar correcto. ¿Qué querés comer?
+    <h2 class="mx-auto max-w-xl py-4 text-center text-base font-light sm:text-lg">
+      Caíste al lugar correcto. ¿Qué querés comer?
     </h2>
 
-    <div class="mt-4 space-y-2 lg:grid lg:grid-cols-3 lg:space-y-0">
+    {/* <div class="mt-4 space-y-2 lg:grid lg:grid-cols-3 lg:space-y-0"> */}
+    <div class="mx-1 mb-2 flex gap-2 sm:mx-4">
       {/* Search bar */}
       <Search />
-      {/* Tag filters */}
-      <Filters tags={tags} />
+      {/* Open filter */}
+      <OpenFilter />
     </div>
+    {/* Tag filters */}
+    <Filters tags={tags} />
+    {/* </div> */}
 
     {/* List of businesses */}
     <Results businesses={initialData} />

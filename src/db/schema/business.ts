@@ -3,8 +3,9 @@ import {
   text,
   integer,
   uniqueIndex,
+  blob,
 } from "drizzle-orm/sqlite-core";
-import { createInsertSchema } from "drizzle-typebox";
+import { createInsertSchema, createSelectSchema } from "drizzle-typebox";
 import { user } from "./user";
 import { sql } from "drizzle-orm";
 import { t } from "elysia";
@@ -19,13 +20,14 @@ export const business = sqliteTable(
     instagram: text("instagram").notNull(),
     address: text("address"),
     location: text("location"),
-    webpage: text("webpage"),
     image: text("image").notNull(),
     // Tags are virtual, but we can still store them here as a helper
     tags: text("tags").$type<number[] | string[] | string>().notNull(),
     featured: integer("featured", { mode: "boolean" }).default(false),
     enabled: integer("enabled", { mode: "boolean" }).default(false),
-    owner: integer("user_id").references(() => user.id),
+    owner: integer("user_id")
+      .references(() => user.id)
+      .notNull(),
     createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
     updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
   },
@@ -43,6 +45,12 @@ export type InsertBusiness = typeof business.$inferInsert; // insert type
  * (tags exist on form) => then are passed to tag_to_business on db
  */
 export const insertBusinessForm = createInsertSchema(business, {
+  owner: t.Number(),
+  // Override the inserted type (real model type, an array of ids referencing to tags through middle table)
+  tags: t.Array(t.Object({ id: t.Number(), name: t.String() })),
+});
+
+export const businessSchema = createSelectSchema(business, {
   owner: t.Number(),
   // Override the inserted type (real model type, an array of ids referencing to tags through middle table)
   tags: t.Array(t.Object({ id: t.Number(), name: t.String() })),

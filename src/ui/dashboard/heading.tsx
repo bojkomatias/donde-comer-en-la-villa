@@ -1,21 +1,18 @@
 export const DashboardHeading = (props: {
   title: string;
-  subtitle: string;
+  action?: JSX.Element;
 }) => {
   return (
-    <>
-      <h1
-        class="pl-3 text-lg font-black first-letter:capitalize sm:pl-0 sm:text-xl sm:leading-loose"
-        safe
-      >
-        {props.title}
-      </h1>
-      <h2
-        class="pl-3 text-xs font-light leading-6 text-gray-600 dark:text-gray-400 sm:pl-0 sm:text-sm"
-        safe
-      >
-        {props.subtitle}
-      </h2>
-    </>
+    <div class="mb-4 border-b border-border bg-card py-6">
+      <div class="mx-auto flex max-w-8xl items-center px-4 sm:px-6 lg:px-16 xl:px-20">
+        <h1
+          class="flex-grow text-2xl font-black lowercase leading-loose text-foreground first-letter:capitalize"
+          safe
+        >
+          {props.title}
+        </h1>
+        {props.action}
+      </div>
+    </div>
   );
 };

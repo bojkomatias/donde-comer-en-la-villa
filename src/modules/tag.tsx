@@ -1,142 +1,140 @@
 import { InsertTag, SelectTag } from "@/db/schema/tag";
-import { Button } from "@/ui/button";
+import { button } from "@/ui/button";
+import { card } from "@/ui/card";
 import { DashboardHeading } from "@/ui/dashboard/heading";
+import { DashboardContent } from "@/ui/dashboard/wrapper";
 import { Input } from "@/ui/input";
+
 import { dict } from "@/utils/dictionary";
 
 const Tags = ({ tags }: { tags: SelectTag[] }) => (
   <>
-    <div>
-      <DashboardHeading
-        title={dict.get("tags")}
-        subtitle="Categorías para clasificar productos y negocios"
-      />
-    </div>
-    <div class="relative mt-8 max-h-96 overflow-auto pr-2">
-      {tags.length > 0 ? (
-        <table class="min-w-full">
-          <thead class="sticky top-0 bg-white dark:bg-gray-950">
-            <tr>
-              <th
-                scope="col"
-                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold capitalize sm:pl-0"
-              >
-                {dict.get("name")}
-              </th>
-              <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
-                <span class="sr-only">Edit</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody id="tag-results" class="divide-y dark:divide-gray-700">
-            {tags.map((tag) => (
-              <Tags.Row tag={tag} />
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <div class="py-20 text-center text-sm font-light text-gray-400">
-          No se encontraron categorías
-        </div>
-      )}
-    </div>
-    <span class="pl-4 text-xs font-thin sm:pl-0">
-      Total de {dict.get("tags")}: <b>{tags.length}</b>
-    </span>
-    <Tags.New />
+    <DashboardHeading title={dict.get("tags")} />
+    <DashboardContent>
+      <Tags.New />
+      <div class="mt-16">
+        {tags.length > 0 ? (
+          <Table>
+            <Table.Head>
+              <Table.Row>
+                <Table.HCell>{dict.get("id")}</Table.HCell>
+                <Table.HCell>{dict.get("name")}</Table.HCell>
+                <Table.HCell>
+                  <span class="sr-only">Edit</span>
+                </Table.HCell>
+              </Table.Row>
+            </Table.Head>
+            <Table.Body>
+              {tags.map((tag) => (
+                <Tags.Row tag={tag} />
+              ))}
+            </Table.Body>
+            <Table.Footer>
+              <Table.Row>
+                <Table.HCell colspan={3}>
+                  <span class="mr-1 font-light">Total de registros: </span>
+                  {tags.length}
+                </Table.HCell>
+              </Table.Row>
+            </Table.Footer>
+          </Table>
+        ) : (
+          <div class="py-20 text-center text-sm font-light text-gray-400">
+            No se encontraron categorías
+          </div>
+        )}
+      </div>
+    </DashboardContent>
   </>
 );
 
 Tags.Row = ({ tag }: { tag: SelectTag }) => {
   return (
-    <tr>
-      <td
-        class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium capitalize sm:pl-0"
-        safe
-      >
+    <Table.Row>
+      <Table.Cell safe>{tag.id}</Table.Cell>
+      <Table.Cell safe class="font-semibold capitalize">
         {tag.name}
-      </td>
-      <td class="flex justify-end whitespace-nowrap py-4 pl-3 pr-4 sm:pr-0">
-        <Button
+      </Table.Cell>
+      <Table.Cell>
+        <button
+          class={button({ size: "sm" })}
           hx-get={`/d/tag/${tag.id}/form`}
           hx-target="closest tr"
           hx-swap="outerHTML"
-          size="xs"
         >
           {dict.get("edit")}
-        </Button>
-      </td>
-    </tr>
+        </button>
+      </Table.Cell>
+    </Table.Row>
   );
 };
 
 Tags.Edit = ({ tag }: { tag: InsertTag }) => {
   return (
-    <tr hx-target="this">
-      <td class="flex-grow">
+    <Table.Row hx-target="this">
+      <Table.Cell safe>{tag.id}</Table.Cell>
+      <Table.Cell>
         <Input
           type="text"
           name="name"
           placeholder="Panificados"
-          class="flex-grow"
           value={tag.name}
           required="true"
+          rt
+          rb
         />
-        <span id="row-error" />
-      </td>
-      <td class="flex items-end justify-end gap-2 whitespace-nowrap py-4 pl-3 pr-4 sm:pr-0">
-        <Button
-          intent="primary"
-          size="xs"
+      </Table.Cell>
+      <Table.Cell class="space-x-2">
+        <button
+          class={button({ intent: "primary", size: "xs" })}
           hx-put={`/d/tag/${tag.id}`}
           hx-include="closest tr"
           hx-swap="outerHTML"
           hx-target-403="#row-error"
         >
           {dict.get("save")}
-        </Button>
-        <Button
+        </button>
+        <button
+          class={button({ size: "xs" })}
           type="button"
-          intent="secondary"
-          size="xs"
           hx-get={`/d/tag/${tag.id}/row`}
           hx-swap="outerHTML"
         >
           {dict.get("cancel")}
-        </Button>
-      </td>
-    </tr>
+        </button>
+      </Table.Cell>
+    </Table.Row>
   );
 };
 
 Tags.New = () => {
   return (
-    <div class="mt-8 gap-6 bg-gray-50 p-4 pt-6 dark:bg-gray-900/50 sm:flex sm:justify-between sm:rounded-lg">
-      <div>
-        <DashboardHeading
-          title={"Nueva " + dict.get("tag")}
-          subtitle="Agrega nueva categoría a la colección"
-        />
-      </div>
+    <div class={card().base()}>
+      <h2 class={card().title()}>{"Nueva " + dict.get("tag")}</h2>
+      <p class={card().description()}>Agrega más categorías a la colección</p>
+
       <form
         hx-post="/d/tag"
         hx-target="#tag-results"
-        hx-swap="beforebegin"
+        hx-swap="afterend"
         hx-target-4xx="#notification"
-        _="on submit log 'xd'"
-        class="flex-grow"
+        _="on htmx:afterRequest reset() me"
       >
-        <Input
-          type="text"
-          name="name"
-          placeholder="Pizzas a la piedra"
-          required="true"
-        />
-        <span class="mt-2 flex justify-end">
-          <Button intent="primary" size="sm">
+        <div class={card().content()}>
+          <Input
+            type="text"
+            name="name"
+            placeholder="Pizzas a la piedra"
+            required="true"
+            rt
+            rb
+          />
+        </div>
+        <div class={card().footer({ class: "justify-end" })}>
+          <button class={button({ intent: "primary", size: "sm" })}>
             {dict.get("save")}
-          </Button>
-        </span>
+          </button>
+        </div>
       </form>
     </div>
   );

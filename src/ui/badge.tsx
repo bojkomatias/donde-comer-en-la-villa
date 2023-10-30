@@ -1,7 +1,14 @@
-export const Badge = ({ children }: { children: any }) => {
-  return (
-    <span class="inline-flex items-center rounded bg-white px-2 py-1 text-[0.65rem] font-medium capitalize text-gray-600 ring-1 ring-inset ring-gray-400/20 dark:bg-gray-950 dark:text-gray-300">
-      {children}
-    </span>
-  );
-};
+import { tv } from "tailwind-variants";
+
+export const badge = tv({
+  base: "inline-flex items-center whitespace-nowrap rounded-lg border-border px-2.5 text-xs font-semibold leading-relaxed transition-colors focus:outline-none",
+  variants: {
+    intent: {
+      primary: "bg-primary text-primary-foreground shadow hover:bg-primary/80",
+      muted: "bg-muted/60 hover:bg-muted/80",
+      destructive:
+        "bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
+    },
+  },
+  defaultVariants: { intent: "muted" },
+});
