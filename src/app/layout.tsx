@@ -24,24 +24,34 @@ export default function Layout({ children }: { children: JSX.Element[] }) {
 
         {/* Footer */}
         <footer class="border-t border-border bg-card">
-          <div class="flex flex-col items-center gap-6 px-2 py-8 sm:flex-row sm:px-6 lg:px-16">
-            <i class="i-ic-baseline-restaurant h-6 w-6" />
-            <p class="flex-auto text-center text-sm leading-loose text-muted-foreground sm:text-left">
-              Built by{" "}
+          <div class="flex flex-col items-center justify-between gap-6 px-2 py-8 text-muted-foreground sm:flex-row sm:px-6 lg:px-16">
+            <p class="text-center text-sm leading-loose sm:text-left">
+              <i class="i-ic-baseline-restaurant -mb-1 mr-2 h-5 w-5 text-card-foreground" />
+              Desarrollado por{" "}
               <a
                 href={siteConfig.links.twitter}
                 class={button({ intent: "link", class: "lowercase" })}
               >
                 bojkomatias
               </a>
-              .<br class="block sm:hidden" /> Source code available on{" "}
+            </p>
+            <div class="space-x-4">
               <a
                 href={siteConfig.links.github}
-                class={button({ intent: "link" })}
+                class={button({ intent: "link", size: "sm" })}
               >
                 Github
               </a>
-            </p>
+              <a href="/docs" class={button({ intent: "link", size: "sm" })}>
+                Docs
+              </a>
+              <a
+                href="https://wa.me/+5493455286829"
+                class={button({ intent: "link", size: "sm" })}
+              >
+                Contacto
+              </a>
+            </div>
             <DarkMode />
           </div>
         </footer>

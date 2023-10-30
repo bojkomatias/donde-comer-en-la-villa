@@ -12,6 +12,7 @@ import { Search } from "@/modules/marketing/search";
 import dashboard from "./dashboard/page";
 import auth from "./auth/route";
 import { button } from "@/ui/button";
+import docs from "./docs/page";
 
 const index = new Elysia({ name: "index-page" })
   .use(auth)
@@ -34,6 +35,7 @@ const index = new Elysia({ name: "index-page" })
     },
     (app) =>
       app
+        .use(docs)
         .get("/", async () => {
           const tags = await getTags();
           const businesses = await getBusinessesQuery({
@@ -89,7 +91,6 @@ const Page = ({
   })[];
 }) => (
   <>
-
     <h1 class="mx-auto mt-12 max-w-xl select-none text-center font-heading text-2xl font-black leading-relaxed text-card-foreground sm:text-4xl">
       ¿Dónde comer en la villa?
     </h1>
@@ -97,13 +98,29 @@ const Page = ({
       ¿Qué te gustaría comer?
 
     </h2>
-    <p class="mx-auto max-w-xl text-center text-sm font-light">
+    <div
+      // _="init if cookies.ownerBadge is not equal to 'true' then add .flex remove .hidden end"
+      class="mx-auto mt-2 flex w-fit items-center gap-2 rounded-lg bg-card p-3 text-center text-sm font-light text-card-foreground"
+    >
       ¿Sos dueño o querés abrir tu local?
-      <button class={button({ size: "sm", intent: "ghost", class: "ml-2" })}>
+      <a
+        href="/docs"
+        hx-boost="true"
+        class={button({ size: "sm", intent: "outline" })}
+      >
         Empezá ahora
         <i class="i-lucide-arrow-right" />
+      </a>
+      <button
+        _="on click hide my parentElement"
+        class={button({
+          size: "icon-xs",
+          intent: "ghost",
+        })}
+      >
+        <i class="i-lucide-x" />
       </button>
-    </p>
+    </div>
     {/* <div class="mt-4 space-y-2 lg:grid lg:grid-cols-3 lg:space-y-0"> */}
     <div class="mx-1 mb-2 flex gap-2 pt-4 sm:mx-4">
       {/* Search bar */}
