@@ -11,6 +11,7 @@ import { Results } from "@/modules/marketing/results";
 import { Search } from "@/modules/marketing/search";
 import dashboard from "./dashboard/page";
 import auth from "./auth/route";
+import { button } from "@/ui/button";
 
 const index = new Elysia({ name: "index-page" })
   .use(auth)
@@ -88,15 +89,23 @@ const Page = ({
   })[];
 }) => (
   <>
+
     <h1 class="mx-auto mt-12 max-w-xl select-none text-center font-heading text-2xl font-black leading-relaxed text-card-foreground sm:text-4xl">
       ¿Dónde comer en la villa?
     </h1>
     <h2 class="mx-auto max-w-xl py-4 text-center text-base font-light text-muted-foreground sm:text-lg">
       ¿Qué te gustaría comer?
-    </h2>
 
+    </h2>
+    <p class="mx-auto max-w-xl text-center text-sm font-light">
+      ¿Sos dueño o querés abrir tu local?
+      <button class={button({ size: "sm", intent: "ghost", class: "ml-2" })}>
+        Empezá ahora
+        <i class="i-lucide-arrow-right" />
+      </button>
+    </p>
     {/* <div class="mt-4 space-y-2 lg:grid lg:grid-cols-3 lg:space-y-0"> */}
-    <div class="mx-1 mb-2 flex gap-2 sm:mx-4">
+    <div class="mx-1 mb-2 flex gap-2 pt-4 sm:mx-4">
       {/* Search bar */}
       <Search />
       {/* Open filter */}
@@ -105,7 +114,6 @@ const Page = ({
     {/* Tag filters */}
     <Filters tags={tags} />
     {/* </div> */}
-
     {/* List of businesses */}
     <Results businesses={initialData} />
   </>
