@@ -18,7 +18,7 @@ export const Results = ({
   return (
     <div id="results">
       {businesses.length > 0 ? (
-        <div class="space-y-2 px-1 py-4 sm:px-4 md:grid md:grid-cols-2 md:gap-2 md:space-y-0 xl:grid-cols-3">
+        <div class="space-y-2 px-1 py-4 sm:px-4 md:grid md:grid-cols-2 md:gap-2 md:space-y-0">
           {businesses.map((business) => (
             <BusinessItem business={business} />
           ))}
@@ -40,73 +40,71 @@ const BusinessItem = ({
     businessHours: SelectBusinessHours | null;
   };
 }) => (
-  <div class={card().base({ class: "flex flex-col" })}>
-    <div class="flex-row gap-6 p-3 pb-0">
+  <div class={card().base({ class: "relative p-2" })}>
+    <div class="flex">
       <img
         src={business.image}
-        height="50"
-        width="50"
-        class="float-left h-20 w-20 rounded-full pb-1 pr-1"
+        height="300"
+        width="200"
+        class="z-10 aspect-square w-40 rounded-lg object-cover shadow-lg"
+        alt="Imagen del local"
       />
-      <div class="flex-grow">
-        <div class="flex items-center">
-          <h2 class={card().title({ class: "flex-grow" })}>{business.name}</h2>
-          <OpensIn businessHours={business.businessHours} />
-          <Review avgReviews={business.reviews} />
+
+      <div class="flex-grow p-1 pl-4 md:p-3">
+        <div class="flex justify-between">
+          <div>
+            <Review avgReviews={business.reviews} />
+            <h2 class="text-xl font-bold">{business.name}</h2>
+            <OpensIn businessHours={business.businessHours} />
+          </div>
+          <button
+            class={button({
+              size: "xs",
+              intent: "primary",
+              class: "col-span-1",
+            })}
+          >
+            Ver Local
+          </button>
+        </div>
+        <div class="flex items-center gap-3">
+          <button>{business.phone}</button>
+
+          <a
+            href={`https://instagram.com/${business.instagram}`}
+            target="_blank"
+            class={button({ intent: "link" })}
+          >
+            <i class="i-simple-icons-instagram h-5 w-5 group-hover:text-rose-500" />
+          </a>
+          <a
+            href={`https://wa.me/${business.phone}`}
+            target="_blank"
+            class={button({ intent: "link" })}
+          >
+            <i class="i-simple-icons-whatsapp h-5 w-5 group-hover:text-emerald-500" />
+          </a>
+          {business.location && (
+            <a
+              href={business.location ? business.location : undefined}
+              target="_blank"
+              class={button({ intent: "link" })}
+            >
+              Ubicación
+              <i class="i-lucide-map-pin h-5 w-5" />
+            </a>
+          )}
         </div>
       </div>
     </div>
-    <div
-      class={card().content({
-        class:
-          "-mt-2 flex flex-grow flex-row-reverse flex-wrap-reverse gap-x-4 pb-3 pt-0",
-      })}
-    >
-      {business.location && (
-        <a
-          href={business.location ? business.location : undefined}
-          target="_blank"
-          class={button({ intent: "link" })}
-        >
-          Ubicación
-          <i class="i-lucide-map-pin" />
-        </a>
-      )}
-      {business.address && (
-        <span
-          class={button({
-            intent: "link",
-            class: "hover:no-underline",
-          })}
-        >
-          <i class="i-lucide-map" />
-          {business.address}
-        </span>
-      )}
-      <a
-        href={`https://instagram.com/${business.instagram}`}
-        target="_blank"
-        class={button({ intent: "link" })}
-      >
-        <i class="i-simple-icons-instagram group-hover:text-rose-600" />@
-        {business.instagram}
-      </a>
-      <a
-        href={`https://wa.me/${business.phone}`}
-        target="_blank"
-        class={button({ intent: "link" })}
-      >
-        <i class="i-simple-icons-whatsapp group-hover:text-emerald-600" />
-        {business.phone}
-      </a>
-    </div>
-    <div class={card().footer({ class: "bg-muted/50 p-1" })}>
-      <div class="flex w-full items-center gap-x-1.5 gap-y-1.5 overflow-y-auto overflow-x-hidden pr-0.5">
+
+    <div class="absolute inset-x-0 bottom-4 h-8 bg-accent">
+      <div class="absolute left-40 space-x-1 pl-4">
         {typeof business.tags === "string" &&
           business.tags
             .split(",")
             .map((e) => (
-              <span class={badge({ class: "text-xl" })}>
+              <span class="px-1 text-2xl drop-shadow-lg">
                 {e.substring(0, 2)}
               </span>
             ))}

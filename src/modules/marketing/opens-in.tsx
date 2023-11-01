@@ -6,7 +6,7 @@ export const OpensIn = ({
 }: {
   businessHours: SelectBusinessHours | null;
 }) => {
-  if (!businessHours) return <></>;
+  if (!businessHours) return <span class={badge()}></span>;
   const today = new Date().getDay();
   const hour = new Date().getHours();
   const minute = new Date().getMinutes();
@@ -27,10 +27,10 @@ export const OpensIn = ({
     businessHours.day === today &&
     (opensHour > hour || (opensHour === hour && opensMinute > minute))
   )
-    return <span class={badge()}>Abre {businessHours.opens} </span>;
+    return <span class={badge()}>Abre {businessHours.opens}</span>;
 
   if (businessHours.day !== today)
     return <span class={badge()}>Hoy cerrado</span>;
 
-  return <></>;
+  return <span class={badge()}>-</span>;
 };

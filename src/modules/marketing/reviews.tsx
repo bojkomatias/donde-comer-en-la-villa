@@ -1,6 +1,6 @@
 /** Component maps the 'stars' get tha avg reviews directly from SQL */
 export const Review = ({ avgReviews }: { avgReviews: number | null }) => {
-  if (!avgReviews) return <></>;
+  if (!avgReviews) return <span></span>;
   // Max stars is 5
   const full = Math.floor(avgReviews);
   const empty = Math.floor(5 - avgReviews);
