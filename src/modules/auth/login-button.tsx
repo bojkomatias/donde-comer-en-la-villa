@@ -1,13 +1,13 @@
 import { button } from "@/ui/button";
 import { dict } from "@/utils/dictionary";
 
-const google = new URL("auth", "https://accounts.google.com/o/oauth2/v2/");
-google.searchParams.set(
-  "redirect_uri",
+const redirect_uri =
   Bun.env.ENV === "development"
     ? "http://localhost:3000/auth/callback/google/"
-    : "https://dondecomerenlavilla.com/auth/callback/google/",
-);
+    : "https://dondecomerenlavilla.com/auth/callback/google/";
+
+const google = new URL("auth", "https://accounts.google.com/o/oauth2/v2/");
+google.searchParams.set("redirect_uri", redirect_uri);
 google.searchParams.set("response_type", "code");
 google.searchParams.set("scope", "profile email");
 google.searchParams.set("client_id", Bun.env.GOOGLE_CLIENT_ID!);
