@@ -59,7 +59,7 @@ export const BusinessEdit = ({
                end"
                 accept="image/*"
                 name="image"
-                required="true"
+                //Removed the "required=true" attribute because when editing, it'll already have an image. It should only change if there's a new image.
                 placeholder="https://scontent.cdninstagram.com/v/"
                 value={business.image}
                 type="file"
@@ -84,7 +84,7 @@ export const BusinessEdit = ({
                 placeholder="https://maps.gl.io"
                 type="url"
                 value={business.location || ""}
-                title="Ubicación de google maps"
+                title="Ubicación de Google Maps"
               />
               <Input
                 name="instagram"

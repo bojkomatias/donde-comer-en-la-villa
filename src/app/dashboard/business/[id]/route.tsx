@@ -1,10 +1,15 @@
 import { insertBusinessForm } from "@/db/schema/business";
 import { BusinessView } from "@/modules/business/business-view";
 import setup from "@/config/setup";
-import { updateBusiness, getBusinessWithRelations } from "@/services/business";
+import {
+  updateBusiness,
+  getBusinessWithRelations,
+  getBusinessById,
+} from "@/services/business";
 import { Notification } from "@/ui/notification";
 import Elysia, { Static } from "elysia";
 import { Value } from "@sinclair/typebox/value";
+import imageResizer from "@/utils/image-resize";
 
 const BusinessIdRoute = new Elysia({ name: "business-id-route" })
   .use(setup)
@@ -36,7 +41,8 @@ const BusinessIdRoute = new Elysia({ name: "business-id-route" })
       );
     },
     {
-      transform: async ({ body }) => {
+      transform: async ({ body, params: { id } }) => {
+        const business_data = await getBusinessById(parseInt(id));
         /** Transformation to match HTML to Insert
          * Mostly HTML returns string,
          * Here we convert types with typebox
@@ -49,7 +55,12 @@ const BusinessIdRoute = new Elysia({ name: "business-id-route" })
         body.tags = [body.tags].flat().map((e: any) => JSON.parse(e));
         //Resizes the image to make it lighter
         // @ts-ignore cause this is blob, upload occurs and then handler recibes de URI
-        body.image = await imageResizer(body.image, body.name).then((res) => {
+        body.image = await imageResizer(
+          // @ts-ignore
+          body.image,
+          body.name,
+          business_data.image,
+        ).then((res) => {
           return res.image_url;
         });
       },
