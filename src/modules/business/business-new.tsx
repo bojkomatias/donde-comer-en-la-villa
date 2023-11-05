@@ -42,7 +42,8 @@ export const BusinessNew = ({
               <Input name="name" required="true" placeholder="Burguesía" rt />
               <Input
                 name="description"
-                required="true"
+                //Most businesses don't have description
+                //required="true"
                 placeholder="Las burgers más burgueses de toda la burguesía"
               />
               <Input

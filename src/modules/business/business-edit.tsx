@@ -47,7 +47,8 @@ export const BusinessEdit = ({
               />
               <Input
                 name="description"
-                required="true"
+                //Most businesses don't have description
+                //required="true"
                 placeholder="Las burgers más burgueses"
                 value={business.description || ""}
               />
