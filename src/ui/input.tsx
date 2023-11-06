@@ -85,7 +85,7 @@ export function Input({ options, ...props }: Props) {
         <span class="float-right -mt-0.5 text-[0.6rem] text-muted-foreground">
           {options &&
             props.multiple &&
-            "Shift o Ctrl para seleccionar multiples"}
+            "Shift o Ctrl para seleccionar múltiples"}
           {props.title}
         </span>
       </label>

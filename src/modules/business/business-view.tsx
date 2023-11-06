@@ -46,7 +46,7 @@ export const BusinessView = ({
         {asAdmin && <BackButton />}
         <div class={card().base()}>
           <div class="flex-row gap-3">
-            <div class="flex-grow space-y-2 sm:flex sm:gap-6 items-center pl-6">
+            <div class="flex-grow space-y-2 sm:flex sm:gap-6 items-center md:pl-6 md:p-0 p-6">
               <img
                 src={business.image ? business.image : undefined}
                 width="50"

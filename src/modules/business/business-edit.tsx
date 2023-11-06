@@ -64,14 +64,14 @@ export const BusinessEdit = ({
                 placeholder="https://scontent.cdninstagram.com/v/"
                 value={business.image}
                 type="file"
-                title="Podes copiar tu imagen de Instagram"
+                title="Subí el logo o una imagen de tu negocio"
               />
               <Input
                 name="phone"
                 required="true"
                 type="tel"
                 pattern="[+549]{4}[0-9]{10}"
-                title="Formato de numero como Whatsapp"
+                title="Formato de número como WhatsApp"
                 placeholder="+5493435111111"
                 value={business.phone}
               />
@@ -88,8 +88,9 @@ export const BusinessEdit = ({
                 title="Ubicación de Google Maps"
               />
               <Input
+                title="Sin el arroba (@)"
                 name="instagram"
-                placeholder="matibojko"
+                placeholder="usuario_instagram"
                 class="flex-grow first-of-type:rounded-t-none"
                 value={business.instagram || ""}
               />
