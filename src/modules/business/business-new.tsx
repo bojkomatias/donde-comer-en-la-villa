@@ -7,6 +7,7 @@ import { DashboardContent } from "@/ui/dashboard/wrapper";
 import { Input } from "@/ui/input";
 import { cx } from "@/utils/cx";
 import { dict } from "@/utils/dictionary";
+import { modalityOptions } from "@/utils/modality-options";
 
 export const BusinessNew = ({
   tags,
@@ -78,7 +79,12 @@ export const BusinessNew = ({
                 placeholder="matibojko"
                 class="flex-grow first-of-type:rounded-t-none"
               />
-
+              <Input
+                name="modality"
+                options={modalityOptions}
+                multiple="true"
+                valueIsJson
+              />
               <Input
                 name="tags"
                 options={tags}

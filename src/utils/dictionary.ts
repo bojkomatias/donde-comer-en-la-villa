@@ -10,6 +10,7 @@ dict.set("role", "Rol");
 dict.set("phone", "Teléfono");
 dict.set("address", "Dirección");
 dict.set("location", "Ubicación");
+dict.set("modality", "Modalidad");
 dict.set("instagram", "Instagram");
 dict.set("twitter", "Twitter");
 dict.set("webpage", "Página web");

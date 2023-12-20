@@ -8,6 +8,7 @@ import { DashboardContent } from "@/ui/dashboard/wrapper";
 import { Input } from "@/ui/input";
 import { cx } from "@/utils/cx";
 import { dict } from "@/utils/dictionary";
+import { modalityOptions } from "@/utils/modality-options";
 
 export const BusinessEdit = ({
   tags,
@@ -91,6 +92,14 @@ export const BusinessEdit = ({
                 placeholder="matibojko"
                 class="flex-grow first-of-type:rounded-t-none"
                 value={business.instagram || ""}
+              />
+              <Input
+                name="modality"
+                options={modalityOptions}
+                multiple="true"
+                valueIsJson
+                // @ts-ignore I know i'm passing the ids
+                values={business.modality ? business.modality : undefined}
               />
               <Input
                 name="tags"
