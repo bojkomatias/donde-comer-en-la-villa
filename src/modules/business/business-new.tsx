@@ -43,7 +43,8 @@ export const BusinessNew = ({
               <Input name="name" required="true" placeholder="Burguesía" rt />
               <Input
                 name="description"
-                required="true"
+                //Most businesses don't have description
+                //required="true"
                 placeholder="Las burgers más burgueses de toda la burguesía"
               />
               <Input
@@ -63,7 +64,7 @@ export const BusinessNew = ({
                 required="true"
                 type="tel"
                 pattern="[+549]{4}[0-9]{10}"
-                title="Formato de numero como Whatsapp"
+                title="Formato de número como WhatsApp"
                 placeholder="+54 9 343 5111111"
               />
 
@@ -72,11 +73,12 @@ export const BusinessNew = ({
                 name="location"
                 placeholder="https://maps.gl.io"
                 type="url"
-                title="Ubicación de google maps"
+                title="Ubicación de Google Maps"
               />
               <Input
+                title="Sin el arroba (@)"
                 name="instagram"
-                placeholder="matibojko"
+                placeholder="usuario_instagram"
                 class="flex-grow first-of-type:rounded-t-none"
               />
               <Input

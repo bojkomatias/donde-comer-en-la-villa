@@ -6,6 +6,7 @@ import { EmptyState } from "@/ui/empty-state";
 import { Review } from "./reviews";
 import { SelectBusinessHours } from "@/db/schema/business-hours";
 import { OpensIn } from "./opens-in";
+import { cx } from "@/utils/cx";
 
 export const Results = ({
   businesses,
@@ -50,11 +51,11 @@ const BusinessItem = ({
         alt="Imagen del local"
       />
 
-      <div class="flex-grow p-1 pl-4 md:p-3">
+      <div class="flex-grow p-1 pl-4 md:p-3 md:py-1">
         <div class="flex justify-between">
           <div>
             <Review avgReviews={business.reviews} />
-            <h2 class="text-xl font-bold">{business.name}</h2>
+            <h2 class={cx("text-xl font-bold", business.name.length >= 20 && "text-[1.1rem]")}>{business.name}</h2>
             <OpensIn businessHours={business.businessHours} />
           </div>
           <button
@@ -98,8 +99,8 @@ const BusinessItem = ({
       </div>
     </div>
 
-    <div class="absolute inset-x-0 bottom-4 h-8 bg-accent">
-      <div class="absolute left-40 space-x-1 pl-4">
+    <div class="absolute inset-x-0 bottom-4 h-9 bg-accent">
+      <div class="absolute left-40 space-x-1 pl-4 line-clamp-1">
         {typeof business.tags === "string" &&
           business.tags
             .split(",")
