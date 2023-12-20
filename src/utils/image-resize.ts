@@ -5,7 +5,13 @@ import { supabase as supabaseClient } from "utils/supabase";
 /**This function returns an object with two keys:
  * @result returned by the Supabase upload function. This object returns among other things, an error, so to check for error, simply use result.error.
  * @image_url a string that points to the image resource stored in the Supabase bucket*/
-export default async function imageResizer(file: Blob, business_name: String) {
+export default async function imageResizer(
+  file: Blob,
+  business_name: string,
+  business_image_url?: string,
+) {
+  if (!file) return { image_url: business_image_url };
+
   const fileSize = file.size;
   const factor = 100000 / fileSize;
   let image = await file!.arrayBuffer();

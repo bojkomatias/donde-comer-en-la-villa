@@ -47,7 +47,8 @@ export const BusinessEdit = ({
               />
               <Input
                 name="description"
-                required="true"
+                //Most businesses don't have description
+                //required="true"
                 placeholder="Las burgers más burgueses"
                 value={business.description || ""}
               />
@@ -59,17 +60,18 @@ export const BusinessEdit = ({
                end"
                 accept="image/*"
                 name="image"
+                //Removed the "required=true" attribute because when editing, it'll already have an image. It should only change if there's a new image.
                 placeholder="https://scontent.cdninstagram.com/v/"
                 value={business.image}
                 type="file"
-                title="Podes copiar tu imagen de Instagram"
+                title="Subí el logo o una imagen de tu negocio"
               />
               <Input
                 name="phone"
                 required="true"
                 type="tel"
                 pattern="[+549]{4}[0-9]{10}"
-                title="Formato de numero como Whatsapp"
+                title="Formato de número como WhatsApp"
                 placeholder="+5493435111111"
                 value={business.phone}
               />
@@ -83,11 +85,12 @@ export const BusinessEdit = ({
                 placeholder="https://maps.gl.io"
                 type="url"
                 value={business.location || ""}
-                title="Ubicación de google maps"
+                title="Ubicación de Google Maps"
               />
               <Input
+                title="Sin el arroba (@)"
                 name="instagram"
-                placeholder="matibojko"
+                placeholder="usuario_instagram"
                 class="flex-grow first-of-type:rounded-t-none"
                 value={business.instagram || ""}
               />

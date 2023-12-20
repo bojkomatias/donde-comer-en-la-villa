@@ -6,6 +6,7 @@ import { Notification } from "@/ui/notification";
 import Elysia, { Static } from "elysia";
 import { Value } from "@sinclair/typebox/value";
 import setup from "@/config/setup";
+import imageResizer from "@/utils/image-resize";
 
 const BusinessRoute = new Elysia({ name: "business-route" })
   .use(setup)
