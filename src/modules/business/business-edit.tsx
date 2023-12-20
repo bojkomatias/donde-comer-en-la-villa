@@ -59,7 +59,6 @@ export const BusinessEdit = ({
                end"
                 accept="image/*"
                 name="image"
-                required="true"
                 placeholder="https://scontent.cdninstagram.com/v/"
                 value={business.image}
                 type="file"

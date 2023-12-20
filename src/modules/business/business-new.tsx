@@ -51,6 +51,7 @@ export const BusinessNew = ({
                   document.getElementById('image').files[0],
                 );
                 end"
+                required="true"
                 name="image"
                 type="file"
                 id="image"
