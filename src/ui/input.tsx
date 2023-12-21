@@ -39,7 +39,7 @@ export function Input({ options, ...props }: Props) {
               class="capitalize"
               // Default select previous values on edit
               selected={
-                props.values && props.values.includes(id) ? "true" : undefined
+                props.values && props.values.includes(id) ? true : undefined
               }
             >
               {name}

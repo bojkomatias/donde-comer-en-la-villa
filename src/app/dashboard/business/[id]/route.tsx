@@ -53,6 +53,9 @@ const BusinessIdRoute = new Elysia({ name: "business-id-route" })
         // Object assign replaces object content body = c does not
         Object.assign(body, c);
         body.tags = [body.tags].flat().map((e: any) => JSON.parse(e));
+        body.modality = body.modality
+          ? [body.modality].flat().map((e: any) => JSON.parse(e).name)
+          : null;
         //Resizes the image to make it lighter
         // @ts-ignore cause this is blob, upload occurs and then handler recibes de URI
         body.image = await imageResizer(

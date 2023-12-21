@@ -91,10 +91,23 @@ export const BusinessView = ({
                 <dd class={details().dd()}>{business.instagram}</dd>
               </div>
               <div class={details().item()}>
+                <dt class={details().dt()}>{dict.get("modality")}</dt>
+                <dd
+                  class={details().dd({
+                    class: "justify-start gap-x-1 overflow-x-auto pb-px",
+                  })}
+                >
+                  {typeof business.modality === "string" &&
+                    business.modality
+                      .split(",")
+                      .map((t) => <span class={badge()}>{t}</span>)}
+                </dd>
+              </div>{" "}
+              <div class={details().item()}>
                 <dt class={details().dt()}>{dict.get("tags")}</dt>
                 <dd
                   class={details().dd({
-                    class: "gap-x-1 overflow-x-auto pb-px",
+                    class: "justify-start gap-x-1 overflow-x-auto pb-px",
                   })}
                 >
                   {typeof business.tags === "string" &&

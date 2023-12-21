@@ -7,6 +7,7 @@ import { DashboardContent } from "@/ui/dashboard/wrapper";
 import { Input } from "@/ui/input";
 import { cx } from "@/utils/cx";
 import { dict } from "@/utils/dictionary";
+import { modalityOptions } from "@/utils/modality-options";
 
 export const BusinessNew = ({
   tags,
@@ -39,7 +40,7 @@ export const BusinessNew = ({
             hx-encoding="multipart/form-data"
           >
             <div class={card().content()}>
-              <Input name="name" required="true" placeholder="Burguesía" rt />
+              <Input name="name" required={true} placeholder="Burguesía" rt />
               <Input
                 name="description"
                 //Most businesses don't have description
@@ -53,6 +54,7 @@ export const BusinessNew = ({
                 );
                 end"
                 required="true"
+
                 name="image"
                 type="file"
                 id="image"
@@ -61,7 +63,7 @@ export const BusinessNew = ({
               />
               <Input
                 name="phone"
-                required="true"
+                required
                 type="tel"
                 pattern="[+549]{4}[0-9]{10}"
                 title="Formato de número como WhatsApp"
@@ -81,12 +83,17 @@ export const BusinessNew = ({
                 placeholder="usuario_instagram"
                 class="flex-grow first-of-type:rounded-t-none"
               />
-
+              <Input
+                name="modality"
+                options={modalityOptions}
+                multiple="true"
+                valueIsJson
+              />
               <Input
                 name="tags"
                 options={tags}
                 multiple="true"
-                required="true"
+                required={true}
                 valueIsJson
                 rb={!asAdmin}
               />
