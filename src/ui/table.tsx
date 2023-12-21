@@ -2,7 +2,7 @@ import { tv } from "tailwind-variants";
 
 export const table = tv({
   slots: {
-    wrapper: "relative flow-root min-h-[50svh] overflow-x-auto pb-20",
+    wrapper: "relative flow-root min-h-[50svh] pb-20",
     base: "min-w-full table-fixed",
     head: "relative after:absolute after:inset-x-px after:inset-y-1 after:-z-10 after:rounded-lg after:bg-card after:ring-1 after:ring-border",
     body: "divide-y divide-border",

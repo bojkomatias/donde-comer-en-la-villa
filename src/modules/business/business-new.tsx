@@ -44,6 +44,7 @@ export const BusinessNew = ({
               <Input
                 name="description"
                 //Most businesses don't have description
+                //required="true"
                 placeholder="Las burgers más burgueses de toda la burguesía"
               />
               <Input
@@ -52,7 +53,8 @@ export const BusinessNew = ({
                   document.getElementById('image').files[0],
                 );
                 end"
-                required={true}
+                required="true"
+
                 name="image"
                 type="file"
                 id="image"

@@ -29,15 +29,22 @@ export default function Layout({ children }: { children: JSX.Element[] }) {
               <i class="i-ic-baseline-restaurant -mb-1 mr-2 h-5 w-5 text-card-foreground" />
               Desarrollado por{" "}
               <a
-                href={siteConfig.links.twitter}
+                href={siteConfig.links.twitter[0]}
                 class={button({ intent: "link", class: "lowercase" })}
               >
                 bojkomatias
               </a>
-            </p>
-            <div class="space-x-4">
+              {' '} & {' '}
               <a
-                href={siteConfig.links.github}
+                href={siteConfig.links.twitter[1]}
+                class={button({ intent: "link", class: "lowercase" })}
+              >
+                nic0horn
+              </a>
+            </p>
+            <div class="space-x-4 flex-grow ml-5">
+              <a
+                href={siteConfig.links.github[0]}
                 class={button({ intent: "link", size: "sm" })}
               >
                 Github
