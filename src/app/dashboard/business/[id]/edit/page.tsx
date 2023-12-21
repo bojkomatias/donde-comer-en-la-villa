@@ -14,7 +14,6 @@ const BusinessEditPage = new Elysia({ name: "business-edit-page" })
     const tags = await getTags();
     const users = await getUsersForSelector();
     const business = await getBusinessById(parseInt(id));
-    console.log(business);
     // Add tags from relation
     business.tags = (await getTagsByBusinessId(business.id)).map(
       (e) => e.tagId,
