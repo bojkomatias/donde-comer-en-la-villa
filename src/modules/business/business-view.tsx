@@ -46,7 +46,7 @@ export const BusinessView = ({
         {asAdmin && <BackButton />}
         <div class={card().base()}>
           <div class="flex-row gap-3">
-            <div class="flex-grow space-y-2 sm:flex sm:gap-6 items-center md:pl-6 md:p-0 p-6">
+            <div class="flex-grow items-center space-y-2 p-6 sm:flex sm:gap-6 md:p-0 md:pl-6">
               <img
                 src={business.image ? business.image : undefined}
                 width="50"
@@ -91,10 +91,23 @@ export const BusinessView = ({
                 <dd class={details().dd()}>{business.instagram}</dd>
               </div>
               <div class={details().item()}>
+                <dt class={details().dt()}>{dict.get("modality")}</dt>
+                <dd
+                  class={details().dd({
+                    class: "justify-start gap-x-1 overflow-x-auto pb-px",
+                  })}
+                >
+                  {typeof business.modality === "string" &&
+                    business.modality
+                      .split(",")
+                      .map((t) => <span class={badge()}>{t}</span>)}
+                </dd>
+              </div>{" "}
+              <div class={details().item()}>
                 <dt class={details().dt()}>{dict.get("tags")}</dt>
                 <dd
                   class={details().dd({
-                    class: "gap-x-1 overflow-x-auto pb-px",
+                    class: "justify-start gap-x-1 overflow-x-auto pb-px",
                   })}
                 >
                   {typeof business.tags === "string" &&
