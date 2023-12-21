@@ -44,7 +44,6 @@ export const BusinessNew = ({
               <Input
                 name="description"
                 //Most businesses don't have description
-                // required="true"
                 placeholder="Las burgers más burgueses de toda la burguesía"
               />
               <Input
