@@ -1,15 +1,16 @@
 /**
  * Function handles the OAuth flow, returns the user from provider.
  */
+
+// const redirect_uri = "http://localhost:3000/auth/callback/google/";
+const redirect_uri = "https://dondecomerenlavilla.com/auth/callback/google/";
+
 export default async function OAuth2(code: string) {
   const req = new URL("token", "https://oauth2.googleapis.com/");
   req.searchParams.set("code", code);
   req.searchParams.set("client_id", Bun.env.GOOGLE_CLIENT_ID!);
   req.searchParams.set("client_secret", Bun.env.GOOGLE_CLIENT_SECRET!);
-  req.searchParams.set(
-    "redirect_uri",
-    "http://localhost:3000/auth/callback/google/",
-  );
+  req.searchParams.set("redirect_uri", redirect_uri);
   req.searchParams.set("grant_type", "authorization_code");
 
   const res = await fetch(req, {
