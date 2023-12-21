@@ -3,7 +3,6 @@ import {
   text,
   integer,
   uniqueIndex,
-  blob,
 } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-typebox";
 import { user } from "./user";
@@ -23,6 +22,8 @@ export const business = sqliteTable(
     image: text("image").notNull(),
     // Tags are virtual, but we can still store them here as a helper
     tags: text("tags").$type<number[] | string[] | string>().notNull(),
+    // Modality is also virtual
+    modality: text("modality").$type<string[] | string>(),
     featured: integer("featured", { mode: "boolean" }).default(false),
     enabled: integer("enabled", { mode: "boolean" }).default(false),
     owner: integer("user_id")
@@ -48,6 +49,7 @@ export const insertBusinessForm = createInsertSchema(business, {
   owner: t.Number(),
   // Override the inserted type (real model type, an array of ids referencing to tags through middle table)
   tags: t.Array(t.Object({ id: t.Number(), name: t.String() })),
+  modality: t.Any(),
 });
 
 export const businessSchema = createSelectSchema(business, {

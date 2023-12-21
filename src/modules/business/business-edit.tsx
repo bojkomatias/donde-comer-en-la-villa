@@ -8,6 +8,7 @@ import { DashboardContent } from "@/ui/dashboard/wrapper";
 import { Input } from "@/ui/input";
 import { cx } from "@/utils/cx";
 import { dict } from "@/utils/dictionary";
+import { inverseModality, modalityOptions } from "@/utils/modality-options";
 
 export const BusinessEdit = ({
   tags,
@@ -40,7 +41,7 @@ export const BusinessEdit = ({
             <div class={card().content()}>
               <Input
                 name="name"
-                required="true"
+                required={true}
                 placeholder="Burguesía"
                 value={business.name}
                 rt
@@ -62,13 +63,14 @@ export const BusinessEdit = ({
                 name="image"
                 //Removed the "required=true" attribute because when editing, it'll already have an image. It should only change if there's a new image.
                 placeholder="https://scontent.cdninstagram.com/v/"
+                required={true}
                 value={business.image}
                 type="file"
                 title="Subí el logo o una imagen de tu negocio"
               />
               <Input
                 name="phone"
-                required="true"
+                required={true}
                 type="tel"
                 pattern="[+549]{4}[0-9]{10}"
                 title="Formato de número como WhatsApp"
@@ -95,8 +97,20 @@ export const BusinessEdit = ({
                 value={business.instagram || ""}
               />
               <Input
+                name="modality"
+                options={modalityOptions}
+                multiple="true"
+                valueIsJson
+                values={
+                  business.modality
+                    ? // @ts-ignore
+                      inverseModality(business.modality)
+                    : undefined
+                }
+              />
+              <Input
                 name="tags"
-                required="true"
+                required={true}
                 options={tags}
                 multiple="true"
                 valueIsJson
@@ -108,7 +122,7 @@ export const BusinessEdit = ({
                 <Input
                   name="featured"
                   type="checkbox"
-                  checked={business.featured ? "true" : undefined}
+                  checked={business.featured ? true : undefined}
                   // HTML if not set value string sets "on" by default
                   value="true"
                   class="flex-grow"
@@ -116,7 +130,7 @@ export const BusinessEdit = ({
                 <Input
                   name="enabled"
                   type="checkbox"
-                  checked={business.enabled ? "true" : undefined}
+                  checked={business.enabled ? true : undefined}
                   // HTML if not set value string sets "on" by default
                   value="true"
                   class="flex-grow"

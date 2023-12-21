@@ -1,10 +1,8 @@
 import { button } from "@/ui/button";
 import { dict } from "@/utils/dictionary";
 
-const redirect_uri =
-  Bun.env.ENV === "development"
-    ? "http://localhost:3000/auth/callback/google/"
-    : "https://dondecomerenlavilla.com/auth/callback/google/";
+const redirect_uri = "http://localhost:3000/auth/callback/google/";
+// const redirect_uri = "https://dondecomerenlavilla.com/auth/callback/google/";
 
 const google = new URL("auth", "https://accounts.google.com/o/oauth2/v2/");
 google.searchParams.set("redirect_uri", redirect_uri);
